@@ -1,6 +1,11 @@
-
-using API.Data;
+using System.Text;
+using LNDP_API.Data;
+using LNDP_API.Data.Interfaces;
+using LNDP_API.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using LNDP_API.Mapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +17,25 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<APIContext>(options => 
     options.UseNpgsql(builder.Configuration.GetConnectionString("APIContext") ?? throw new InvalidOperationException("Connect string 'APIContext' not found.")));
+
+//Add auth
+var configuration = builder.Configuration;
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Token"])),
+            ValidateIssuer = false,
+            ValidateAudience = false,
+        };
+    });
+//Add token service
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IAuthRepository, AuthRepository>(); // Aquí AuthRepository es la implementación concreta de IAuthRepository
+builder.Services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
+
 
 var app = builder.Build();
 

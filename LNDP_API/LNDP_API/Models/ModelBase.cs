@@ -1,5 +1,14 @@
-namespace LNDPAPI.Models {
+namespace LNDP_API.Models {
     public class ModelBase {
-        public int? Id {get ; set ; }
+
+        public ModelBase()
+        {
+            CreationDate = DateTime.UtcNow;
+            IsActive = true;
+        }
+        public int Id {get ; set ; }
+        public DateTime CreationDate  {get; set; } 
+        public bool IsActive {get;set; }
+        
     }
 }
