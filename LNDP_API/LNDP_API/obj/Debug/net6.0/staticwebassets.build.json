@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "aseVlqDdXErkaKyAp8a5cnsn344Eg1jazNsVrCtS5As=",
+  "Source": "LNDP_API",
+  "BasePath": "_content/LNDP_API",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
