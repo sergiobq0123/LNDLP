@@ -23,6 +23,7 @@ namespace LNDP_API.Controllers{
             _context = context;
             _mapper = mapper;
         }
+
     [HttpPost("Register")]
     public async Task<ActionResult<User>> Register(UserRegistrerDto userDto) {
 
@@ -35,16 +36,17 @@ namespace LNDP_API.Controllers{
         var userReturn = _mapper.Map<UserLisDto>(userCreated); 
         return Ok(userReturn);
      }
+
     [HttpPost("Login")]
     public async Task<ActionResult<string>> Login(UserLoginDto userLoginDto){
 
+        Console.WriteLine("hiofsa");
         var userFrom = await _repository.Login(userLoginDto.Email, userLoginDto.Password);
-
         if(userFrom == null ){
             return Unauthorized();
         }
         var user = _mapper.Map<UserLisDto>(userFrom);
-
+ 
         var token = _tokenService.CreateToken(userFrom);
 
         return Ok(new {

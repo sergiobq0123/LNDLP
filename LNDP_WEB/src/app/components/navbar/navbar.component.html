@@ -1,7 +1,7 @@
 <div class="navbar">
   <div class="divLogo">
     <a routerLink="/Home">
-      <img src="../../../assets/LOSNIÑOSDELAROMO - SIGLAS - BLANCO.png" />
+      <img src="../../../assets/logo.png" />
     </a>
   </div>
 
@@ -22,15 +22,18 @@
 
   <!-- Menú desplegable para dispositivos móviles -->
   <div *ngIf="isMobile && showMenu" class="dropdown-menu">
-    <a mat-button routerLink="/">Inicio</a>
-    <a mat-button routerLink="/productos">Productos</a>
+    <a href="#about">PR&MKTNG</a>
+    <a href="#about">Agency</a>
+    <a href="#about">Visual</a>
+    <a href="#about">Tour Manager</a>
+    <a href="#about">Artistas</a>
     <!-- Agrega más elementos de menú según sea necesario -->
   </div>
 
   <div class="listAction" class="enlaces" *ngIf="!isMobile">
     <ul>
       <li>
-        <a href="#about"><mat-icon>account_circle</mat-icon></a>
+        <a href="#about"><button (click)="login()" class="mat-toolbar-login-button"><mat-icon>account_circle</mat-icon></button></a>
       </li>
       <li><a href="#about">Artistas</a></li>
       <li><a href="#about">Tour Manager</a></li>

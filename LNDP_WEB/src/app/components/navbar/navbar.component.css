@@ -46,6 +46,10 @@ li a:hover:not(.active) {
   display: none; /* Oculta el menÃº por defecto en pantallas grandes */
 }
 
+.mat-toolbar-login-button {
+
+}
+
 @media screen and (max-width: 767px) {
   /* Estilos para dispositivos mÃ³viles */
   .mat-toolbar-menu-button {
