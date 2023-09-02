@@ -1,0 +1,42 @@
+<div class="navbar">
+  <div class="divLogo">
+    <a routerLink="/Home">
+      <img src="../../../assets/LOSNIÑOSDELAROMO - SIGLAS - BLANCO.png" />
+    </a>
+  </div>
+
+  <!-- Botón desplegable para dispositivos móviles -->
+  <div class="botonList">
+    <button
+      *ngIf="isMobile"
+      class="mat-toolbar-menu-button"
+      mat-icon-button
+      (click)="toggleMenu()"
+      [class.active]="showMenu"
+    >
+      <div></div>
+      <div></div>
+      <div></div>
+    </button>
+  </div>
+
+  <!-- Menú desplegable para dispositivos móviles -->
+  <div *ngIf="isMobile && showMenu" class="dropdown-menu">
+    <a mat-button routerLink="/">Inicio</a>
+    <a mat-button routerLink="/productos">Productos</a>
+    <!-- Agrega más elementos de menú según sea necesario -->
+  </div>
+
+  <div class="listAction" class="enlaces" *ngIf="!isMobile">
+    <ul>
+      <li>
+        <a href="#about"><mat-icon>account_circle</mat-icon></a>
+      </li>
+      <li><a href="#about">Artistas</a></li>
+      <li><a href="#about">Tour Manager</a></li>
+      <li><a href="#contact">Visual</a></li>
+      <li><a href="#news">Agency</a></li>
+      <li><a href="#home">PR&MKTNG</a></li>
+    </ul>
+  </div>
+</div>
