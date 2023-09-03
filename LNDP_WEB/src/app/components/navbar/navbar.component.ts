@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { LoginService } from 'src/app/services/login.service';
+import { AuthGuard } from '../../guards/auth.guard';
 
 @Component({
   selector: 'app-navbar',
@@ -10,28 +11,31 @@ import { LoginService } from 'src/app/services/login.service';
 export class NavbarComponent {
   isMobile: boolean = false;
   showMenu: boolean = false;
+  isLogin: boolean;
+  nameLogin: string;
 
-  constructor(private breakpointObserver: BreakpointObserver, private loginService : LoginService) {}
+  constructor(private _breakpointObserver: BreakpointObserver, private _loginService : LoginService) {}
+
 
   ngOnInit() {
-    this.breakpointObserver
+    this._breakpointObserver
       .observe([Breakpoints.HandsetPortrait])
       .subscribe((result) => {
         this.isMobile = result.matches;
         this.showMenu = false; // Oculta el menú desplegable al cargar la página
       });
+      this.isLogin = this._loginService.isLoggedIn();
+    console.log(JSON.parse(atob(this._loginService.getToken().split('.')[1].username)));
   }
 
   toggleMenu() {
     this.showMenu = !this.showMenu;
   }
 
-  login(){
-    this.loginService.login("string", "string").subscribe({
-      next: res =>{
-        console.log(res);
-        this.loginService.setToken(res.token);
-      }
-    })
+  logout() {
+    this._loginService.logout()
+    console.log("logout");
+    this.isLogin = false;
   }
+
 }

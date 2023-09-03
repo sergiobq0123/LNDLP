@@ -23,7 +23,6 @@ export class LoginService extends ServiceBaseService{
     let queryParams = new HttpParams();
     queryParams = queryParams.append("email", email)
     queryParams = queryParams.append("password", password)
-    console.log(this.getUrl);
 
     const data = {
       email: email,
