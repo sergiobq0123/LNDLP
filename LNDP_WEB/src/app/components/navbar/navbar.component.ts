@@ -25,7 +25,6 @@ export class NavbarComponent {
         this.showMenu = false; // Oculta el menú desplegable al cargar la página
       });
       this.isLogin = this._loginService.isLoggedIn();
-    console.log(JSON.parse(atob(this._loginService.getToken().split('.')[1].username)));
   }
 
   toggleMenu() {

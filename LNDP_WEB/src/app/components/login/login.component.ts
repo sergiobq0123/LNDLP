@@ -28,7 +28,9 @@ export class LoginComponent {
     SubmitLogin(useremail, password) {
       this._loginService.login(useremail, password).subscribe({
         error : error => {
-          this._notificationService.showError(error, 'Close', 3500)
+          console.log(error.error);
+
+          this._notificationService.showError(error.error, 'Close', 3500)
           this.LoginForm.get('password').setValue('')
         },
         next: res =>{

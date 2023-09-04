@@ -5,9 +5,11 @@ using LNDP_API.Data.Interfaces;
 using LNDP_API.Dtos;
 using LNDP_API.Models;
 using LNDP_API.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LNDP_API.Controllers{
+   
     [Route("api/[controller]")]
     [ApiController]
     public class AuthController : ControllerBase{
@@ -40,19 +42,18 @@ namespace LNDP_API.Controllers{
     [HttpPost("Login")]
     public async Task<ActionResult<string>> Login(UserLoginDto userLoginDto){
 
-        Console.WriteLine("hiofsa");
-        var userFrom = await _repository.Login(userLoginDto.Email, userLoginDto.Password);
-        if(userFrom == null ){
-            return Unauthorized();
+        if(!await _repository.ExistUser(userLoginDto.Email)){
+            return BadRequest("User not found");
+        }else {
+            var userFrom = await _repository.Login(userLoginDto.Email, userLoginDto.Password);
+            if(userFrom == null ){
+                return BadRequest("Password is incorrect");
+            }else{
+                var user = _mapper.Map<UserLisDto>(userFrom);
+                var token = _tokenService.CreateToken(userFrom);
+                return Ok(new { user, token});
+            }
         }
-        var user = _mapper.Map<UserLisDto>(userFrom);
- 
-        var token = _tokenService.CreateToken(userFrom);
-
-        return Ok(new {
-            token = token,
-            user = user
-        });
     }
 
     private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt){

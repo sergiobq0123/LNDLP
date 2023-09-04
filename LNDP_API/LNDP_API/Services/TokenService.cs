@@ -15,12 +15,12 @@ namespace LNDP_API.Services {
         }
         public string CreateToken(User user)
         {
-            var claims = new List<Claim>
+            var claims = new Claim[]
             {
-                new Claim(JwtRegisteredClaimNames.NameId, user.Email)
+                new Claim("userID", user.Id.ToString())
             };
 
-            var credentials = new SigningCredentials(_ssKey, SecurityAlgorithms.HmacSha512Signature);
+            var credentials = new SigningCredentials(_ssKey, SecurityAlgorithms.HmacSha256Signature);
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
@@ -35,5 +35,7 @@ namespace LNDP_API.Services {
 
             return tokenHandler.WriteToken(token);
         }
+
+        
     }
 }

@@ -11,7 +11,7 @@ export class NotificationService {
   ) { }
 
   showError(error: any, actionText : string, duration: number){
-    this._snackBar.open(error.description, actionText, {duration : duration})
+    this._snackBar.open(error, actionText, {duration : duration})
   }
 
   showMessage(message: string, actionText : string, duration: number, panelClass?: string){
