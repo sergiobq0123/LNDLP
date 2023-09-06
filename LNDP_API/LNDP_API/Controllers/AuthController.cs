@@ -49,9 +49,9 @@ namespace LNDP_API.Controllers{
             if(userFrom == null ){
                 return BadRequest("Password is incorrect");
             }else{
-                var user = _mapper.Map<UserLisDto>(userFrom);
+               // var user = _mapper.Map<UserLisDto>(userFrom);
                 var token = _tokenService.CreateToken(userFrom);
-                return Ok(new { user, token});
+                return Ok(new { userFrom, token});
             }
         }
     }
