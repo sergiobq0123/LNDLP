@@ -101,12 +101,13 @@
 
 <!-- Si el usuario está iniciado sesión -->
 <div *ngIf="isLogin" class="logout">
- <p>Sergio</p>
+  <p>{{ user?.username }} </p>
   <button mat-icon-button [matMenuTriggerFor]="menu">
     <mat-icon>account_circle</mat-icon>
   </button>
   <mat-menu #menu="matMenu">
     <button mat-menu-item >Intranet</button>
+    <button mat-menu-item >Mi perfil</button>
     <button mat-menu-item (click)="logout()">Cerrar Sesión</button>
   </mat-menu>
 </div>

@@ -22,7 +22,7 @@ namespace LNDP_API.Services {
             {
                 new Claim("userID", user.Id.ToString()),
                 new Claim("username", user.Username.ToString()),
-                new Claim("role", user.Role.ToString()),
+                new Claim("role", user.UserRole.Role.ToString()),
             };
 
             var credentials = new SigningCredentials(_ssKey, SecurityAlgorithms.HmacSha256Signature);

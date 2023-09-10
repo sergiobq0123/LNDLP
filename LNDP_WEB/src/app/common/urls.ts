@@ -3,6 +3,6 @@ import { enviroment } from "src/enviroments/enviroment"
 
 export class Urls {
   static BASE = enviroment.url
-  static CHECKACCES = '/api/Auth/Login'
-  static LOGIN = '/login'
+  static LOGIN = '/api/Auth/login'
+  static USER = '/api/user'
 }

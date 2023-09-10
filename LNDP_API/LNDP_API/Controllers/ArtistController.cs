@@ -5,7 +5,7 @@ using LNDP_API.Models;
 using Microsoft.AspNetCore.Authorization;
 
 namespace LNDP_API.Controllers
-{   [Authorize(Roles = "Admin")]
+{   
     [Route("api/artist")]
     [ApiController]
     public class ArtistController : ControllerBase
@@ -23,9 +23,13 @@ namespace LNDP_API.Controllers
             if(_context.Artist == null){
                 return NotFound();
             }
-            return await _context.Artist.Where(u => u.IsActive).ToListAsync();
-
+            return await _context.Artist.
+            Include(artist => artist.Crew)
+            .Include(artist => artist.User)
+            .Include(artist => artist.SocialNetwork)
+            .Where(u => u.IsActive).ToListAsync();
         }
+        
         [HttpGet("{id}")]
         public async Task<ActionResult<Artist>> GetArtist(int id)
         {         
@@ -36,7 +40,6 @@ namespace LNDP_API.Controllers
             return Artist;
         }
 
-        // Use Auth
         [HttpPost]
         public async Task<ActionResult<Artist>> PostArtist(Artist Artist)
         {
@@ -51,7 +54,7 @@ namespace LNDP_API.Controllers
             if(id != Artist.Id){
                 return BadRequest();
             }
-
+            _context.Entry(Artist).State = EntityState.Modified;
             try {
                 await _context.SaveChangesAsync();
             }
@@ -68,7 +71,7 @@ namespace LNDP_API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteUsers(int id)
+        public async Task<ActionResult> DeleteArtist(int id)
         {
             if(_context.Artist == null){
                 return NotFound();

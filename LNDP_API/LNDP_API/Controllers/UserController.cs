@@ -26,6 +26,19 @@ namespace LNDP_API.Controllers
 
         }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult<User>> GetUser(int id)
+        {         
+            var user = await _context.User.Include(u => u.UserRole).FirstOrDefaultAsync(u => u.Id == id);
+    
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return user;
+        }
+
         // Use Auth
         [HttpPost]
         public async Task<ActionResult<User>> PostUsers(User user)

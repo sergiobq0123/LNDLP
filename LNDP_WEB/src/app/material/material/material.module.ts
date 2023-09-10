@@ -8,7 +8,9 @@ import { MatInputModule } from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatMenuModule} from '@angular/material/menu';
-
+import {MatListModule} from '@angular/material/list';
+import {MatGridListModule} from '@angular/material/grid-list';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [],
@@ -21,7 +23,10 @@ import {MatMenuModule} from '@angular/material/menu';
     MatInputModule,
     MatButtonModule,
     MatSnackBarModule,
-    MatMenuModule
+    MatMenuModule,
+    MatListModule,
+    MatGridListModule,
+    MatTooltipModule
 
   ]
 })

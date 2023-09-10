@@ -1,0 +1,128 @@
+<app-navbar></app-navbar>
+<mat-sidenav-container autosize>
+  <mat-sidenav #sidenav mode="side" [opened]="visible">
+    <mat-nav-list [ngStyle]="{ width: opened ? '200px' : '70px' }">
+      <mat-list-item
+        (click)="opened = !opened"
+        matTooltip="Menu"
+        matTooltipPosition="right"
+        matTooltipShowDelay="500"
+        [matTooltipDisabled]="opened"
+      >
+        <mat-grid-list cols="4" rowHeight="100">
+          <mat-grid-tile [colspan]="opened ? 3 : 0">
+            <img
+              *ngIf="opened"
+              src="assets/images/Philotechwhite.png"
+              alt="PhilotechLogo"
+              width="150px;"
+              [routerLink]="''"
+              matTooltip="Home"
+              matTooltipPosition="right"
+              matTooltipShowDelay="500"
+            />
+          </mat-grid-tile>
+          <mat-grid-tile [colspan]="opened ? 1 : 4">
+            <mat-icon [ngClass]="{ rotated: opened }" class="menu-button"
+              >menu
+            </mat-icon>
+          </mat-grid-tile>
+        </mat-grid-list>
+      </mat-list-item>
+
+      <mat-list-item
+        [routerLink]="'FirstView'"
+        routerLinkActive="highlighted"
+        matTooltip="FirstView"
+        matTooltipPosition="right"
+        matTooltipShowDelay="500"
+        [matTooltipDisabled]="opened"
+      >
+        <mat-icon mat-list-icon class="menu-button"
+          >supervisor_account</mat-icon
+        >
+        <span *ngIf="opened" class="menu-item" class="menu-button"
+          >FirstView</span
+        >
+      </mat-list-item>
+
+      <mat-list-item
+        [routerLink]="'Projects'"
+        routerLinkActive="highlighted"
+        matTooltip="Projects"
+        matTooltipPosition="right"
+        matTooltipShowDelay="500"
+        [matTooltipDisabled]="opened"
+      >
+        <mat-icon mat-list-icon class="menu-button">card_travel</mat-icon>
+        <span *ngIf="opened" class="menu-item" class="menu-button"
+          >Projects</span
+        >
+      </mat-list-item>
+
+      <mat-list-item
+        [routerLink]="'Sprints'"
+        routerLinkActive="highlighted"
+        matTooltip="Sprints"
+        matTooltipPosition="right"
+        matTooltipShowDelay="500"
+        [matTooltipDisabled]="opened"
+      >
+        <mat-icon mat-list-icon class="menu-button">event</mat-icon>
+        <span *ngIf="opened" class="menu-item" class="menu-button"
+          >Sprints</span
+        >
+      </mat-list-item>
+
+      <mat-list-item
+        [routerLink]="'Boards'"
+        routerLinkActive="highlighted"
+        matTooltip="Boards"
+        matTooltipPosition="right"
+        matTooltipShowDelay="500"
+        [matTooltipDisabled]="opened"
+      >
+        <mat-icon mat-list-icon class="menu-button">dashboard</mat-icon>
+        <span *ngIf="opened" class="menu-item" class="menu-button">Boards</span>
+      </mat-list-item>
+
+      <mat-list-item
+        [routerLink]="'Tickets'"
+        routerLinkActive="highlighted"
+        matTooltip="Tickets"
+        matTooltipPosition="right"
+        matTooltipShowDelay="500"
+        [matTooltipDisabled]="opened"
+      >
+        <mat-icon mat-list-icon class="menu-button">assignment</mat-icon>
+        <span *ngIf="opened" class="menu-item" class="menu-button"
+          >Tickets</span
+        >
+      </mat-list-item>
+
+      <mat-list-item
+        [routerLink]="'Users'"
+        routerLinkActive="highlighted"
+        matTooltip="Users"
+        matTooltipPosition="right"
+        matTooltipShowDelay="500"
+        [matTooltipDisabled]="opened"
+      >
+        <mat-icon mat-list-icon class="menu-button">accessibility</mat-icon>
+        <span *ngIf="opened" class="menu-item" class="menu-button">Users</span>
+      </mat-list-item>
+
+      <mat-list-item
+        [routerLink]="'Admin'"
+        routerLinkActive="highlighted"
+        matTooltip="Admin"
+        matTooltipPosition="right"
+        matTooltipShowDelay="500"
+        [matTooltipDisabled]="opened"
+      >
+        <mat-icon mat-list-icon class="menu-button">perm_identity</mat-icon>
+        <span *ngIf="opened" class="menu-item" class="menu-button">Admin</span>
+      </mat-list-item>
+    </mat-nav-list>
+  </mat-sidenav>
+</mat-sidenav-container>

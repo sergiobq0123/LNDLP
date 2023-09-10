@@ -1,0 +1,67 @@
+mat-sidenav-container {
+    height: 100vh;
+
+    mat-sidenav {
+        background-color: grey;
+        color: white;
+
+        mat-nav-list {
+            .menu-item {
+                margin-left: 8px;
+            }
+
+            .chevron-button {
+                transition: 300ms ease-in-out;
+                transform: rotate(0deg);
+            }
+
+            .chevron-button.rotated {
+                transform: rotate(180deg);
+            }
+        }
+    }
+}
+
+.highlighted {
+    background-color: rgb(220, 45, 45);
+}
+
+mat- .mat-toolbar.mat-primary {
+    background: whitesmoke;
+    color: black;
+}
+
+.mat-side {
+    background: wheat;
+}
+
+/* .example-container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  } */
+
+.flexExpand {
+    flex: 1 1 auto;
+}
+
+.mat-drawer-container {
+    background-color: whitesmoke ;
+}
+
+.menu-button {
+    color: black;
+    vertical-align: bottom;
+    margin-right: 10px;
+}
+
+table {
+    width: 100%;
+    height: 50%;
+}
+
+.table .mat-paginator-range-label {
+    display: none;
+}

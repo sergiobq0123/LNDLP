@@ -4,6 +4,7 @@ import { HomeComponent } from './components/home/home.component';
 import { AuthGuard } from './guards/auth.guard';
 import { LoginComponent } from './components/login/login.component';
 import { LoginGuard } from './guards/login.guard';
+import { GenericSidenavComponent } from './components/generic-sidenav/generic-sidenav.component';
 
 const routes: Routes = [
   {
@@ -13,6 +14,10 @@ const routes: Routes = [
   {
     path : 'Login',
     component : LoginComponent,
+  },
+  {
+    path : 'Prueba',
+    component : GenericSidenavComponent,
   },
   {
     path : '**',

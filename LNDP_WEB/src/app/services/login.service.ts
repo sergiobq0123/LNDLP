@@ -29,7 +29,7 @@ export class LoginService extends ServiceBaseService{
       password: password
     };
 
-    return this.post(this.getUrl + Urls.CHECKACCES, data);
+    return this.post(this.getUrl, data);
   }
 
   logout(){
@@ -39,6 +39,9 @@ export class LoginService extends ServiceBaseService{
 
   isLoggedIn(){
     return this.getToken() != null;
+  }
+  whoIsLoggedIn(){
+    return JSON.parse(atob(this.getToken().split('.')[1]))
   }
 
   getToken(){

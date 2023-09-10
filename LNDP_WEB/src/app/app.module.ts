@@ -10,6 +10,7 @@ import { MaterialModule } from './material/material/material.module';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { GenericSidenavComponent } from './components/generic-sidenav/generic-sidenav.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     HomeComponent,
     LoginComponent,
     NavbarComponent,
+    GenericSidenavComponent,
   ],
   imports: [
     BrowserModule,

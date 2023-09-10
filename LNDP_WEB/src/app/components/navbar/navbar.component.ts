@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { LoginService } from 'src/app/services/login.service';
-import { AuthGuard } from '../../guards/auth.guard';
+import { UsersService } from 'src/app/services/users.service';
+import { User } from 'src/app/models/user.model';
 
 @Component({
   selector: 'app-navbar',
@@ -13,8 +14,9 @@ export class NavbarComponent {
   showMenu: boolean = false;
   isLogin: boolean;
   nameLogin: string;
+  user: User;
 
-  constructor(private _breakpointObserver: BreakpointObserver, private _loginService : LoginService) {}
+  constructor(private _breakpointObserver: BreakpointObserver, private _loginService : LoginService, private _usersService : UsersService) {}
 
 
   ngOnInit() {
@@ -25,6 +27,14 @@ export class NavbarComponent {
         this.showMenu = false; // Oculta el menú desplegable al cargar la página
       });
       this.isLogin = this._loginService.isLoggedIn();
+      this.getUser();
+  }
+
+  getUser():void {
+    var userLoggin = this._loginService.whoIsLoggedIn();
+    this._usersService.get(+userLoggin.userID).subscribe((res) => {
+      this.user = res;
+    })
   }
 
   toggleMenu() {

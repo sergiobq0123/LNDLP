@@ -12,7 +12,7 @@ export class ServiceBaseService {
   protected controllerName: string;
 
   protected get getUrl(){
-     return this.urlBase //+ this.controllerName;
+     return this.urlBase + this.controllerName;
   }
 
   constructor(private http: HttpClient, @Inject(String) url: string) {
