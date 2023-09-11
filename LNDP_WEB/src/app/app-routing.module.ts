@@ -5,6 +5,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { LoginComponent } from './components/login/login.component';
 import { LoginGuard } from './guards/login.guard';
 import { GenericSidenavComponent } from './components/generic-sidenav/generic-sidenav.component';
+import { ArtistAdminComponent } from './components/artist-admin/artist-admin.component';
 
 const routes: Routes = [
   {
@@ -16,8 +17,14 @@ const routes: Routes = [
     component : LoginComponent,
   },
   {
-    path : 'Prueba',
+    path : 'Intranet',
     component : GenericSidenavComponent,
+    children :[
+      {
+        path : 'Artist',
+        component : ArtistAdminComponent,
+      },
+    ]
   },
   {
     path : '**',

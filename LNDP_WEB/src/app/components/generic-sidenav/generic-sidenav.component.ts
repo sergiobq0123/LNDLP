@@ -9,10 +9,10 @@ import { LoginService } from 'src/app/services/login.service';
 @Component({
   selector: 'app-generic-sidenav',
   templateUrl: './generic-sidenav.component.html',
-  styleUrls: ['./generic-sidenav.component.css'],
+  styleUrls: ['./generic-sidenav.component.scss'],
 })
 export class GenericSidenavComponent {
-  @ViewChild(MatSidenav) sidenav!: MatSidenav;
+  @ViewChild(MatSidenav) sidenav           !: MatSidenav;
   opened: boolean = false;
   visible: boolean = true;
 

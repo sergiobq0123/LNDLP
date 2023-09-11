@@ -1,4 +1,3 @@
-<app-navbar></app-navbar>
 <mat-sidenav-container autosize>
   <mat-sidenav #sidenav mode="side" [opened]="visible">
     <mat-nav-list [ngStyle]="{ width: opened ? '200px' : '70px' }">
@@ -47,17 +46,15 @@
       </mat-list-item>
 
       <mat-list-item
-        [routerLink]="'Projects'"
+        [routerLink]="'Artist'"
         routerLinkActive="highlighted"
-        matTooltip="Projects"
+        matTooltip="Artist"
         matTooltipPosition="right"
         matTooltipShowDelay="500"
         [matTooltipDisabled]="opened"
       >
         <mat-icon mat-list-icon class="menu-button">card_travel</mat-icon>
-        <span *ngIf="opened" class="menu-item" class="menu-button"
-          >Projects</span
-        >
+        <span *ngIf="opened" class="menu-item" class="menu-button">Artist</span>
       </mat-list-item>
 
       <mat-list-item
@@ -125,4 +122,39 @@
       </mat-list-item>
     </mat-nav-list>
   </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="white">
+      <mat-toolbar-row>
+        <span class="flexExpand"></span>
+        <button
+          mat-icon-button
+          #toolbar_button
+          [matMenuTriggerFor]="menu"
+          matTooltip="Session"
+          matTooltipPosition="left"
+          matTooltipShowDelay="500"
+          [matTooltipDisabled]="opened"
+        >
+          <mat-icon>person</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button
+            mat-menu-item
+            [routerLink]="'Profile'"
+            matTooltip="Profile"
+            matTooltipPosition="right"
+            matTooltipShowDelay="500"
+          >
+            <mat-icon>account_box</mat-icon>
+            <span>My profile</span>
+          </button>
+          <button mat-menu-item>
+            <mat-icon>highlight_off</mat-icon>
+            <span>Logout</span>
+          </button>
+        </mat-menu>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <router-outlet style="padding: 80px"></router-outlet>
+  </mat-sidenav-content>
 </mat-sidenav-container>

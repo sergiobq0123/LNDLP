@@ -11,6 +11,8 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GenericSidenavComponent } from './components/generic-sidenav/generic-sidenav.component';
+import { GenericWindowComponent } from './components/generic-window/generic-window.component';
+import { ArtistAdminComponent } from './components/artist-admin/artist-admin.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +21,8 @@ import { GenericSidenavComponent } from './components/generic-sidenav/generic-si
     LoginComponent,
     NavbarComponent,
     GenericSidenavComponent,
+    GenericWindowComponent,
+    ArtistAdminComponent,
   ],
   imports: [
     BrowserModule,
