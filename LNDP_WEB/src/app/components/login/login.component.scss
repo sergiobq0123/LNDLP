@@ -1,0 +1,23 @@
+.container {
+  position : relative;
+  top : 10%;
+  margin-bottom: 100px;
+  transform: translateX(-50%);
+  padding: 20px;
+  width: 25%;
+  left: 50%;
+  min-width: 210px;
+  text-align: center;
+  background-color: white;
+}
+
+.input-field {
+  display: block;
+  width: 50%;
+  margin: 20px auto;
+  min-width: 180px;
+}
+
+.lndp-logo {
+  max-width: 60%;
+}

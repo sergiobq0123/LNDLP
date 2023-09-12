@@ -1,0 +1,9 @@
+<div>
+  <router-outlet></router-outlet>
+  <div class="generic-container window-title">
+    <span class="window-title-text text-center">{{ windowTitle }}</span>
+  </div>
+  <div class="generic-container">
+    <ng-container [ngTemplateOutlet]="contentTemplate"></ng-container>
+  </div>
+</div>

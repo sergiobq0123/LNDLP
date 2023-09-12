@@ -21,7 +21,7 @@ namespace LNDP_API.Data {
         public async Task<User> Login(string email, string password)
         {
 
-            var user = await _context.User.FirstOrDefaultAsync(x => x.Email == email);
+            var user = await _context.User.Include(user => user.UserRole).FirstOrDefaultAsync(x => x.Email == email);
             if(user == null){
                 return null;
             }

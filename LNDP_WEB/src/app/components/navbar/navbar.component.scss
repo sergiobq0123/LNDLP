@@ -1,0 +1,137 @@
+/* Estilos para la barra de navegación */
+.mat-toolbar {
+  background-color: black;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Estilos para el logo (a la izquierda) */
+.logo {
+  display: flex;
+  align-items: center;
+  margin-left: 16px; /* Puedes ajustar el margen según tu diseño */
+}
+
+.logo img {
+  max-width: 100%; /* Limita el tamaño máximo del logo al ancho del contenedor */
+  max-height: 100px; /* Establece una altura máxima para el logo (ajusta según tus necesidades) */
+  height: auto; /* Permite que la altura se ajuste proporcionalmente al ancho */
+}
+
+/* Estilos para las secciones y el botón de inicio de sesión (a la derecha) */
+.secciones,
+.login {
+  display: flex;
+  align-items: center;
+}
+
+.secciones a:hover:not(.active) {
+  transform: scale(1.5);
+}
+
+/* Estilos para los enlaces de sección */
+.secciones a {
+  margin-right: 20px; /* Espacio entre enlaces de sección */
+  text-decoration: none;
+  color: white;
+  transition: transform 0.3s ease;
+}
+
+.logout{
+  display: flex;
+  align-items: center;
+}
+
+.login button {
+  max-width: 100%;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+/* Estilos para el ícono del botón de inicio de sesión/logout */
+.login button mat-icon {
+  font-size: 24px;
+  margin-right: 4px; /* Espacio entre el ícono y el texto (si lo hubiera) */
+}
+
+.logout p {
+  display: flex;
+  color: white;
+}
+
+.logout {
+  display: flex;
+}
+
+.logout button {
+  margin-left: 16px;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+/* Estilos para el ícono del botón de inicio de sesión/logout */
+.logout button mat-icon {
+  font-size: 24px;
+  margin-right: 4px; /* Espacio entre el ícono y el texto (si lo hubiera) */
+}
+
+@media screen and (max-width: 767px) {
+  /* Estilos para dispositivos mÃ³viles */
+  /* Estilos para dispositivos mÃ³viles */
+  .mat-toolbar-menu-button {
+    display: flex; /* Muestra el botÃ³n en pantallas pequeÃ±as */
+    align-items: center;
+    flex-direction: column;
+    width: 3rem;
+    height: 2rem;
+    border: none;
+    background: transparent;
+    gap: 0.50rem;
+    margin-right: 35px;
+    background-color: black; /* Fondo negro */
+    border: none; /* Sin borde */
+    position: relative;
+  }
+
+  .mat-toolbar-menu-button div {
+    background-color: white;
+    height: 3px;
+    width: 100%;
+    margin: auto 0;
+    border-radius: 5px;
+    transition: all 0.5s;
+    transform-origin: left;
+    margin: auto 0;
+  }
+
+  .mat-toolbar-menu-button.active div:first-child{
+    transform: rotate(45deg) ;
+  }
+  .mat-toolbar-menu-button.active div:nth-child(2){
+    opacity: 0;
+  }
+  .mat-toolbar-menu-button.active div:last-child{
+    transform: rotate(-45deg) ;
+  }
+
+  .dropdown-menu {
+    position: fixed; /* Mantiene el menÃº en su lugar mientras se desplaza */
+    top: 60px; /* Ajusta la posiciÃ³n segÃºn la altura de la barra de navegaciÃ³n */
+    left: 0;
+    width: 100%; /* Ocupa todo el ancho de la pantalla */
+    height: 100%; /* Ocupa toda la altura de la pantalla */
+    background-color: black; /* Ajusta el color de fondo del menÃº desplegable */
+    z-index: 1000; /* Asegura que estÃ© por encima de otros elementos */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra verticalmente los elementos del menÃº */
+  }
+
+  .dropdown-menu a {
+    text-decoration: none;
+    color: white; /* Ajusta el color de texto */
+  }
+}

@@ -10,7 +10,7 @@ using LNDP_API.Mapper;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -31,6 +31,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = false,
         };
     });
+builder.Services.AddCors(options => {
+    options.AddPolicy(name: MyAllowSpecificOrigins, policy => {
+        policy.WithOrigins("*").WithMethods("GET", "POST", "PUT", "DELETE").WithHeaders("content-type", "Authorization");
+    });
+});
 //Add token service
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>(); // Aquí AuthRepository es la implementación concreta de IAuthRepository
@@ -45,7 +50,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors(MyAllowSpecificOrigins);
 using (var scope = app.Services.CreateScope()){
     var DbContext = scope.ServiceProvider.GetRequiredService<APIContext>();
     DbContext.Database.Migrate();
