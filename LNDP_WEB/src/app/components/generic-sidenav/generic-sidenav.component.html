@@ -12,8 +12,8 @@
           <mat-grid-tile [colspan]="opened ? 3 : 0">
             <img
               *ngIf="opened"
-              src="assets/images/Philotechwhite.png"
-              alt="PhilotechLogo"
+              src="../../../assets/logo-pagina-inicio-blanco.png"
+              alt="LNDPLogo"
               width="150px;"
               [routerLink]="''"
               matTooltip="Home"
@@ -46,6 +46,34 @@
       </mat-list-item>
 
       <mat-list-item
+        [routerLink]="'Concert'"
+        routerLinkActive="highlighted"
+        matTooltip="Conciertos"
+        matTooltipPosition="right"
+        matTooltipShowDelay="500"
+        [matTooltipDisabled]="opened"
+      >
+        <mat-icon mat-list-icon class="menu-button">music_note</mat-icon>
+        <span *ngIf="opened" class="menu-item" class="menu-button"
+          >Conciertos</span
+        >
+      </mat-list-item>
+
+      <mat-list-item
+        [routerLink]="'Festival'"
+        routerLinkActive="highlighted"
+        matTooltip="Festivales"
+        matTooltipPosition="right"
+        matTooltipShowDelay="500"
+        [matTooltipDisabled]="opened"
+      >
+        <mat-icon mat-list-icon class="menu-button">library_music</mat-icon>
+        <span *ngIf="opened" class="menu-item" class="menu-button"
+          >Festivales</span
+        >
+      </mat-list-item>
+
+      <mat-list-item
         [routerLink]="'Artist'"
         routerLinkActive="highlighted"
         matTooltip="Artist"
@@ -53,77 +81,38 @@
         matTooltipShowDelay="500"
         [matTooltipDisabled]="opened"
       >
-        <mat-icon mat-list-icon class="menu-button">card_travel</mat-icon>
+        <mat-icon mat-list-icon class="menu-button">person_pin</mat-icon>
         <span *ngIf="opened" class="menu-item" class="menu-button">Artist</span>
       </mat-list-item>
 
       <mat-list-item
-        [routerLink]="'Sprints'"
+        [routerLink]="'SocialNetwork'"
         routerLinkActive="highlighted"
-        matTooltip="Sprints"
+        matTooltip="Redes Sociales"
         matTooltipPosition="right"
         matTooltipShowDelay="500"
         [matTooltipDisabled]="opened"
       >
-        <mat-icon mat-list-icon class="menu-button">event</mat-icon>
-        <span *ngIf="opened" class="menu-item" class="menu-button"
-          >Sprints</span
-        >
+        <mat-icon mat-list-icon class="menu-button">alternate_email</mat-icon>
+        <span *ngIf="opened" class="menu-item" class="menu-button">Redes Sociales</span>
       </mat-list-item>
 
       <mat-list-item
-        [routerLink]="'Boards'"
+        [routerLink]="'User'"
         routerLinkActive="highlighted"
-        matTooltip="Boards"
+        matTooltip="Usuarios"
         matTooltipPosition="right"
         matTooltipShowDelay="500"
         [matTooltipDisabled]="opened"
       >
-        <mat-icon mat-list-icon class="menu-button">dashboard</mat-icon>
-        <span *ngIf="opened" class="menu-item" class="menu-button">Boards</span>
+        <mat-icon mat-list-icon class="menu-button"> settings</mat-icon>
+        <span *ngIf="opened" class="menu-item" class="menu-button">Usuarios</span>
       </mat-list-item>
 
-      <mat-list-item
-        [routerLink]="'Tickets'"
-        routerLinkActive="highlighted"
-        matTooltip="Tickets"
-        matTooltipPosition="right"
-        matTooltipShowDelay="500"
-        [matTooltipDisabled]="opened"
-      >
-        <mat-icon mat-list-icon class="menu-button">assignment</mat-icon>
-        <span *ngIf="opened" class="menu-item" class="menu-button"
-          >Tickets</span
-        >
-      </mat-list-item>
-
-      <mat-list-item
-        [routerLink]="'Users'"
-        routerLinkActive="highlighted"
-        matTooltip="Users"
-        matTooltipPosition="right"
-        matTooltipShowDelay="500"
-        [matTooltipDisabled]="opened"
-      >
-        <mat-icon mat-list-icon class="menu-button">accessibility</mat-icon>
-        <span *ngIf="opened" class="menu-item" class="menu-button">Users</span>
-      </mat-list-item>
-
-      <mat-list-item
-        [routerLink]="'Admin'"
-        routerLinkActive="highlighted"
-        matTooltip="Admin"
-        matTooltipPosition="right"
-        matTooltipShowDelay="500"
-        [matTooltipDisabled]="opened"
-      >
-        <mat-icon mat-list-icon class="menu-button">perm_identity</mat-icon>
-        <span *ngIf="opened" class="menu-item" class="menu-button">Admin</span>
-      </mat-list-item>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <mat-toolbar color="white">
+    <mat-toolbar color="black">
       <mat-toolbar-row>
         <span class="flexExpand"></span>
         <button

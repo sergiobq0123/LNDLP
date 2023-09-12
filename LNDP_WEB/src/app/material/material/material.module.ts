@@ -11,6 +11,15 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatListModule} from '@angular/material/list';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatDatepickerModule} from '@angular/material/datepicker'
+import {MatRadioModule} from '@angular/material/radio';
+import {MatSelectModule} from '@angular/material/select';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatTableModule} from '@angular/material/table';
+import {DragDropModule} from '@angular/cdk/drag-drop';
+import {MatSortModule} from '@angular/material/sort';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatDialogModule} from '@angular/material/dialog';
 
 @NgModule({
   declarations: [],
@@ -26,7 +35,16 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatMenuModule,
     MatListModule,
     MatGridListModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatDatepickerModule,
+    MatRadioModule,
+    MatSelectModule,
+    MatCheckboxModule,
+    MatTableModule,
+    DragDropModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatDialogModule
 
   ]
 })

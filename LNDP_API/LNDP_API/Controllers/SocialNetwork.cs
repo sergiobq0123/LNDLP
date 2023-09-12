@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace LNDP_API.Controllers
 {   
-    [Route("api/socialnetwork")]
+    [Route("api/[controller]")]
     [ApiController]
     public class SocialNetworkController : ControllerBase
     {

@@ -2,8 +2,8 @@ mat-sidenav-container {
     height: 100vh;
 
     mat-sidenav {
-        background-color: grey;
-        color: white;
+        background-color: rgb(0, 0, 0);
+        color: rgb(0, 0, 0);
 
         mat-nav-list {
             .menu-item {
@@ -20,41 +20,30 @@ mat-sidenav-container {
             }
         }
     }
+
+    mat-icon{
+      color: white;
+    }
+
+    mat-toolbar {
+      background-color: black;
+    }
+
+    span {
+      color: white;
+    }
 }
 
 .highlighted {
     background-color: rgb(220, 45, 45);
 }
 
-mat- .mat-toolbar.mat-primary {
-    background: whitesmoke;
-    color: black;
-}
-
-.mat-side {
-    background: wheat;
-}
-
-/* .example-container {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-  } */
-
 .flexExpand {
     flex: 1 1 auto;
 }
 
 .mat-drawer-container {
-    background-color: whitesmoke ;
-}
-
-.menu-button {
-    color: black;
-    vertical-align: bottom;
-    margin-right: 10px;
+    background-color: black ;
 }
 
 table {

@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { NotificationService } from 'src/app/services/notification.service';
 
 
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -30,7 +31,7 @@ export class LoginComponent {
         error : error => {
           console.log(error.error);
 
-          this._notificationService.showError(error.error, 'Close', 3500)
+          this._notificationService.showErrorOnSnackbar(error.error, 'Close', 3500)
           this.LoginForm.get('password').setValue('')
         },
         next: res =>{

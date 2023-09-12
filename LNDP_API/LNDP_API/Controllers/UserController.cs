@@ -5,7 +5,7 @@ using LNDP_API.Models;
 
 namespace LNDP_API.Controllers
 {
-    [Route("api/user")]
+    [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {

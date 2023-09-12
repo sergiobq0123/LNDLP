@@ -5,7 +5,11 @@ import { AuthGuard } from './guards/auth.guard';
 import { LoginComponent } from './components/login/login.component';
 import { LoginGuard } from './guards/login.guard';
 import { GenericSidenavComponent } from './components/generic-sidenav/generic-sidenav.component';
-import { ArtistAdminComponent } from './components/artist-admin/artist-admin.component';
+import { ArtistAdminComponent } from './components/Intranet/artist-admin/artist-admin.component';
+import { FestivalAdminComponent } from './components/Intranet/festival-admin/festival-admin.component';
+import { ConcertAdminComponent } from './components/Intranet/concert-admin/concert-admin.component';
+import { SocialNetwokAdminComponent } from './components/Intranet/social-netwok-admin/social-netwok-admin.component';
+import { UserAdminComponent } from './components/Intranet/user-admin/user-admin.component';
 
 const routes: Routes = [
   {
@@ -23,6 +27,22 @@ const routes: Routes = [
       {
         path : 'Artist',
         component : ArtistAdminComponent,
+      },
+      {
+        path : 'Festival',
+        component : FestivalAdminComponent,
+      },
+      {
+        path : 'Concert',
+        component : ConcertAdminComponent,
+      },
+      {
+        path : 'SocialNetwork',
+        component : SocialNetwokAdminComponent,
+      },
+      {
+        path : 'User',
+        component : UserAdminComponent,
       },
     ]
   },

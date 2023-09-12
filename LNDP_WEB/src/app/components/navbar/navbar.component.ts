@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { LoginService } from 'src/app/services/login.service';
-import { UsersService } from 'src/app/services/users.service';
 import { User } from 'src/app/models/user.model';
+import { UsersService } from 'src/app/services/intranet/users.service';
 
 @Component({
   selector: 'app-navbar',

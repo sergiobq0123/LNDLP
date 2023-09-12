@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace LNDP_API.Controllers
 {   
-    [Route("api/event")]
+    [Route("api/[controller]")]
     [ApiController]
     public class EventController : ControllerBase
     {
@@ -17,15 +17,17 @@ namespace LNDP_API.Controllers
             _context = context;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Event>>> GetEvent()
+        [HttpGet("type/{tipo}")]
+        public async Task<ActionResult<IEnumerable<Event>>> GetEvent(string tipo)
         {
             if(_context.Event == null){
                 return NotFound();
             }
             return await _context.Event
             .Include(Event => Event.EventType)
-            .Where(u => u.IsActive).ToListAsync();
+            .Where(u => u.IsActive)
+            .Where(u => u.EventType.EventName == tipo)
+            .ToListAsync();
         }
         
         [HttpGet("{id}")]

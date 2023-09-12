@@ -12,7 +12,7 @@ import { LoginService } from 'src/app/services/login.service';
   styleUrls: ['./generic-sidenav.component.scss'],
 })
 export class GenericSidenavComponent {
-  @ViewChild(MatSidenav) sidenav           !: MatSidenav;
+  @ViewChild(MatSidenav) sidenav !: MatSidenav;
   opened: boolean = false;
   visible: boolean = true;
 

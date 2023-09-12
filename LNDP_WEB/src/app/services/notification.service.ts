@@ -10,11 +10,11 @@ export class NotificationService {
     private _snackBar: MatSnackBar
   ) { }
 
-  showError(error: any, actionText : string, duration: number){
+  showErrorOnSnackbar(error: any, actionText : string, duration: number){
     this._snackBar.open(error, actionText, {duration : duration})
   }
 
-  showMessage(message: string, actionText : string, duration: number, panelClass?: string){
+  showMessageOnSnackbar(message: string, actionText : string, duration: number, panelClass?: string){
     this._snackBar.open(message , actionText, {duration : duration, panelClass : panelClass})
   }
 }
