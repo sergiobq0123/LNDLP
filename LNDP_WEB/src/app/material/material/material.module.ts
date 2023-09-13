@@ -20,6 +20,7 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
 import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatDialogModule} from '@angular/material/dialog';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [],
@@ -44,8 +45,8 @@ import {MatDialogModule} from '@angular/material/dialog';
     DragDropModule,
     MatSortModule,
     MatPaginatorModule,
-    MatDialogModule
-
+    MatDialogModule,
+    MatNativeDateModule
   ]
 })
 export class MaterialModule { }

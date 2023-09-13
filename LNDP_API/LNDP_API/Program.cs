@@ -33,7 +33,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 builder.Services.AddCors(options => {
     options.AddPolicy(name: MyAllowSpecificOrigins, policy => {
-        policy.WithOrigins("*").WithMethods("GET", "POST", "PUT", "DELETE").WithHeaders("content-type", "Authorization");
+        policy.WithOrigins("*").WithMethods( "POST", "PUT", "DELETE").WithHeaders("content-type", "Authorization");
     });
 });
 //Add token service

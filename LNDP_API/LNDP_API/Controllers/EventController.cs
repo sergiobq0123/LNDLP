@@ -30,14 +30,14 @@ namespace LNDP_API.Controllers
             .ToListAsync();
         }
         
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Event>> GetEvent(int id)
-        {         
-            var Event = await _context.Event.FindAsync(id);
-            if(Event == null){
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Event>>> GetEvent()
+        {
+            if(_context.Event == null){
                 return NotFound();
             }
-            return Event;
+            return await _context.Event.Where(u => u.IsActive).ToListAsync();
+
         }
 
         [HttpPost]

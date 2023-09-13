@@ -9,4 +9,6 @@ export class Urls {
   static FESTIVAL = '/api/Event/type/Festival'
   static CONCIERTO = '/api/Event/type/Concierto'
   static SOCIALNETWORK = '/api/SocialNetwork'
+  static EVENT = '/api/Event'
+  static EVENTTYPE = '/api/EventType'
 }

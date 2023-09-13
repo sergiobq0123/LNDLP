@@ -1,0 +1,34 @@
+<app-generic-window
+  [contentTemplate]="contentTemplate"
+  [windowTitle]="'Conciertos'"
+></app-generic-window>
+
+<ng-template #contentTemplate>
+  <button
+    [disabled]="newRowAdded || entryBeingEdited"
+    id="add-button"
+    class="add-container"
+    (click)="showFormDialog()"
+  >
+    <mat-icon class="add-buton">add_box</mat-icon>
+  </button>
+  <app-generic-table
+    [tableData]="conciertos"
+    [tableColumns]="conciertosColumns"
+    [isPageable]="true"
+    [apiFailing]="apiFailing"
+    [isSortable]="true"
+    (sort)="sortData($event)"
+    [hasActions]="true"
+    (modified)="updateElement($event)"
+    (rowAdded)="newRowAdded = $event"
+    (create)="createElement($event)"
+    (delete)="deleteElement($event)"
+    [paginationSizes]="[5, 10, 20]"
+    [defaultPageSize]="10"
+    (pageNum)="updatePageNumber($event)"
+    (edited)="entryBeingEdited = $event"
+    *ngIf="loaded"
+  >
+  </app-generic-table>
+</ng-template>
