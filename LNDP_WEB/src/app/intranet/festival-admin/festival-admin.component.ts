@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Column } from '../generic-table/column';
-import { NotificationService } from 'src/app/services/notification.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ContentType } from '../generic-form-dialog/generic-content';
 import { Sort } from '@angular/material/sort';
@@ -26,7 +25,6 @@ export class FestivalAdminComponent {
   constructor(
     private festivalService: FestivalService,
     public dialog : MatDialog,
-    private notificationService : NotificationService
   ){}
 
   ngOnInit(){
@@ -52,30 +50,21 @@ export class FestivalAdminComponent {
   setColumns(): void {
     this.festivalColumns = [
       {
-        name: 'artista',
-        dataKey: 'artista',
-        position: 'left',
-        isSortable: true,
-        isEditable: true,
-        hidden: false,
-        type: ContentType.editableTextFields
-      },
-      {
-        name: 'name',
+        name: 'Nombre',
         dataKey: 'name',
         position: 'left',
         isSortable: false,
         type: ContentType.editableTextFields,
       },
       {
-        name: 'city',
+        name: 'Ciudad',
         dataKey: 'city',
         position: 'left',
         isSortable: false,
         type: ContentType.editableTextFields,
       },
       {
-        name: 'location',
+        name: 'Localizacion',
         dataKey: 'location',
         position: 'left',
         isSortable: false,
@@ -83,7 +72,16 @@ export class FestivalAdminComponent {
       }
       ,
       {
-        name: 'date',
+        name: 'Google Maps',
+        dataKey: 'urlLocation',
+        position: 'left',
+        isSortable: false,
+        isEditable: true,
+        type: ContentType.buttonMap,
+      }
+      ,
+      {
+        name: 'Fecha',
         dataKey: 'date',
         position: 'left',
         isSortable: false,
@@ -92,7 +90,6 @@ export class FestivalAdminComponent {
     ];
   }
 
-  showFormDialog() {}
 
   sortData(sortParameters: Sort) {
     const keyName = sortParameters.active;
@@ -104,12 +101,6 @@ export class FestivalAdminComponent {
       this.getFestivales();
     }
   }
-
-  updateElement(event: any) {}
-
-  deleteElement(event: any) {}
-
-  createElement(event: any) {}
 
   updatePageNumber(pageNum: number) {
     this.pageNumber = pageNum;

@@ -20,6 +20,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from '../app-routing.module';
 import { HomeAdminComponent } from './home-admin/home-admin.component';
 import { EventAdminComponent } from './event-admin/event-admin.component';
+import { CrewAdminComponent } from './crew-admin/crew-admin.component';
 
 
 @NgModule({
@@ -36,6 +37,7 @@ import { EventAdminComponent } from './event-admin/event-admin.component';
     UserAdminComponent,
     HomeAdminComponent,
     EventAdminComponent,
+    CrewAdminComponent,
   ],
   imports: [
     IntranetRoutingModule,

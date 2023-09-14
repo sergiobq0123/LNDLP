@@ -104,6 +104,15 @@ export class ArtistAdminComponent {
         isEditable: true,
         type: ContentType.editableTextFields,
       }
+      ,
+      {
+        name: 'Foto',
+        dataKey: 'photo',
+        position: 'left',
+        isSortable: false,
+        isEditable: true,
+        type: ContentType.editableTextFields,
+      }
     ];
   }
 
@@ -133,7 +142,7 @@ export class ArtistAdminComponent {
         dataKey : 'recruitmentemail',
         position: {row: 2, col : 0, rowSpan: 1, colSpan: 1},
         type : ContentType.editableTextFields,
-        validators: [Validators.email, Validators.required]
+        validators: [Validators.required]
       },
       {
         name: 'Email Comunicacion',
@@ -149,6 +158,12 @@ export class ArtistAdminComponent {
         type : ContentType.editableTextFields,
         validators: [Validators.required]
       },
+      {
+        name: 'Foto',
+        dataKey: 'photo',
+        position: {row: 3, col : 1, rowSpan: 1, colSpan: 1},
+        type: ContentType.image,
+      }
     ]
   }
 
@@ -219,14 +234,6 @@ export class ArtistAdminComponent {
     )
   }
 
-  showSocialNetworkDialog(artistId : number, artistName: string){
-    let data = {
-      artistId: artistId,
-      artistName: artistName,
-      artistSocialNetwork : this.socialNetwork
-    }
-    //const dialogRef = this.dialog.open()
-  }
 
   updatePageNumber(pageNum: number) {
     this.pageNumber = pageNum;

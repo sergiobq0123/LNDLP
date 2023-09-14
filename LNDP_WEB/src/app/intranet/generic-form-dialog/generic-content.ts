@@ -8,7 +8,9 @@ export enum ContentType {
     radioButtons = 'radioButtons',
     checkbox = 'checkbox',
     datePicker = 'datePicker',
-    specialContent = 'specialContent'
+    specialContent = 'specialContent',
+    buttonMap = 'buttonMap',
+    image = 'image'
 }
 
 export interface PositionInGrid {

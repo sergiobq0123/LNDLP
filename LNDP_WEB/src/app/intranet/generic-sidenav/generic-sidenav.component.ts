@@ -17,7 +17,11 @@ export class GenericSidenavComponent {
   visible: boolean = true;
 
 
-  constructor(private router: Router, private loginService: LoginService) {}
+  constructor(private router: Router, private _loginService: LoginService) {}
 
 
+  logout() {
+    this._loginService.logout()
+    console.log("logout");
+  }
 }

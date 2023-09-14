@@ -80,7 +80,7 @@ namespace LNDP_API.Controllers
             _context.SocialNetwork.Remove(SocialNetwork);
             await _context.SaveChangesAsync();
 
-            return Ok("SocialNetwork borrado con éxito");
+            return NoContent();
         }
 
         private bool SocialNetworkExists(int id){

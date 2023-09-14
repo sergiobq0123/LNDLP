@@ -23,13 +23,33 @@ namespace LNDP_API.Controllers
             if(_context.Artist == null){
                 return NotFound();
             }
-            return await _context.Artist.
-            Include(artist => artist.Crew)
-            .Include(artist => artist.User)
-            .Include(artist => artist.SocialNetwork)
+            return await _context.Artist
             .Where(u => u.IsActive).ToListAsync();
         }
-        
+
+        [HttpGet("withoutSocialNetWork")]
+        public async Task<ActionResult<IEnumerable<Artist>>> GetArtistWithoutSN()
+        {
+            if(_context.Artist == null){
+                return NotFound();
+            }
+            return await _context.Artist
+            .Where(u => u.IsActive)
+            .Where(u => u.SocialNetwork == null)
+            .ToListAsync();
+        }
+        [HttpGet("withoutCrew")]
+        public async Task<ActionResult<IEnumerable<Artist>>> GetArtistWithoutC()
+        {
+            if(_context.Artist == null){
+                return NotFound();
+            }
+            return await _context.Artist
+            .Where(u => u.IsActive)
+            .Where(u => u.Crew == null)
+            .ToListAsync();
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<Artist>> GetArtist(int id)
         {         

@@ -27,6 +27,16 @@ tr {
   margin: auto;
 }
 
+.button-map{
+  background-color: transparent;
+  margin: auto;
+}
+
+.button-map-icon{
+  margin-left: 10px;
+  vertical-align: auto;
+}
+
 .isDisabled {
   pointer-events: none;
   opacity: 0.5;

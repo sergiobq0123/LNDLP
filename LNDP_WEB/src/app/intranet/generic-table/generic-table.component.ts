@@ -486,6 +486,11 @@ export class GenericTableComponent {
     this.sort.emit(sortParameters);
   }
 
+  openMaps(direccion : string){
+    const url = `https://www.google.com/maps?q=${direccion}`;
+    window.open(url, '_blank');
+  }
+
   getDropdownValue(dropdownItem: any): string {
     if (dropdownItem.hasOwnProperty('status')) {
       return dropdownItem.status;

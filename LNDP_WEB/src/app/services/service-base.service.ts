@@ -33,12 +33,12 @@ export class ServiceBaseService {
     }
   }
 
-  // public getToSpecificURL(url?: string): Observable<any>{
-  //   return this.http.get(url)
-  // }
-
   public getWithParams(url: string, params: HttpParams): Observable<any>{
     return this.http.post(url, {params});
+  }
+
+  public getToSpecificURL(url?: string):Observable<any>{
+    return this.http.get(url)
   }
 
   public create(data: any): Observable<any>{

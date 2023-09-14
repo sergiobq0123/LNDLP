@@ -8,6 +8,7 @@ import { SocialNetwokAdminComponent } from './social-netwok-admin/social-netwok-
 import { UserAdminComponent } from './user-admin/user-admin.component';
 import { HomeAdminComponent } from './home-admin/home-admin.component';
 import { EventAdminComponent } from './event-admin/event-admin.component';
+import { CrewAdminComponent } from './crew-admin/crew-admin.component';
 
 const routes: Routes = [
   {path : '',
@@ -40,6 +41,10 @@ const routes: Routes = [
       {
         path : 'Event',
         component : EventAdminComponent,
+      },
+      {
+        path : 'Crew',
+        component : CrewAdminComponent,
       },
     ]}
 ];

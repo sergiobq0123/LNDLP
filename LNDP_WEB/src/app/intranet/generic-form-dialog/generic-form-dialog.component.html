@@ -40,6 +40,12 @@
                                     style="margin-right: 20px;">{{button.shown}}</mat-radio-button>
                             </mat-radio-group>
                         </ng-container>
+                        <ng-container *ngSwitchCase="'image'">
+                          <ng-container *ngSwitchCase="'image'">
+                            <input type="file" (change)="cargarImagen($event)" accept="image/*" #inputImagen />
+                            <button type="submit">Subir Imagen</button>
+                          </ng-container>
+                        </ng-container>
                         <ng-container *ngSwitchCase="'checkbox'">
                             <mat-checkbox formControlName="{{item.dataKey}}"
                                 color="primary">{{item.checkboxText}}</mat-checkbox>

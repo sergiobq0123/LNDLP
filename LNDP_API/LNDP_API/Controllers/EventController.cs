@@ -43,6 +43,7 @@ namespace LNDP_API.Controllers
         [HttpPost]
         public async Task<ActionResult<Event>> PostEvent(Event Event)
         {
+            Event.UrlLocation = Event.Location;
             _context.Event.Add(Event);
             await _context.SaveChangesAsync();
             return CreatedAtAction("GetEvent", new { id = Event.Id }, Event);
@@ -83,7 +84,7 @@ namespace LNDP_API.Controllers
             _context.Event.Remove(Event);
             await _context.SaveChangesAsync();
 
-            return Ok("Evento borrado con éxito");
+            return NoContent();
         }
 
         private bool EventExists(int id){

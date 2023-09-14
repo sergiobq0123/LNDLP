@@ -8,7 +8,6 @@
     [disabled]="newRowAdded || entryBeingEdited"
     id="add-button"
     class="add-container"
-    (click)="showFormDialog()"
   >
     <mat-icon class="add-buton">add_box</mat-icon>
   </button>
@@ -19,11 +18,8 @@
     [apiFailing]="apiFailing"
     [isSortable]="true"
     (sort)="sortData($event)"
-    [hasActions]="true"
-    (modified)="updateElement($event)"
+    [hasActions]="false"
     (rowAdded)="newRowAdded = $event"
-    (create)="createElement($event)"
-    (delete)="deleteElement($event)"
     [paginationSizes]="[5, 10, 20]"
     [defaultPageSize]="10"
     (pageNum)="updatePageNumber($event)"

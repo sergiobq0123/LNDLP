@@ -13,14 +13,13 @@ namespace LNDP_API.Data
         public DbSet<LNDP_API.Models.Artist> Artist {get ; set ; }
         public DbSet<LNDP_API.Models.Crew> Crew {get ; set ; }
         public DbSet<LNDP_API.Models.Dosier> Dosier {get ; set ; }
-        public DbSet<LNDP_API.Models.Photo> Photo {get ; set ; }
         public DbSet<LNDP_API.Models.SocialNetwork> SocialNetwork {get ; set ; }
         public DbSet<LNDP_API.Models.Event> Event {get ; set ; }
         public DbSet<LNDP_API.Models.EventType> EventType {get ; set ; }
         public DbSet<LNDP_API.Models.UserRole> UserRole {get ; set ; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
+        {   
             modelBuilder.Entity<LNDP_API.Models.EventType>().HasData
             (
                 new LNDP_API.Models.EventType

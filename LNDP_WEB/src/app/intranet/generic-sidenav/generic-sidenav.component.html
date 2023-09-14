@@ -123,6 +123,18 @@
         <span *ngIf="opened" class="menu-item" class="menu-button">Usuarios</span>
       </mat-list-item>
 
+      <mat-list-item
+        [routerLink]="'Crew'"
+        routerLinkActive="highlighted"
+        matTooltip="Crew"
+        matTooltipPosition="right"
+        matTooltipShowDelay="500"
+        [matTooltipDisabled]="opened"
+      >
+        <mat-icon mat-list-icon class="menu-button"> local_gas_station</mat-icon>
+        <span *ngIf="opened" class="menu-item" class="menu-button">Crew</span>
+      </mat-list-item>
+
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -151,7 +163,7 @@
             <mat-icon>account_box</mat-icon>
             <span>My profile</span>
           </button>
-          <button mat-menu-item>
+          <button mat-menu-item [routerLink]="['/Home']" (click)="logout()">
             <mat-icon>highlight_off</mat-icon>
             <span>Logout</span>
           </button>

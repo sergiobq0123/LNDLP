@@ -80,7 +80,7 @@ namespace LNDP_API.Controllers
             _context.Crew.Remove(Crew);
             await _context.SaveChangesAsync();
 
-            return Ok("Crew borrada con éxito");
+            return Ok();
         }
 
         private bool CrewExists(int id){

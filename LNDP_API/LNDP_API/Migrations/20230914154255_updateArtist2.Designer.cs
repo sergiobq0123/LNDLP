@@ -3,6 +3,7 @@ using System;
 using LNDP_API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace LNDP_API.Migrations
 {
     [DbContext(typeof(APIContext))]
-    partial class APIContextModelSnapshot : ModelSnapshot
+    [Migration("20230914154255_updateArtist2")]
+    partial class updateArtist2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,10 +28,7 @@ namespace LNDP_API.Migrations
             modelBuilder.Entity("LNDP_API.Models.Artist", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("City")
                         .HasColumnType("text");
@@ -39,6 +39,9 @@ namespace LNDP_API.Migrations
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<int?>("CrewId")
+                        .HasColumnType("integer");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
@@ -48,13 +51,21 @@ namespace LNDP_API.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("text");
 
-                    b.Property<byte[]>("Photo")
-                        .HasColumnType("bytea");
+                    b.Property<int?>("PhotoId")
+                        .HasColumnType("integer");
 
                     b.Property<string>("RecruitmentEmail")
                         .HasColumnType("text");
 
+                    b.Property<int?>("SocialNetworkId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("PhotoId");
 
                     b.ToTable("Artist");
                 });
@@ -90,9 +101,6 @@ namespace LNDP_API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ArtistId")
-                        .IsUnique();
-
                     b.ToTable("Crew");
                 });
 
@@ -109,9 +117,6 @@ namespace LNDP_API.Migrations
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
-
-                    b.Property<int?>("Photos")
-                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -190,17 +195,50 @@ namespace LNDP_API.Migrations
                         new
                         {
                             Id = 1,
-                            CreationDate = new DateTime(2023, 9, 14, 19, 2, 50, 599, DateTimeKind.Utc).AddTicks(9364),
+                            CreationDate = new DateTime(2023, 9, 14, 15, 42, 55, 111, DateTimeKind.Utc).AddTicks(7664),
                             EventName = "Festival",
                             IsActive = true
                         },
                         new
                         {
                             Id = 2,
-                            CreationDate = new DateTime(2023, 9, 14, 19, 2, 50, 599, DateTimeKind.Utc).AddTicks(9366),
+                            CreationDate = new DateTime(2023, 9, 14, 15, 42, 55, 111, DateTimeKind.Utc).AddTicks(7667),
                             EventName = "Concierto",
                             IsActive = true
                         });
+                });
+
+            modelBuilder.Entity("LNDP_API.Models.Photo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<int?>("DosierId")
+                        .HasColumnType("integer");
+
+                    b.Property<byte[]>("Imagen")
+                        .HasColumnType("bytea");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DosierId");
+
+                    b.ToTable("Photo");
                 });
 
             modelBuilder.Entity("LNDP_API.Models.SocialNetwork", b =>
@@ -236,9 +274,6 @@ namespace LNDP_API.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ArtistId")
-                        .IsUnique();
 
                     b.ToTable("SocialNetwork");
                 });
@@ -277,9 +312,6 @@ namespace LNDP_API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ArtistId")
-                        .IsUnique();
-
                     b.HasIndex("UserRoleId");
 
                     b.ToTable("User");
@@ -310,26 +342,44 @@ namespace LNDP_API.Migrations
                         new
                         {
                             Id = 1,
-                            CreationDate = new DateTime(2023, 9, 14, 19, 2, 50, 599, DateTimeKind.Utc).AddTicks(9479),
+                            CreationDate = new DateTime(2023, 9, 14, 15, 42, 55, 111, DateTimeKind.Utc).AddTicks(7787),
                             IsActive = true,
                             Role = "Admin"
                         },
                         new
                         {
                             Id = 2,
-                            CreationDate = new DateTime(2023, 9, 14, 19, 2, 50, 599, DateTimeKind.Utc).AddTicks(9480),
+                            CreationDate = new DateTime(2023, 9, 14, 15, 42, 55, 111, DateTimeKind.Utc).AddTicks(7788),
                             IsActive = true,
                             Role = "Crew"
                         });
                 });
 
-            modelBuilder.Entity("LNDP_API.Models.Crew", b =>
+            modelBuilder.Entity("LNDP_API.Models.Artist", b =>
                 {
-                    b.HasOne("LNDP_API.Models.Artist", "Artist")
-                        .WithOne("Crew")
-                        .HasForeignKey("LNDP_API.Models.Crew", "ArtistId");
+                    b.HasOne("LNDP_API.Models.Crew", "Crew")
+                        .WithOne("Artist")
+                        .HasForeignKey("LNDP_API.Models.Artist", "Id");
 
-                    b.Navigation("Artist");
+                    b.HasOne("LNDP_API.Models.SocialNetwork", "SocialNetwork")
+                        .WithOne("Artist")
+                        .HasForeignKey("LNDP_API.Models.Artist", "Id");
+
+                    b.HasOne("LNDP_API.Models.User", "User")
+                        .WithOne("Artist")
+                        .HasForeignKey("LNDP_API.Models.Artist", "Id");
+
+                    b.HasOne("LNDP_API.Models.Photo", "Photo")
+                        .WithMany()
+                        .HasForeignKey("PhotoId");
+
+                    b.Navigation("Crew");
+
+                    b.Navigation("Photo");
+
+                    b.Navigation("SocialNetwork");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("LNDP_API.Models.Event", b =>
@@ -347,39 +397,45 @@ namespace LNDP_API.Migrations
                     b.Navigation("EventType");
                 });
 
-            modelBuilder.Entity("LNDP_API.Models.SocialNetwork", b =>
+            modelBuilder.Entity("LNDP_API.Models.Photo", b =>
                 {
-                    b.HasOne("LNDP_API.Models.Artist", "Artist")
-                        .WithOne("SocialNetwork")
-                        .HasForeignKey("LNDP_API.Models.SocialNetwork", "ArtistId");
-
-                    b.Navigation("Artist");
+                    b.HasOne("LNDP_API.Models.Dosier", null)
+                        .WithMany("Photos")
+                        .HasForeignKey("DosierId");
                 });
 
             modelBuilder.Entity("LNDP_API.Models.User", b =>
                 {
-                    b.HasOne("LNDP_API.Models.Artist", "Artist")
-                        .WithOne("User")
-                        .HasForeignKey("LNDP_API.Models.User", "ArtistId");
-
                     b.HasOne("LNDP_API.Models.UserRole", "UserRole")
                         .WithMany()
                         .HasForeignKey("UserRoleId");
-
-                    b.Navigation("Artist");
 
                     b.Navigation("UserRole");
                 });
 
             modelBuilder.Entity("LNDP_API.Models.Artist", b =>
                 {
-                    b.Navigation("Crew");
-
                     b.Navigation("Events");
+                });
 
-                    b.Navigation("SocialNetwork");
+            modelBuilder.Entity("LNDP_API.Models.Crew", b =>
+                {
+                    b.Navigation("Artist");
+                });
 
-                    b.Navigation("User");
+            modelBuilder.Entity("LNDP_API.Models.Dosier", b =>
+                {
+                    b.Navigation("Photos");
+                });
+
+            modelBuilder.Entity("LNDP_API.Models.SocialNetwork", b =>
+                {
+                    b.Navigation("Artist");
+                });
+
+            modelBuilder.Entity("LNDP_API.Models.User", b =>
+                {
+                    b.Navigation("Artist");
                 });
 #pragma warning restore 612, 618
         }

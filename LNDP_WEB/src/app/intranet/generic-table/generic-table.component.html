@@ -277,6 +277,15 @@
                   {{(element.getRawValue())[tableColumn.dataKey]}}
                 </p>
               </ng-container>
+              <ng-container *ngSwitchCase="'buttonMap'">
+                <button class="button-map" (click)="openMaps(element.getRawValue()[tableColumn.dataKey])">
+                  <mat-icon class="button-map-icon">directions_car</mat-icon>
+                </button>
+              </ng-container>
+              <ng-container *ngSwitchCase="'image'">
+                <input type="file" accept="image/*" />
+                <button type="submit">Subir Imagen</button>
+              </ng-container>
               <ng-container *ngSwitchCase="'dropdownFields'">
                 <mat-form-field appearance="fill" style="width: 100%;">
                   <mat-select formControlName="{{tableColumn.dataKey}}">

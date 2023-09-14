@@ -1,4 +1,4 @@
-import { Component, Inject, Input } from '@angular/core';
+import { Component, ElementRef, Inject, Input, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { GenericForm } from './generic-content';
@@ -18,6 +18,7 @@ export class GenericFormDialogComponent {
 
   VOForm: FormGroup;
   controls = {};
+  imagenSeleccionada: string | null = null;
   loaded: boolean = false;
 
   ngOnInit(): void {
@@ -27,6 +28,20 @@ export class GenericFormDialogComponent {
     }
     this.loaded = true;
   }
+  @ViewChild('inputImagen') inputImagen!: ElementRef<HTMLInputElement>;
+
+
+  cargarImagen(event: any) {
+    const file = event.target.files[0] as File;
+    if (file) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        this.imagenSeleccionada = reader.result as string;
+      };
+    }
+  }
+
 
   getValidatorErrorMessage(errors) {
     return this.errorMessagesService.getErrorMessage(Object.keys(errors)[0]);
