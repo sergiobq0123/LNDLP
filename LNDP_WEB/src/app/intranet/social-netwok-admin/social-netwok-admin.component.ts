@@ -13,6 +13,7 @@ import { GenericTableComponent } from '../generic-table/generic-table.component'
 import { Validators } from '@angular/forms';
 import { GenericFormDialogComponent } from '../generic-form-dialog/generic-form-dialog.component';
 import { ArtistService } from 'src/app/services/intranet/artist.service';
+import { Filter } from '../generic-table/Filter';
 
 @Component({
   selector: 'app-social-netwok-admin',
@@ -91,7 +92,7 @@ export class SocialNetwokAdminComponent {
   setColumns(): void {
     this.socialNetworkColumns = [
       {
-        name: 'id',
+        name: '_id',
         dataKey: 'id',
         hidden: true,
       },
@@ -150,10 +151,16 @@ export class SocialNetwokAdminComponent {
     ];
   }
 
+  filterData(filters : Filter[]){
+    this.socialNetwokService.getFiltered(filters).subscribe(res =>{
+      this.socialNetworks = res
+    })
+  }
+
   setSocialNetworkForm() {
     this.socialNetworkForm = [
       {
-        name: 'Id',
+        name: '_id',
         dataKey: 'id',
         hidden: true,
       },

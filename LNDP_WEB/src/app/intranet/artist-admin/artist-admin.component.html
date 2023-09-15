@@ -18,6 +18,7 @@
     [isPageable]="true"
     [apiFailing]="apiFailing"
     [isSortable]="true"
+    (filtered)="filterData($event)"
     (sort)="sortData($event)"
     [hasActions]="true"
     (modified)="updateElement($event)"
@@ -31,4 +32,11 @@
     *ngIf="loaded"
   >
   </app-generic-table>
+</ng-template>
+
+<ng-template #crewTemplate let-rowData="rowData">
+  <button mat-icon-button malToolTipe="Ver la crew" matTooltipShowDelay="1000" aria-label="Ver la crew"
+    (click)="showCrewArtistDialog(rowData.id, rowData.name, rowData.crew)">
+    <mat-icon>supervisor_account</mat-icon>
+  </button>
 </ng-template>

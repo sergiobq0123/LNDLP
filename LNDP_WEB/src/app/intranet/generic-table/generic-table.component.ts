@@ -1,6 +1,30 @@
-import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, EventEmitter, InjectionToken, Injector, Input, Output, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
-import { AbstractControl, Form, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
+import {
+  Component,
+  EventEmitter,
+  InjectionToken,
+  Injector,
+  Input,
+  Output,
+  SimpleChanges,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
+import {
+  AbstractControl,
+  Form,
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
@@ -13,9 +37,16 @@ import { MatDialog } from '@angular/material/dialog';
 import { notifications } from 'src/app/common/notifications';
 import {
   CdkDragDrop,
+  CdkDrag,
+  CdkDropList,
+  CdkDropListGroup,
+  CdkDragPlaceholder,
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
+import { filter } from 'rxjs';
+import { Filter } from './Filter';
+import { ContentType } from '../generic-form-dialog/generic-content';
 
 @Component({
   selector: 'app-generic-table',
@@ -25,7 +56,10 @@ import {
     trigger('detailExpand', [
       state('collapsed', style({ height: '0px', minHeight: '0' })),
       state('expanded', style({ height: '*' })),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+      transition(
+        'expanded <=> collapsed',
+        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
+      ),
     ]),
   ],
 })
@@ -44,12 +78,33 @@ export class GenericTableComponent {
   showFilterOptions: boolean = false;
   showFilterInput: boolean = true;
   selectedOption: Column; // Column selected to add in array filter
-  selectedOptionCondition: any; // Column selected condition to add in array filter
-  selectedFilters: any[]; // Selected Filters Array
+  selectedOptionCondition: Filter.Condition; // Column selected condition to add in array filter
+  selectedFilters: Filter[]; // Selected Filters Array
   filterInput: any; // Column selected input value to add in array filter
-  filterTypeInputConditions: string[] = ['is','is not','contains'];
-  filterTypeDateConditions: string[] = ['is','more or equals','minor or equals','between','today','yesterday','this week','last week','this month','last month','this year','last year'];
-  filterTypeDropdownConditions: string[] = ['is','is not'];
+  filterTypeInputConditions: string[] = [
+    Filter.Condition.IS,
+    Filter.Condition.IS_NOT,
+    Filter.Condition.CONTAINS,
+  ];
+  filterTypeDateConditions: string[] = [
+    Filter.Condition.IS,
+    Filter.Condition.MORE_OR_EQUALS,
+    Filter.Condition.LESS_OR_EQUALS,
+    Filter.Condition.BETWEEN,
+    Filter.Condition.TODAY,
+    Filter.Condition.YESTERDAY,
+    Filter.Condition.THIS_WEEK,
+    Filter.Condition.LAST_WEEK,
+    Filter.Condition.THIS_MONTH,
+    Filter.Condition.LAST_MONTH,
+    Filter.Condition.THIS_YEAR,
+    Filter.Condition.LAST_YEAR,
+  ];
+  filterTypeDropdownConditions: string[] = [
+    Filter.Condition.IS,
+    Filter.Condition.IS_NOT,
+  ];
+  public FilterCondition = Filter.Condition;
   startDate: Date; //Start Input to compare Dates
   endDate: Date; //End Input to compare Dates
 
@@ -61,6 +116,7 @@ export class GenericTableComponent {
   @Input() isExpandable = false;
   @Input() isOrderable = false;
   @Input() hasActions = false;
+  @Input() hasLogTime = false;
   @Input() canAddRows = false;
   @Input() apiFailing = false;
   @Input() editingOutside = false;
@@ -74,6 +130,7 @@ export class GenericTableComponent {
   @Input() paginationSizes: number[] = [5, 10, 20, 50];
   @Input() defaultPageSize = this.paginationSizes[1];
 
+  @Output() filtered: EventEmitter<Filter[]> = new EventEmitter();
   @Output() sort: EventEmitter<Sort> = new EventEmitter();
   @Output() rowAdded: EventEmitter<any> = new EventEmitter<any>();
   @Output() delete: EventEmitter<any> = new EventEmitter<any>();
@@ -82,22 +139,25 @@ export class GenericTableComponent {
   @Output() reordered: EventEmitter<any> = new EventEmitter<any>();
   @Output() pageNum: EventEmitter<any> = new EventEmitter<any>();
   @Output() edited: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() logTime: EventEmitter<any> = new EventEmitter();
 
   ngOnChanges(changes: SimpleChanges) {
-    let mustRender: boolean = (changes['tableColumn'] !== undefined ||
+    let mustRender: boolean =
+      changes['tableColumn'] !== undefined ||
       changes['tableData'] !== undefined ||
       changes['expandData'] !== undefined ||
-      changes['expandTemplate'] !== undefined)
-    if (mustRender){
+      changes['expandTemplate'] !== undefined;
+    if (mustRender) {
       this.setTableDataSource();
     }
   }
 
-  constructor(private fb: FormBuilder,
+  constructor(
+    private fb: FormBuilder,
     private notificationService: NotificationService,
     private errorMessagesService: ValidatorService,
-    public dialog: MatDialog,
-  ) { }
+    public dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.setTableDataSource();
@@ -105,55 +165,89 @@ export class GenericTableComponent {
     this.selectedFilters = new Array();
     for (var i = 0; i < this.tableColumns.length; i++) {
       if (!this.tableColumns[i].hidden) {
-        this.displayedColumns.push(this.tableColumns[i].name)
+        this.displayedColumns.push(this.tableColumns[i].name);
       }
     }
+    if (this.hasLogTime) {
+      this.displayedColumns = [...this.displayedColumns, '_logTime'];
+    }
     if (this.hasActions) {
-      this.displayedColumns = [...this.displayedColumns, '_action']
+      this.displayedColumns = [...this.displayedColumns, '_action'];
     }
     if (this.isExpandable) {
-      this.displayedColumns = [...this.displayedColumns, '_expand']
+      this.displayedColumns = [...this.displayedColumns, '_expand'];
     }
     if (this.isOrderable) {
-      this.displayedColumns = ['_order', ...this.displayedColumns]
+      this.displayedColumns = ['_order', ...this.displayedColumns];
     }
   }
 
   columnDropped(event) {
     if (event.previousContainer === event.container) {
       if (event.container.id == 'availableColumns') {
-        moveItemInArray(event.container.data, event.previousIndex, event.currentIndex)
+        moveItemInArray(
+          event.container.data,
+          event.previousIndex,
+          event.currentIndex
+        );
       } else {
-        moveItemInArray(this.displayedColumns, event.previousIndex, event.currentIndex)
+        moveItemInArray(
+          this.displayedColumns,
+          event.previousIndex,
+          event.currentIndex
+        );
       }
     } else {
-      var c = this.tableColumns.find(c => c.name == event.item.data);
-      if (event.container.id == "availableColumns") {
-        if (this.displayedColumns.filter(c => !c.includes('_')).length <= 1) {
-          this.notificationService.showMessageOnSnackbar(notifications.COLUMNS_INVALID_LENGTH, 'Ok!', 3500, 'success-button')
+      var c = this.tableColumns.find((c) => c.name == event.item.data);
+      if (event.container.id == 'availableColumns') {
+        if (this.displayedColumns.filter((c) => !c.includes('_')).length <= 1) {
+          this.notificationService.showMessageOnSnackbar(
+            notifications.COLUMNS_INVALID_LENGTH,
+            'Ok!',
+            3500,
+            'success-button'
+          );
         } else {
-          this.displayedColumns = this.displayedColumns.filter(col => col != c.name)
+          this.displayedColumns = this.displayedColumns.filter(
+            (col) => col != c.name
+          );
         }
       } else {
-        transferArrayItem(event.previousContainer.data, this.displayedColumns, event.previousIndex, event.currentIndex)
+        transferArrayItem(
+          event.previousContainer.data,
+          this.displayedColumns,
+          event.previousIndex,
+          event.currentIndex
+        );
       }
     }
   }
 
   getAvailableColumns() {
-    return this.tableColumns.filter(c => !c.name.includes('_') && !this.displayedColumns.includes(c.name)).map(c => c.name);
+    return this.tableColumns
+      .filter(
+        (c) => !c.name.includes('_') && !this.displayedColumns.includes(c.name)
+      )
+      .map((c) => c.name);
   }
 
   getDisplayedColumns() {
-    return this.displayedColumns.filter(c => !c.includes('_'));
+    return this.displayedColumns.filter((c) => !c.includes('_'));
   }
 
   getTypeColumn() {
-    return this.tableColumns.filter(c => !c.name.includes('_') && !c.name.includes('Users'));
+    return this.tableColumns.filter(
+      (c) => !c.name.includes('_') && c.type != ContentType.specialContent
+    );
   }
 
   getUnselectedColumns() {
-    return this.getTypeColumn().filter(column => !this.selectedFilters.some(filter => filter.dataKey === column.dataKey));
+    return this.getTypeColumn().filter(
+      (column) =>
+        !this.selectedFilters.some(
+          (filter) => filter.dataKey === column.dataKey
+        )
+    );
   }
 
   getValidatorErrorMessage(errors) {
@@ -167,46 +261,68 @@ export class GenericTableComponent {
 
   setTableDataSource() {
     let controlsArray = new Array();
-    this.tableData.map(data => {
+    this.tableData.map((data) => {
       let controls = {};
-      this.tableColumns.map(c => {
+      this.tableColumns.map((c) => {
         let value;
         let dataKeys = c.dataKey.split('.');
         if (dataKeys.length > 1) {
           let mainKey = dataKeys.shift();
-          let vl = Object.keys(data).find(k => mainKey == k)
-          value = dataKeys.reduce((a, p) => { return a[p] == null ? '' : a[p]; }, data[vl] == null ? '' : data[vl]);
+          let vl = Object.keys(data).find((k) => mainKey == k);
+          value = dataKeys.reduce(
+            (a, p) => {
+              return a[p] == null ? '' : a[p];
+            },
+            data[vl] == null ? '' : data[vl]
+          );
+        } else {
+          value = data[c.dataKey];
         }
-        else {
-          value = data[c.dataKey]
-        }
-        controls[c.dataKey] = new FormControl({ value: value, disabled: !c.isEnabledByDefault }, c.validators);
+        controls[c.dataKey] = new FormControl(
+          { value: value, disabled: !c.isEnabledByDefault },
+          c.validators
+        );
         controls['isEditable'] = new FormControl(c.isEditable);
         controls['isNewRow'] = new FormControl(false);
-      })
+      });
       controlsArray.push(this.fb.group(controls));
-    })
+    });
     if (this.isSaved) {
       let previousArray = (this.VOForm.get('VORows') as FormArray).controls;
       if (previousArray.length == controlsArray.length) {
-        controlsArray.sort((a, b) =>
-          previousArray.findIndex(e => e.getRawValue().id == a.getRawValue().id) - previousArray.findIndex(e => e.getRawValue().id == b.getRawValue().id)
-        )
+        controlsArray.sort(
+          (a, b) =>
+            previousArray.findIndex(
+              (e) => e.getRawValue().id == a.getRawValue().id
+            ) -
+            previousArray.findIndex(
+              (e) => e.getRawValue().id == b.getRawValue().id
+            )
+        );
       }
       this.isSaved = false;
     }
 
-    this.VOForm = this.fb.group({ VORows: this.fb.array(controlsArray) }, { updateOn: "change" });
-    this.tableDataSource = new MatTableDataSource((this.VOForm.get('VORows') as FormArray).controls);
+    this.VOForm = this.fb.group(
+      { VORows: this.fb.array(controlsArray) },
+      { updateOn: 'change' }
+    );
+    this.tableDataSource = new MatTableDataSource(
+      (this.VOForm.get('VORows') as FormArray).controls
+    );
     this.tableDataSource.paginator = this.matPaginator;
 
     const filterPredicate = this.tableDataSource.filterPredicate;
     this.tableDataSource.filterPredicate = (data: AbstractControl, filter) => {
-      return filterPredicate.call(this.tableDataSource, data.getRawValue(), filter);
+      return filterPredicate.call(
+        this.tableDataSource,
+        data.getRawValue(),
+        filter
+      );
     };
   }
 
-  paginationChanges(info: any){
+  paginationChanges(info: any) {
     this.pageNum.emit(info.pageIndex + 1);
   }
 
@@ -228,9 +344,8 @@ export class GenericTableComponent {
   addNewRow() {
     if (!this.newRowAdded && !this.entryBeingEdited && !this.editingOutside) {
       let row = {};
-      this.tableColumns.map(col => {
+      this.tableColumns.map((col) => {
         row[col.dataKey] = new FormControl('', col.validators);
-
       });
       row['isEditable'] = new FormControl(false);
       row['isNewRow'] = new FormControl(true);
@@ -244,9 +359,13 @@ export class GenericTableComponent {
       this.matPaginator.length = this.tableDataSource.data.length;
       this.matPaginator.lastPage();
       this.tableDataSource.paginator = this.matPaginator;
-    }
-    else if (this.apiFailing) {
-      this.notificationService.showMessageOnSnackbar(notifications.PROBLEM_OCURRED, 'Ok!', 3500, 'success-button')
+    } else if (this.apiFailing) {
+      this.notificationService.showMessageOnSnackbar(
+        notifications.PROBLEM_OCURRED,
+        'Ok!',
+        3500,
+        'success-button'
+      );
     }
   }
 
@@ -259,7 +378,12 @@ export class GenericTableComponent {
       this.entryBeingEdited = true;
       this.edited.emit(this.entryBeingEdited);
     } else {
-      this.notificationService.showMessageOnSnackbar(notifications.ENTRY_BEING_EDITED, 'Ok!', 3500, 'success-button');
+      this.notificationService.showMessageOnSnackbar(
+        notifications.ENTRY_BEING_EDITED,
+        'Ok!',
+        3500,
+        'success-button'
+      );
     }
   }
 
@@ -267,7 +391,7 @@ export class GenericTableComponent {
   Save(row, index) {
     if (row.valid) {
       this.isSaved = true;
-      this.parentId ? row.value.parentId = this.parentId : ''
+      this.parentId ? (row.value.parentId = this.parentId) : '';
       if (row.value.isNewRow) {
         this.create.emit(row.value);
         this.newRowAdded = false;
@@ -275,18 +399,18 @@ export class GenericTableComponent {
       } else {
         this.modified.emit(row.value);
       }
-      this.edittingRows.delete(index)
-      row.get('isEditable').patchValue(true)
-      row.disable()
+      this.edittingRows.delete(index);
+      row.get('isEditable').patchValue(true);
+      row.disable();
       this.entryBeingEdited = false;
       this.edited.emit(this.entryBeingEdited);
     } else {
       let error: ErrorDTO = {
         code: ErrorCode.FormNotValid,
         type: ErrorType.FormValidators,
-        description: "Form has invalid fields"
-      }
-      this.notificationService.showErrorOnSnackbar(error, "Ok!", 3500);
+        description: 'Form has invalid fields',
+      };
+      this.notificationService.showErrorOnSnackbar(error, 'Ok!', 3500);
     }
   }
 
@@ -300,29 +424,41 @@ export class GenericTableComponent {
       this.newRowAdded = false;
       this.rowAdded.emit(false);
     } else {
-      (this.VOForm.get('VORows') as FormArray).controls[index].setValue(this.edittingRows.get(index));
+      (this.VOForm.get('VORows') as FormArray).controls[index].setValue(
+        this.edittingRows.get(index)
+      );
       row.disable();
-      this.notificationService.showMessageOnSnackbar(notifications.ENTRY_EDITION_CANCELED, 'Ok!', 3500, 'success-button');
+      this.notificationService.showMessageOnSnackbar(
+        notifications.ENTRY_EDITION_CANCELED,
+        'Ok!',
+        3500,
+        'success-button'
+      );
     }
     this.entryBeingEdited = false;
     this.edited.emit(this.entryBeingEdited);
   }
 
   Delete(row) {
-    let data = row.getRawValue()
+    let data = row.getRawValue();
     if (this.parentId != undefined && this.parentId != null) {
       data.parentId = this.parentId;
     }
     const dialogRef = this.dialog.open(DeleteWindowComponent);
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.delete.emit(data);
         this.entryBeingEdited = false;
         this.edited.emit(this.entryBeingEdited);
       } else {
-        this.notificationService.showMessageOnSnackbar(notifications.ENTRY_EDITION_CANCELED, 'Ok!', 3500, 'success-button');
+        this.notificationService.showMessageOnSnackbar(
+          notifications.ENTRY_EDITION_CANCELED,
+          'Ok!',
+          3500,
+          'success-button'
+        );
       }
-    })
+    });
   }
 
   drop(event: CdkDragDrop<any[]>) {
@@ -335,109 +471,20 @@ export class GenericTableComponent {
 
   setupFilteringByColumn(column: string) {
     this.tableDataSource.filterPredicate = (data: AbstractControl, filter) => {
-      const textToSearch = data.value[column].trim().toLowerCase() || ''
+      const textToSearch = data.value[column].trim().toLowerCase() || '';
       return textToSearch.includes(filter.trim().toLowerCase());
     };
   }
 
   // Function to Find selectedOptions assing by the user
   applyFilterOption() {
-    if (this.selectedFilters.length > 0) {
-      const filterPredicates = [];
-      const today = new Date();
-
-      this.selectedFilters.forEach(filterOptions => {
-        const filterPredicate = (data: any) => {
-          let value = data.getRawValue()[filterOptions.dataKey];
-
-          if (filterOptions.type === 'dropdownFields') {
-            const targetDropdown = filterOptions.dropdown.find(dropdownValues => dropdownValues.id === value);
-            if (targetDropdown) {
-              value = targetDropdown[filterOptions.dropdownKeyToShow].toLowerCase();
-            }
-
-            switch (filterOptions.condition) {
-              case 'is':
-                return value === filterOptions.filterInput.toLowerCase();
-              case 'is not':
-                return value !== filterOptions.filterInput.toLowerCase();
-              default:
-                return false;
-            }
-          } else if (filterOptions.type === 'editableTextFields') {
-            value = value.toString().toLowerCase();
-
-            switch (filterOptions.condition) {
-              case 'is':
-                return value === filterOptions.filterInput.toLowerCase();
-              case 'is not':
-                return value !== filterOptions.filterInput.toLowerCase();
-              case 'contains':
-                return value.includes(filterOptions.filterInput.toLowerCase());
-              default:
-                return false;
-            }
-          } else if (filterOptions.type == 'datePicker') {
-            const itemDate = new Date(value);
-            const selectedDate = new Date(filterOptions.filterInput);
-
-            switch (filterOptions.condition) {
-              case 'today':
-                return itemDate.getDate() === today.getDate();
-              case 'yesterday':
-                const yesterday = new Date();
-                yesterday.setDate(today.getDate() - 1);
-                return itemDate.getDate() === yesterday.getDate();
-              case 'this week':
-                const week = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
-                return itemDate >= week && itemDate <= today;
-              case 'last week':
-                const thisWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
-                const lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 14);
-                return itemDate >= lastWeek && itemDate <= thisWeek;
-              case 'this month':
-                const month = today.getMonth();
-                return itemDate.getMonth() === month;
-              case 'last month':
-                const lastMonth = today.getMonth() -1;
-                return itemDate.getMonth() === lastMonth;
-              case 'this year':
-                const year = today.getFullYear();
-                return itemDate.getFullYear() === year;
-              case 'last year':
-                const lastYear = today.getFullYear() - 1;
-                return itemDate.getFullYear() === lastYear;
-              case 'is':
-                return itemDate.getTime() === selectedDate.getTime();
-              case 'more or equals':
-                return itemDate >= selectedDate;
-              case 'minor or equals':
-                return itemDate <= selectedDate;
-              case 'between':
-                return itemDate >= filterOptions.startDate && itemDate <= filterOptions.endDate;
-              default:
-                return false;
-            }
-          }
-        };
-        filterPredicates.push(filterPredicate);
-      });
-      const compositeFilterPredicate = (data: any) => {
-        return filterPredicates.every(predicate => predicate(data));
-      };
-      this.tableDataSource.filterPredicate = compositeFilterPredicate;
-      this.tableDataSource.filter = 'applyFilters';
-    } else {
-      this.tableDataSource.filterPredicate = null;
-      this.tableDataSource.filter = '';
-      this.notificationService.showMessageOnSnackbar(notifications.FILTER_NOT_CREATED, 'Ok!', 3500, 'success-button');
-    }
+    this.filtered.emit(this.selectedFilters);
   }
 
   // Function to add all selected filters to an array
   addFilter() {
     if (this.selectedOption && this.selectedOptionCondition) {
-      const filterOptions = {
+      const filterOptions: Filter = {
         dataKey: this.selectedOption.dataKey,
         name: this.selectedOption.name,
         type: this.selectedOption.type,
@@ -448,18 +495,30 @@ export class GenericTableComponent {
         startDate: this.startDate,
         endDate: this.endDate,
       };
-      const existingFilterIndex = this.selectedFilters.findIndex(filter => filter.dataKey === filterOptions.dataKey);
+      const existingFilterIndex = this.selectedFilters.findIndex(
+        (filter) => filter.dataKey === filterOptions.dataKey
+      );
 
       if (existingFilterIndex === -1) {
         this.selectedFilters.push(filterOptions);
       } else {
-        this.notificationService.showMessageOnSnackbar(notifications.FILTER_ALLREADY_ADDED, 'Ok!', 3500, 'success-button');
+        this.notificationService.showMessageOnSnackbar(
+          notifications.FILTER_ALLREADY_ADDED,
+          'Ok!',
+          3500,
+          'success-button'
+        );
       }
       this.selectedOptionCondition = null;
       this.filterInput = null;
       this.selectedOption = null;
     } else {
-      this.notificationService.showMessageOnSnackbar(notifications.FILTER_NOT_SELECTED, 'Ok!', 3500, 'success-button');
+      this.notificationService.showMessageOnSnackbar(
+        notifications.FILTER_NOT_SELECTED,
+        'Ok!',
+        3500,
+        'success-button'
+      );
     }
   }
 
@@ -469,26 +528,27 @@ export class GenericTableComponent {
     this.filterInput = null;
     this.selectedOption = null;
     this.selectedFilters = [];
+    this.applyFilterOption();
     this.setTableDataSource();
   }
 
   removeFilter(filterToRemove: any) {
-    const existingFilterIndex = this.selectedFilters.findIndex(filter => filter.dataKey === filterToRemove.dataKey);
+    const existingFilterIndex = this.selectedFilters.findIndex(
+      (filter) => filter.dataKey === filterToRemove.dataKey
+    );
 
     if (existingFilterIndex !== -1) {
       this.selectedFilters.splice(existingFilterIndex, 1);
     }
+    this.applyFilterOption();
   }
 
   sortTable(sortParameters: Sort) {
     // defining name of data property, to sort by, instead of column name
-    sortParameters.active = this.tableColumns.find(column => column.name === sortParameters.active).dataKey;
+    sortParameters.active = this.tableColumns.find(
+      (column) => column.name === sortParameters.active
+    ).dataKey;
     this.sort.emit(sortParameters);
-  }
-
-  openMaps(direccion : string){
-    const url = `https://www.google.com/maps?q=${direccion}`;
-    window.open(url, '_blank');
   }
 
   getDropdownValue(dropdownItem: any): string {
@@ -503,6 +563,33 @@ export class GenericTableComponent {
     }
     return '';
   }
+
+  getDropdownKeyValue(dropdownItem: any): string {
+    if (dropdownItem.hasOwnProperty('id')) {
+      return dropdownItem.id.toString();
+    }
+    return '';
+  }
+
+  openMaps(direccion: string) {
+    const url = `https://www.google.com/maps?q=${direccion}`;
+    window.open(url, '_blank');
+  }
+
+  getValueToShow(column: Column, key: string): string {
+    switch (column.type) {
+      case ContentType.dropdownFields:
+        const dropdown = column.dropdown.find((element) => element.id === key);
+        return dropdown ? dropdown[column.dropdownKeyToShow] : null;
+      case ContentType.radioButtons:
+        const radioButton = column.radioButtons.find(
+          (element) => element.value === key
+        );
+        return radioButton ? radioButton.shown : null;
+      case ContentType.datePicker:
+        return new Date(key).toLocaleString('en-GB', { timeZone: 'UTC' });
+      default:
+        return key;
+    }
+  }
 }
-
-

@@ -11,6 +11,7 @@ namespace LNDP_API.Models {
         public string? CommunicationEmail {get ; set ; }
         public  string? Phone {get ; set ; }
         public Crew? Crew { get; set; }
+        public int? CrewId { get; set; }
         public SocialNetwork? SocialNetwork { get; set; }
         public User? User { get; set; }
         public ICollection<Event>? Events {get; set;} 

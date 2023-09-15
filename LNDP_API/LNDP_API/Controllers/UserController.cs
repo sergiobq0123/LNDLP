@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LNDP_API.Data;
 using LNDP_API.Models;
+using System.Linq.Expressions;
+using TTTAPI.Utils;
 
 namespace LNDP_API.Controllers
 {
@@ -37,6 +39,17 @@ namespace LNDP_API.Controllers
             }
 
             return user;
+        }
+        [HttpPost("filter")]
+        public async Task<ActionResult<IEnumerable<User>>> GetFilteredUser([FromBody] List<Filter> filters)
+        {
+            if (_context.User == null)
+            {
+                return NotFound();
+            }
+
+            Expression<Func<User, bool>> predicate = FilterUtils.GetPredicate<User>(filters);
+            return await _context.User.Where(predicate.And(p=> p.IsActive)).ToListAsync();
         }
 
         // Use Auth

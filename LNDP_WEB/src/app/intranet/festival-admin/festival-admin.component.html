@@ -17,6 +17,7 @@
     [isPageable]="true"
     [apiFailing]="apiFailing"
     [isSortable]="true"
+    (filtered)="filterData($event)"
     (sort)="sortData($event)"
     [hasActions]="false"
     (rowAdded)="newRowAdded = $event"

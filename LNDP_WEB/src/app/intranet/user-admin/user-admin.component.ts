@@ -12,6 +12,7 @@ import { GenericTableComponent } from '../generic-table/generic-table.component'
 import { Validators } from '@angular/forms';
 import { notifications } from 'src/app/common/notifications';
 import { GenericFormDialogComponent } from '../generic-form-dialog/generic-form-dialog.component';
+import { Filter } from '../generic-table/Filter';
 
 @Component({
   selector: 'app-user-admin',
@@ -60,11 +61,16 @@ export class UserAdminComponent {
     });
   }
 
+  filterData(filters : Filter[]){
+    this.userService.getFiltered(filters).subscribe(res =>{
+      this.users = res
+    })
+  }
 
   setColumns(): void {
     this.usersColumns = [
       {
-        name: 'id',
+        name: '_id',
         dataKey: 'id',
         hidden: true
       },
@@ -99,7 +105,7 @@ export class UserAdminComponent {
   setUserForm() {
     this.usersForm = [
       {
-        name: 'Id',
+        name: '_id',
         dataKey: 'id',
         hidden: true,
       },

@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 import { Urls } from '../common/urls';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Filter } from '../intranet/generic-table/Filter';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,11 @@ export class ServiceBaseService {
   protected get getUrl(){
      return this.urlBase + this.controllerName;
   }
+
+  postImage(body: FormData): Observable<any>
+   {
+      return this.http.post('https://localhost:7032/api/Artist', body)
+   }
 
   constructor(private http: HttpClient, @Inject(String) url: string) {
     this.controllerName = url;
@@ -54,4 +60,17 @@ export class ServiceBaseService {
     return this.http.delete(`${this.getUrl}/${id}`)
   }
 
+  public getFiltered(filters: Filter[]):Observable<any> {
+    let params : any [] = filters.map( f => {
+      return {
+        dataKey: f.dataKey,
+        type : f.type,
+        condition: f.condition,
+        filterInput: f.filterInput,
+        startDate : f.startDate,
+        endDate: f.endDate
+      }
+    })
+    return this.http.post(this.getUrl + "/filter", params)
+  }
 }

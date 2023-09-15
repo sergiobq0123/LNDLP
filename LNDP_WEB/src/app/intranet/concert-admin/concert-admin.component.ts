@@ -9,6 +9,7 @@ import { GenericTableComponent } from '../generic-table/generic-table.component'
 import { notifications } from 'src/app/common/notifications';
 import { Validators } from '@angular/forms';
 import { GenericFormDialogComponent } from '../generic-form-dialog/generic-form-dialog.component';
+import { Filter } from '../generic-table/Filter';
 
 @Component({
   selector: 'app-concert-admin',
@@ -56,6 +57,11 @@ export class ConcertAdminComponent {
   setColumns(): void {
     this.conciertosColumns = [
       {
+        name: '_Id',
+        dataKey: 'id',
+        hidden: true
+      },
+      {
         name: 'Nombre',
         dataKey: 'name',
         position: 'left',
@@ -94,6 +100,12 @@ export class ConcertAdminComponent {
         type: ContentType.editableTextFields,
       }
     ];
+  }
+
+  filterData(filters : Filter[]){
+    this.concertService.getFiltered(filters).subscribe(res =>{
+      this.conciertos = res
+    })
   }
 
   sortData(sortParameters: Sort) {

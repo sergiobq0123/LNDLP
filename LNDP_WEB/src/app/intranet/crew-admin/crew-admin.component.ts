@@ -11,6 +11,7 @@ import { NotificationService } from 'src/app/services/notification.service';
 import { GenericFormDialogComponent } from '../generic-form-dialog/generic-form-dialog.component';
 import { GenericTableComponent } from '../generic-table/generic-table.component';
 import { CrewService } from 'src/app/services/intranet/crew.service';
+import { Filter } from '../generic-table/Filter';
 
 @Component({
   selector: 'app-crew-admin',
@@ -62,6 +63,12 @@ export class CrewAdminComponent {
     });
   }
 
+  filterData(filters : Filter[]){
+    this.crewService.getFiltered(filters).subscribe(res =>{
+      this.crew = res
+    })
+  }
+
   getArtist() {
     this.artistService.get().subscribe((res) => {
       console.log(res);
@@ -75,6 +82,8 @@ export class CrewAdminComponent {
 
   getCrew() {
     this.crewService.get().subscribe((res) => {
+      console.log(res);
+
       let crew = new Array();
       res.forEach((val) => {
         crew.push(val);
@@ -88,13 +97,13 @@ export class CrewAdminComponent {
   setColumns(): void {
     this.crewColumns = [
       {
-        name: 'id',
+        name: '_id',
         dataKey: 'id',
         hidden: true,
       },
       {
         name: 'Artista',
-        dataKey: 'artistId',
+        dataKey: 'artist.name',
         position: 'left',
         isEditable: true,
         hidden: false,

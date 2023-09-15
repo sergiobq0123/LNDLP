@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ContentType } from '../generic-form-dialog/generic-content';
 import { Sort } from '@angular/material/sort';
 import { FestivalService } from 'src/app/services/intranet/festival.service';
+import { Filter } from '../generic-table/Filter';
 
 
 @Component({
@@ -47,8 +48,19 @@ export class FestivalAdminComponent {
     })
   }
 
+  filterData(filters : Filter[]){
+    this.festivalService.getFiltered(filters).subscribe(res =>{
+      this.festivales = res
+    })
+  }
+
   setColumns(): void {
     this.festivalColumns = [
+      {
+        name: '_id',
+        dataKey: 'id',
+        hidden: true
+      },
       {
         name: 'Nombre',
         dataKey: 'name',

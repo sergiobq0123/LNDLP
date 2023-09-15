@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using LNDP_API.Data;
 using LNDP_API.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Linq.Expressions;
+using TTTAPI.Utils;
 
 namespace LNDP_API.Controllers
 {   
@@ -37,6 +39,8 @@ namespace LNDP_API.Controllers
             return SocialNetwork;
         }
 
+        
+
         [HttpPost]
         public async Task<ActionResult<SocialNetwork>> PostSocialNetwork(SocialNetwork SocialNetwork)
         {
@@ -65,6 +69,18 @@ namespace LNDP_API.Controllers
             }
 
             return NoContent();
+        }
+
+        [HttpPost("filter")]
+        public async Task<ActionResult<IEnumerable<SocialNetwork>>> GetFilteredSN([FromBody] List<Filter> filters)
+        {
+            if (_context.SocialNetwork == null)
+            {
+                return NotFound();
+            }
+
+            Expression<Func<SocialNetwork, bool>> predicate = FilterUtils.GetPredicate<SocialNetwork>(filters);
+            return await _context.SocialNetwork.Where(predicate.And(p=> p.IsActive)).ToListAsync();
         }
 
         [HttpDelete("{id}")]

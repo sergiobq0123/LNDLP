@@ -39,6 +39,7 @@ export class GenericFormDialogComponent {
       reader.onload = () => {
         this.imagenSeleccionada = reader.result as string;
       };
+
     }
   }
 
@@ -72,8 +73,8 @@ export class GenericFormDialogComponent {
 
   onSave() {
     let data = {}
-    Object.keys(this.VOForm.controls).forEach(key => {
-      data[key] = this.VOForm.get(key).value;
+    Object.keys(this.VOForm.controls).forEach((key) => {
+        data[key] = this.VOForm.get(key).value;
     });
     this.dialogRef.close(data);
   }

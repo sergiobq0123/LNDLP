@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using LNDP_API.Data;
 using LNDP_API.Models;
 using Microsoft.AspNetCore.Authorization;
+using TTTAPI.Utils;
+using System.Linq.Expressions;
 
 namespace LNDP_API.Controllers
 {   
@@ -47,6 +49,18 @@ namespace LNDP_API.Controllers
             _context.Event.Add(Event);
             await _context.SaveChangesAsync();
             return CreatedAtAction("GetEvent", new { id = Event.Id }, Event);
+        }
+
+        [HttpPost("filter")]
+        public async Task<ActionResult<IEnumerable<Event>>> GetFilteredEvent([FromBody] List<Filter> filters)
+        {
+            if (_context.Event == null)
+            {
+                return NotFound();
+            }
+
+            Expression<Func<Event, bool>> predicate = FilterUtils.GetPredicate<Event>(filters);
+            return await _context.Event.Where(predicate.And(p=> p.IsActive)).ToListAsync();
         }
 
         [HttpPut("{id}")]

@@ -17,6 +17,7 @@ namespace LNDP_API.Data
         public DbSet<LNDP_API.Models.Event> Event {get ; set ; }
         public DbSet<LNDP_API.Models.EventType> EventType {get ; set ; }
         public DbSet<LNDP_API.Models.UserRole> UserRole {get ; set ; }
+        public object Artists { get; internal set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {   

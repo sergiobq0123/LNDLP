@@ -1,0 +1,11 @@
+
+
+<form>
+  <ng-container *ngFor="let key of getProperties(dataForm)">
+    <div class="form-group">
+      <label>{{ key }}</label>
+      <input class="form-control" [(ngModel)]="dataForm[key]" name="{{key}}">
+    </div>
+  </ng-container>
+  <button type="submit">Guardar</button>
+</form>

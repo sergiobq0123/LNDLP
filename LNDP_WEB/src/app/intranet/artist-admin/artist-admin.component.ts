@@ -10,6 +10,8 @@ import { GenericFormDialogComponent } from '../generic-form-dialog/generic-form-
 import { notifications } from 'src/app/common/notifications';
 import { MatTableDataSource } from '@angular/material/table';
 import { GenericTableComponent } from '../generic-table/generic-table.component';
+import { Filter } from '../generic-table/Filter';
+import { ArtistCrewComponent } from '../artist-crew/artist-crew.component';
 
 
 @Component({
@@ -31,7 +33,7 @@ export class ArtistAdminComponent {
   spinner: boolean = false;
 
   @ViewChild(GenericTableComponent) table: GenericTableComponent;
-  @ViewChild('socialNetworkTemplate') socialNetworkTemplate : TemplateRef<any>
+  @ViewChild('crewTemplate') crewTemplate : TemplateRef<any>
 
   constructor(
     private artistService: ArtistService,
@@ -46,6 +48,8 @@ export class ArtistAdminComponent {
 
   getArtist() {
     this.artistService.get().subscribe((res) => {
+      console.log(res);
+
       let artists = new Array();
       res.forEach(val => {
         artists.push(val)
@@ -59,7 +63,7 @@ export class ArtistAdminComponent {
   setColumns(): void {
     this.artistColumns = [
       {
-        name: 'id',
+        name: '_id',
         dataKey: 'id',
         hidden: true
       },
@@ -111,7 +115,17 @@ export class ArtistAdminComponent {
         position: 'left',
         isSortable: false,
         isEditable: true,
-        type: ContentType.editableTextFields,
+        type: ContentType.image,
+      }
+      ,
+      {
+        name: 'Crew',
+        dataKey: 'crew',
+        position: 'left',
+        isSortable: false,
+        isEditable: true,
+        type: ContentType.specialContent,
+        template : this.crewTemplate
       }
     ];
   }
@@ -176,6 +190,8 @@ export class ArtistAdminComponent {
     }
     const dialogRef = this.dialog.open(GenericFormDialogComponent, {data: dialogData, minWidth : 600});
     dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+
       if(result !== undefined && result !== null && result !== ''){
         console.log(result);
         this.createElement(result)
@@ -221,6 +237,12 @@ export class ArtistAdminComponent {
     )
   }
 
+  filterData(filters : Filter[]){
+    this.artistService.getFiltered(filters).subscribe(res =>{
+      this.artists = res
+    })
+  }
+
   createElement(event: any) {
     event.id = 0;
     this.artistService.create(event).subscribe(res => {
@@ -232,6 +254,12 @@ export class ArtistAdminComponent {
       this.apiFailing = true;
     }
     )
+  }
+
+  showCrewArtistDialog(artistaId: number, artistaName: string, crewData: any) {
+    const dialogRef = this.dialog.open(ArtistCrewComponent, {
+      data: { artistaId, artistaName, crewData } // Pasar los datos al modal
+    });
   }
 
 

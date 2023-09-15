@@ -10,6 +10,7 @@ import { GenericFormDialogComponent } from '../generic-form-dialog/generic-form-
 import { Sort } from '@angular/material/sort';
 import { notifications } from 'src/app/common/notifications';
 import { EventTypeService } from 'src/app/services/intranet/event-type.service';
+import { Filter } from '../generic-table/Filter';
 
 @Component({
   selector: 'app-event-admin',
@@ -66,11 +67,16 @@ export class EventAdminComponent {
       this.loaded = true;
     });
   }
+  filterData(filters : Filter[]){
+    this.eventsService.getFiltered(filters).subscribe(res =>{
+      this.eventos = res
+    })
+  }
 
   setColumns(): void {
     this.eventsColumns = [
       {
-        name: 'id',
+        name: '_id',
         dataKey: 'id',
         hidden: true
       },

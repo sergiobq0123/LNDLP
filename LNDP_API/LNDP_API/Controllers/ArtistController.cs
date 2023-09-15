@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using LNDP_API.Data;
 using LNDP_API.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Linq.Expressions;
+using TTTAPI.Utils;
 
 namespace LNDP_API.Controllers
 {   
@@ -24,7 +26,9 @@ namespace LNDP_API.Controllers
                 return NotFound();
             }
             return await _context.Artist
-            .Where(u => u.IsActive).ToListAsync();
+            .Where(u => u.IsActive)
+            .Include(u => u.Crew)
+            .ToListAsync();
         }
 
         [HttpGet("withoutSocialNetWork")]
@@ -50,6 +54,18 @@ namespace LNDP_API.Controllers
             .ToListAsync();
         }
 
+        [HttpPost("filter")]
+        public async Task<ActionResult<IEnumerable<Artist>>> GetFilteredArtist([FromBody] List<Filter> filters)
+        {
+            if (_context.Artist == null)
+            {
+                return NotFound();
+            }
+
+            Expression<Func<Artist, bool>> predicate = FilterUtils.GetPredicate<Artist>(filters);
+            return await _context.Artist.Where(predicate.And(p=> p.IsActive)).ToListAsync();
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<Artist>> GetArtist(int id)
         {         
@@ -61,8 +77,11 @@ namespace LNDP_API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Artist>> PostArtist(Artist Artist)
+        public async Task<ActionResult<Artist>> PostArtist([FromBody]Artist Artist)
         {
+            if(Artist.Photo.Length == 0){
+                Console.WriteLine("-----------------------------------------------------------------");
+            }
             _context.Artist.Add(Artist);
             await _context.SaveChangesAsync();
             return CreatedAtAction("GetArtist", new { id = Artist.Id }, Artist);
