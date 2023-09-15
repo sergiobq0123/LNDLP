@@ -1,11 +1,19 @@
-
-
-<form>
-  <ng-container *ngFor="let key of getProperties(dataForm)">
-    <div class="form-group">
-      <label>{{ key }}</label>
-      <input class="form-control" [(ngModel)]="dataForm[key]" name="{{key}}">
+<div class="dialog-container" cdkDropListGroup>
+  <div class="project-user-container">
+    <h1>{{ dataName }}</h1>
+    <div mat-dialog-content>
+      <div
+        *ngFor="let key of getProperties(dataForm)"
+        class="project-role-container"
+      >
+        <div *ngIf="key !== 'id' ">
+          <h2 class="role-title">{{ key }}</h2>
+          <p class="p-input">{{ dataForm[key] }}</p>
+        </div>
+      </div>
     </div>
-  </ng-container>
-  <button type="submit">Guardar</button>
-</form>
+  </div>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Close</button>
+</div>

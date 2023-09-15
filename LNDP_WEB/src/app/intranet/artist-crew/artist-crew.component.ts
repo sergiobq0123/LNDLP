@@ -8,16 +8,15 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class ArtistCrewComponent {
   dataForm : any
+  dataName : any
   constructor(@Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {
     if (this.data && this.data.crewData) {
       this.dataForm = this.data.crewData;
+      this.dataName = this.data.artistaName;
       console.log(this.dataForm);
     }
-    console.log(this.getProperties(this.dataForm));
-    console.log(this.dataForm['artistId']);
-
   }
 
   getProperties(obj: any): string[] {
