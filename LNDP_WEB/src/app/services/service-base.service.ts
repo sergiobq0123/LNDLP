@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 import { Urls } from '../common/urls';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Filter } from '../intranet/generic-table/Filter';
 
 @Injectable({
   providedIn: 'root'
@@ -33,12 +34,16 @@ export class ServiceBaseService {
     }
   }
 
-  // public getToSpecificURL(url?: string): Observable<any>{
-  //   return this.http.get(url)
-  // }
-
   public getWithParams(url: string, params: HttpParams): Observable<any>{
     return this.http.post(url, {params});
+  }
+
+  public getToSpecificURL(url?: string):Observable<any>{
+    return this.http.get(url);
+  }
+
+  public postSpecificUrl(url: string, data :any):Observable<any>{
+    return this.http.post(url, data);
   }
 
   public create(data: any): Observable<any>{
@@ -54,4 +59,18 @@ export class ServiceBaseService {
     return this.http.delete(`${this.getUrl}/${id}`)
   }
 
+
+  public getFiltered(filters: Filter[]):Observable<any> {
+    let params : any [] = filters.map( f => {
+      return {
+        dataKey: f.dataKey,
+        type : f.type,
+        condition: f.condition,
+        filterInput: f.filterInput,
+        startDate : f.startDate,
+        endDate: f.endDate
+      }
+    })
+    return this.http.post(this.getUrl + "/filter", params)
+  }
 }

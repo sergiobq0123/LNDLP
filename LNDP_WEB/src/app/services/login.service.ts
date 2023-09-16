@@ -12,23 +12,26 @@ export class LoginService extends ServiceBaseService{
   loginChangedEvent = new Subject()
 
   constructor(private LocalStorageService: LocalStorageService, http: HttpClient) {
-    super(http, Urls.LOGIN)
+    super(http, Urls.AUTH)
   }
 
   login(email: string, password: string): Observable<any>{
-    return this.checkCredentials(email, password);
-  }
-
-  checkCredentials(email: string, password: string){
-    let queryParams = new HttpParams();
-    queryParams = queryParams.append("email", email)
-    queryParams = queryParams.append("password", password)
-
     const data = {
       email: email,
       password: password
     };
 
+    return this.post(this.getUrl + "/Login", data);
+  }
+
+  registrer(email: string, password : string, username : string, userRoleId : number){
+
+    const data = {
+      email: email,
+      password: password,
+      username : username,
+      userRoleId: userRoleId
+    };
     return this.post(this.getUrl, data);
   }
 

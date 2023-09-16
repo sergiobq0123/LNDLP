@@ -9,5 +9,7 @@ namespace LNDP_API.Models{
         public UserRole? UserRole { get; set; }
         public byte[]? PasswordHash {get; set; }
         public byte[]? PasswordSalt {get; set; }
+        public int? ArtistId {get; set;}
+        public Artist? Artist {get; set;}
     }
 }

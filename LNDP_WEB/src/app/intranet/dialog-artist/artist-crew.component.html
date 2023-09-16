@@ -1,0 +1,29 @@
+<div class="dialog-container">
+  <div class="project-user-container">
+    <h1>{{ dataName }}</h1>
+    <ng-container *ngIf="dataForm ; else elseTemplate">
+      <div mat-dialog-content>
+        <div
+          *ngFor="let key of getProperties(dataForm)"
+          class="project-role-container"
+        >
+          <div *ngIf="key !== 'id'  && key !== 'artistId'">
+            <h2 class="role-title">{{ key }}</h2>
+            <p class="p-input">{{ dataForm[key] }}</p>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <ng-template #elseTemplate>
+      <!-- Contenido a mostrar cuando mostrarElemento sea falso -->
+      <mat-card>
+        <mat-card-content>
+          No se ha añadido relaciones para este artista
+        </mat-card-content>
+      </mat-card>
+    </ng-template>
+  </div>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close class="mat-dialog-close">Close</button>
+</div>

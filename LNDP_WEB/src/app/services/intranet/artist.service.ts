@@ -12,4 +12,22 @@ export class ArtistService extends ServiceBaseService {
     super(http, Urls.ARTIST);
    }
 
+   getArtistWithoutSN(){
+    return this.getToSpecificURL(this.getUrl + "/withoutSocialNetWork")
+   }
+   getArtistWithoutC(){
+    return this.getToSpecificURL(this.getUrl + "/withoutCrew")
+   }
+
+   postImageArtist(inputFile: any, id : number){
+    const formData = new FormData();
+    console.log(inputFile);
+
+    if(inputFile === null){
+      formData.append('image', null)
+    }else{
+      formData.append('image', inputFile);
+    }
+    return this.postSpecificUrl(this.getUrl + Urls.IMAGE + `/${id}`, formData)
+   }
 }

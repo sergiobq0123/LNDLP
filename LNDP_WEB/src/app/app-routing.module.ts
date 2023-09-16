@@ -4,12 +4,12 @@ import { HomeComponent } from './components/home/home.component';
 import { AuthGuard } from './guards/auth.guard';
 import { LoginComponent } from './components/login/login.component';
 import { LoginGuard } from './guards/login.guard';
-import { GenericSidenavComponent } from './components/generic-sidenav/generic-sidenav.component';
-import { ArtistAdminComponent } from './components/Intranet/artist-admin/artist-admin.component';
-import { FestivalAdminComponent } from './components/Intranet/festival-admin/festival-admin.component';
-import { ConcertAdminComponent } from './components/Intranet/concert-admin/concert-admin.component';
-import { SocialNetwokAdminComponent } from './components/Intranet/social-netwok-admin/social-netwok-admin.component';
-import { UserAdminComponent } from './components/Intranet/user-admin/user-admin.component';
+import { GenericSidenavComponent } from './intranet/generic-sidenav/generic-sidenav.component';
+import { ArtistAdminComponent } from './intranet/artist-admin/artist-admin.component';
+import { FestivalAdminComponent } from './intranet/festival-admin/festival-admin.component';
+import { ConcertAdminComponent } from './intranet/concert-admin/concert-admin.component';
+import { SocialNetwokAdminComponent } from './intranet/social-netwok-admin/social-netwok-admin.component';
+import { UserAdminComponent } from './intranet/user-admin/user-admin.component';
 
 const routes: Routes = [
   {
@@ -21,30 +21,8 @@ const routes: Routes = [
     component : LoginComponent,
   },
   {
-    path : 'Intranet',
-    component : GenericSidenavComponent,
-    children :[
-      {
-        path : 'Artist',
-        component : ArtistAdminComponent,
-      },
-      {
-        path : 'Festival',
-        component : FestivalAdminComponent,
-      },
-      {
-        path : 'Concert',
-        component : ConcertAdminComponent,
-      },
-      {
-        path : 'SocialNetwork',
-        component : SocialNetwokAdminComponent,
-      },
-      {
-        path : 'User',
-        component : UserAdminComponent,
-      },
-    ]
+      path: 'Intranet',
+    loadChildren: () => import('./intranet/intranet.module').then(m => m.IntranetModule)
   },
   {
     path : '**',

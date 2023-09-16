@@ -1,0 +1,40 @@
+<app-generic-window
+  [contentTemplate]="contentTemplate"
+  [windowTitle]="'Artistas'"
+></app-generic-window>
+
+<ng-template #contentTemplate>
+
+
+  <div class="artist-container">
+    <mat-card *ngFor="let artist of artists" class="artist-card">
+      <mat-card-title>{{ artist.name }}</mat-card-title>
+      <div class="image-container">
+        <img *ngIf="artist.photo" [src]="artist.photo" alt="Imagen de {{ artist.name }}" class="artist-image">
+        <div class="upload-button-container">
+          <input type="file" accept="image/*" (change)="onImageUpload($event, artist)" #fileInput style="display: none;">
+          <button mat-icon-button class="upload-button" *ngIf="!artist.photo" (click)="fileInput.click()">
+            <mat-icon>cloud_upload</mat-icon>
+          </button>
+        </div>
+      </div>
+      <mat-card-content>
+        <div class="button-container">
+          <ng-container *ngIf="artist.photo;">
+            <input type="file" accept="image/*" (change)="onImageUpload($event, artist)" #fileInputEdit style="display: none;">
+            <button mat-icon-button class="edit-button" (click)="fileInputEdit.click()">
+              <mat-icon class="icon-edit">edit</mat-icon>
+            </button>
+            <button mat-icon-button class="delete-button" (click)="onImageUpload($event, artist)">
+              <mat-icon class="icon-delete">delete</mat-icon>
+            </button>
+          </ng-container>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+
+
+
+</ng-template>

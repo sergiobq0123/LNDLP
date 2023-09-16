@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using LNDP_API.Data;
 using LNDP_API.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Linq.Expressions;
+using TTTAPI.Utils;
 
 namespace LNDP_API.Controllers
 {   
@@ -27,6 +29,18 @@ namespace LNDP_API.Controllers
 
         }
 
+        [HttpPost("filter")]
+        public async Task<ActionResult<IEnumerable<Crew>>> GetFilteredCrew([FromBody] List<Filter> filters)
+        {
+            if (_context.Crew == null)
+            {
+                return NotFound();
+            }
+
+            Expression<Func<Crew, bool>> predicate = FilterUtils.GetPredicate<Crew>(filters);
+            return await _context.Crew.Where(predicate.And(p=> p.IsActive)).ToListAsync();
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<Crew>> GetCrew(int id)
         {         
@@ -40,6 +54,10 @@ namespace LNDP_API.Controllers
         [HttpPost]
         public async Task<ActionResult<Crew>> PostCrew(Crew Crew)
         {
+            var artist = await _context.Artist.FindAsync(Crew.ArtistId);
+            if(artist != null){
+                artist.Crew = Crew; 
+            }
             _context.Crew.Add(Crew);
             await _context.SaveChangesAsync();
             return CreatedAtAction("GetCrew", new { id = Crew.Id }, Crew);
@@ -80,7 +98,7 @@ namespace LNDP_API.Controllers
             _context.Crew.Remove(Crew);
             await _context.SaveChangesAsync();
 
-            return Ok("Crew borrada con éxito");
+            return Ok();
         }
 
         private bool CrewExists(int id){

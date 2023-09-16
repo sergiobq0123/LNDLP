@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using LNDP_API.Data;
 using LNDP_API.Models;
 using Microsoft.AspNetCore.Authorization;
+using TTTAPI.Utils;
+using System.Linq.Expressions;
 
 namespace LNDP_API.Controllers
 {   
@@ -30,22 +32,35 @@ namespace LNDP_API.Controllers
             .ToListAsync();
         }
         
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Event>> GetEvent(int id)
-        {         
-            var Event = await _context.Event.FindAsync(id);
-            if(Event == null){
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Event>>> GetEvent()
+        {
+            if(_context.Event == null){
                 return NotFound();
             }
-            return Event;
+            return await _context.Event.Where(u => u.IsActive).ToListAsync();
+
         }
 
         [HttpPost]
         public async Task<ActionResult<Event>> PostEvent(Event Event)
         {
+            Event.UrlLocation = Event.Location;
             _context.Event.Add(Event);
             await _context.SaveChangesAsync();
             return CreatedAtAction("GetEvent", new { id = Event.Id }, Event);
+        }
+
+        [HttpPost("filter")]
+        public async Task<ActionResult<IEnumerable<Event>>> GetFilteredEvent([FromBody] List<Filter> filters)
+        {
+            if (_context.Event == null)
+            {
+                return NotFound();
+            }
+
+            Expression<Func<Event, bool>> predicate = FilterUtils.GetPredicate<Event>(filters);
+            return await _context.Event.Where(predicate.And(p=> p.IsActive)).ToListAsync();
         }
 
         [HttpPut("{id}")]
@@ -83,7 +98,7 @@ namespace LNDP_API.Controllers
             _context.Event.Remove(Event);
             await _context.SaveChangesAsync();
 
-            return Ok("Evento borrado con éxito");
+            return NoContent();
         }
 
         private bool EventExists(int id){

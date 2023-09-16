@@ -8,18 +8,10 @@ import { LoginComponent } from './components/login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material/material/material.module';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { GenericSidenavComponent } from './components/generic-sidenav/generic-sidenav.component';
-import { GenericWindowComponent } from './components/generic-window/generic-window.component';
-import { ArtistAdminComponent } from './components/Intranet/artist-admin/artist-admin.component';
-import { GenericTableComponent } from './components/generic-table/generic-table.component';
-import { GenericFormDialogComponent } from './components/generic-form-dialog/generic-form-dialog.component';
-import { DeleteWindowComponent } from './components/delete-window/delete-window.component';
-import { FestivalAdminComponent } from './components/Intranet/festival-admin/festival-admin.component';
-import { ConcertAdminComponent } from './components/Intranet/concert-admin/concert-admin.component';
-import { SocialNetwokAdminComponent } from './components/Intranet/social-netwok-admin/social-netwok-admin.component';
-import { UserAdminComponent } from './components/Intranet/user-admin/user-admin.component';
+import { ServiceBaseService } from './services/service-base.service';
+import { HttpInterceptorService } from './services/http-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -27,16 +19,6 @@ import { UserAdminComponent } from './components/Intranet/user-admin/user-admin.
     HomeComponent,
     LoginComponent,
     NavbarComponent,
-    GenericSidenavComponent,
-    GenericWindowComponent,
-    ArtistAdminComponent,
-    GenericTableComponent,
-    GenericFormDialogComponent,
-    DeleteWindowComponent,
-    FestivalAdminComponent,
-    ConcertAdminComponent,
-    SocialNetwokAdminComponent,
-    UserAdminComponent,
   ],
   imports: [
     BrowserModule,
@@ -47,7 +29,7 @@ import { UserAdminComponent } from './components/Intranet/user-admin/user-admin.
     FormsModule,
     ReactiveFormsModule,
   ],
-  providers: [],
+  providers: [ServiceBaseService, {provide : HTTP_INTERCEPTORS, useClass : HttpInterceptorService, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,0 +1,66 @@
+.main-wrapper {
+  height: 80%;
+  min-height: 300px;
+  display: flex;
+  align-items: flex-start;
+  padding-top: 30px;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  width: 100%;
+  height: fit-content;
+  margin-top: 30px;
+  padding: 30px;
+}
+
+.logo-wrapper {
+  display: flex;
+  height: 100px;
+  min-height: fit-content;
+}
+
+.logo {
+  margin: auto;
+  max-width: 150px;
+  min-width: 100px;
+}
+
+.separator {
+  margin: auto;
+  display: flex;
+  border-bottom: 3px solid rgb(245, 50, 50);
+  animation: 0.75s ease-in-out grow;
+  width: 45%;
+}
+
+@keyframes grow {
+  0% {
+      border-bottom: 3px solid rgb(200, 200, 200);
+      width: 0%;
+  }
+
+  100% {
+      border-bottom: 3px solid rgb(245, 40, 40);
+      width: 45%;
+  }
+}
+
+.text-wrapper {
+  display: flex;
+  width: 100%;
+  margin-bottom: 20px;
+  min-height: fit-content;
+}
+
+.text {
+  margin: auto;
+  color: white;
+  font-size: 4rem;
+  font-weight: 100;
+  text-align: center;
+  line-height: normal;
+}

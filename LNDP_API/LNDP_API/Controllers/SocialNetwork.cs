@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using LNDP_API.Data;
 using LNDP_API.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Linq.Expressions;
+using TTTAPI.Utils;
 
 namespace LNDP_API.Controllers
 {   
@@ -37,9 +39,15 @@ namespace LNDP_API.Controllers
             return SocialNetwork;
         }
 
+        
+
         [HttpPost]
         public async Task<ActionResult<SocialNetwork>> PostSocialNetwork(SocialNetwork SocialNetwork)
         {
+            var artist = await _context.Artist.FindAsync(SocialNetwork.ArtistId);
+            if(artist != null){
+                artist.SocialNetwork = SocialNetwork; 
+            }
             _context.SocialNetwork.Add(SocialNetwork);
             await _context.SaveChangesAsync();
             return CreatedAtAction("GetSocialNetwork", new { id = SocialNetwork.Id }, SocialNetwork);
@@ -67,6 +75,18 @@ namespace LNDP_API.Controllers
             return NoContent();
         }
 
+        [HttpPost("filter")]
+        public async Task<ActionResult<IEnumerable<SocialNetwork>>> GetFilteredSN([FromBody] List<Filter> filters)
+        {
+            if (_context.SocialNetwork == null)
+            {
+                return NotFound();
+            }
+
+            Expression<Func<SocialNetwork, bool>> predicate = FilterUtils.GetPredicate<SocialNetwork>(filters);
+            return await _context.SocialNetwork.Where(predicate.And(p=> p.IsActive)).ToListAsync();
+        }
+
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteSocialNetwork(int id)
         {
@@ -80,7 +100,7 @@ namespace LNDP_API.Controllers
             _context.SocialNetwork.Remove(SocialNetwork);
             await _context.SaveChangesAsync();
 
-            return Ok("SocialNetwork borrado con éxito");
+            return NoContent();
         }
 
         private bool SocialNetworkExists(int id){

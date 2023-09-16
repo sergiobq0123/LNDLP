@@ -1,0 +1,186 @@
+<mat-sidenav-container autosize>
+  <mat-sidenav #sidenav mode="side" [opened]="visible">
+    <mat-nav-list [ngStyle]="{ width: opened ? '200px' : '70px' }">
+      <mat-list-item
+        (click)="opened = !opened"
+        matTooltip="Menu"
+        matTooltipPosition="right"
+        matTooltipShowDelay="500"
+        [matTooltipDisabled]="opened"
+      >
+        <mat-grid-list cols="4" rowHeight="100">
+          <mat-grid-tile [colspan]="opened ? 3 : 0">
+            <img
+              *ngIf="opened"
+              src="../../../assets/logo-pagina-inicio-blanco.png"
+              alt="LNDPLogo"
+              width="150px;"
+              [routerLink]="''"
+              matTooltip="Home"
+              matTooltipPosition="right"
+              matTooltipShowDelay="500"
+            />
+          </mat-grid-tile>
+          <mat-grid-tile [colspan]="opened ? 1 : 4">
+            <mat-icon [ngClass]="{ rotated: opened }" class="menu-button"
+              >menu
+            </mat-icon>
+          </mat-grid-tile>
+        </mat-grid-list>
+      </mat-list-item>
+
+      <mat-list-item
+        [routerLink]="'Home'"
+        routerLinkActive="highlighted"
+        matTooltip="FirstView"
+        matTooltipPosition="right"
+        matTooltipShowDelay="500"
+        [matTooltipDisabled]="opened"
+      >
+        <mat-icon mat-list-icon class="menu-button"
+          >supervisor_account</mat-icon
+        >
+        <span *ngIf="opened" class="menu-item" class="menu-button"
+          >FirstView</span
+        >
+      </mat-list-item>
+
+      <mat-list-item
+        [routerLink]="'Concert'"
+        routerLinkActive="highlighted"
+        matTooltip="Conciertos"
+        matTooltipPosition="right"
+        matTooltipShowDelay="500"
+        [matTooltipDisabled]="opened"
+      >
+        <mat-icon mat-list-icon class="menu-button">music_note</mat-icon>
+        <span *ngIf="opened" class="menu-item" class="menu-button"
+          >Conciertos</span
+        >
+      </mat-list-item>
+
+      <mat-list-item
+        [routerLink]="'Festival'"
+        routerLinkActive="highlighted"
+        matTooltip="Festivales"
+        matTooltipPosition="right"
+        matTooltipShowDelay="500"
+        [matTooltipDisabled]="opened"
+      >
+        <mat-icon mat-list-icon class="menu-button">library_music</mat-icon>
+        <span *ngIf="opened" class="menu-item" class="menu-button"
+          >Festivales</span
+        >
+      </mat-list-item>
+
+      <mat-list-item
+        [routerLink]="'Event'"
+        routerLinkActive="highlighted"
+        matTooltip="Eventos"
+        matTooltipPosition="right"
+        matTooltipShowDelay="500"
+        [matTooltipDisabled]="opened"
+      >
+        <mat-icon mat-list-icon class="menu-button">dashboard</mat-icon>
+        <span *ngIf="opened" class="menu-item" class="menu-button"
+          >Eventos</span
+        >
+      </mat-list-item>
+
+      <mat-list-item
+        [routerLink]="'Artist'"
+        routerLinkActive="highlighted"
+        matTooltip="Artist"
+        matTooltipPosition="right"
+        matTooltipShowDelay="500"
+        [matTooltipDisabled]="opened"
+      >
+        <mat-icon mat-list-icon class="menu-button">person_pin</mat-icon>
+        <span *ngIf="opened" class="menu-item" class="menu-button">Artist</span>
+      </mat-list-item>
+
+      <mat-list-item
+        [routerLink]="'SocialNetwork'"
+        routerLinkActive="highlighted"
+        matTooltip="Redes Sociales"
+        matTooltipPosition="right"
+        matTooltipShowDelay="500"
+        [matTooltipDisabled]="opened"
+      >
+        <mat-icon mat-list-icon class="menu-button">alternate_email</mat-icon>
+        <span *ngIf="opened" class="menu-item" class="menu-button">Redes Sociales</span>
+      </mat-list-item>
+
+      <mat-list-item
+        [routerLink]="'User'"
+        routerLinkActive="highlighted"
+        matTooltip="Usuarios"
+        matTooltipPosition="right"
+        matTooltipShowDelay="500"
+        [matTooltipDisabled]="opened"
+      >
+        <mat-icon mat-list-icon class="menu-button"> settings</mat-icon>
+        <span *ngIf="opened" class="menu-item" class="menu-button">Usuarios</span>
+      </mat-list-item>
+
+      <mat-list-item
+        [routerLink]="'Crew'"
+        routerLinkActive="highlighted"
+        matTooltip="Crew"
+        matTooltipPosition="right"
+        matTooltipShowDelay="500"
+        [matTooltipDisabled]="opened"
+      >
+        <mat-icon mat-list-icon class="menu-button"> local_gas_station</mat-icon>
+        <span *ngIf="opened" class="menu-item" class="menu-button">Crew</span>
+      </mat-list-item>
+      <mat-list-item
+        [routerLink]="'Imagenes artistas'"
+        routerLinkActive="highlighted"
+        matTooltip="Imagenes de artistas"
+        matTooltipPosition="right"
+        matTooltipShowDelay="500"
+        [matTooltipDisabled]="opened"
+      >
+        <mat-icon mat-list-icon class="menu-button">image</mat-icon>
+        <span *ngIf="opened" class="menu-item" class="menu-button">Imagen artistas</span>
+      </mat-list-item>
+
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="black">
+      <mat-toolbar-row>
+        <span class="flexExpand"></span>
+        <button
+          mat-icon-button
+          #toolbar_button
+          [matMenuTriggerFor]="menu"
+          matTooltip="Session"
+          matTooltipPosition="left"
+          matTooltipShowDelay="500"
+          [matTooltipDisabled]="opened"
+        >
+          <mat-icon>person</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button
+            mat-menu-item
+            [routerLink]="'Profile'"
+            matTooltip="Profile"
+            matTooltipPosition="right"
+            matTooltipShowDelay="500"
+          >
+            <mat-icon>account_box</mat-icon>
+            <span>My profile</span>
+          </button>
+          <button mat-menu-item [routerLink]="['/Home']" (click)="logout()">
+            <mat-icon>highlight_off</mat-icon>
+            <span>Logout</span>
+          </button>
+        </mat-menu>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <router-outlet style="padding: 80px"></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
