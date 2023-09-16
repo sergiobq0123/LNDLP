@@ -22,7 +22,8 @@ import { HomeAdminComponent } from './home-admin/home-admin.component';
 import { EventAdminComponent } from './event-admin/event-admin.component';
 import { CrewAdminComponent } from './crew-admin/crew-admin.component';
 import { DialogImagenAdminComponent } from './dialog-imagen-admin/dialog-imagen-admin.component';
-import { ArtistCrewComponent } from './artist-crew/artist-crew.component';
+import { ArtistCrewComponent } from './dialog-artist/artist-crew.component';
+import { ArtistImageComponent } from './artist-image/artist-image.component';
 
 
 @NgModule({
@@ -42,6 +43,7 @@ import { ArtistCrewComponent } from './artist-crew/artist-crew.component';
     CrewAdminComponent,
     DialogImagenAdminComponent,
     ArtistCrewComponent,
+    ArtistImageComponent,
   ],
   imports: [
     IntranetRoutingModule,

@@ -1,0 +1,52 @@
+.artist-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px; /* Espacio entre las tarjetas de artistas */
+}
+
+.artist-card {
+  width: 200px; /* Ancho fijo de cada tarjeta de artista */
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+.image-container {
+  position: relative;
+  height: 150px; /* Altura fija de la imagen */
+  overflow: hidden;
+}
+
+.artist-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.upload-button, .edit-button, .delete-button {
+  margin-top: 10px;
+  display: block;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+}
+
+.mat-icon {
+  font-size: 24px; /* Tamaño de los iconos */
+}
+
+.upload-button {
+  font-size: 20px; /* Tamaño del botón de subir imagen */
+  margin: 10px auto; /* Centrar el botón horizontalmente */
+}
+
+
+.edit-button{
+  color: #3f51b5
+}
+
+.delete-button{
+  color : #f44336
+}

@@ -3,7 +3,6 @@ using LNDP_API.Models;
 namespace LNDP_API.Models {
     public class SocialNetwork : ModelBase{
         public int? ArtistId {get; set; }
-        public Artist? Artist {get; set; }
         public string? Instagram {get; set;}
         public string? Youtube {get; set;}
         public string? Spotify {get; set;}

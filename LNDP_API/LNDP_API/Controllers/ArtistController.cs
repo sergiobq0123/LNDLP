@@ -28,6 +28,7 @@ namespace LNDP_API.Controllers
             return await _context.Artist
             .Where(u => u.IsActive)
             .Include(u => u.Crew)
+            .Include(u => u.SocialNetwork)
             .ToListAsync();
         }
 
@@ -77,14 +78,37 @@ namespace LNDP_API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Artist>> PostArtist([FromBody]Artist Artist)
+        public async Task<ActionResult<Artist>> PostArtist(Artist Artist)
         {
-            if(Artist.Photo.Length == 0){
-                Console.WriteLine("-----------------------------------------------------------------");
-            }
+
             _context.Artist.Add(Artist);
             await _context.SaveChangesAsync();
             return CreatedAtAction("GetArtist", new { id = Artist.Id }, Artist);
+        }
+
+        [HttpPost("postImage"+"/{id}")]
+        public async Task<ActionResult<string>> PostArtistImage(int id,[FromForm] IFormFile image)
+        {
+            Console.WriteLine("-------");
+            var artist = await _context.Artist.FindAsync(id);
+            if(artist == null){
+                return NotFound();
+            }
+            if (image != null && image.Length > 0)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await image.CopyToAsync(memoryStream);
+                    artist.Photo = memoryStream.ToArray();
+                }
+                await _context.SaveChangesAsync();
+
+                return Ok("Imagen cargada y asignada al artista con éxito.");
+            }
+            else
+            {
+                return BadRequest("No se proporcionó una imagen válida.");
+            }
         }
 
         [HttpPut("{id}")]
@@ -95,7 +119,7 @@ namespace LNDP_API.Controllers
             }
             _context.Entry(Artist).State = EntityState.Modified;
             try {
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync(); 
             }
             catch(DbUpdateConcurrencyException){
                 if(!ArtistExists(id)){

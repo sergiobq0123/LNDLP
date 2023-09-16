@@ -11,7 +11,7 @@ import { notifications } from 'src/app/common/notifications';
 import { MatTableDataSource } from '@angular/material/table';
 import { GenericTableComponent } from '../generic-table/generic-table.component';
 import { Filter } from '../generic-table/Filter';
-import { ArtistCrewComponent } from '../artist-crew/artist-crew.component';
+import { ArtistCrewComponent } from '../dialog-artist/artist-crew.component';
 
 
 @Component({
@@ -34,6 +34,7 @@ export class ArtistAdminComponent {
 
   @ViewChild(GenericTableComponent) table: GenericTableComponent;
   @ViewChild('crewTemplate') crewTemplate : TemplateRef<any>
+  @ViewChild('socialNetworkTemplate') socialNetworkTemplate : TemplateRef<any>
 
   constructor(
     private artistService: ArtistService,
@@ -107,17 +108,7 @@ export class ArtistAdminComponent {
         isSortable: false,
         isEditable: true,
         type: ContentType.editableTextFields,
-      }
-      ,
-      {
-        name: 'Foto',
-        dataKey: 'photo',
-        position: 'left',
-        isSortable: false,
-        isEditable: true,
-        type: ContentType.image,
-      }
-      ,
+      },
       {
         name: 'Crew',
         dataKey: 'crew',
@@ -126,6 +117,16 @@ export class ArtistAdminComponent {
         isEditable: true,
         type: ContentType.specialContent,
         template : this.crewTemplate
+      }
+      ,
+      {
+        name: 'RRSS',
+        dataKey: 'socialNetwork',
+        position: 'left',
+        isSortable: false,
+        isEditable: true,
+        type: ContentType.specialContent,
+        template : this.socialNetworkTemplate
       }
     ];
   }
@@ -171,12 +172,6 @@ export class ArtistAdminComponent {
         position: {row: 3, col : 1, rowSpan: 1, colSpan: 1},
         type : ContentType.editableTextFields,
         validators: [Validators.required]
-      },
-      {
-        name: 'Foto',
-        dataKey: 'photo',
-        position: {row: 3, col : 1, rowSpan: 1, colSpan: 1},
-        type: ContentType.image,
       }
     ]
   }
@@ -256,9 +251,9 @@ export class ArtistAdminComponent {
     )
   }
 
-  showCrewArtistDialog(artistaId: number, artistaName: string, crewData: any) {
-    const dialogRef = this.dialog.open(ArtistCrewComponent, {
-      data: { artistaId, artistaName, crewData } // Pasar los datos al modal
+  showDialog(artistaId: number, artistaName: string, crewData: any) {
+    this.dialog.open(ArtistCrewComponent, {
+      data: { artistaId, artistaName, crewData }
     });
   }
 

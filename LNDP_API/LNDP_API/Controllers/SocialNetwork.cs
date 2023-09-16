@@ -44,6 +44,10 @@ namespace LNDP_API.Controllers
         [HttpPost]
         public async Task<ActionResult<SocialNetwork>> PostSocialNetwork(SocialNetwork SocialNetwork)
         {
+            var artist = await _context.Artist.FindAsync(SocialNetwork.ArtistId);
+            if(artist != null){
+                artist.SocialNetwork = SocialNetwork; 
+            }
             _context.SocialNetwork.Add(SocialNetwork);
             await _context.SaveChangesAsync();
             return CreatedAtAction("GetSocialNetwork", new { id = SocialNetwork.Id }, SocialNetwork);

@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace LNDP_API.Migrations
 {
     /// <inheritdoc />
-    public partial class initialMigration : Migration
+    public partial class firstMigration2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -85,7 +85,7 @@ namespace LNDP_API.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    ArtistId = table.Column<int>(type: "integer", nullable: false),
+                    ArtistId = table.Column<int>(type: "integer", nullable: true),
                     Dj = table.Column<string>(type: "text", nullable: true),
                     RoadManager = table.Column<string>(type: "text", nullable: true),
                     SoundTechnician = table.Column<string>(type: "text", nullable: true),
@@ -100,8 +100,7 @@ namespace LNDP_API.Migrations
                         name: "FK_Crew_Artist_ArtistId",
                         column: x => x.ArtistId,
                         principalTable: "Artist",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -196,8 +195,8 @@ namespace LNDP_API.Migrations
                 columns: new[] { "Id", "CreationDate", "EventName", "IsActive" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2023, 9, 15, 15, 51, 38, 271, DateTimeKind.Utc).AddTicks(6968), "Festival", true },
-                    { 2, new DateTime(2023, 9, 15, 15, 51, 38, 271, DateTimeKind.Utc).AddTicks(6970), "Concierto", true }
+                    { 1, new DateTime(2023, 9, 16, 10, 50, 53, 439, DateTimeKind.Utc).AddTicks(5328), "Festival", true },
+                    { 2, new DateTime(2023, 9, 16, 10, 50, 53, 439, DateTimeKind.Utc).AddTicks(5330), "Concierto", true }
                 });
 
             migrationBuilder.InsertData(
@@ -205,8 +204,8 @@ namespace LNDP_API.Migrations
                 columns: new[] { "Id", "CreationDate", "IsActive", "Role" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2023, 9, 15, 15, 51, 38, 271, DateTimeKind.Utc).AddTicks(7061), true, "Admin" },
-                    { 2, new DateTime(2023, 9, 15, 15, 51, 38, 271, DateTimeKind.Utc).AddTicks(7062), true, "Crew" }
+                    { 1, new DateTime(2023, 9, 16, 10, 50, 53, 439, DateTimeKind.Utc).AddTicks(5428), true, "Admin" },
+                    { 2, new DateTime(2023, 9, 16, 10, 50, 53, 439, DateTimeKind.Utc).AddTicks(5429), true, "Crew" }
                 });
 
             migrationBuilder.CreateIndex(

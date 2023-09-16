@@ -36,7 +36,14 @@
 
 <ng-template #crewTemplate let-rowData="rowData">
   <button mat-icon-button malToolTipe="Ver la crew" matTooltipShowDelay="1000" aria-label="Ver la crew"
-    (click)="showCrewArtistDialog(rowData.id, rowData.name, rowData.crew)">
+    (click)="showDialog(rowData.id, rowData.name, rowData.crew)">
+    <mat-icon>supervisor_account</mat-icon>
+  </button>
+</ng-template>
+
+<ng-template #socialNetworkTemplate let-rowData="rowData">
+  <button mat-icon-button malToolTipe="Ver la crew" matTooltipShowDelay="1000" aria-label="Ver la crew"
+    (click)="showDialog(rowData.id, rowData.name, rowData.socialNetwork)">
     <mat-icon>supervisor_account</mat-icon>
   </button>
 </ng-template>

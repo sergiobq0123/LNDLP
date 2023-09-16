@@ -39,12 +39,6 @@ namespace LNDP_API.Migrations
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int?>("CrewId")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("CrewId1")
-                        .HasColumnType("integer");
-
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
@@ -61,8 +55,6 @@ namespace LNDP_API.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CrewId1");
 
                     b.ToTable("Artist");
                 });
@@ -97,6 +89,9 @@ namespace LNDP_API.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ArtistId")
+                        .IsUnique();
 
                     b.ToTable("Crew");
                 });
@@ -195,14 +190,14 @@ namespace LNDP_API.Migrations
                         new
                         {
                             Id = 1,
-                            CreationDate = new DateTime(2023, 9, 15, 18, 9, 43, 683, DateTimeKind.Utc).AddTicks(7515),
+                            CreationDate = new DateTime(2023, 9, 16, 10, 50, 53, 439, DateTimeKind.Utc).AddTicks(5328),
                             EventName = "Festival",
                             IsActive = true
                         },
                         new
                         {
                             Id = 2,
-                            CreationDate = new DateTime(2023, 9, 15, 18, 9, 43, 683, DateTimeKind.Utc).AddTicks(7522),
+                            CreationDate = new DateTime(2023, 9, 16, 10, 50, 53, 439, DateTimeKind.Utc).AddTicks(5330),
                             EventName = "Concierto",
                             IsActive = true
                         });
@@ -315,26 +310,24 @@ namespace LNDP_API.Migrations
                         new
                         {
                             Id = 1,
-                            CreationDate = new DateTime(2023, 9, 15, 18, 9, 43, 683, DateTimeKind.Utc).AddTicks(7716),
+                            CreationDate = new DateTime(2023, 9, 16, 10, 50, 53, 439, DateTimeKind.Utc).AddTicks(5428),
                             IsActive = true,
                             Role = "Admin"
                         },
                         new
                         {
                             Id = 2,
-                            CreationDate = new DateTime(2023, 9, 15, 18, 9, 43, 683, DateTimeKind.Utc).AddTicks(7717),
+                            CreationDate = new DateTime(2023, 9, 16, 10, 50, 53, 439, DateTimeKind.Utc).AddTicks(5429),
                             IsActive = true,
                             Role = "Crew"
                         });
                 });
 
-            modelBuilder.Entity("LNDP_API.Models.Artist", b =>
+            modelBuilder.Entity("LNDP_API.Models.Crew", b =>
                 {
-                    b.HasOne("LNDP_API.Models.Crew", "Crew")
-                        .WithMany()
-                        .HasForeignKey("CrewId1");
-
-                    b.Navigation("Crew");
+                    b.HasOne("LNDP_API.Models.Artist", null)
+                        .WithOne("Crew")
+                        .HasForeignKey("LNDP_API.Models.Crew", "ArtistId");
                 });
 
             modelBuilder.Entity("LNDP_API.Models.Event", b =>
@@ -354,11 +347,9 @@ namespace LNDP_API.Migrations
 
             modelBuilder.Entity("LNDP_API.Models.SocialNetwork", b =>
                 {
-                    b.HasOne("LNDP_API.Models.Artist", "Artist")
+                    b.HasOne("LNDP_API.Models.Artist", null)
                         .WithOne("SocialNetwork")
                         .HasForeignKey("LNDP_API.Models.SocialNetwork", "ArtistId");
-
-                    b.Navigation("Artist");
                 });
 
             modelBuilder.Entity("LNDP_API.Models.User", b =>
@@ -378,6 +369,8 @@ namespace LNDP_API.Migrations
 
             modelBuilder.Entity("LNDP_API.Models.Artist", b =>
                 {
+                    b.Navigation("Crew");
+
                     b.Navigation("Events");
 
                     b.Navigation("SocialNetwork");

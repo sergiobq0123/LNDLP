@@ -16,11 +16,6 @@ export class ServiceBaseService {
      return this.urlBase + this.controllerName;
   }
 
-  postImage(body: FormData): Observable<any>
-   {
-      return this.http.post('https://localhost:7032/api/Artist', body)
-   }
-
   constructor(private http: HttpClient, @Inject(String) url: string) {
     this.controllerName = url;
   }
@@ -44,8 +39,13 @@ export class ServiceBaseService {
   }
 
   public getToSpecificURL(url?: string):Observable<any>{
-    return this.http.get(url)
+    return this.http.get(url);
   }
+
+  public postImage(url: string, data :any):Observable<any>{
+    return this.http.post(url, data);
+  }
+
 
   public create(data: any): Observable<any>{
     return this.http.post(this.getUrl, data)

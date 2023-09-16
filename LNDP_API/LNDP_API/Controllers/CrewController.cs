@@ -55,7 +55,9 @@ namespace LNDP_API.Controllers
         public async Task<ActionResult<Crew>> PostCrew(Crew Crew)
         {
             var artist = await _context.Artist.FindAsync(Crew.ArtistId);
-            artist.Crew = Crew;
+            if(artist != null){
+                artist.Crew = Crew; 
+            }
             _context.Crew.Add(Crew);
             await _context.SaveChangesAsync();
             return CreatedAtAction("GetCrew", new { id = Crew.Id }, Crew);

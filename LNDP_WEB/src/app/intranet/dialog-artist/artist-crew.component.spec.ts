@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ArtistCrewComponent } from './artist-crew.component.ts';
+import { ArtistCrewComponent } from './artist-crew.component.js';
 
 describe('ArtistCrewComponent', () => {
   let component: ArtistCrewComponent;

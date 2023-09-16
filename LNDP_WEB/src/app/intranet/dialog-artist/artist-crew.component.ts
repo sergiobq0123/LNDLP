@@ -12,11 +12,9 @@ export class ArtistCrewComponent {
   constructor(@Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {
-    if (this.data && this.data.crewData) {
       this.dataForm = this.data.crewData;
       this.dataName = this.data.artistaName;
-      console.log(this.dataForm);
-    }
+
   }
 
   getProperties(obj: any): string[] {

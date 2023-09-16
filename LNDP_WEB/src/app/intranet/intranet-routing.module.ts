@@ -9,6 +9,7 @@ import { UserAdminComponent } from './user-admin/user-admin.component';
 import { HomeAdminComponent } from './home-admin/home-admin.component';
 import { EventAdminComponent } from './event-admin/event-admin.component';
 import { CrewAdminComponent } from './crew-admin/crew-admin.component';
+import { ArtistImageComponent } from './artist-image/artist-image.component';
 
 const routes: Routes = [
   {path : '',
@@ -45,6 +46,10 @@ const routes: Routes = [
       {
         path : 'Crew',
         component : CrewAdminComponent,
+      },
+      {
+        path : 'Imagenes artistas',
+        component : ArtistImageComponent,
       },
     ]}
 ];

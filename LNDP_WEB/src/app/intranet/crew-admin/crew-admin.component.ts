@@ -103,7 +103,7 @@ export class CrewAdminComponent {
       },
       {
         name: 'Artista',
-        dataKey: 'artist.name',
+        dataKey: 'artistId',
         position: 'left',
         isEditable: true,
         hidden: false,

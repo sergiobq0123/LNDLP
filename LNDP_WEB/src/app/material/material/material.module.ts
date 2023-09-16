@@ -21,6 +21,7 @@ import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatDialogModule} from '@angular/material/dialog';
 import { MatNativeDateModule } from '@angular/material/core';
+import {MatCardModule} from '@angular/material/card';
 
 @NgModule({
   declarations: [],
@@ -46,7 +47,8 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatSortModule,
     MatPaginatorModule,
     MatDialogModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatCardModule
   ]
 })
 export class MaterialModule { }

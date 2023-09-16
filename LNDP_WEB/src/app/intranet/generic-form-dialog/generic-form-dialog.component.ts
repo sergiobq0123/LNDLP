@@ -28,21 +28,6 @@ export class GenericFormDialogComponent {
     }
     this.loaded = true;
   }
-  @ViewChild('inputImagen') inputImagen!: ElementRef<HTMLInputElement>;
-
-
-  cargarImagen(event: any) {
-    const file = event.target.files[0] as File;
-    if (file) {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        this.imagenSeleccionada = reader.result as string;
-      };
-
-    }
-  }
-
 
   getValidatorErrorMessage(errors) {
     return this.errorMessagesService.getErrorMessage(Object.keys(errors)[0]);

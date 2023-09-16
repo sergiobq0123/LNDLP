@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace LNDP_API.Migrations
 {
     [DbContext(typeof(APIContext))]
-    [Migration("20230915160325_fixArtistCrew")]
-    partial class fixArtistCrew
+    [Migration("20230916105053_firstMigration2")]
+    partial class firstMigration2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -70,7 +70,7 @@ namespace LNDP_API.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ArtistId")
+                    b.Property<int?>("ArtistId")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("CreationDate")
@@ -193,14 +193,14 @@ namespace LNDP_API.Migrations
                         new
                         {
                             Id = 1,
-                            CreationDate = new DateTime(2023, 9, 15, 16, 3, 24, 956, DateTimeKind.Utc).AddTicks(1195),
+                            CreationDate = new DateTime(2023, 9, 16, 10, 50, 53, 439, DateTimeKind.Utc).AddTicks(5328),
                             EventName = "Festival",
                             IsActive = true
                         },
                         new
                         {
                             Id = 2,
-                            CreationDate = new DateTime(2023, 9, 15, 16, 3, 24, 956, DateTimeKind.Utc).AddTicks(1196),
+                            CreationDate = new DateTime(2023, 9, 16, 10, 50, 53, 439, DateTimeKind.Utc).AddTicks(5330),
                             EventName = "Concierto",
                             IsActive = true
                         });
@@ -313,14 +313,14 @@ namespace LNDP_API.Migrations
                         new
                         {
                             Id = 1,
-                            CreationDate = new DateTime(2023, 9, 15, 16, 3, 24, 956, DateTimeKind.Utc).AddTicks(1304),
+                            CreationDate = new DateTime(2023, 9, 16, 10, 50, 53, 439, DateTimeKind.Utc).AddTicks(5428),
                             IsActive = true,
                             Role = "Admin"
                         },
                         new
                         {
                             Id = 2,
-                            CreationDate = new DateTime(2023, 9, 15, 16, 3, 24, 956, DateTimeKind.Utc).AddTicks(1305),
+                            CreationDate = new DateTime(2023, 9, 16, 10, 50, 53, 439, DateTimeKind.Utc).AddTicks(5429),
                             IsActive = true,
                             Role = "Crew"
                         });
@@ -328,13 +328,9 @@ namespace LNDP_API.Migrations
 
             modelBuilder.Entity("LNDP_API.Models.Crew", b =>
                 {
-                    b.HasOne("LNDP_API.Models.Artist", "Artist")
+                    b.HasOne("LNDP_API.Models.Artist", null)
                         .WithOne("Crew")
-                        .HasForeignKey("LNDP_API.Models.Crew", "ArtistId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Artist");
+                        .HasForeignKey("LNDP_API.Models.Crew", "ArtistId");
                 });
 
             modelBuilder.Entity("LNDP_API.Models.Event", b =>
@@ -354,11 +350,9 @@ namespace LNDP_API.Migrations
 
             modelBuilder.Entity("LNDP_API.Models.SocialNetwork", b =>
                 {
-                    b.HasOne("LNDP_API.Models.Artist", "Artist")
+                    b.HasOne("LNDP_API.Models.Artist", null)
                         .WithOne("SocialNetwork")
                         .HasForeignKey("LNDP_API.Models.SocialNetwork", "ArtistId");
-
-                    b.Navigation("Artist");
                 });
 
             modelBuilder.Entity("LNDP_API.Models.User", b =>

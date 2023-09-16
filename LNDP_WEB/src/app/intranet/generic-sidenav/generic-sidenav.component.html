@@ -134,6 +134,17 @@
         <mat-icon mat-list-icon class="menu-button"> local_gas_station</mat-icon>
         <span *ngIf="opened" class="menu-item" class="menu-button">Crew</span>
       </mat-list-item>
+      <mat-list-item
+        [routerLink]="'Imagenes artistas'"
+        routerLinkActive="highlighted"
+        matTooltip="Imagenes de artistas"
+        matTooltipPosition="right"
+        matTooltipShowDelay="500"
+        [matTooltipDisabled]="opened"
+      >
+        <mat-icon mat-list-icon class="menu-button">image</mat-icon>
+        <span *ngIf="opened" class="menu-item" class="menu-button">Imagen artistas</span>
+      </mat-list-item>
 
     </mat-nav-list>
   </mat-sidenav>

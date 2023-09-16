@@ -10,7 +10,6 @@ export enum ContentType {
     datePicker = 'datePicker',
     specialContent = 'specialContent',
     buttonMap = 'buttonMap',
-    image = 'image'
 }
 
 export interface PositionInGrid {
