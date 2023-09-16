@@ -69,6 +69,11 @@ export class ArtistAdminComponent {
         hidden: true
       },
       {
+        name: '_photo',
+        dataKey: 'photo',
+        hidden: true
+      },
+      {
         name: 'name',
         dataKey: 'name',
         position: 'left',

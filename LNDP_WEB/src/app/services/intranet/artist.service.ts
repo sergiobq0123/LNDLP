@@ -21,7 +21,13 @@ export class ArtistService extends ServiceBaseService {
 
    postImageArtist(inputFile: any, id : number){
     const formData = new FormData();
-    formData.append('image', inputFile)
-    return this.postImage(this.getUrl + Urls.IMAGE + `/${id}`, inputFile)
+    console.log(inputFile);
+
+    if(inputFile === null){
+      formData.append('image', null)
+    }else{
+      formData.append('image', inputFile);
+    }
+    return this.postSpecificUrl(this.getUrl + Urls.IMAGE + `/${id}`, formData)
    }
 }

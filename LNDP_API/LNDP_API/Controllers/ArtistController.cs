@@ -86,30 +86,38 @@ namespace LNDP_API.Controllers
             return CreatedAtAction("GetArtist", new { id = Artist.Id }, Artist);
         }
 
-        [HttpPost("postImage"+"/{id}")]
-        public async Task<ActionResult<string>> PostArtistImage(int id,[FromForm] IFormFile image)
+        [HttpPost("postImage/{id}")]
+        public async Task<ActionResult> PostArtistImage(int id, [FromForm] IFormFile? image)
         {
-            Console.WriteLine("-------");
             var artist = await _context.Artist.FindAsync(id);
-            if(artist == null){
+            if (artist == null)
+            {
                 return NotFound();
             }
             if (image != null && image.Length > 0)
             {
-                using (var memoryStream = new MemoryStream())
+                var assetsFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/assets");
+                if (!Directory.Exists(assetsFolderPath))
                 {
-                    await image.CopyToAsync(memoryStream);
-                    artist.Photo = memoryStream.ToArray();
+                    Directory.CreateDirectory(assetsFolderPath);
                 }
-                await _context.SaveChangesAsync();
-
-                return Ok("Imagen cargada y asignada al artista con éxito.");
+                var fileName = Path.GetFileName(image.FileName);
+                var filePath = Path.Combine(assetsFolderPath, fileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await image.CopyToAsync(fileStream);
+                }
+                artist.Photo = "https://localhost:7032/assets/" + image.FileName;  
             }
             else
             {
-                return BadRequest("No se proporcionó una imagen válida.");
+                artist.Photo = null;
             }
+            await _context.SaveChangesAsync();
+            return Ok();
         }
+
+        
 
         [HttpPut("{id}")]
         public async Task<ActionResult> PutArtist(int id, Artist Artist)

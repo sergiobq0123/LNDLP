@@ -6,7 +6,7 @@ namespace LNDP_API.Models {
     public class Artist : ModelBase {
         public string? Name {get ; set ; }
         public string? City {get ; set ; }
-        public byte[] ? Photo {get ; set ; }
+        public string ? Photo {get ; set ; }
         public string? RecruitmentEmail {get ; set ; }
         public string? CommunicationEmail {get ; set ; }
         public  string? Phone {get ; set ; }

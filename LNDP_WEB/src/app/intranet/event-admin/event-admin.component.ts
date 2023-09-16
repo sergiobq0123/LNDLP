@@ -58,6 +58,8 @@ export class EventAdminComponent {
 
   getEvents() {
     this.eventsService.get().subscribe((res) => {
+      console.log(res);
+
       let events = new Array();
       res.forEach(val => {
         events.push(val)

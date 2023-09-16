@@ -42,10 +42,9 @@ export class ServiceBaseService {
     return this.http.get(url);
   }
 
-  public postImage(url: string, data :any):Observable<any>{
+  public postSpecificUrl(url: string, data :any):Observable<any>{
     return this.http.post(url, data);
   }
-
 
   public create(data: any): Observable<any>{
     return this.http.post(this.getUrl, data)
@@ -59,6 +58,7 @@ export class ServiceBaseService {
   public delete(id: number): Observable<any>{
     return this.http.delete(`${this.getUrl}/${id}`)
   }
+
 
   public getFiltered(filters: Filter[]):Observable<any> {
     let params : any [] = filters.map( f => {

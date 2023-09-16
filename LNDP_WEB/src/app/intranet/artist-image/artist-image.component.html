@@ -7,27 +7,33 @@
 
 
   <div class="artist-container">
-    <div *ngFor="let artist of artists" class="artist-card">
-      <h2>{{ artist.name }}</h2>
+    <mat-card *ngFor="let artist of artists" class="artist-card">
+      <mat-card-title>{{ artist.name }}</mat-card-title>
       <div class="image-container">
-        <img *ngIf="artist.image" [src]="artist.image" alt="Imagen de {{ artist.name }}" class="artist-image">
+        <img *ngIf="artist.photo" [src]="artist.photo" alt="Imagen de {{ artist.name }}" class="artist-image">
         <div class="upload-button-container">
           <input type="file" accept="image/*" (change)="onImageUpload($event, artist)" #fileInput style="display: none;">
-          <button mat-icon-button class="upload-button" (click)="fileInput.click()">
+          <button mat-icon-button class="upload-button" *ngIf="!artist.photo" (click)="fileInput.click()">
             <mat-icon>cloud_upload</mat-icon>
           </button>
         </div>
       </div>
-      <div class="button-container">
-        <button *ngIf="artist.image" mat-icon-button class="edit-button">
-          <mat-icon>edit</mat-icon>
-        </button>
-        <button *ngIf="artist.image" mat-icon-button class="delete-button">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </div>
-    </div>
+      <mat-card-content>
+        <div class="button-container">
+          <ng-container *ngIf="artist.photo;">
+            <input type="file" accept="image/*" (change)="onImageUpload($event, artist)" #fileInputEdit style="display: none;">
+            <button mat-icon-button class="edit-button" (click)="fileInputEdit.click()">
+              <mat-icon class="icon-edit">edit</mat-icon>
+            </button>
+            <button mat-icon-button class="delete-button" (click)="onImageUpload($event, artist)">
+              <mat-icon class="icon-delete">delete</mat-icon>
+            </button>
+          </ng-container>
+        </div>
+      </mat-card-content>
+    </mat-card>
   </div>
+
 
 
 

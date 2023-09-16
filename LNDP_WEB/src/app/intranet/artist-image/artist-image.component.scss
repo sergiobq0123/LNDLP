@@ -1,20 +1,29 @@
 .artist-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px; /* Espacio entre las tarjetas de artistas */
+  gap: 30px; /* Separación más grande entre las tarjetas de artistas */
 }
 
 .artist-card {
-  width: 200px; /* Ancho fijo de cada tarjeta de artista */
-  border: 1px solid #ddd;
-  padding: 10px;
-  text-align: center;
+  width: 350px; /* Ancho fijo de cada tarjeta de artista */
+  margin-bottom: 30px; /* Separación más grande entre las tarjetas */
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.6); /* Sombra más pronunciada */
+  transition: transform 0.3s ease-in-out; /* Transición para la expansión */
+  background-color: black;
+  border-radius: 10%;
+}
+
+.artist-card:hover {
+  transform: scale(1.05); /* Escala un poco más grande en el hover */
 }
 
 .image-container {
   position: relative;
-  height: 150px; /* Altura fija de la imagen */
+  height: 250px; /* Altura fija de la imagen */
   overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Centrar verticalmente */
 }
 
 .artist-image {
@@ -24,29 +33,35 @@
 }
 
 .upload-button, .edit-button, .delete-button {
-  margin-top: 10px;
+  margin-top: 20px;
   display: block;
+  background-color: black; /* Fondo negro para los botones */
+  color: white; /* Texto blanco para los botones */
+ /* Espaciado en los botones */
+  border-radius: 5px; /* Bordes redondeados en los botones */
+}
+.icon-edit{
+  color: #3f51b5;
 }
 
+.icon-delete{
+  color: #f44336;
+}
 .button-container {
   display: flex;
   justify-content: center;
 }
 
 .mat-icon {
-  font-size: 24px; /* Tamaño de los iconos */
-}
-
-.upload-button {
-  font-size: 20px; /* Tamaño del botón de subir imagen */
-  margin: 10px auto; /* Centrar el botón horizontalmente */
+  font-size: 25px; /* Tamaño de los iconos */
 }
 
 
-.edit-button{
-  color: #3f51b5
-}
-
-.delete-button{
-  color : #f44336
+/* Estilo para el título */
+mat-card-title {
+  font-size: 24px; /* Tamaño más grande para el título */
+  text-align: center; /* Centrar el texto */
+  background-color: black; /* Fondo negro para el título */
+  color: white; /* Texto blanco para el título */
+  padding: 10px; /* Espaciado en el título */
 }
