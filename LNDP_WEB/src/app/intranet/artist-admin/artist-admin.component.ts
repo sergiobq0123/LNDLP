@@ -49,9 +49,7 @@ export class ArtistAdminComponent {
 
   getArtist() {
     this.artistService.get().subscribe((res) => {
-      console.log(res);
-
-      let artists = new Array();
+       let artists = new Array();
       res.forEach(val => {
         artists.push(val)
       });
@@ -74,62 +72,55 @@ export class ArtistAdminComponent {
         hidden: true
       },
       {
-        name: 'name',
+        name: 'Nombre',
         dataKey: 'name',
         position: 'left',
         isSortable: true,
-        isEditable: true,
         hidden: false,
         type: ContentType.editableTextFields
       },
       {
-        name: 'city',
+        name: 'Ciudad',
         dataKey: 'city',
         position: 'left',
         isSortable: false,
-        isEditable: true,
         type: ContentType.editableTextFields,
       },
       {
-        name: 'recruitmentEmail',
+        name: 'Email de contratación',
         dataKey: 'recruitmentEmail',
         position: 'left',
         isSortable: false,
-        isEditable: true,
         type: ContentType.editableTextFields,
       },
       {
-        name: 'communicationemail',
+        name: 'Email de comunicación',
         dataKey: 'communicationEmail',
         position: 'left',
         isSortable: false,
-        isEditable: true,
         type: ContentType.editableTextFields,
       },
       {
-        name: 'phone',
+        name: 'Teléfono',
         dataKey: 'phone',
         position: 'left',
         isSortable: false,
-        isEditable: true,
         type: ContentType.editableTextFields,
       },
       {
-        name: 'Crew',
+        name: 'Equipo',
         dataKey: 'crew',
         position: 'left',
         isSortable: false,
-        isEditable: true,
         type: ContentType.specialContent,
         template : this.crewTemplate
       }
       ,
       {
-        name: 'RRSS',
+        name: 'Redes',
         dataKey: 'socialNetwork',
         position: 'left',
         isSortable: false,
-        isEditable: true,
         type: ContentType.specialContent,
         template : this.socialNetworkTemplate
       }
@@ -256,12 +247,11 @@ export class ArtistAdminComponent {
     )
   }
 
-  showDialog(artistaId: number, artistaName: string, crewData: any) {
+  showDialog(artistaId: number, artistaName: string, dataShow: any) {
     this.dialog.open(ArtistCrewComponent, {
-      data: { artistaId, artistaName, crewData }
+      data: { artistaId, artistaName, dataShow }
     });
   }
-
 
   updatePageNumber(pageNum: number) {
     this.pageNumber = pageNum;

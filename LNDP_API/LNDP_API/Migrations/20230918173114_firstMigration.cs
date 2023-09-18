@@ -9,29 +9,25 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace LNDP_API.Migrations
 {
     /// <inheritdoc />
-    public partial class firstMigration2 : Migration
+    public partial class firstMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Artist",
+                name: "Crew",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: true),
-                    City = table.Column<string>(type: "text", nullable: true),
-                    Photo = table.Column<byte[]>(type: "bytea", nullable: true),
-                    RecruitmentEmail = table.Column<string>(type: "text", nullable: true),
-                    CommunicationEmail = table.Column<string>(type: "text", nullable: true),
-                    Phone = table.Column<string>(type: "text", nullable: true),
-                    CreationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    IsActive = table.Column<bool>(type: "boolean", nullable: false)
+                    Dj = table.Column<string>(type: "text", nullable: true),
+                    RoadManager = table.Column<string>(type: "text", nullable: true),
+                    SoundTechnician = table.Column<string>(type: "text", nullable: true),
+                    LightingTechnician = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Artist", x => x.Id);
+                    table.PrimaryKey("PK_Crew", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -65,6 +61,23 @@ namespace LNDP_API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "SocialNetwork",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Instagram = table.Column<string>(type: "text", nullable: true),
+                    Youtube = table.Column<string>(type: "text", nullable: true),
+                    Spotify = table.Column<string>(type: "text", nullable: true),
+                    TikTok = table.Column<string>(type: "text", nullable: true),
+                    Twitter = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SocialNetwork", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserRole",
                 columns: table => new
                 {
@@ -80,51 +93,64 @@ namespace LNDP_API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Crew",
+                name: "User",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    ArtistId = table.Column<int>(type: "integer", nullable: true),
-                    Dj = table.Column<string>(type: "text", nullable: true),
-                    RoadManager = table.Column<string>(type: "text", nullable: true),
-                    SoundTechnician = table.Column<string>(type: "text", nullable: true),
-                    LightingTechnician = table.Column<string>(type: "text", nullable: true),
+                    Username = table.Column<string>(type: "text", nullable: true),
+                    Email = table.Column<string>(type: "text", nullable: true),
+                    UserRoleId = table.Column<int>(type: "integer", nullable: true),
+                    PasswordHash = table.Column<byte[]>(type: "bytea", nullable: true),
+                    PasswordSalt = table.Column<byte[]>(type: "bytea", nullable: true),
                     CreationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Crew", x => x.Id);
+                    table.PrimaryKey("PK_User", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Crew_Artist_ArtistId",
-                        column: x => x.ArtistId,
-                        principalTable: "Artist",
+                        name: "FK_User_UserRole_UserRoleId",
+                        column: x => x.UserRoleId,
+                        principalTable: "UserRole",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "SocialNetwork",
+                name: "Artist",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    ArtistId = table.Column<int>(type: "integer", nullable: true),
-                    Instagram = table.Column<string>(type: "text", nullable: true),
-                    Youtube = table.Column<string>(type: "text", nullable: true),
-                    Spotify = table.Column<string>(type: "text", nullable: true),
-                    TikTok = table.Column<string>(type: "text", nullable: true),
-                    Twitter = table.Column<string>(type: "text", nullable: true),
+                    Name = table.Column<string>(type: "text", nullable: true),
+                    City = table.Column<string>(type: "text", nullable: true),
+                    Photo = table.Column<string>(type: "text", nullable: true),
+                    RecruitmentEmail = table.Column<string>(type: "text", nullable: true),
+                    CommunicationEmail = table.Column<string>(type: "text", nullable: true),
+                    Phone = table.Column<string>(type: "text", nullable: true),
+                    CrewId = table.Column<int>(type: "integer", nullable: true),
+                    SocialNetworkId = table.Column<int>(type: "integer", nullable: true),
+                    UserId = table.Column<int>(type: "integer", nullable: true),
                     CreationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SocialNetwork", x => x.Id);
+                    table.PrimaryKey("PK_Artist", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SocialNetwork_Artist_ArtistId",
-                        column: x => x.ArtistId,
-                        principalTable: "Artist",
+                        name: "FK_Artist_Crew_CrewId",
+                        column: x => x.CrewId,
+                        principalTable: "Crew",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Artist_SocialNetwork_SocialNetworkId",
+                        column: x => x.SocialNetworkId,
+                        principalTable: "SocialNetwork",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Artist_User_UserId",
+                        column: x => x.UserId,
+                        principalTable: "User",
                         principalColumn: "Id");
                 });
 
@@ -160,43 +186,13 @@ namespace LNDP_API.Migrations
                         principalColumn: "Id");
                 });
 
-            migrationBuilder.CreateTable(
-                name: "User",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Username = table.Column<string>(type: "text", nullable: true),
-                    Email = table.Column<string>(type: "text", nullable: true),
-                    UserRoleId = table.Column<int>(type: "integer", nullable: true),
-                    PasswordHash = table.Column<byte[]>(type: "bytea", nullable: true),
-                    PasswordSalt = table.Column<byte[]>(type: "bytea", nullable: true),
-                    ArtistId = table.Column<int>(type: "integer", nullable: true),
-                    CreationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    IsActive = table.Column<bool>(type: "boolean", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_User", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_User_Artist_ArtistId",
-                        column: x => x.ArtistId,
-                        principalTable: "Artist",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_User_UserRole_UserRoleId",
-                        column: x => x.UserRoleId,
-                        principalTable: "UserRole",
-                        principalColumn: "Id");
-                });
-
             migrationBuilder.InsertData(
                 table: "EventType",
                 columns: new[] { "Id", "CreationDate", "EventName", "IsActive" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2023, 9, 16, 10, 50, 53, 439, DateTimeKind.Utc).AddTicks(5328), "Festival", true },
-                    { 2, new DateTime(2023, 9, 16, 10, 50, 53, 439, DateTimeKind.Utc).AddTicks(5330), "Concierto", true }
+                    { 1, new DateTime(2023, 9, 18, 17, 31, 14, 514, DateTimeKind.Utc).AddTicks(1722), "Festival", true },
+                    { 2, new DateTime(2023, 9, 18, 17, 31, 14, 514, DateTimeKind.Utc).AddTicks(1723), "Concierto", true }
                 });
 
             migrationBuilder.InsertData(
@@ -204,14 +200,26 @@ namespace LNDP_API.Migrations
                 columns: new[] { "Id", "CreationDate", "IsActive", "Role" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2023, 9, 16, 10, 50, 53, 439, DateTimeKind.Utc).AddTicks(5428), true, "Admin" },
-                    { 2, new DateTime(2023, 9, 16, 10, 50, 53, 439, DateTimeKind.Utc).AddTicks(5429), true, "Crew" }
+                    { 1, new DateTime(2023, 9, 18, 17, 31, 14, 514, DateTimeKind.Utc).AddTicks(1811), true, "Admin" },
+                    { 2, new DateTime(2023, 9, 18, 17, 31, 14, 514, DateTimeKind.Utc).AddTicks(1812), true, "Crew" }
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Crew_ArtistId",
-                table: "Crew",
-                column: "ArtistId",
+                name: "IX_Artist_CrewId",
+                table: "Artist",
+                column: "CrewId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Artist_SocialNetworkId",
+                table: "Artist",
+                column: "SocialNetworkId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Artist_UserId",
+                table: "Artist",
+                column: "UserId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -225,18 +233,6 @@ namespace LNDP_API.Migrations
                 column: "EventTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SocialNetwork_ArtistId",
-                table: "SocialNetwork",
-                column: "ArtistId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_User_ArtistId",
-                table: "User",
-                column: "ArtistId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_User_UserRoleId",
                 table: "User",
                 column: "UserRoleId");
@@ -246,25 +242,25 @@ namespace LNDP_API.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Crew");
-
-            migrationBuilder.DropTable(
                 name: "Dosier");
 
             migrationBuilder.DropTable(
                 name: "Event");
 
             migrationBuilder.DropTable(
-                name: "SocialNetwork");
-
-            migrationBuilder.DropTable(
-                name: "User");
+                name: "Artist");
 
             migrationBuilder.DropTable(
                 name: "EventType");
 
             migrationBuilder.DropTable(
-                name: "Artist");
+                name: "Crew");
+
+            migrationBuilder.DropTable(
+                name: "SocialNetwork");
+
+            migrationBuilder.DropTable(
+                name: "User");
 
             migrationBuilder.DropTable(
                 name: "UserRole");

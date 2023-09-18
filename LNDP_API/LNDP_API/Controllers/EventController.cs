@@ -5,6 +5,7 @@ using LNDP_API.Models;
 using Microsoft.AspNetCore.Authorization;
 using TTTAPI.Utils;
 using System.Linq.Expressions;
+using LNDP_API.Services;
 
 namespace LNDP_API.Controllers
 {   
@@ -13,23 +14,35 @@ namespace LNDP_API.Controllers
     public class EventController : ControllerBase
     {
         private readonly APIContext _context;
+        private readonly ITokenService _tokenService;
 
-        public EventController(APIContext context)
+        public EventController(APIContext context, ITokenService tokenService)
         {
             _context = context;
+            _tokenService = tokenService;
         }
 
         [HttpGet("type/{tipo}")]
         public async Task<ActionResult<IEnumerable<Event>>> GetEvent(string tipo)
         {
             if(_context.Event == null){
-                return NotFound();
+                    return NotFound();
             }
-            return await _context.Event
-            .Include(Event => Event.EventType)
-            .Where(u => u.IsActive)
-            .Where(u => u.EventType.EventName == tipo)
-            .ToListAsync();
+            var token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", string.Empty);
+            var tipoUsuario = _tokenService.ObtenerTipoDeUsuarioDesdeToken(token);
+            switch (tipoUsuario)
+            {
+                case "Admin":
+                    return await GetEventsForAdmin(tipo);
+                case "Crew":
+                    return await GetEventsForCrew(tipo, token);
+                case "TokenInválido":
+                    return BadRequest("El token proporcionado no es válido");
+                case "UsuarioDesconocido":
+                    return BadRequest("El usuario no es conocido");
+                default:
+                    return await GetEventsForDefaultUser(tipo);
+            }
         }
         
         [HttpGet]
@@ -38,7 +51,11 @@ namespace LNDP_API.Controllers
             if(_context.Event == null){
                 return NotFound();
             }
-            return await _context.Event.Where(u => u.IsActive).ToListAsync();
+            return await _context.Event
+            .Where(u => u.IsActive)
+            .Include( e => e.EventType)
+            .Include( e => e.Artist)
+            .ToListAsync();
 
         }
 
@@ -51,8 +68,8 @@ namespace LNDP_API.Controllers
             return CreatedAtAction("GetEvent", new { id = Event.Id }, Event);
         }
 
-        [HttpPost("filter")]
-        public async Task<ActionResult<IEnumerable<Event>>> GetFilteredEvent([FromBody] List<Filter> filters)
+        [HttpPost("type/Festival/filter")]
+        public async Task<ActionResult<IEnumerable<Event>>> GetFilteredEventFestival([FromBody] List<Filter> filters)
         {
             if (_context.Event == null)
             {
@@ -60,7 +77,19 @@ namespace LNDP_API.Controllers
             }
 
             Expression<Func<Event, bool>> predicate = FilterUtils.GetPredicate<Event>(filters);
-            return await _context.Event.Where(predicate.And(p=> p.IsActive)).ToListAsync();
+            return await _context.Event.Where(predicate.And(p=> p.IsActive)).Where(p => p.EventType.EventName == "Festival").ToListAsync();
+        }
+
+        [HttpPost("type/Concierto/filter")]
+        public async Task<ActionResult<IEnumerable<Event>>> GetFilteredEventConcierto([FromBody] List<Filter> filters)
+        {
+            if (_context.Event == null)
+            {
+                return NotFound();
+            }
+
+            Expression<Func<Event, bool>> predicate = FilterUtils.GetPredicate<Event>(filters);
+            return await _context.Event.Where(predicate.And(p=> p.IsActive)).Where(p => p.EventType.EventName == "Concierto").ToListAsync();
         }
 
         [HttpPut("{id}")]
@@ -69,6 +98,7 @@ namespace LNDP_API.Controllers
             if(id != Event.Id){
                 return BadRequest();
             }
+            Event.UrlLocation = Event.Location;
             _context.Entry(Event).State = EntityState.Modified;
             try {
                 await _context.SaveChangesAsync();
@@ -103,6 +133,41 @@ namespace LNDP_API.Controllers
 
         private bool EventExists(int id){
             return (_context.Event?.Any(u => u.Id == id)).GetValueOrDefault();
+        }
+        private async Task<ActionResult<IEnumerable<Event>>> GetEventsForAdmin(string tipo)
+        {
+            return await _context.Event
+                .Include( e => e.EventType)
+                .Include( e => e.Artist)
+                .Where(u => u.IsActive)
+                .Where(u => u.EventType.EventName == tipo)
+                .ToListAsync();
+        }
+
+        private async Task<ActionResult<IEnumerable<Event>>> GetEventsForCrew(string tipo, string token)
+        {
+            var userId = _tokenService.ObtenerIdArtistaDesdeToken(token);
+            var artist = await _context.Artist.FirstOrDefaultAsync(a => a.UserId == userId);
+            if (artist != null)
+            {
+                return await _context.Event
+                    .Where(e => e.IsActive)
+                    .Where(e => e.EventType.EventName == tipo)
+                    .Where(e => e.ArtistId == artist.Id)
+                    .ToListAsync();
+            }
+            else
+            {
+                return BadRequest("Error en la respuesta para usuario crew");
+            }
+        }
+
+        private async Task<ActionResult<IEnumerable<Event>>> GetEventsForDefaultUser(string tipo)
+        {
+            return await _context.Event
+                .Where(u => u.IsActive)
+                .Where(u => u.EventType.EventName == tipo)
+                .ToListAsync();
         }
     }
 }

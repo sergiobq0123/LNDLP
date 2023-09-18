@@ -24,7 +24,11 @@ namespace LNDP_API.Controllers
             if(_context.User == null){
                 return NotFound();
             }
-            return await _context.User.Where(u => u.IsActive).ToListAsync();
+            return await _context.User
+            .Include(u => u.UserRole)
+            .Include(u => u.Artist)
+            .Where(u => u.IsActive)
+            .ToListAsync();
 
         }
 
@@ -56,6 +60,7 @@ namespace LNDP_API.Controllers
         [HttpPost]
         public async Task<ActionResult<User>> PostUsers(User user)
         {
+
             if(_context.User == null){
                 return NotFound();
             }

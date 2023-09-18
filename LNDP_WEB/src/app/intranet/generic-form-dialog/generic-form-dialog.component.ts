@@ -63,4 +63,5 @@ export class GenericFormDialogComponent {
     });
     this.dialogRef.close(data);
   }
+
 }

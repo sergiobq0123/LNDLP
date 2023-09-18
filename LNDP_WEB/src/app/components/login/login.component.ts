@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { LoginService } from '../../services/login.service';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 import { NotificationService } from 'src/app/services/notification.service';
 
 
@@ -20,14 +20,14 @@ export class LoginComponent {
 
   constructor(
     private _formBuilder: FormBuilder,
-    public _loginService: LoginService,
+    public _authServvice: AuthService,
     public _router : Router,
     private _notificationService : NotificationService
     ) { }
 
 
     SubmitLogin(useremail, password) {
-      this._loginService.login(useremail, password).subscribe({
+      this._authServvice.login(useremail, password).subscribe({
         error : error => {
           console.log(error.error);
 
@@ -35,7 +35,7 @@ export class LoginComponent {
           this.LoginForm.get('password').setValue('')
         },
         next: res =>{
-          this._loginService.setToken(res.token)
+          this._authServvice.setToken(res.token)
           this._router.navigateByUrl('')
         }
       })

@@ -1,3 +1,4 @@
+import { Artist } from './artist.model';
 import { ModelBase } from './model-base.model';
 
 export interface SocialNetwork extends ModelBase {
@@ -6,4 +7,5 @@ export interface SocialNetwork extends ModelBase {
   spotify: string;
   tiktok: string;
   twitter: string;
+  artist : Artist
 }

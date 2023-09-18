@@ -5,11 +5,10 @@ namespace LNDP_API.Models{
         
         public string? Username {get; set; }
         public string? Email {get; set; }
+        public Artist? Artist {get; set;}
         public int? UserRoleId { get; set; }
         public UserRole? UserRole { get; set; }
         public byte[]? PasswordHash {get; set; }
         public byte[]? PasswordSalt {get; set; }
-        public int? ArtistId {get; set;}
-        public Artist? Artist {get; set;}
     }
 }

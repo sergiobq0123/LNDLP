@@ -282,8 +282,10 @@ export class GenericTableComponent {
           { value: value, disabled: !c.isEnabledByDefault },
           c.validators
         );
-        controls['isEditable'] = new FormControl(c.isEditable);
         controls['isNewRow'] = new FormControl(false);
+        if (this.hasActions){
+          controls['isEditable'] = new FormControl(true);
+        }
       });
       controlsArray.push(this.fb.group(controls));
     });

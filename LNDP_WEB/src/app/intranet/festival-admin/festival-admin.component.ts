@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Column } from '../generic-table/column';
-import { MatDialog } from '@angular/material/dialog';
 import { ContentType } from '../generic-form-dialog/generic-content';
 import { Sort } from '@angular/material/sort';
 import { FestivalService } from 'src/app/services/intranet/festival.service';
@@ -17,15 +16,10 @@ export class FestivalAdminComponent {
   festivalColumns: Column[];
   pageNumber: number = 1;
   loaded: boolean = false;
-  newRowAdded: boolean = false;
-  entryBeingEdited: boolean = false;
-  apiFailing: boolean = false;
   collator = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' });
-  spinner: boolean = false;
 
   constructor(
     private festivalService: FestivalService,
-    public dialog : MatDialog,
   ){}
 
   ngOnInit(){
@@ -66,21 +60,21 @@ export class FestivalAdminComponent {
         dataKey: 'name',
         position: 'left',
         isSortable: false,
-        type: ContentType.editableTextFields,
+        type: ContentType.plainText,
       },
       {
         name: 'Ciudad',
         dataKey: 'city',
         position: 'left',
         isSortable: false,
-        type: ContentType.editableTextFields,
+        type: ContentType.plainText,
       },
       {
         name: 'Localizacion',
         dataKey: 'location',
         position: 'left',
         isSortable: false,
-        type: ContentType.editableTextFields,
+        type: ContentType.plainText,
       }
       ,
       {
@@ -88,7 +82,6 @@ export class FestivalAdminComponent {
         dataKey: 'urlLocation',
         position: 'left',
         isSortable: false,
-        isEditable: true,
         type: ContentType.buttonMap,
       }
       ,
@@ -97,11 +90,10 @@ export class FestivalAdminComponent {
         dataKey: 'date',
         position: 'left',
         isSortable: false,
-        type: ContentType.editableTextFields,
+        type: ContentType.plainText,
       }
     ];
   }
-
 
   sortData(sortParameters: Sort) {
     const keyName = sortParameters.active;

@@ -9,6 +9,8 @@ namespace LNDP_API.Mapper{
             CreateMap<UserRegistrerDto, User>();
             CreateMap<UserLoginDto, User>();
             CreateMap<User, UserLisDto>();
+            CreateMap<SocialNetworkDto, SocialNetwork>();
+            CreateMap<CrewDto, Crew>();
         }
     }
 }

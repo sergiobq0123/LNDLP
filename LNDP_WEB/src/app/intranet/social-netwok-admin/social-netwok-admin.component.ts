@@ -14,6 +14,8 @@ import { Validators } from '@angular/forms';
 import { GenericFormDialogComponent } from '../generic-form-dialog/generic-form-dialog.component';
 import { ArtistService } from 'src/app/services/intranet/artist.service';
 import { Filter } from '../generic-table/Filter';
+import { Artist } from 'src/app/models/artist.model';
+import { SocialNetwork } from '../../models/socialNetwork.model';
 
 @Component({
   selector: 'app-social-netwok-admin',
@@ -22,10 +24,7 @@ import { Filter } from '../generic-table/Filter';
 })
 export class SocialNetwokAdminComponent {
   socialNetworks: Array<any> = new Array<any>();
-  artists: Array<any> = new Array<any>();
-  artistsWithoutSN: Array<any> = new Array<any>();
   socialNetworkColumns: Column[];
-  socialNetworkForm: GenericForm[];
   pageNumber: number = 1;
   loaded: boolean = false;
   newRowAdded: boolean = false;
@@ -47,39 +46,12 @@ export class SocialNetwokAdminComponent {
   ) {}
 
   ngOnInit() {
-    this.getArtist();
-    this.getArtistWithoutSN();
     this.getSocialNetworks();
-    this.setSocialNetworkForm();
-  }
-
-
-  getArtistWithoutSN() {
-    this.artistService.getArtistWithoutSN().subscribe((res) => {
-      console.log(res);
-      let artist = new Array();
-      res.forEach((val) => {
-        artist.push(val);
-      });
-      this.artistsWithoutSN = [...artist];
-      this.socialNetworkForm.find(s => s.name == "Artista").dropdown = this.artistsWithoutSN
-    });
-  }
-
-  getArtist() {
-    this.artistService.get().subscribe((res) => {
-      console.log(res);
-      let artist = new Array();
-      res.forEach((val) => {
-        artist.push(val);
-      });
-      this.artists = [...artist];
-    });
   }
 
   getSocialNetworks() {
     this.socialNetwokService.get().subscribe((res) => {
-      let socialNetworks = new Array();
+     let socialNetworks = new Array();
       res.forEach((val) => {
         socialNetworks.push(val);
       });
@@ -97,39 +69,37 @@ export class SocialNetwokAdminComponent {
         hidden: true,
       },
       {
-        name: 'Artista',
+        name: '_idArtista',
         dataKey: 'artistId',
-        position: 'left',
-        isEditable: true,
-        hidden: false,
-        type: ContentType.dropdownFields,
-        dropdown: this.artists,
-        dropdownKeyToShow : 'name',
-        dropdownKeyValue : 'id'
+        hidden: true,
       },
       {
-        name: 'instagram',
+        name: 'Artista',
+        dataKey: 'artist.name',
+        position: 'left',
+        hidden: false,
+        type: ContentType.plainText
+      },
+      {
+        name: 'Instagram',
         dataKey: 'instagram',
         position: 'left',
         isSortable: true,
-        isEditable: true,
         hidden: false,
         type: ContentType.editableTextFields,
       },
       {
-        name: 'youtube',
+        name: 'YouTube',
         dataKey: 'youtube',
         position: 'left',
         isSortable: false,
-        isEditable: true,
         type: ContentType.editableTextFields,
       },
       {
-        name: 'spotify',
+        name: 'Spotify',
         dataKey: 'spotify',
         position: 'left',
         isSortable: false,
-        isEditable: true,
         type: ContentType.editableTextFields,
       },
       {
@@ -137,7 +107,6 @@ export class SocialNetwokAdminComponent {
         dataKey: 'tikTok',
         position: 'left',
         isSortable: false,
-        isEditable: true,
         type: ContentType.editableTextFields,
       },
       {
@@ -145,20 +114,23 @@ export class SocialNetwokAdminComponent {
         dataKey: 'twitter',
         position: 'left',
         isSortable: false,
-        isEditable: true,
         type: ContentType.editableTextFields,
       },
     ];
   }
 
-  filterData(filters : Filter[]){
-    this.socialNetwokService.getFiltered(filters).subscribe(res =>{
-      this.socialNetworks = res
-    })
+  getArtistWithoutSN(): any[] {
+    var artistWithoutSN: any[] = [];
+    this.artistService.getArtistWithoutSN().subscribe((res) => {
+      res.forEach((val) => {
+        artistWithoutSN.push(val);
+      });
+    });
+    return artistWithoutSN;
   }
 
-  setSocialNetworkForm() {
-    this.socialNetworkForm = [
+  setSocialNetworkForm() : any[]{
+    return [
       {
         name: '_id',
         dataKey: 'id',
@@ -170,7 +142,7 @@ export class SocialNetwokAdminComponent {
         position: {row : 0, col : 0, rowSpan : 1, colSpan : 1},
         hidden: false,
         type: ContentType.dropdownFields,
-        dropdown: this.artistsWithoutSN,
+        dropdown: this.getArtistWithoutSN(),
         dropdownKeyToShow : 'name',
         dropdownKeyValue : 'id'
       },
@@ -215,7 +187,7 @@ export class SocialNetwokAdminComponent {
   showFormDialog() {
     let dialogData = {
       formData: undefined,
-      formFields: this.socialNetworkForm,
+      formFields: this.setSocialNetworkForm(),
       formCols: 2,
       dialogTitle: 'Añade una nueva red social',
     };
@@ -225,7 +197,6 @@ export class SocialNetwokAdminComponent {
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result !== undefined && result !== null && result !== '') {
-        console.log(result);
         this.createElement(result);
       }
     });
@@ -251,11 +222,12 @@ export class SocialNetwokAdminComponent {
   }
 
   updateElement(event: any) {
-    this.socialNetwokService.update(event.id, event).subscribe(
+    console.log(event);
+
+      this.socialNetwokService.update(event.id, event).subscribe(
       (res) => {
-        this.getSocialNetworks();
         this.notificationService.showMessageOnSnackbar(
-          notifications.ENTRY_SAVED_SUCCESSFULLY,
+          res.message,
           'OK!',
           3500,
           'succes-button'
@@ -264,7 +236,7 @@ export class SocialNetwokAdminComponent {
       },
       (err) => {
         this.notificationService.showMessageOnSnackbar(
-          notifications.ENTRY_NOT_SAVED,
+          err.error.message,
           'KO!',
           3500,
           'succes-button'
@@ -275,11 +247,12 @@ export class SocialNetwokAdminComponent {
   }
 
   deleteElement(event: any) {
+
     this.socialNetwokService.delete(event.id).subscribe(
       (res) => {
         this.getSocialNetworks();
         this.notificationService.showMessageOnSnackbar(
-          notifications.ENTRY_DELETED_SUCCESSFULLY,
+          res.message,
           'OK!',
           3500,
           'succes-button'
@@ -290,11 +263,10 @@ export class SocialNetwokAdminComponent {
         }
       },
       (err) => {
-        this.notificationService.showMessageOnSnackbar(
-          notifications.ENTRY_NOT_DELETED,
-          'KO!',
+        this.notificationService.showErrorOnSnackbar(
+          err.error.message,
+          'ERROR!',
           3500,
-          'succes-button'
         );
         this.apiFailing = true;
       }
@@ -306,9 +278,8 @@ export class SocialNetwokAdminComponent {
     this.socialNetwokService.create(event).subscribe(
       (res) => {
         this.getSocialNetworks();
-        this.getArtistWithoutSN();
         this.notificationService.showMessageOnSnackbar(
-          notifications.ENTRY_CREATED_SUCCESSFULLY,
+          res.message,
           'OK!',
           3500,
           'succes-button'
@@ -317,7 +288,7 @@ export class SocialNetwokAdminComponent {
       },
       (err) => {
         this.notificationService.showMessageOnSnackbar(
-          notifications.ENTRY_NOT_CREATED,
+          err.error.message,
           'KO!',
           3500,
           'succes-button'
@@ -325,6 +296,12 @@ export class SocialNetwokAdminComponent {
         this.apiFailing = true;
       }
     );
+  }
+
+  filterData(filters : Filter[]){
+    this.socialNetwokService.getFiltered(filters).subscribe(res =>{
+      this.socialNetworks = res
+    })
   }
 
   updatePageNumber(pageNum: number) {

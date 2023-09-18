@@ -1,14 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
 import { Column } from '../generic-table/column';
-import { MatDialog } from '@angular/material/dialog';
-import { NotificationService } from 'src/app/services/notification.service';
-import { ContentType, GenericForm } from '../generic-form-dialog/generic-content';
+import { ContentType } from '../generic-form-dialog/generic-content';
 import { Sort } from '@angular/material/sort';
 import { ConcertService } from 'src/app/services/intranet/concert.service';
 import { GenericTableComponent } from '../generic-table/generic-table.component';
-import { notifications } from 'src/app/common/notifications';
-import { Validators } from '@angular/forms';
-import { GenericFormDialogComponent } from '../generic-form-dialog/generic-form-dialog.component';
 import { Filter } from '../generic-table/Filter';
 
 @Component({
@@ -19,21 +14,12 @@ import { Filter } from '../generic-table/Filter';
 export class ConcertAdminComponent {
   conciertos: Array<any> = new Array<any>();
   conciertosColumns: Column[];
-  conciertoForm: GenericForm[];
   pageNumber: number = 1;
   loaded: boolean = false;
-  newRowAdded: boolean = false;
-  entryBeingEdited: boolean = false;
-  apiFailing: boolean = false;
   collator = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' });
-  spinner: boolean = false;
-
-  @ViewChild(GenericTableComponent) table: GenericTableComponent;
 
   constructor(
-    private concertService: ConcertService,
-    public dialog : MatDialog,
-    private notificationService : NotificationService
+    private concertService: ConcertService
   ){}
 
   ngOnInit(){
@@ -65,22 +51,22 @@ export class ConcertAdminComponent {
         name: 'Nombre',
         dataKey: 'name',
         position: 'left',
-        isSortable: false,
-        type: ContentType.editableTextFields,
+        isSortable: true,
+        type: ContentType.plainText,
       },
       {
         name: 'Ciudad',
         dataKey: 'city',
         position: 'left',
-        isSortable: false,
-        type: ContentType.editableTextFields,
+        isSortable: true,
+        type: ContentType.plainText,
       },
       {
-        name: 'Localizacion',
+        name: 'Localización',
         dataKey: 'location',
         position: 'left',
         isSortable: false,
-        type: ContentType.editableTextFields,
+        type: ContentType.plainText,
       }
       ,
       {
@@ -88,7 +74,6 @@ export class ConcertAdminComponent {
         dataKey: 'urlLocation',
         position: 'left',
         isSortable: false,
-        isEditable: true,
         type: ContentType.buttonMap,
       }
       ,
@@ -96,8 +81,8 @@ export class ConcertAdminComponent {
         name: 'Fecha',
         dataKey: 'date',
         position: 'left',
-        isSortable: false,
-        type: ContentType.editableTextFields,
+        isSortable: true,
+        type: ContentType.plainText,
       }
     ];
   }

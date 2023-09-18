@@ -4,27 +4,17 @@
 ></app-generic-window>
 
 <ng-template #contentTemplate>
-  <button
-    [disabled]="newRowAdded || entryBeingEdited"
-    id="add-button"
-    class="add-container"
-  >
-    <mat-icon class="add-buton">add_box</mat-icon>
-  </button>
   <app-generic-table
     [tableData]="festivales"
     [tableColumns]="festivalColumns"
     [isPageable]="true"
-    [apiFailing]="apiFailing"
     [isSortable]="true"
     (filtered)="filterData($event)"
     (sort)="sortData($event)"
     [hasActions]="false"
-    (rowAdded)="newRowAdded = $event"
     [paginationSizes]="[5, 10, 20]"
     [defaultPageSize]="10"
     (pageNum)="updatePageNumber($event)"
-    (edited)="entryBeingEdited = $event"
     *ngIf="loaded"
   >
   </app-generic-table>

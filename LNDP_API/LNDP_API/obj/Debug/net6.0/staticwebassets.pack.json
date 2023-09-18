@@ -1,6 +1,18 @@
 {
   "Files": [
     {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\1.png",
+      "PackagePath": "staticwebassets\\assets\\1.png"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\2.png",
+      "PackagePath": "staticwebassets\\assets\\2.png"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\4.png",
+      "PackagePath": "staticwebassets\\assets\\4.png"
+    },
+    {
       "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\PNG-de-personas.webp",
       "PackagePath": "staticwebassets\\assets\\PNG-de-personas.webp"
     },

@@ -11,6 +11,7 @@ import { Sort } from '@angular/material/sort';
 import { notifications } from 'src/app/common/notifications';
 import { EventTypeService } from 'src/app/services/intranet/event-type.service';
 import { Filter } from '../generic-table/Filter';
+import { ArtistService } from '../../services/intranet/artist.service';
 
 @Component({
   selector: 'app-event-admin',
@@ -19,6 +20,7 @@ import { Filter } from '../generic-table/Filter';
 })
 export class EventAdminComponent {
   eventos: Array<any> = new Array<any>();
+  artistas: Array<any> = new Array<any>();
   eventosType: Array<any> = new Array<any>();
   eventsColumns: Column[];
   eventsForm : GenericForm[];
@@ -34,15 +36,30 @@ export class EventAdminComponent {
 
   constructor(
     private eventsService: EventService,
+    private artistService: ArtistService,
     private eventsTypeService : EventTypeService,
     public dialog : MatDialog,
     private notificationService : NotificationService
   ){}
 
   ngOnInit(){
+    this.getArtist()
     this.getEventsType()
     this.getEvents()
     this.setEventsForm()
+  }
+
+  getArtist() {
+    this.artistService.get().subscribe((res) => {
+      let artists = new Array();
+      res.forEach(val => {
+        artists.push(val)
+      });
+      this.artistas = [... artists];
+      this.setColumns();
+      this.loaded = true;
+      this.eventsForm.find(e => e.name == "Artista").dropdown = this.artistas
+    });
   }
 
   getEventsType(){
@@ -83,11 +100,10 @@ export class EventAdminComponent {
         hidden: true
       },
       {
-        name: 'name',
+        name: 'Nombre',
         dataKey: 'name',
         position: 'left',
         isSortable: false,
-        isEditable: true,
         type: ContentType.editableTextFields,
       },
       {
@@ -95,35 +111,41 @@ export class EventAdminComponent {
         dataKey: 'eventTypeId',
         position: 'left',
         isSortable: false,
-        isEditable: true,
         type: ContentType.dropdownFields,
         dropdown: this.eventosType,
         dropdownKeyToShow : 'eventName',
         dropdownKeyValue : 'id'
       },
       {
-        name: 'city',
+        name: 'Artista',
+        dataKey: 'artistId',
+        position: 'left',
+        isSortable: false,
+        type: ContentType.dropdownFields,
+        dropdown: this.artistas,
+        dropdownKeyToShow : 'name',
+        dropdownKeyValue : 'id'
+      },
+      {
+        name: 'Ciudad',
         dataKey: 'city',
         position: 'left',
         isSortable: false,
-        isEditable: true,
         type: ContentType.editableTextFields,
       },
       {
-        name: 'location',
+        name: 'Localización',
         dataKey: 'location',
         position: 'left',
         isSortable: false,
-        isEditable: true,
         type: ContentType.editableTextFields,
       }
       ,
       {
-        name: 'date',
+        name: 'Fecha',
         dataKey: 'date',
         position: 'left',
         isSortable: false,
-        isEditable: true,
         type: ContentType.datePicker
       }
     ];
@@ -151,6 +173,15 @@ export class EventAdminComponent {
         dropdown : this.eventosType,
         dropdownKeyValue : 'id',
         dropdownKeyToShow : 'eventName'
+      },
+      {
+        name: 'Artista',
+        dataKey: 'artistId',
+        position: {row: 0, col : 1, rowSpan: 1, colSpan: 1},
+        type: ContentType.dropdownFields,
+        dropdown : this.artistas,
+        dropdownKeyValue : 'id',
+        dropdownKeyToShow : 'name'
       },
       {
         name: 'Ciudad',
@@ -181,7 +212,7 @@ export class EventAdminComponent {
       formData: undefined,
       formFields: this.eventsForm,
       formCols: 2,
-      dialogTitle: 'Añade un nuevo artista'
+      dialogTitle: 'Añade un nuevo evento'
     }
     const dialogRef = this.dialog.open(GenericFormDialogComponent, {data: dialogData, minWidth : 600});
     dialogRef.afterClosed().subscribe(result => {

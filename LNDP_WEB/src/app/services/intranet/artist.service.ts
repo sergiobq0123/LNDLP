@@ -18,6 +18,9 @@ export class ArtistService extends ServiceBaseService {
    getArtistWithoutC(){
     return this.getToSpecificURL(this.getUrl + "/withoutCrew")
    }
+   getArtistWithoutU(){
+    return this.getToSpecificURL(this.getUrl + "/withoutUser")
+   }
 
    postImageArtist(inputFile: any, id : number){
     const formData = new FormData();

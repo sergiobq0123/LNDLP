@@ -12,9 +12,8 @@ export class ArtistCrewComponent {
   constructor(@Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {
-      this.dataForm = this.data.crewData;
+      this.dataForm = this.data.dataShow;
       this.dataName = this.data.artistaName;
-
   }
 
   getProperties(obj: any): string[] {

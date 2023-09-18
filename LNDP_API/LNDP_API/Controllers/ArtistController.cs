@@ -43,6 +43,17 @@ namespace LNDP_API.Controllers
             .Where(u => u.SocialNetwork == null)
             .ToListAsync();
         }
+        [HttpGet("withoutUser")]
+        public async Task<ActionResult<IEnumerable<Artist>>> GetArtistWithoutU()
+        {
+            if(_context.Artist == null){
+                return NotFound();
+            }
+            return await _context.Artist
+            .Where(u => u.IsActive)
+            .Where(u => u.UserId == null)
+            .ToListAsync();
+        }
         [HttpGet("withoutCrew")]
         public async Task<ActionResult<IEnumerable<Artist>>> GetArtistWithoutC()
         {
