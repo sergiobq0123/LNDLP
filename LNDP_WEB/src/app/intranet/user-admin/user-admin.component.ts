@@ -227,7 +227,7 @@ export class UserAdminComponent {
           notifications.ENTRY_NOT_DELETED,
           'KO!',
           3500,
-          'succes-button'
+          'err-button'
         );
         this.apiFailing = true;
       }
@@ -254,7 +254,7 @@ export class UserAdminComponent {
           notifications.ENTRY_NOT_CREATED,
           'KO!',
           3500,
-          'succes-button'
+          'err-button'
         );
         this.apiFailing = true;
       }
@@ -278,7 +278,7 @@ export class UserAdminComponent {
           notifications.ENTRY_NOT_SAVED,
           'KO!',
           3500,
-          'succes-button'
+          'err-button'
         );
         this.apiFailing = true;
       }

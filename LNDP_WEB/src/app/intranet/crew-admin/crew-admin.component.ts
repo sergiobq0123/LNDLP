@@ -214,7 +214,7 @@ export class CrewAdminComponent {
       (err) => {
         this.notificationService.showMessageOnSnackbar(
           err.error.message,
-          'KO!',
+          'ERROR!',
           3500,
           'succes-button'
         );
@@ -239,10 +239,11 @@ export class CrewAdminComponent {
         }
       },
       (err) => {
-        this.notificationService.showErrorOnSnackbar(
+        this.notificationService.showMessageOnSnackbar(
           err.error.message,
           'ERROR!',
           3500,
+          'err-button'
         );
         this.apiFailing = true;
       }
@@ -265,9 +266,9 @@ export class CrewAdminComponent {
       (err) => {
         this.notificationService.showMessageOnSnackbar(
           err.error.message,
-          'KO!',
+          'ERROR!',
           3500,
-          'succes-button'
+          'err-button'
         );
         this.apiFailing = true;
       }

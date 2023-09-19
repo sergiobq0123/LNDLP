@@ -95,17 +95,6 @@ export class FestivalAdminComponent {
     ];
   }
 
-  sortData(sortParameters: Sort) {
-    const keyName = sortParameters.active;
-    if (sortParameters.direction === 'asc') {
-      this.festivales = [ ...this.festivales.sort((a, b) => this.collator.compare(a[ keyName ], b[ keyName ])) ];
-    } else if (sortParameters.direction === 'desc') {
-      this.festivales = [ ...this.festivales.sort((a, b) => (-1) * this.collator.compare(a[ keyName ], b[ keyName ])) ];
-    } else {
-      this.getFestivales();
-    }
-  }
-
   updatePageNumber(pageNum: number) {
     this.pageNumber = pageNum;
   }

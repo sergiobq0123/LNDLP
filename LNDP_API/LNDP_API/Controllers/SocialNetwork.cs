@@ -50,13 +50,13 @@ namespace LNDP_API.Controllers
             var artist = await _context.Artist.FindAsync(socialNetworkDto.ArtistId);
             if(artist == null){
                 return BadRequest(new { Message = "Artista no encontrado" });
-            }else{
-                var socialNetwork = _mapper.Map<SocialNetwork>(socialNetworkDto);
-                socialNetwork.Artist = artist;
-                _context.SocialNetwork.Add(socialNetwork);
-                await _context.SaveChangesAsync();
-                return Ok(new { Message = "Redes sociales creadas para " + artist.Name });
             }
+            var socialNetwork = _mapper.Map<SocialNetwork>(socialNetworkDto);
+            socialNetwork.Artist = artist;
+            _context.SocialNetwork.Add(socialNetwork);
+            await _context.SaveChangesAsync();
+            return Ok(new { Message = "Redes sociales creadas para " + artist.Name });
+
         }
 
         [HttpPut("{id}")]

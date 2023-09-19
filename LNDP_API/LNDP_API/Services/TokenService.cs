@@ -43,7 +43,7 @@ namespace LNDP_API.Services {
 
         public string ObtenerTipoDeUsuarioDesdeToken(string token)
         {
-            if(token == null){
+            if(token == "" || token == null){
                 return "Sin token";
             }else{
                  try

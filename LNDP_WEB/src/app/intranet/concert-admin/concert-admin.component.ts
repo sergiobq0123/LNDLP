@@ -16,7 +16,6 @@ export class ConcertAdminComponent {
   conciertosColumns: Column[];
   pageNumber: number = 1;
   loaded: boolean = false;
-  collator = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' });
 
   constructor(
     private concertService: ConcertService
@@ -91,17 +90,6 @@ export class ConcertAdminComponent {
     this.concertService.getFiltered(filters).subscribe(res =>{
       this.conciertos = res
     })
-  }
-
-  sortData(sortParameters: Sort) {
-    const keyName = sortParameters.active;
-    if (sortParameters.direction === 'asc') {
-      this.conciertos = [ ...this.conciertos.sort((a, b) => this.collator.compare(a[ keyName ], b[ keyName ])) ];
-    } else if (sortParameters.direction === 'desc') {
-      this.conciertos = [ ...this.conciertos.sort((a, b) => (-1) * this.collator.compare(a[ keyName ], b[ keyName ])) ];
-    } else {
-      this.getConciertos();
-    }
   }
 
   updatePageNumber(pageNum: number) {

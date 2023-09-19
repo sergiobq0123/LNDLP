@@ -27,7 +27,6 @@ namespace LNDP_API.Controllers
             return await _context.User
             .Include(u => u.UserRole)
             .Include(u => u.Artist)
-            .Where(u => u.IsActive)
             .ToListAsync();
 
         }
@@ -53,7 +52,7 @@ namespace LNDP_API.Controllers
             }
 
             Expression<Func<User, bool>> predicate = FilterUtils.GetPredicate<User>(filters);
-            return await _context.User.Where(predicate.And(p=> p.IsActive)).ToListAsync();
+            return await _context.User.Where(predicate).ToListAsync();
         }
 
         // Use Auth

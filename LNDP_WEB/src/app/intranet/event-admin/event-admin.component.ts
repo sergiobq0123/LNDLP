@@ -12,6 +12,7 @@ import { notifications } from 'src/app/common/notifications';
 import { EventTypeService } from 'src/app/services/intranet/event-type.service';
 import { Filter } from '../generic-table/Filter';
 import { ArtistService } from '../../services/intranet/artist.service';
+import { MatFormField } from '@angular/material/form-field';
 
 @Component({
   selector: 'app-event-admin',
@@ -43,23 +44,9 @@ export class EventAdminComponent {
   ){}
 
   ngOnInit(){
-    this.getArtist()
-    this.getEventsType()
     this.getEvents()
-    this.setEventsForm()
-  }
-
-  getArtist() {
-    this.artistService.get().subscribe((res) => {
-      let artists = new Array();
-      res.forEach(val => {
-        artists.push(val)
-      });
-      this.artistas = [... artists];
-      this.setColumns();
-      this.loaded = true;
-      this.eventsForm.find(e => e.name == "Artista").dropdown = this.artistas
-    });
+    this.getEventsType()
+    this.getArtist();
   }
 
   getEventsType(){
@@ -69,14 +56,11 @@ export class EventAdminComponent {
         eventsType.push(val)
       });
       this.eventosType = [... eventsType];
-      this.eventsForm.find(e => e.name == "Tipo").dropdown = this.eventosType
     });
   }
 
   getEvents() {
     this.eventsService.get().subscribe((res) => {
-      console.log(res);
-
       let events = new Array();
       res.forEach(val => {
         events.push(val)
@@ -86,10 +70,15 @@ export class EventAdminComponent {
       this.loaded = true;
     });
   }
-  filterData(filters : Filter[]){
-    this.eventsService.getFiltered(filters).subscribe(res =>{
-      this.eventos = res
-    })
+
+  getArtist(){
+    this.artistService.get().subscribe((res) => {
+      let artists = new Array();
+      res.forEach(val => {
+        artists.push(val)
+      });
+      this.artistas = [... artists]
+    });
   }
 
   setColumns(): void {
@@ -100,31 +89,40 @@ export class EventAdminComponent {
         hidden: true
       },
       {
+        name: '_urlLocation',
+        dataKey: 'urlLocation',
+        hidden: true
+      },
+      {
+        name: '_artistId',
+        dataKey: 'artistId',
+        hidden: true
+      },
+      {
+        name: '_eventTypeId',
+        dataKey: 'eventTypeId',
+        hidden: true
+      },
+      {
+        name: 'Artista',
+        dataKey: 'artist.name',
+        position: 'left',
+        isSortable: false,
+        type: ContentType.plainText
+      },
+      {
+        name: 'Tipo',
+        dataKey: 'eventType.eventName',
+        position: 'left',
+        isSortable: false,
+        type: ContentType.plainText,
+      },
+      {
         name: 'Nombre',
         dataKey: 'name',
         position: 'left',
         isSortable: false,
         type: ContentType.editableTextFields,
-      },
-      {
-        name: 'Tipo',
-        dataKey: 'eventTypeId',
-        position: 'left',
-        isSortable: false,
-        type: ContentType.dropdownFields,
-        dropdown: this.eventosType,
-        dropdownKeyToShow : 'eventName',
-        dropdownKeyValue : 'id'
-      },
-      {
-        name: 'Artista',
-        dataKey: 'artistId',
-        position: 'left',
-        isSortable: false,
-        type: ContentType.dropdownFields,
-        dropdown: this.artistas,
-        dropdownKeyToShow : 'name',
-        dropdownKeyValue : 'id'
       },
       {
         name: 'Ciudad',
@@ -151,8 +149,10 @@ export class EventAdminComponent {
     ];
   }
 
-  setEventsForm() {
-    this.eventsForm = [
+
+
+  setEventsForm() : any[]{
+    return [
       {
         name: 'Id',
         dataKey : 'id',
@@ -171,8 +171,8 @@ export class EventAdminComponent {
         position: {row: 0, col : 1, rowSpan: 1, colSpan: 1},
         type: ContentType.dropdownFields,
         dropdown : this.eventosType,
+        dropdownKeyToShow : 'eventName',
         dropdownKeyValue : 'id',
-        dropdownKeyToShow : 'eventName'
       },
       {
         name: 'Artista',
@@ -210,10 +210,12 @@ export class EventAdminComponent {
   showFormDialog() {
     let dialogData = {
       formData: undefined,
-      formFields: this.eventsForm,
+      formFields: this.setEventsForm(),
       formCols: 2,
       dialogTitle: 'Añade un nuevo evento'
     }
+    console.log(dialogData.formFields);
+
     const dialogRef = this.dialog.open(GenericFormDialogComponent, {data: dialogData, minWidth : 600});
     dialogRef.afterClosed().subscribe(result => {
       if(result !== undefined && result !== null && result !== ''){
@@ -237,10 +239,10 @@ export class EventAdminComponent {
   updateElement(event: any) {
     this.eventsService.update(event.id, event).subscribe(res => {
       this.getEvents();
-      this.notificationService.showMessageOnSnackbar(notifications.ENTRY_SAVED_SUCCESSFULLY, 'OK!', 3500, 'succes-button');
+      this.notificationService.showMessageOnSnackbar(res.message, 'OK!', 3500, 'success-button');
       this.apiFailing = false;
     }, err => {
-      this.notificationService.showMessageOnSnackbar(notifications.ENTRY_NOT_SAVED, 'KO!', 3500, 'succes-button')
+      this.notificationService.showMessageOnSnackbar(err.error.message, 'KO!', 3500, 'err-button')
       this.apiFailing = true;
     }
     )
@@ -249,13 +251,13 @@ export class EventAdminComponent {
   deleteElement(event: any) {
     this.eventsService.delete(event.id).subscribe(res => {
       this.getEvents();
-      this.notificationService.showMessageOnSnackbar(notifications.ENTRY_DELETED_SUCCESSFULLY, 'OK!', 3500, 'succes-button');
+      this.notificationService.showMessageOnSnackbar(res.message, 'OK!', 3500, 'success-button');
       this.apiFailing = false;
       if(this.table.tableDataSource.data.length === 1){
         this.table.setTableDataSource();
       }
     }, err => {
-      this.notificationService.showMessageOnSnackbar(notifications.ENTRY_NOT_DELETED, 'KO!', 3500, 'succes-button')
+      this.notificationService.showMessageOnSnackbar(err.error.message, 'KO!', 3500, 'err-button')
       this.apiFailing = true;
     }
     )
@@ -265,13 +267,19 @@ export class EventAdminComponent {
     event.id = 0;
     this.eventsService.create(event).subscribe(res => {
       this.getEvents();
-      this.notificationService.showMessageOnSnackbar(notifications.ENTRY_CREATED_SUCCESSFULLY, 'OK!', 3500, 'succes-button');
+      this.notificationService.showMessageOnSnackbar(res.message, 'OK!', 3500, 'success-button');
       this.apiFailing = false;
     }, err => {
-      this.notificationService.showMessageOnSnackbar(notifications.ENTRY_NOT_CREATED, 'KO!', 3500, 'succes-button')
+      this.notificationService.showMessageOnSnackbar(err.error.message, 'KO!', 3500, 'err-button')
       this.apiFailing = true;
     }
     )
+  }
+
+  filterData(filters : Filter[]){
+    this.eventsService.getFiltered(filters).subscribe(res =>{
+      this.eventos = res
+    })
   }
 
   updatePageNumber(pageNum: number) {

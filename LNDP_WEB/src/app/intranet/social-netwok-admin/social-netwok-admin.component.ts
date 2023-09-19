@@ -202,25 +202,6 @@ export class SocialNetwokAdminComponent {
     });
   }
 
-  sortData(sortParameters: Sort) {
-    const keyName = sortParameters.active;
-    if (sortParameters.direction === 'asc') {
-      this.socialNetworks = [
-        ...this.socialNetworks.sort((a, b) =>
-          this.collator.compare(a[keyName], b[keyName])
-        ),
-      ];
-    } else if (sortParameters.direction === 'desc') {
-      this.socialNetworks = [
-        ...this.socialNetworks.sort(
-          (a, b) => -1 * this.collator.compare(a[keyName], b[keyName])
-        ),
-      ];
-    } else {
-      this.getSocialNetworks();
-    }
-  }
-
   updateElement(event: any) {
     console.log(event);
 
@@ -237,9 +218,9 @@ export class SocialNetwokAdminComponent {
       (err) => {
         this.notificationService.showMessageOnSnackbar(
           err.error.message,
-          'KO!',
+          'ERROR!',
           3500,
-          'succes-button'
+          'err-button'
         );
         this.apiFailing = true;
       }
@@ -263,10 +244,11 @@ export class SocialNetwokAdminComponent {
         }
       },
       (err) => {
-        this.notificationService.showErrorOnSnackbar(
+        this.notificationService.showMessageOnSnackbar(
           err.error.message,
           'ERROR!',
           3500,
+          'err-button'
         );
         this.apiFailing = true;
       }
@@ -274,6 +256,8 @@ export class SocialNetwokAdminComponent {
   }
 
   createElement(event: any) {
+    console.log(event);
+
     event.id = 0;
     this.socialNetwokService.create(event).subscribe(
       (res) => {
@@ -289,9 +273,9 @@ export class SocialNetwokAdminComponent {
       (err) => {
         this.notificationService.showMessageOnSnackbar(
           err.error.message,
-          'KO!',
+          'ERROR!',
           3500,
-          'succes-button'
+          'err-button'
         );
         this.apiFailing = true;
       }

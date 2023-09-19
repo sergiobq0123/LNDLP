@@ -52,7 +52,6 @@ namespace LNDP_API.Controllers
                 return NotFound();
             }
             return await _context.Event
-            .Where(u => u.IsActive)
             .Include( e => e.EventType)
             .Include( e => e.Artist)
             .ToListAsync();
@@ -62,10 +61,15 @@ namespace LNDP_API.Controllers
         [HttpPost]
         public async Task<ActionResult<Event>> PostEvent(Event Event)
         {
+            var artist = await _context.Artist.FindAsync(Event.ArtistId);
+            if(artist == null)
+            {
+                return BadRequest(new { Message = "Artista no encontrado" });
+            }
             Event.UrlLocation = Event.Location;
             _context.Event.Add(Event);
             await _context.SaveChangesAsync();
-            return CreatedAtAction("GetEvent", new { id = Event.Id }, Event);
+            return Ok(new { Message = "Evento creado para " + artist.Name });
         }
 
         [HttpPost("type/Festival/filter")]
@@ -77,7 +81,7 @@ namespace LNDP_API.Controllers
             }
 
             Expression<Func<Event, bool>> predicate = FilterUtils.GetPredicate<Event>(filters);
-            return await _context.Event.Where(predicate.And(p=> p.IsActive)).Where(p => p.EventType.EventName == "Festival").ToListAsync();
+            return await _context.Event.Where(predicate).Where(p => p.EventType.EventName == "Festival").ToListAsync();
         }
 
         [HttpPost("type/Concierto/filter")]
@@ -89,57 +93,49 @@ namespace LNDP_API.Controllers
             }
 
             Expression<Func<Event, bool>> predicate = FilterUtils.GetPredicate<Event>(filters);
-            return await _context.Event.Where(predicate.And(p=> p.IsActive)).Where(p => p.EventType.EventName == "Concierto").ToListAsync();
+            return await _context.Event.Where(predicate).Where(p => p.EventType.EventName == "Concierto").ToListAsync();
+        }
+        [HttpPost("filter")]
+        public async Task<ActionResult<IEnumerable<Event>>> GetFilteredEvent([FromBody] List<Filter> filters)
+        {
+            if (_context.Event == null)
+            {
+                return NotFound();
+            }
+
+            Expression<Func<Event, bool>> predicate = FilterUtils.GetPredicate<Event>(filters);
+            return await _context.Event.Where(predicate).ToListAsync();
         }
 
         [HttpPut("{id}")]
         public async Task<ActionResult> PutEvent(int id, Event Event)
         {
             if(id != Event.Id){
-                return BadRequest();
+                return BadRequest(new { Message = "El evento no coincide con el id"});
             }
             Event.UrlLocation = Event.Location;
             _context.Entry(Event).State = EntityState.Modified;
-            try {
-                await _context.SaveChangesAsync();
-            }
-            catch(DbUpdateConcurrencyException){
-                if(!EventExists(id)){
-                    return NotFound();
-                }
-                else{
-                    throw;
-                }
-            }
-
-            return NoContent();
+            await _context.SaveChangesAsync();
+            return Ok( new { Message = "Evento actualizo con exito"});
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteEvent(int id)
         {
-            if(_context.Event == null){
-                return NotFound();
-            }
             var Event = await _context.Event.FindAsync(id);
             if (Event == null){
-                return NotFound();
+                return BadRequest(new { Message = "Error al eliminar evento " });
             }
             _context.Event.Remove(Event);
             await _context.SaveChangesAsync();
-
-            return NoContent();
+            return Ok(new { Message = "Evento eliminado"});
         }
 
-        private bool EventExists(int id){
-            return (_context.Event?.Any(u => u.Id == id)).GetValueOrDefault();
-        }
         private async Task<ActionResult<IEnumerable<Event>>> GetEventsForAdmin(string tipo)
         {
             return await _context.Event
                 .Include( e => e.EventType)
                 .Include( e => e.Artist)
-                .Where(u => u.IsActive)
                 .Where(u => u.EventType.EventName == tipo)
                 .ToListAsync();
         }
@@ -151,21 +147,19 @@ namespace LNDP_API.Controllers
             if (artist != null)
             {
                 return await _context.Event
-                    .Where(e => e.IsActive)
                     .Where(e => e.EventType.EventName == tipo)
                     .Where(e => e.ArtistId == artist.Id)
                     .ToListAsync();
             }
             else
             {
-                return BadRequest("Error en la respuesta para usuario crew");
+                return Ok("Este artista no tiene " + tipo.ToLower());
             }
         }
 
         private async Task<ActionResult<IEnumerable<Event>>> GetEventsForDefaultUser(string tipo)
         {
             return await _context.Event
-                .Where(u => u.IsActive)
                 .Where(u => u.EventType.EventName == tipo)
                 .ToListAsync();
         }

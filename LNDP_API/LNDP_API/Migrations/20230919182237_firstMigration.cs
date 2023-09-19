@@ -36,9 +36,7 @@ namespace LNDP_API.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Photos = table.Column<int>(type: "integer", nullable: true),
-                    CreationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    IsActive = table.Column<bool>(type: "boolean", nullable: false)
+                    Photos = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -51,9 +49,7 @@ namespace LNDP_API.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    EventName = table.Column<string>(type: "text", nullable: true),
-                    CreationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    IsActive = table.Column<bool>(type: "boolean", nullable: false)
+                    EventName = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -83,9 +79,7 @@ namespace LNDP_API.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Role = table.Column<string>(type: "text", nullable: true),
-                    CreationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    IsActive = table.Column<bool>(type: "boolean", nullable: false)
+                    Role = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -102,9 +96,7 @@ namespace LNDP_API.Migrations
                     Email = table.Column<string>(type: "text", nullable: true),
                     UserRoleId = table.Column<int>(type: "integer", nullable: true),
                     PasswordHash = table.Column<byte[]>(type: "bytea", nullable: true),
-                    PasswordSalt = table.Column<byte[]>(type: "bytea", nullable: true),
-                    CreationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    IsActive = table.Column<bool>(type: "boolean", nullable: false)
+                    PasswordSalt = table.Column<byte[]>(type: "bytea", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -130,9 +122,7 @@ namespace LNDP_API.Migrations
                     Phone = table.Column<string>(type: "text", nullable: true),
                     CrewId = table.Column<int>(type: "integer", nullable: true),
                     SocialNetworkId = table.Column<int>(type: "integer", nullable: true),
-                    UserId = table.Column<int>(type: "integer", nullable: true),
-                    CreationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    IsActive = table.Column<bool>(type: "boolean", nullable: false)
+                    UserId = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -166,10 +156,8 @@ namespace LNDP_API.Migrations
                     UrlLocation = table.Column<string>(type: "text", nullable: true),
                     Tickets = table.Column<string>(type: "text", nullable: true),
                     Date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    EventTypeId = table.Column<int>(type: "integer", nullable: true),
-                    ArtistId = table.Column<int>(type: "integer", nullable: true),
-                    CreationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    IsActive = table.Column<bool>(type: "boolean", nullable: false)
+                    EventTypeId = table.Column<int>(type: "integer", nullable: false),
+                    ArtistId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -178,30 +166,32 @@ namespace LNDP_API.Migrations
                         name: "FK_Event_Artist_ArtistId",
                         column: x => x.ArtistId,
                         principalTable: "Artist",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Event_EventType_EventTypeId",
                         column: x => x.EventTypeId,
                         principalTable: "EventType",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
                 table: "EventType",
-                columns: new[] { "Id", "CreationDate", "EventName", "IsActive" },
+                columns: new[] { "Id", "EventName" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2023, 9, 18, 17, 31, 14, 514, DateTimeKind.Utc).AddTicks(1722), "Festival", true },
-                    { 2, new DateTime(2023, 9, 18, 17, 31, 14, 514, DateTimeKind.Utc).AddTicks(1723), "Concierto", true }
+                    { 1, "Festival" },
+                    { 2, "Concierto" }
                 });
 
             migrationBuilder.InsertData(
                 table: "UserRole",
-                columns: new[] { "Id", "CreationDate", "IsActive", "Role" },
+                columns: new[] { "Id", "Role" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2023, 9, 18, 17, 31, 14, 514, DateTimeKind.Utc).AddTicks(1811), true, "Admin" },
-                    { 2, new DateTime(2023, 9, 18, 17, 31, 14, 514, DateTimeKind.Utc).AddTicks(1812), true, "Crew" }
+                    { 1, "Admin" },
+                    { 2, "Crew" }
                 });
 
             migrationBuilder.CreateIndex(

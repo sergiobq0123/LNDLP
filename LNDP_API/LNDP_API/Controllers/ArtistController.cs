@@ -26,7 +26,6 @@ namespace LNDP_API.Controllers
                 return NotFound();
             }
             return await _context.Artist
-            .Where(u => u.IsActive)
             .Include(u => u.Crew)
             .Include(u => u.SocialNetwork)
             .ToListAsync();
@@ -39,7 +38,6 @@ namespace LNDP_API.Controllers
                 return NotFound();
             }
             return await _context.Artist
-            .Where(u => u.IsActive)
             .Where(u => u.SocialNetwork == null)
             .ToListAsync();
         }
@@ -50,7 +48,6 @@ namespace LNDP_API.Controllers
                 return NotFound();
             }
             return await _context.Artist
-            .Where(u => u.IsActive)
             .Where(u => u.UserId == null)
             .ToListAsync();
         }
@@ -61,7 +58,6 @@ namespace LNDP_API.Controllers
                 return NotFound();
             }
             return await _context.Artist
-            .Where(u => u.IsActive)
             .Where(u => u.Crew == null)
             .ToListAsync();
         }
@@ -75,7 +71,7 @@ namespace LNDP_API.Controllers
             }
 
             Expression<Func<Artist, bool>> predicate = FilterUtils.GetPredicate<Artist>(filters);
-            return await _context.Artist.Where(predicate.And(p=> p.IsActive)).ToListAsync();
+            return await _context.Artist.Where(predicate).ToListAsync();
         }
 
         [HttpGet("{id}")]
@@ -91,10 +87,9 @@ namespace LNDP_API.Controllers
         [HttpPost]
         public async Task<ActionResult<Artist>> PostArtist(Artist Artist)
         {
-
             _context.Artist.Add(Artist);
             await _context.SaveChangesAsync();
-            return CreatedAtAction("GetArtist", new { id = Artist.Id }, Artist);
+            return Ok(new { Message = "Artista " + Artist.Name + " creado con éxito"  });
         }
 
         [HttpPost("postImage/{id}")]
@@ -103,7 +98,7 @@ namespace LNDP_API.Controllers
             var artist = await _context.Artist.FindAsync(id);
             if (artist == null)
             {
-                return NotFound();
+                return BadRequest(new { Message = "No se encuentra el artista" });
             }
             if (image != null && image.Length > 0)
             {
@@ -125,7 +120,7 @@ namespace LNDP_API.Controllers
                 artist.Photo = null;
             }
             await _context.SaveChangesAsync();
-            return Ok();
+            return Ok(new { Message = "Imagen eliminada para " + artist.Name });
         }
 
         
@@ -134,34 +129,35 @@ namespace LNDP_API.Controllers
         public async Task<ActionResult> PutArtist(int id, Artist Artist)
         {
             if(id != Artist.Id){
-                return BadRequest();
+                return BadRequest(new { Message = "Error al eliminar Artista" });
             }
             _context.Entry(Artist).State = EntityState.Modified;
-            try {
-                await _context.SaveChangesAsync(); 
-            }
-            catch(DbUpdateConcurrencyException){
-                if(!ArtistExists(id)){
-                    return NotFound();
-                }
-                else{
-                    throw;
-                }
-            }
-
-            return NoContent();
+            await _context.SaveChangesAsync();
+            return Ok(new { Message = "Artista actualizo con exito"});
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteArtist(int id)
         {
-            if(_context.Artist == null){
-                return NotFound();
-            }
             var Artist = await _context.Artist.FindAsync(id);
-            if (Artist == null){
+            if(Artist == null){
                 return NotFound();
             }
+            
+            var socialNetwork = _context.SocialNetwork.FirstOrDefault(s => s.Artist == Artist);
+            var crew = _context.Crew.FirstOrDefault(c => c.Artist == Artist);
+            var user = _context.User.FirstOrDefault(c => c.Artist == Artist);
+            if(socialNetwork != null){
+                _context.SocialNetwork.Remove(socialNetwork);
+            }
+            if(crew != null){
+                _context.Crew.Remove(crew);
+            }
+            if (user != null){
+                _context.User.Remove(user);
+            }
+
+            
             _context.Artist.Remove(Artist);
             await _context.SaveChangesAsync();
 

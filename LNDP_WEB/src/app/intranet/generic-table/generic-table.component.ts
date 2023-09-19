@@ -203,9 +203,9 @@ export class GenericTableComponent {
         if (this.displayedColumns.filter((c) => !c.includes('_')).length <= 1) {
           this.notificationService.showMessageOnSnackbar(
             notifications.COLUMNS_INVALID_LENGTH,
-            'Ok!',
+            'ALERT!',
             3500,
-            'success-button'
+            'warn-button'
           );
         } else {
           this.displayedColumns = this.displayedColumns.filter(
@@ -364,7 +364,7 @@ export class GenericTableComponent {
     } else if (this.apiFailing) {
       this.notificationService.showMessageOnSnackbar(
         notifications.PROBLEM_OCURRED,
-        'Ok!',
+        'NOT Ok!',
         3500,
         'success-button'
       );
@@ -382,9 +382,9 @@ export class GenericTableComponent {
     } else {
       this.notificationService.showMessageOnSnackbar(
         notifications.ENTRY_BEING_EDITED,
-        'Ok!',
+        'ALERT!',
         3500,
-        'success-button'
+        'warn-button'
       );
     }
   }
@@ -412,7 +412,7 @@ export class GenericTableComponent {
         type: ErrorType.FormValidators,
         description: 'Form has invalid fields',
       };
-      this.notificationService.showErrorOnSnackbar(error, 'Ok!', 3500);
+      this.notificationService.showMessageOnSnackbar(error.description, 'ERROR!', 3500, 'err-button');
     }
   }
 
@@ -432,9 +432,9 @@ export class GenericTableComponent {
       row.disable();
       this.notificationService.showMessageOnSnackbar(
         notifications.ENTRY_EDITION_CANCELED,
-        'Ok!',
+        'ALERT!',
         3500,
-        'success-button'
+        'warn-button'
       );
     }
     this.entryBeingEdited = false;
@@ -455,9 +455,9 @@ export class GenericTableComponent {
       } else {
         this.notificationService.showMessageOnSnackbar(
           notifications.ENTRY_EDITION_CANCELED,
-          'Ok!',
+          'ALERT!',
           3500,
-          'success-button'
+          'warn-button'
         );
       }
     });
@@ -506,9 +506,9 @@ export class GenericTableComponent {
       } else {
         this.notificationService.showMessageOnSnackbar(
           notifications.FILTER_ALLREADY_ADDED,
-          'Ok!',
+          'ERROR!',
           3500,
-          'success-button'
+          'err-button'
         );
       }
       this.selectedOptionCondition = null;
@@ -517,9 +517,9 @@ export class GenericTableComponent {
     } else {
       this.notificationService.showMessageOnSnackbar(
         notifications.FILTER_NOT_SELECTED,
-        'Ok!',
+        'ERROR!',
         3500,
-        'success-button'
+        'err-button'
       );
     }
   }

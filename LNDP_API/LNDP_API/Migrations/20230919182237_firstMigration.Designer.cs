@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace LNDP_API.Migrations
 {
     [DbContext(typeof(APIContext))]
-    [Migration("20230918173114_firstMigration")]
+    [Migration("20230919182237_firstMigration")]
     partial class firstMigration
     {
         /// <inheritdoc />
@@ -39,14 +39,8 @@ namespace LNDP_API.Migrations
                     b.Property<string>("CommunicationEmail")
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("CreationDate")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<int?>("CrewId")
                         .HasColumnType("integer");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("boolean");
 
                     b.Property<string>("Name")
                         .HasColumnType("text");
@@ -113,12 +107,6 @@ namespace LNDP_API.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("CreationDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("boolean");
-
                     b.Property<int?>("Photos")
                         .HasColumnType("integer");
 
@@ -135,23 +123,17 @@ namespace LNDP_API.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("ArtistId")
+                    b.Property<int>("ArtistId")
                         .HasColumnType("integer");
 
                     b.Property<string>("City")
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("CreationDate")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<DateTime?>("Date")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int?>("EventTypeId")
+                    b.Property<int>("EventTypeId")
                         .HasColumnType("integer");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("boolean");
 
                     b.Property<string>("Location")
                         .HasColumnType("text");
@@ -182,14 +164,8 @@ namespace LNDP_API.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("CreationDate")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<string>("EventName")
                         .HasColumnType("text");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("boolean");
 
                     b.HasKey("Id");
 
@@ -199,16 +175,12 @@ namespace LNDP_API.Migrations
                         new
                         {
                             Id = 1,
-                            CreationDate = new DateTime(2023, 9, 18, 17, 31, 14, 514, DateTimeKind.Utc).AddTicks(1722),
-                            EventName = "Festival",
-                            IsActive = true
+                            EventName = "Festival"
                         },
                         new
                         {
                             Id = 2,
-                            CreationDate = new DateTime(2023, 9, 18, 17, 31, 14, 514, DateTimeKind.Utc).AddTicks(1723),
-                            EventName = "Concierto",
-                            IsActive = true
+                            EventName = "Concierto"
                         });
                 });
 
@@ -248,14 +220,8 @@ namespace LNDP_API.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("CreationDate")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<string>("Email")
                         .HasColumnType("text");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("boolean");
 
                     b.Property<byte[]>("PasswordHash")
                         .HasColumnType("bytea");
@@ -284,12 +250,6 @@ namespace LNDP_API.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("CreationDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("boolean");
-
                     b.Property<string>("Role")
                         .HasColumnType("text");
 
@@ -301,15 +261,11 @@ namespace LNDP_API.Migrations
                         new
                         {
                             Id = 1,
-                            CreationDate = new DateTime(2023, 9, 18, 17, 31, 14, 514, DateTimeKind.Utc).AddTicks(1811),
-                            IsActive = true,
                             Role = "Admin"
                         },
                         new
                         {
                             Id = 2,
-                            CreationDate = new DateTime(2023, 9, 18, 17, 31, 14, 514, DateTimeKind.Utc).AddTicks(1812),
-                            IsActive = true,
                             Role = "Crew"
                         });
                 });
@@ -337,11 +293,15 @@ namespace LNDP_API.Migrations
                 {
                     b.HasOne("LNDP_API.Models.Artist", "Artist")
                         .WithMany("Events")
-                        .HasForeignKey("ArtistId");
+                        .HasForeignKey("ArtistId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("LNDP_API.Models.EventType", "EventType")
                         .WithMany()
-                        .HasForeignKey("EventTypeId");
+                        .HasForeignKey("EventTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Artist");
 
@@ -364,7 +324,8 @@ namespace LNDP_API.Migrations
 
             modelBuilder.Entity("LNDP_API.Models.Crew", b =>
                 {
-                    b.Navigation("Artist");
+                    b.Navigation("Artist")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("LNDP_API.Models.SocialNetwork", b =>

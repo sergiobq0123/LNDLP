@@ -1,5 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ArtistService } from 'src/app/services/intranet/artist.service';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'app-artist-image',
@@ -11,10 +12,11 @@ export class ArtistImageComponent {
   image: any;
   @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
   @ViewChild('fileInputEdit', { static: false }) fileInputEdit: ElementRef;
-  /**
-   *
-   */
-  constructor(private artistService: ArtistService) {}
+
+  constructor(
+    private artistService: ArtistService,
+    private notificationService: NotificationService
+  ) {}
   ngOnInit() {
     this.getArtist();
   }
@@ -38,6 +40,12 @@ export class ArtistImageComponent {
     this.artistService
       .postImageArtist(this.image, artist.id)
       .subscribe((res) => {
+        this.notificationService.showMessageOnSnackbar(
+          res.message,
+          'OK!',
+          3500,
+          'success-button'
+        );
         this.getArtist();
         const fileInput: HTMLInputElement | null = document.getElementById(
           'fileInput'
@@ -46,5 +54,13 @@ export class ArtistImageComponent {
           fileInput.value = '';
         }
       });
+      (err) => {
+        this.notificationService.showMessageOnSnackbar(
+          err.error.message,
+          'ERROR!',
+          3500,
+          'err-button'
+        );
+      }
   }
 }
