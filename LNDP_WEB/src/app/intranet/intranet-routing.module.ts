@@ -20,35 +20,35 @@ const routes: Routes = [
         component : HomeAdminComponent,
       },
       {
-        path : 'Artist',
+        path : 'Artistas',
         component : ArtistAdminComponent,
       },
       {
-        path : 'Festival',
+        path : 'Festivales',
         component : FestivalAdminComponent,
       },
       {
-        path : 'Concert',
+        path : 'Conciertos',
         component : ConcertAdminComponent,
       },
       {
-        path : 'SocialNetwork',
+        path : 'RedesSociales',
         component : SocialNetwokAdminComponent,
       },
       {
-        path : 'User',
+        path : 'Usuarios',
         component : UserAdminComponent,
       },
       {
-        path : 'Event',
+        path : 'Eventos',
         component : EventAdminComponent,
       },
       {
-        path : 'Crew',
+        path : 'Equipos',
         component : CrewAdminComponent,
       },
       {
-        path : 'Imagenes artistas',
+        path : 'ImagenesArtistas',
         component : ArtistImageComponent,
       },
     ]}

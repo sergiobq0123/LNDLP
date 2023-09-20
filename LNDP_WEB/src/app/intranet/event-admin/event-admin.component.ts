@@ -11,6 +11,8 @@ import { Sort } from '@angular/material/sort';
 import { notifications } from 'src/app/common/notifications';
 import { EventTypeService } from 'src/app/services/intranet/event-type.service';
 import { Filter } from '../generic-table/Filter';
+import { ArtistService } from '../../services/intranet/artist.service';
+import { MatFormField } from '@angular/material/form-field';
 
 @Component({
   selector: 'app-event-admin',
@@ -19,6 +21,7 @@ import { Filter } from '../generic-table/Filter';
 })
 export class EventAdminComponent {
   eventos: Array<any> = new Array<any>();
+  artistas: Array<any> = new Array<any>();
   eventosType: Array<any> = new Array<any>();
   eventsColumns: Column[];
   eventsForm : GenericForm[];
@@ -34,15 +37,16 @@ export class EventAdminComponent {
 
   constructor(
     private eventsService: EventService,
+    private artistService: ArtistService,
     private eventsTypeService : EventTypeService,
     public dialog : MatDialog,
     private notificationService : NotificationService
   ){}
 
   ngOnInit(){
-    this.getEventsType()
     this.getEvents()
-    this.setEventsForm()
+    this.getEventsType()
+    this.getArtist();
   }
 
   getEventsType(){
@@ -52,14 +56,11 @@ export class EventAdminComponent {
         eventsType.push(val)
       });
       this.eventosType = [... eventsType];
-      this.eventsForm.find(e => e.name == "Tipo").dropdown = this.eventosType
     });
   }
 
   getEvents() {
     this.eventsService.get().subscribe((res) => {
-      console.log(res);
-
       let events = new Array();
       res.forEach(val => {
         events.push(val)
@@ -69,10 +70,15 @@ export class EventAdminComponent {
       this.loaded = true;
     });
   }
-  filterData(filters : Filter[]){
-    this.eventsService.getFiltered(filters).subscribe(res =>{
-      this.eventos = res
-    })
+
+  getArtist(){
+    this.artistService.get().subscribe((res) => {
+      let artists = new Array();
+      res.forEach(val => {
+        artists.push(val)
+      });
+      this.artistas = [... artists]
+    });
   }
 
   setColumns(): void {
@@ -83,54 +89,70 @@ export class EventAdminComponent {
         hidden: true
       },
       {
-        name: 'name',
-        dataKey: 'name',
+        name: '_urlLocation',
+        dataKey: 'urlLocation',
+        hidden: true
+      },
+      {
+        name: '_artistId',
+        dataKey: 'artistId',
+        hidden: true
+      },
+      {
+        name: '_eventTypeId',
+        dataKey: 'eventTypeId',
+        hidden: true
+      },
+      {
+        name: 'Artista',
+        dataKey: 'artist.name',
         position: 'left',
         isSortable: false,
-        isEditable: true,
-        type: ContentType.editableTextFields,
+        type: ContentType.plainText
       },
       {
         name: 'Tipo',
-        dataKey: 'eventTypeId',
+        dataKey: 'eventType.eventName',
         position: 'left',
         isSortable: false,
-        isEditable: true,
-        type: ContentType.dropdownFields,
-        dropdown: this.eventosType,
-        dropdownKeyToShow : 'eventName',
-        dropdownKeyValue : 'id'
+        type: ContentType.plainText,
       },
       {
-        name: 'city',
-        dataKey: 'city',
+        name: 'Nombre',
+        dataKey: 'name',
         position: 'left',
         isSortable: false,
-        isEditable: true,
         type: ContentType.editableTextFields,
       },
       {
-        name: 'location',
+        name: 'Ciudad',
+        dataKey: 'city',
+        position: 'left',
+        isSortable: false,
+        type: ContentType.editableTextFields,
+      },
+      {
+        name: 'Localización',
         dataKey: 'location',
         position: 'left',
         isSortable: false,
-        isEditable: true,
         type: ContentType.editableTextFields,
       }
       ,
       {
-        name: 'date',
+        name: 'Fecha',
         dataKey: 'date',
         position: 'left',
         isSortable: false,
-        isEditable: true,
         type: ContentType.datePicker
       }
     ];
   }
 
-  setEventsForm() {
-    this.eventsForm = [
+
+
+  setEventsForm() : any[]{
+    return [
       {
         name: 'Id',
         dataKey : 'id',
@@ -149,8 +171,17 @@ export class EventAdminComponent {
         position: {row: 0, col : 1, rowSpan: 1, colSpan: 1},
         type: ContentType.dropdownFields,
         dropdown : this.eventosType,
+        dropdownKeyToShow : 'eventName',
         dropdownKeyValue : 'id',
-        dropdownKeyToShow : 'eventName'
+      },
+      {
+        name: 'Artista',
+        dataKey: 'artistId',
+        position: {row: 0, col : 1, rowSpan: 1, colSpan: 1},
+        type: ContentType.dropdownFields,
+        dropdown : this.artistas,
+        dropdownKeyValue : 'id',
+        dropdownKeyToShow : 'name'
       },
       {
         name: 'Ciudad',
@@ -179,10 +210,12 @@ export class EventAdminComponent {
   showFormDialog() {
     let dialogData = {
       formData: undefined,
-      formFields: this.eventsForm,
+      formFields: this.setEventsForm(),
       formCols: 2,
-      dialogTitle: 'Añade un nuevo artista'
+      dialogTitle: 'Añade un nuevo evento'
     }
+    console.log(dialogData.formFields);
+
     const dialogRef = this.dialog.open(GenericFormDialogComponent, {data: dialogData, minWidth : 600});
     dialogRef.afterClosed().subscribe(result => {
       if(result !== undefined && result !== null && result !== ''){
@@ -206,10 +239,10 @@ export class EventAdminComponent {
   updateElement(event: any) {
     this.eventsService.update(event.id, event).subscribe(res => {
       this.getEvents();
-      this.notificationService.showMessageOnSnackbar(notifications.ENTRY_SAVED_SUCCESSFULLY, 'OK!', 3500, 'succes-button');
+      this.notificationService.showMessageOnSnackbar(res.message, 'OK!', 3500, 'success-button');
       this.apiFailing = false;
     }, err => {
-      this.notificationService.showMessageOnSnackbar(notifications.ENTRY_NOT_SAVED, 'KO!', 3500, 'succes-button')
+      this.notificationService.showMessageOnSnackbar(err.error.message, 'KO!', 3500, 'err-button')
       this.apiFailing = true;
     }
     )
@@ -218,13 +251,13 @@ export class EventAdminComponent {
   deleteElement(event: any) {
     this.eventsService.delete(event.id).subscribe(res => {
       this.getEvents();
-      this.notificationService.showMessageOnSnackbar(notifications.ENTRY_DELETED_SUCCESSFULLY, 'OK!', 3500, 'succes-button');
+      this.notificationService.showMessageOnSnackbar(res.message, 'OK!', 3500, 'success-button');
       this.apiFailing = false;
       if(this.table.tableDataSource.data.length === 1){
         this.table.setTableDataSource();
       }
     }, err => {
-      this.notificationService.showMessageOnSnackbar(notifications.ENTRY_NOT_DELETED, 'KO!', 3500, 'succes-button')
+      this.notificationService.showMessageOnSnackbar(err.error.message, 'KO!', 3500, 'err-button')
       this.apiFailing = true;
     }
     )
@@ -234,13 +267,19 @@ export class EventAdminComponent {
     event.id = 0;
     this.eventsService.create(event).subscribe(res => {
       this.getEvents();
-      this.notificationService.showMessageOnSnackbar(notifications.ENTRY_CREATED_SUCCESSFULLY, 'OK!', 3500, 'succes-button');
+      this.notificationService.showMessageOnSnackbar(res.message, 'OK!', 3500, 'success-button');
       this.apiFailing = false;
     }, err => {
-      this.notificationService.showMessageOnSnackbar(notifications.ENTRY_NOT_CREATED, 'KO!', 3500, 'succes-button')
+      this.notificationService.showMessageOnSnackbar(err.error.message, 'KO!', 3500, 'err-button')
       this.apiFailing = true;
     }
     )
+  }
+
+  filterData(filters : Filter[]){
+    this.eventsService.getFiltered(filters).subscribe(res =>{
+      this.eventos = res
+    })
   }
 
   updatePageNumber(pageNum: number) {

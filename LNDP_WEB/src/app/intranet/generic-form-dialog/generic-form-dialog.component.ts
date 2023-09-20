@@ -29,8 +29,8 @@ export class GenericFormDialogComponent {
     this.loaded = true;
   }
 
-  getValidatorErrorMessage(errors) {
-    return this.errorMessagesService.getErrorMessage(Object.keys(errors)[0]);
+  getValidatorErrorMessage(errors): string {
+    return this.errorMessagesService.getErrorMessage(errors);
   }
 
   buildForm() {
@@ -63,4 +63,5 @@ export class GenericFormDialogComponent {
     });
     this.dialogRef.close(data);
   }
+
 }

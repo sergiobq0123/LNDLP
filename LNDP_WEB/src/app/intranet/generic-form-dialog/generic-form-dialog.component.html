@@ -50,6 +50,9 @@
                                 <mat-hint>MM/DD/YYYY</mat-hint>
                                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                                 <mat-datepicker #picker></mat-datepicker>
+                                <mat-error *ngIf="controls[item.dataKey].errors">
+                                  {{getValidatorErrorMessage(controls[item.dataKey].errors)}}
+                              </mat-error>
                             </mat-form-field>
                         </ng-container>
                         <ng-container *ngSwitchCase="'specialContent'">

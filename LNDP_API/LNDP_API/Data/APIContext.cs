@@ -48,8 +48,11 @@ namespace LNDP_API.Data
                 }
                 
             );
+            modelBuilder.Entity<Artist>()
+                .HasMany(a => a.Events)
+                .WithOne(e => e.Artist)
+                .OnDelete(DeleteBehavior.Cascade);
         }
-
     }
 }
 

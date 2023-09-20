@@ -13,6 +13,10 @@ import { Validators } from '@angular/forms';
 import { notifications } from 'src/app/common/notifications';
 import { GenericFormDialogComponent } from '../generic-form-dialog/generic-form-dialog.component';
 import { Filter } from '../generic-table/Filter';
+import { UserRoleService } from 'src/app/services/intranet/user-role.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { ArtistService } from 'src/app/services/intranet/artist.service';
+
 
 @Component({
   selector: 'app-user-admin',
@@ -21,6 +25,8 @@ import { Filter } from '../generic-table/Filter';
 })
 export class UserAdminComponent {
   users: Array<any> = new Array<any>();
+  usersRole: Array<any> = new Array<any>();
+  artistWithoutUser: Array<any> = new Array<any>();
   usersColumns: Column[];
   usersForm: GenericForm[];
   pageNumber: number = 1;
@@ -38,19 +44,18 @@ export class UserAdminComponent {
 
   constructor(
     private userService: UsersService,
+    private _authService : AuthService,
+    private _artistService : ArtistService,
     public dialog: MatDialog,
     private notificationService: NotificationService
   ) {}
 
   ngOnInit() {
     this.getUsers();
-    this.setUserForm();
   }
 
   getUsers() {
     this.userService.get().subscribe((res) => {
-      console.log(res);
-
       let users = new Array();
       res.forEach((val) => {
         users.push(val);
@@ -59,6 +64,16 @@ export class UserAdminComponent {
       this.setColumns();
       this.loaded = true;
     });
+  }
+
+  getArtistWithoutUser(): any[] {
+    var artisWithoutU : any [] = []
+    this._artistService.getArtistWithoutU().subscribe((res) => {
+      res.forEach((val) => {
+        artisWithoutU.push(val);
+      });
+    });
+    return artisWithoutU
   }
 
   filterData(filters : Filter[]){
@@ -75,39 +90,53 @@ export class UserAdminComponent {
         hidden: true
       },
       {
-        name: 'username',
+        name: '_userRoleId',
+        dataKey: 'userRoleId',
+        hidden: true
+      },
+      {
+        name: 'Artista',
+        dataKey: 'artist.name',
+        position: 'left',
+        isSortable: true,
+        type: ContentType.plainText,
+      },
+      {
+        name: 'Nombre de usuario',
         dataKey: 'username',
         position: 'left',
         isSortable: true,
-        isEditable: true,
         hidden: false,
         type: ContentType.editableTextFields,
       },
       {
-        name: 'email',
+        name: 'Email',
         dataKey: 'email',
         position: 'left',
         isSortable: false,
-        isEditable: true,
         type: ContentType.editableTextFields,
       },
       {
-        name: 'userRole',
-        dataKey: 'userRoleId',
+        name: 'New Password',
+        dataKey: 'password',
         position: 'left',
         isSortable: false,
-        isEditable: true,
         type: ContentType.editableTextFields,
-      },
+      }
     ];
   }
 
-  setUserForm() {
-    this.usersForm = [
+  setUserForm() : any[] {
+    return [
       {
         name: '_id',
         dataKey: 'id',
         hidden: true,
+      },
+      {
+        name: 'UserRole',
+        dataKey: 'userRoleId',
+        hidden : true,
       },
       {
         name: 'Nombre de usuario',
@@ -115,6 +144,15 @@ export class UserAdminComponent {
         position: { row: 0, col: 0, rowSpan: 1, colSpan: 1 },
         type: ContentType.editableTextFields,
         validators: [Validators.required],
+      },
+      {
+        name: 'Artista',
+        dataKey: 'artistId',
+        position: { row: 0, col: 0, rowSpan: 1, colSpan: 1 },
+        type: ContentType.dropdownFields,
+        dropdown: this.getArtistWithoutUser(),
+        dropdownKeyToShow : 'name',
+        dropdownKeyValue : 'id'
       },
       {
         name: 'Contraseña',
@@ -129,21 +167,14 @@ export class UserAdminComponent {
         position: { row: 1, col: 0, rowSpan: 1, colSpan: 1 },
         type: ContentType.editableTextFields,
         validators: [Validators.required],
-      },
-      {
-        name: 'Tipo',
-        dataKey: 'userRoleId',
-        position: { row: 1, col: 0, rowSpan: 1, colSpan: 1 },
-        type: ContentType.editableTextFields,
-        validators: [Validators.required],
-      },
+      }
     ];
   }
 
   showFormDialog() {
     let dialogData = {
       formData: undefined,
-      formFields: this.usersForm,
+      formFields: this.setUserForm(),
       formCols: 2,
       dialogTitle: 'Añade un nuevo usuario'
     }
@@ -151,6 +182,7 @@ export class UserAdminComponent {
     dialogRef.afterClosed().subscribe(result => {
       if(result !== undefined && result !== null && result !== ''){
         console.log(result);
+        result["userRoleId"] = 2
         this.createElement(result)
       }
     })
@@ -195,7 +227,7 @@ export class UserAdminComponent {
           notifications.ENTRY_NOT_DELETED,
           'KO!',
           3500,
-          'succes-button'
+          'err-button'
         );
         this.apiFailing = true;
       }
@@ -204,7 +236,9 @@ export class UserAdminComponent {
 
   createElement(event: any) {
     event.id = 0;
-    this.userService.create(event).subscribe(
+    console.log(event);
+
+    this._authService.registrer(event).subscribe(
       (res) => {
         this.getUsers();
         this.notificationService.showMessageOnSnackbar(
@@ -220,7 +254,7 @@ export class UserAdminComponent {
           notifications.ENTRY_NOT_CREATED,
           'KO!',
           3500,
-          'succes-button'
+          'err-button'
         );
         this.apiFailing = true;
       }
@@ -228,7 +262,7 @@ export class UserAdminComponent {
   }
 
   updateElement(event: any) {
-    this.userService.update(event.id, event).subscribe(
+    this._authService.update(event.id, event).subscribe(
       (res) => {
         this.getUsers();
         this.notificationService.showMessageOnSnackbar(
@@ -244,7 +278,7 @@ export class UserAdminComponent {
           notifications.ENTRY_NOT_SAVED,
           'KO!',
           3500,
-          'succes-button'
+          'err-button'
         );
         this.apiFailing = true;
       }

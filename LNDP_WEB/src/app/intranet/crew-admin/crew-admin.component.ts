@@ -20,10 +20,7 @@ import { Filter } from '../generic-table/Filter';
 })
 export class CrewAdminComponent {
   crew: Array<any> = new Array<any>();
-  artists: Array<any> = new Array<any>();
-  artistsWithoutC: Array<any> = new Array<any>();
   crewColumns: Column[];
-  crewForm: GenericForm[];
   pageNumber: number = 1;
   loaded: boolean = false;
   newRowAdded: boolean = false;
@@ -45,39 +42,7 @@ export class CrewAdminComponent {
   ) {}
 
   ngOnInit() {
-    this.getArtist();
-    this.getArtistWithoutC();
     this.getCrew();
-    this.setCrewForm();
-  }
-
-
-  getArtistWithoutC() {
-    this.artistService.getArtistWithoutC().subscribe((res) => {
-      let artist = new Array();
-      res.forEach((val) => {
-        artist.push(val);
-      });
-      this.artistsWithoutC = [...artist];
-      this.crewForm.find(s => s.name == "Artista").dropdown = this.artistsWithoutC
-    });
-  }
-
-  filterData(filters : Filter[]){
-    this.crewService.getFiltered(filters).subscribe(res =>{
-      this.crew = res
-    })
-  }
-
-  getArtist() {
-    this.artistService.get().subscribe((res) => {
-      console.log(res);
-      let artist = new Array();
-      res.forEach((val) => {
-        artist.push(val);
-      });
-      this.artists = [...artist];
-    });
   }
 
   getCrew() {
@@ -103,21 +68,16 @@ export class CrewAdminComponent {
       },
       {
         name: 'Artista',
-        dataKey: 'artistId',
+        dataKey: 'artist.name',
         position: 'left',
-        isEditable: true,
         hidden: false,
-        type: ContentType.dropdownFields,
-        dropdown: this.artists,
-        dropdownKeyToShow : 'name',
-        dropdownKeyValue : 'id'
+        type: ContentType.plainText
       },
       {
         name: 'DJ',
         dataKey: 'dj',
         position: 'left',
         isSortable: true,
-        isEditable: true,
         hidden: false,
         type: ContentType.editableTextFields,
       },
@@ -126,7 +86,6 @@ export class CrewAdminComponent {
         dataKey: 'roadManager',
         position: 'left',
         isSortable: false,
-        isEditable: true,
         type: ContentType.editableTextFields,
       },
       {
@@ -134,7 +93,6 @@ export class CrewAdminComponent {
         dataKey: 'soundTechnician',
         position: 'left',
         isSortable: false,
-        isEditable: true,
         type: ContentType.editableTextFields,
       },
       {
@@ -142,14 +100,23 @@ export class CrewAdminComponent {
         dataKey: 'lightingTechnician',
         position: 'left',
         isSortable: false,
-        isEditable: true,
         type: ContentType.editableTextFields,
       },
     ];
   }
 
-  setCrewForm() {
-    this.crewForm = [
+  getArtistWithoutC(): any[] {
+    var artistWithotCrew: any [] = [];
+    this.artistService.getArtistWithoutC().subscribe((res) => {
+      res.forEach((val) => {
+        artistWithotCrew.push(val);
+      });
+    });
+    return artistWithotCrew;
+  }
+
+  setCrewForm(): any[] {
+    return [
       {
         name: 'Id',
         dataKey: 'id',
@@ -161,7 +128,7 @@ export class CrewAdminComponent {
         position: {row : 0, col : 0, rowSpan : 1, colSpan : 1},
         hidden: false,
         type: ContentType.dropdownFields,
-        dropdown: this.artistsWithoutC,
+        dropdown: this.getArtistWithoutC(),
         dropdownKeyToShow : 'name',
         dropdownKeyValue : 'id'
       },
@@ -197,10 +164,11 @@ export class CrewAdminComponent {
   showFormDialog() {
     let dialogData = {
       formData: undefined,
-      formFields: this.crewForm,
+      formFields: this.setCrewForm(),
       formCols: 2,
-      dialogTitle: 'Añade una nueva crew',
+      dialogTitle: 'Añade un nuevo equipo',
     };
+
     const dialogRef = this.dialog.open(GenericFormDialogComponent, {
       data: dialogData,
       minWidth: 600,
@@ -235,9 +203,8 @@ export class CrewAdminComponent {
   updateElement(event: any) {
     this.crewService.update(event.id, event).subscribe(
       (res) => {
-        this.getCrew();
         this.notificationService.showMessageOnSnackbar(
-          notifications.ENTRY_SAVED_SUCCESSFULLY,
+          res.message,
           'OK!',
           3500,
           'succes-button'
@@ -246,8 +213,8 @@ export class CrewAdminComponent {
       },
       (err) => {
         this.notificationService.showMessageOnSnackbar(
-          notifications.ENTRY_NOT_SAVED,
-          'KO!',
+          err.error.message,
+          'ERROR!',
           3500,
           'succes-button'
         );
@@ -261,7 +228,7 @@ export class CrewAdminComponent {
       (res) => {
         this.getCrew();
         this.notificationService.showMessageOnSnackbar(
-          notifications.ENTRY_DELETED_SUCCESSFULLY,
+          res.message,
           'OK!',
           3500,
           'succes-button'
@@ -273,10 +240,10 @@ export class CrewAdminComponent {
       },
       (err) => {
         this.notificationService.showMessageOnSnackbar(
-          notifications.ENTRY_NOT_DELETED,
-          'KO!',
+          err.error.message,
+          'ERROR!',
           3500,
-          'succes-button'
+          'err-button'
         );
         this.apiFailing = true;
       }
@@ -288,9 +255,8 @@ export class CrewAdminComponent {
     this.crewService.create(event).subscribe(
       (res) => {
         this.getCrew();
-        this.getArtistWithoutC();
         this.notificationService.showMessageOnSnackbar(
-          notifications.ENTRY_CREATED_SUCCESSFULLY,
+          res.message,
           'OK!',
           3500,
           'succes-button'
@@ -299,14 +265,20 @@ export class CrewAdminComponent {
       },
       (err) => {
         this.notificationService.showMessageOnSnackbar(
-          notifications.ENTRY_NOT_CREATED,
-          'KO!',
+          err.error.message,
+          'ERROR!',
           3500,
-          'succes-button'
+          'err-button'
         );
         this.apiFailing = true;
       }
     );
+  }
+
+  filterData(filters : Filter[]){
+    this.crewService.getFiltered(filters).subscribe(res =>{
+      this.crew = res
+    })
   }
 
   updatePageNumber(pageNum: number) {

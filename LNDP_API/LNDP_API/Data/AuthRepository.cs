@@ -39,8 +39,6 @@ namespace LNDP_API.Data {
             CreatePasswordHash(password, out passwordHash, out passwordSalt);
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
-            Console.WriteLine("----------------", user.PasswordHash );
-            Console.WriteLine("----------------" + user.PasswordSalt );
             await _context.User.AddAsync(user);
             await _context.SaveChangesAsync();
 

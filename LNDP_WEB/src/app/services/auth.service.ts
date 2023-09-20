@@ -8,7 +8,7 @@ import { Urls } from '../common/urls';
 @Injectable({
   providedIn: 'root'
 })
-export class LoginService extends ServiceBaseService{
+export class AuthService extends ServiceBaseService{
   loginChangedEvent = new Subject()
 
   constructor(private LocalStorageService: LocalStorageService, http: HttpClient) {
@@ -20,19 +20,18 @@ export class LoginService extends ServiceBaseService{
       email: email,
       password: password
     };
-
-    return this.post(this.getUrl + "/Login", data);
+    return this.post(this.getUrl + Urls.LOGIN, data);
   }
 
-  registrer(email: string, password : string, username : string, userRoleId : number){
-
+  registrer(event : any){
     const data = {
-      email: email,
-      password: password,
-      username : username,
-      userRoleId: userRoleId
+      email: event.email,
+      password: event.password,
+      username : event.username,
+      userRoleId: event.userRoleId,
+      artistId : event.artistId
     };
-    return this.post(this.getUrl, data);
+    return this.post(this.getUrl + Urls.REGISTER, data);
   }
 
   logout(){

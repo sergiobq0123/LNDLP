@@ -15,7 +15,7 @@ namespace TTTAPI.Utils {
                 var valueInt = 0;
                 bool isValueInt = int.TryParse(value, out valueInt);
                 MethodCallExpression? propLower = null, valueLower = null;
-                if (filter.Type.Equals("editableTextFields")) {
+                if (filter.Type.Equals("editableTextFields") || filter.Type.Equals("plainText")) {
                     if (prop.Type.Equals(typeof(string))) {
                         propLower = Expression.Call(prop, typeof(string).GetMethod("ToLower", System.Type.EmptyTypes));
                     }

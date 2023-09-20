@@ -41,6 +41,47 @@ namespace LNDP_API.Services {
             return tokenHandler.WriteToken(token);
         }
 
+        public string ObtenerTipoDeUsuarioDesdeToken(string token)
+        {
+            if(token == "" || token == null){
+                return "Sin token";
+            }else{
+                 try
+                {
+                    var tokenHandler = new JwtSecurityTokenHandler();
+                    var jwtToken = tokenHandler.ReadJwtToken(token);
+                    return jwtToken.Claims.FirstOrDefault(x => x.Type == "role")?.Value ?? "UsuarioDesconocido";
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                    return "TokenInválido"; 
+                }
+            }
+            
+        }
+        public int ObtenerIdArtistaDesdeToken(string token)
+        {
+            try
+            {
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var jwtToken = tokenHandler.ReadJwtToken(token);
+                var userIdClaim = jwtToken.Claims.FirstOrDefault(x => x.Type == "userID")?.Value;
+
+                if (!string.IsNullOrEmpty(userIdClaim) && int.TryParse(userIdClaim, out int userId))
+                {
+                    return userId;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+            catch (Exception)
+            {
+                return -1;
+            }
+        }
         
     }
 }

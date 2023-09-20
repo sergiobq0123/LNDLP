@@ -69,7 +69,7 @@ tr {
 
 /*Filter buttons hover*/
 .filter-options-buttons-container button:hover {
-  color: green;
+  color: red;
 }
 
 /* Filter options buttons */
@@ -161,7 +161,6 @@ h2.column-selection-title {
 }
 
 .filter-title-icon {
-  margin-left: 8px;
   vertical-align: middle;
 }
 
@@ -246,10 +245,13 @@ h2.column-selection-title {
   width: 100%;
 }
 
+::ng-dep .mat-mdc-paginator-range-label{
+  width: 120px;
+}
+
 .button-map-icon{
   padding-left: 20px;
 }
-
 
 .button-map {
  background-color: transparent;

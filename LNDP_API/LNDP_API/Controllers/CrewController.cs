@@ -5,6 +5,9 @@ using LNDP_API.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Linq.Expressions;
 using TTTAPI.Utils;
+using LNDP_API.Dtos;
+using AutoMapper;
+using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 
 namespace LNDP_API.Controllers
 {   
@@ -13,10 +16,12 @@ namespace LNDP_API.Controllers
     public class CrewController : ControllerBase
     {
         private readonly APIContext _context;
+        private readonly IMapper _mapper;
 
-        public CrewController(APIContext context)
+        public CrewController(APIContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -25,21 +30,12 @@ namespace LNDP_API.Controllers
             if(_context.Crew == null){
                 return NotFound();
             }
-            return await _context.Crew.Where(u => u.IsActive).ToListAsync();
+            return await _context.Crew
+            .Include( c => c.Artist)
+            .ToListAsync();
 
         }
 
-        [HttpPost("filter")]
-        public async Task<ActionResult<IEnumerable<Crew>>> GetFilteredCrew([FromBody] List<Filter> filters)
-        {
-            if (_context.Crew == null)
-            {
-                return NotFound();
-            }
-
-            Expression<Func<Crew, bool>> predicate = FilterUtils.GetPredicate<Crew>(filters);
-            return await _context.Crew.Where(predicate.And(p=> p.IsActive)).ToListAsync();
-        }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Crew>> GetCrew(int id)
@@ -52,57 +48,56 @@ namespace LNDP_API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Crew>> PostCrew(Crew Crew)
+        public async Task<ActionResult<Crew>> PostCrew(CrewDto crewDto)
         {
-            var artist = await _context.Artist.FindAsync(Crew.ArtistId);
-            if(artist != null){
-                artist.Crew = Crew; 
+            var artist = await _context.Artist.FindAsync(crewDto.ArtistId);
+            if(artist == null){
+                return BadRequest(new { Message = "Artista no encontrado" });
             }
-            _context.Crew.Add(Crew);
+            var crew = _mapper.Map<Crew>(crewDto);
+            crew.Artist = artist;
+            _context.Crew.Add(crew);
             await _context.SaveChangesAsync();
-            return CreatedAtAction("GetCrew", new { id = Crew.Id }, Crew);
+            return Ok( new { Message = "Equipo creado para " + artist.Name });
+
         }
 
         [HttpPut("{id}")]
         public async Task<ActionResult> PutCrew(int id, Crew Crew)
         {
             if(id != Crew.Id){
-                return BadRequest();
+                return BadRequest(new { Message = "El equipo no coincide con el id"});
             }
             _context.Entry(Crew).State = EntityState.Modified;
-            try {
-                await _context.SaveChangesAsync();
-            }
-            catch(DbUpdateConcurrencyException){
-                if(!CrewExists(id)){
-                    return NotFound();
-                }
-                else{
-                    throw;
-                }
-            }
-
-            return NoContent();
+            await _context.SaveChangesAsync();
+            return Ok(new { Message = "Equipo actualizo con exito"});
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteCrew(int id)
         {
-            if(_context.Crew == null){
-                return NotFound();
+            var artist = _context.Artist.Include(a => a.Crew).FirstOrDefault(a => a.CrewId == id);
+            var crew = artist?.Crew;
+            if(artist == null || crew == null){
+                return BadRequest(new { Message = "Error al eliminar Red Social" });
             }
-            var Crew = await _context.Crew.FindAsync(id);
-            if (Crew == null){
-                return NotFound();
-            }
-            _context.Crew.Remove(Crew);
+            artist.Crew = null;
+            _context.Crew.Remove(crew);
             await _context.SaveChangesAsync();
+            return Ok(new { Message = "Equipo eliminada para " + artist.Name });
 
-            return Ok();
         }
 
-        private bool CrewExists(int id){
-            return (_context.Crew?.Any(u => u.Id == id)).GetValueOrDefault();
+        [HttpPost("filter")]
+        public async Task<ActionResult<IEnumerable<Crew>>> GetFilteredCrew([FromBody] List<Filter> filters)
+        {
+            if (_context.Crew == null)
+            {
+                return NotFound();
+            }
+
+            Expression<Func<Crew, bool>> predicate = FilterUtils.GetPredicate<Crew>(filters);
+            return await _context.Crew.Where(predicate).ToListAsync();
         }
     }
 }

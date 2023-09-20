@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { LoginService } from 'src/app/services/login.service';
 import { User } from 'src/app/models/user.model';
 import { UsersService } from 'src/app/services/intranet/users.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -16,7 +16,7 @@ export class NavbarComponent {
   nameLogin: string;
   user: User;
 
-  constructor(private _breakpointObserver: BreakpointObserver, private _loginService : LoginService, private _usersService : UsersService) {}
+  constructor(private _breakpointObserver: BreakpointObserver, private _authService : AuthService, private _usersService : UsersService) {}
 
 
   ngOnInit() {
@@ -26,12 +26,12 @@ export class NavbarComponent {
         this.isMobile = result.matches;
         this.showMenu = false; // Oculta el menú desplegable al cargar la página
       });
-      this.isLogin = this._loginService.isLoggedIn();
+      this.isLogin = this._authService.isLoggedIn();
       this.getUser();
   }
 
   getUser():void {
-    var userLoggin = this._loginService.whoIsLoggedIn();
+    var userLoggin = this._authService.whoIsLoggedIn();
     this._usersService.get(+userLoggin.userID).subscribe((res) => {
       this.user = res;
     })
@@ -42,7 +42,7 @@ export class NavbarComponent {
   }
 
   logout() {
-    this._loginService.logout()
+    this._authService.logout()
     console.log("logout");
     this.isLogin = false;
   }
