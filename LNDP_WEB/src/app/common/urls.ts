@@ -15,5 +15,6 @@ export class Urls {
   static EVENT = '/api/Event'
   static EVENTTYPE = '/api/EventType'
   static CREW = '/api/Crew'
+  static DOSSIER = '/api/Dossier'
   static IMAGE = '/postImage'
 }

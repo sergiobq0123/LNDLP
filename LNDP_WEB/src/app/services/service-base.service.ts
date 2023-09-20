@@ -52,6 +52,9 @@ export class ServiceBaseService {
   public update(id: number, data: any): Observable<any>{
     return this.http.put(`${this.getUrl}/${id}`, data)
   }
+  public updateAll(data: any): Observable<any>{
+    return this.http.put(this.getUrl, data)
+  }
   public post(url: string, data: any): Observable<any>{
     return this.http.post(url, data)
   }

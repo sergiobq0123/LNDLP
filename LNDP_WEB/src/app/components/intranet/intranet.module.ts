@@ -19,6 +19,7 @@ import { CrewAdminComponent } from './crew-admin/crew-admin.component';
 import { DialogImagenAdminComponent } from './dialog-imagen-admin/dialog-imagen-admin.component';
 import { ArtistCrewComponent } from './dialog-artist/artist-crew.component';
 import { ArtistImageComponent } from './artist-image/artist-image.component';
+import { DossierComponent } from './dossier/dossier.component';
 
 
 
@@ -40,6 +41,7 @@ import { ArtistImageComponent } from './artist-image/artist-image.component';
     DialogImagenAdminComponent,
     ArtistCrewComponent,
     ArtistImageComponent,
+    DossierComponent,
   ],
   imports: [
     IntranetRoutingModule,

@@ -36,6 +36,7 @@ export class ArtistImageComponent {
   onImageUpload(event: any, artist: any) {
     this.image =
       event.target.files === undefined ? null : event.target.files[0];
+    console.log(this.image);
 
     this.artistService
       .postImageArtist(this.image, artist.id)
