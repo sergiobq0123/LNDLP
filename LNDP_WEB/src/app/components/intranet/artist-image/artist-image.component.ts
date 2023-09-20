@@ -1,6 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ArtistService } from 'src/app/services/intranet/artist.service';
-import { NotificationService } from '../../services/notification.service';
+import { NotificationService } from '../../../services/notification.service';
 
 @Component({
   selector: 'app-artist-image',

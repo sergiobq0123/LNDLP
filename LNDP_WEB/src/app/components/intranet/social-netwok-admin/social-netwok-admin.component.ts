@@ -15,7 +15,7 @@ import { GenericFormDialogComponent } from '../generic-form-dialog/generic-form-
 import { ArtistService } from 'src/app/services/intranet/artist.service';
 import { Filter } from '../generic-table/Filter';
 import { Artist } from 'src/app/models/artist.model';
-import { SocialNetwork } from '../../models/socialNetwork.model';
+import { SocialNetwork } from '../../../models/socialNetwork.model';
 
 @Component({
   selector: 'app-social-netwok-admin',

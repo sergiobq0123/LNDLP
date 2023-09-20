@@ -32,7 +32,7 @@ import { ErrorCode, ErrorDTO, ErrorType } from 'src/app/common/errorDTO.model';
 import { NotificationService } from 'src/app/services/notification.service';
 import { ValidatorService } from 'src/app/services/validator.service';
 import { Column } from './column';
-import { DeleteWindowComponent } from 'src/app/intranet/delete-window/delete-window.component';
+import { DeleteWindowComponent } from 'src/app/components/intranet/delete-window/delete-window.component';
 import { MatDialog } from '@angular/material/dialog';
 import { notifications } from 'src/app/common/notifications';
 import {

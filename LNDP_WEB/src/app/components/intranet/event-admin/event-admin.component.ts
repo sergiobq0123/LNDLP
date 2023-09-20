@@ -11,7 +11,7 @@ import { Sort } from '@angular/material/sort';
 import { notifications } from 'src/app/common/notifications';
 import { EventTypeService } from 'src/app/services/intranet/event-type.service';
 import { Filter } from '../generic-table/Filter';
-import { ArtistService } from '../../services/intranet/artist.service';
+import { ArtistService } from '../../../services/intranet/artist.service';
 import { MatFormField } from '@angular/material/form-field';
 
 @Component({
