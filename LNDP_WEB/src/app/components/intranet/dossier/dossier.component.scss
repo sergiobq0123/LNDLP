@@ -1,19 +1,19 @@
 .example-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px; /* Espacio entre las tarjetas */
+  gap: 20px;
 }
 
 .dossier-card {
   max-width: 600px;
   width: 100%;
-  background-color: #f7f7f7; /* Cambia el color de fondo si es necesario */
-  border: 1px solid #ddd; /* Agrega un borde si es necesario */
-  border-radius: 10px; /* Esquinas redondeadas */
-  overflow: hidden; /* Para limitar la altura */
-  height: 100px; /* Altura fija de 100px */
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+  height: 100px;
   display: flex;
-  position: relative; /* Necesario para el posicionamiento absoluto */
+  position: relative;
 }
 
 .card-content {
@@ -24,30 +24,29 @@
 }
 
 .image-section {
-  width: 100px; /* Ancho fijo para la imagen */
-  flex-shrink: 0; /* Evita que la imagen se estire */
-  margin-right: 20px; /* Espacio entre la imagen y el texto */
-  position: relative; /* Permitir el posicionamiento absoluto dentro de la tarjeta */
+  width: 100px;
+  flex-shrink: 0;
+  margin-right: 20px;
+  position: relative;
 }
 
 .card-image {
   max-width: 100%;
-  max-height: 100%; /* Ajusta la imagen al 100% de la altura de la tarjeta */
+  max-height: 100%;
   height: auto;
   width: auto;
-  transition: transform 0.2s ease; /* Agregamos una transición suave */
+  transition: transform 1.5s ease;
 }
 
 .text-section {
-  flex-grow: 1; /* Hace que esta sección ocupe el espacio restante */
+  flex-grow: 1;
   display: flex;
   align-items: center;
-  justify-content: center; /* Centra el contenido verticalmente */
+  justify-content: center;
 }
 
 .card-section {
-  /* Añade otros estilos necesarios para el texto */
-  font-size: 18px; /* Ajusta el tamaño del texto según tu preferencia */
+  font-size: 18px;
 }
 
 .button-section {

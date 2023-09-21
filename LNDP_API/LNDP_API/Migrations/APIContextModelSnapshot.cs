@@ -36,9 +36,6 @@ namespace LNDP_API.Migrations
                     b.Property<string>("CommunicationEmail")
                         .HasColumnType("text");
 
-                    b.Property<int?>("CrewId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
@@ -51,19 +48,10 @@ namespace LNDP_API.Migrations
                     b.Property<string>("RecruitmentEmail")
                         .HasColumnType("text");
 
-                    b.Property<int?>("SocialNetworkId")
-                        .HasColumnType("integer");
-
                     b.Property<int?>("UserId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CrewId")
-                        .IsUnique();
-
-                    b.HasIndex("SocialNetworkId")
-                        .IsUnique();
 
                     b.HasIndex("UserId")
                         .IsUnique();
@@ -79,6 +67,9 @@ namespace LNDP_API.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("ArtistId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Dj")
                         .HasColumnType("text");
 
@@ -92,6 +83,9 @@ namespace LNDP_API.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ArtistId")
+                        .IsUnique();
 
                     b.ToTable("Crew");
                 });
@@ -197,6 +191,9 @@ namespace LNDP_API.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("ArtistId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Instagram")
                         .HasColumnType("text");
 
@@ -213,6 +210,9 @@ namespace LNDP_API.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ArtistId")
+                        .IsUnique();
 
                     b.ToTable("SocialNetwork");
                 });
@@ -277,21 +277,19 @@ namespace LNDP_API.Migrations
 
             modelBuilder.Entity("LNDP_API.Models.Artist", b =>
                 {
-                    b.HasOne("LNDP_API.Models.Crew", "Crew")
-                        .WithOne("Artist")
-                        .HasForeignKey("LNDP_API.Models.Artist", "CrewId");
-
-                    b.HasOne("LNDP_API.Models.SocialNetwork", "SocialNetwork")
-                        .WithOne("Artist")
-                        .HasForeignKey("LNDP_API.Models.Artist", "SocialNetworkId");
-
                     b.HasOne("LNDP_API.Models.User", null)
                         .WithOne("Artist")
                         .HasForeignKey("LNDP_API.Models.Artist", "UserId");
+                });
 
-                    b.Navigation("Crew");
+            modelBuilder.Entity("LNDP_API.Models.Crew", b =>
+                {
+                    b.HasOne("LNDP_API.Models.Artist", "Artist")
+                        .WithOne("Crew")
+                        .HasForeignKey("LNDP_API.Models.Crew", "ArtistId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
-                    b.Navigation("SocialNetwork");
+                    b.Navigation("Artist");
                 });
 
             modelBuilder.Entity("LNDP_API.Models.Event", b =>
@@ -310,6 +308,16 @@ namespace LNDP_API.Migrations
                     b.Navigation("EventType");
                 });
 
+            modelBuilder.Entity("LNDP_API.Models.SocialNetwork", b =>
+                {
+                    b.HasOne("LNDP_API.Models.Artist", "Artist")
+                        .WithOne("SocialNetwork")
+                        .HasForeignKey("LNDP_API.Models.SocialNetwork", "ArtistId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Artist");
+                });
+
             modelBuilder.Entity("LNDP_API.Models.User", b =>
                 {
                     b.HasOne("LNDP_API.Models.UserRole", "UserRole")
@@ -321,18 +329,11 @@ namespace LNDP_API.Migrations
 
             modelBuilder.Entity("LNDP_API.Models.Artist", b =>
                 {
+                    b.Navigation("Crew");
+
                     b.Navigation("Events");
-                });
 
-            modelBuilder.Entity("LNDP_API.Models.Crew", b =>
-                {
-                    b.Navigation("Artist")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("LNDP_API.Models.SocialNetwork", b =>
-                {
-                    b.Navigation("Artist");
+                    b.Navigation("SocialNetwork");
                 });
 
             modelBuilder.Entity("LNDP_API.Models.User", b =>

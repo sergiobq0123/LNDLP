@@ -48,6 +48,8 @@ export class GenericFormDialogComponent {
   setData() {
     this.data.formFields.map((c) => {
       let value;
+      console.log(c.dataKey);
+
       let dataKeys = c.dataKey.split('.');
       if (dataKeys.length > 1) {
         let mainKey = dataKeys.shift();

@@ -15,6 +15,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { GenericTableComponent } from '../generic-table/generic-table.component';
 import { Filter } from '../generic-table/Filter';
 import { ArtistCrewComponent } from '../dialog-artist/artist-crew.component';
+import { SocialNetworkService } from 'src/app/services/intranet/social-network.service';
+import { CrewService } from 'src/app/services/intranet/crew.service';
 
 @Component({
   selector: 'app-artist-admin',
@@ -26,6 +28,9 @@ export class ArtistAdminComponent {
   socialNetwork: Array<any> = new Array<any>();
   artistColumns: Column[];
   artistForm: GenericForm[];
+  artistData: GenericForm[];
+  socialNetworkForm: GenericForm[];
+  crewForm: GenericForm[];
   pageNumber: number = 1;
   loaded: boolean = false;
   newRowAdded: boolean = false;
@@ -42,14 +47,18 @@ export class ArtistAdminComponent {
   @ViewChild('socialNetworkTemplate') socialNetworkTemplate: TemplateRef<any>;
 
   constructor(
-    private artistService: ArtistService,
+    public artistService: ArtistService,
     public dialog: MatDialog,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private socialNetworkService : SocialNetworkService,
+    private crewService : CrewService,
   ) {}
 
   ngOnInit() {
     this.getArtist();
     this.setArtistForm();
+    this.setSocialNetworkForm();
+    this.setCrewForm();
   }
 
   getArtist() {
@@ -74,16 +83,6 @@ export class ArtistAdminComponent {
       {
         name: '_photo',
         dataKey: 'photo',
-        hidden: true,
-      },
-      {
-        name: '_crewId',
-        dataKey: 'crewId',
-        hidden: true,
-      },
-      {
-        name: '_socialNetwork',
-        dataKey: 'socialNetworkId',
         hidden: true,
       },
       {
@@ -188,12 +187,169 @@ export class ArtistAdminComponent {
         type: ContentType.editableTextFields,
         validators: [Validators.required],
       },
+      {
+        name: 'artistId',
+        dataKey: 'artistId',
+        hidden: true,
+      },
+      {
+        name: 'Instagram',
+        dataKey: 'instagram',
+        position: { row: 0, col: 0, rowSpan: 1, colSpan: 1 },
+        type: ContentType.editableTextFields,
+        validators: [Validators.required],
+      },
+      {
+        name: 'Youtube',
+        dataKey: 'youtube',
+        position: { row: 1, col: 0, rowSpan: 1, colSpan: 1 },
+        type: ContentType.editableTextFields,
+        validators: [Validators.required],
+      },
+      {
+        name: 'Spotify',
+        dataKey: 'spotify',
+        position: { row: 2, col: 0, rowSpan: 1, colSpan: 1 },
+        type: ContentType.editableTextFields,
+        validators: [Validators.required],
+      },
+      {
+        name: 'TikTok',
+        dataKey: 'tikTok',
+        position: { row: 2, col: 2, rowSpan: 1, colSpan: 1 },
+        type: ContentType.editableTextFields,
+        validators: [Validators.required],
+      },
+      {
+        name: 'Twitter',
+        dataKey: 'twitter',
+        position: { row: 3, col: 1, rowSpan: 1, colSpan: 1 },
+        type: ContentType.editableTextFields,
+        validators: [Validators.required],
+      },
+      {
+        name: 'DJ',
+        dataKey: 'dj',
+        position: { row: 0, col: 0, rowSpan: 1, colSpan: 1 },
+        type: ContentType.editableTextFields,
+      },
+      {
+        name: 'Road Manager',
+        dataKey: 'roadManager',
+        position: { row: 1, col: 0, rowSpan: 1, colSpan: 1 },
+        type: ContentType.editableTextFields,
+      },
+      {
+        name: 'Tecnico de sonido',
+        dataKey: 'soundTechnician',
+        position: { row: 2, col: 0, rowSpan: 1, colSpan: 1 },
+        type: ContentType.editableTextFields,
+        validators: [Validators.required],
+      },
+      {
+        name: 'Tecnico de luces',
+        dataKey: 'lightingTechnician',
+        position: { row: 2, col: 2, rowSpan: 1, colSpan: 1 },
+        type: ContentType.editableTextFields,
+        validators: [Validators.required],
+      },
+    ];
+  }
+
+  setSocialNetworkForm() {
+    this.socialNetworkForm = [
+      {
+        name: 'Id',
+        dataKey: 'id',
+        hidden: true,
+      },
+      {
+        name: 'artistId',
+        dataKey: 'artistId',
+        hidden: true,
+      },
+      {
+        name: 'Instagram',
+        dataKey: 'instagram',
+        position: { row: 0, col: 0, rowSpan: 1, colSpan: 1 },
+        type: ContentType.editableTextFields,
+        validators: [Validators.required],
+      },
+      {
+        name: 'Youtube',
+        dataKey: 'youtube',
+        position: { row: 1, col: 0, rowSpan: 1, colSpan: 1 },
+        type: ContentType.editableTextFields,
+        validators: [Validators.required],
+      },
+      {
+        name: 'Spotify',
+        dataKey: 'spotify',
+        position: { row: 2, col: 0, rowSpan: 1, colSpan: 1 },
+        type: ContentType.editableTextFields,
+        validators: [Validators.required],
+      },
+      {
+        name: 'TikTok',
+        dataKey: 'tikTok',
+        position: { row: 2, col: 2, rowSpan: 1, colSpan: 1 },
+        type: ContentType.editableTextFields,
+        validators: [Validators.required],
+      },
+      {
+        name: 'Twitter',
+        dataKey: 'twitter',
+        position: { row: 3, col: 1, rowSpan: 1, colSpan: 1 },
+        type: ContentType.editableTextFields,
+        validators: [Validators.required],
+      },
+    ];
+  }
+
+  setCrewForm() {
+    this.crewForm =  [
+      {
+        name: 'Id',
+        dataKey: 'id',
+        hidden: true,
+      },
+      {
+        name: 'artistId',
+        dataKey: 'artistId',
+        hidden: true,
+      },
+      {
+        name: 'DJ',
+        dataKey: 'dj',
+        position: { row: 0, col: 0, rowSpan: 1, colSpan: 1 },
+        type: ContentType.editableTextFields,
+      },
+      {
+        name: 'Road Manager',
+        dataKey: 'roadManager',
+        position: { row: 1, col: 0, rowSpan: 1, colSpan: 1 },
+        type: ContentType.editableTextFields,
+      },
+      {
+        name: 'Tecnico de sonido',
+        dataKey: 'soundTechnician',
+        position: { row: 2, col: 0, rowSpan: 1, colSpan: 1 },
+        type: ContentType.editableTextFields,
+        validators: [Validators.required],
+      },
+      {
+        name: 'Tecnico de luces',
+        dataKey: 'lightingTechnician',
+        position: { row: 2, col: 2, rowSpan: 1, colSpan: 1 },
+        type: ContentType.editableTextFields,
+        validators: [Validators.required],
+      },
     ];
   }
 
   showFormDialog() {
     let dialogData = {
-      formData: undefined,
+      formData: this.artistData,
       formFields: this.artistForm,
       formCols: 2,
       dialogTitle: 'Añade un nuevo artista',
@@ -206,6 +362,46 @@ export class ArtistAdminComponent {
       if (result !== undefined && result !== null && result !== '') {
         console.log(result);
         this.createElement(result);
+      }
+    });
+  }
+
+  showFormDialogSocialNetwork(dataShow: any) {
+    let dialogData = {
+      formData: dataShow,
+      formFields: this.socialNetworkForm,
+      formCols: 2,
+      dialogTitle: 'Red Social',
+    };
+    const dialogRef = this.dialog.open(GenericFormDialogComponent, {
+      data: dialogData,
+      minWidth: 600,
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result !== undefined && result !== null && result !== '') {
+        console.log(result);
+        this.updateElement(this.socialNetworkService, result);
+      }
+    });
+  }
+
+  showFormDialogCrew(dataShow: any) {
+    console.log(dataShow);
+
+    let dialogData = {
+      formData: dataShow,
+      formFields: this.crewForm,
+      formCols: 2,
+      dialogTitle: 'Equipo',
+    };
+    const dialogRef = this.dialog.open(GenericFormDialogComponent, {
+      data: dialogData,
+      minWidth: 600,
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result !== undefined && result !== null && result !== '') {
+        console.log(result);
+        this.updateElement(this.crewService,result);
       }
     });
   }
@@ -229,8 +425,8 @@ export class ArtistAdminComponent {
     }
   }
 
-  updateElement(event: any) {
-    this.artistService.update(event.id, event).subscribe(
+  updateElement(service : any ,event: any) {
+    service.update(event.id, event).subscribe(
       (res) => {
         this.getArtist();
         this.notificationService.showMessageOnSnackbar(
@@ -260,7 +456,7 @@ export class ArtistAdminComponent {
         this.notificationService.showMessageOnSnackbar(
           notifications.ENTRY_DELETED_SUCCESSFULLY,
           'OK!',
-          3500,
+          350000,
           'success-button'
         );
         this.apiFailing = false;

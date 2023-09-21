@@ -153,7 +153,10 @@ namespace LNDP_API.Controllers
             }
             else
             {
-                return Ok("Este artista no tiene " + tipo.ToLower());
+                return await _context.Event
+                    .Where(e => e.EventType.EventName == tipo)
+                    .Where(e => e.ArtistId == artist.Id)
+                    .ToListAsync();
             }
         }
 

@@ -2,3 +2,20 @@
 
 * { margin: 0; padding: 0; border: 0; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.mat-mdc-snack-bar-container{
+
+  --mdc-snackbar-container-color : #000000;
+  --mat-mdc-snack-bar-button-color : #000000;
+
+  &.success-button{
+    --mdc-snackbar-container-color : #16aa65;
+  }
+  &.err-button{
+    --mdc-snackbar-container-color : #aa1622;
+  }
+  &.warn-button{
+    --mdc-snackbar-container-color : #f8f00e;
+  }
+}
+

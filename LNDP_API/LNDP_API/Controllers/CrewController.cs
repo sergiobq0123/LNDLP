@@ -76,15 +76,15 @@ namespace LNDP_API.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteCrew(int id)
         {
-            var artist = _context.Artist.Include(a => a.Crew).FirstOrDefault(a => a.CrewId == id);
-            var crew = artist?.Crew;
-            if(artist == null || crew == null){
-                return BadRequest(new { Message = "Error al eliminar Red Social" });
-            }
-            artist.Crew = null;
-            _context.Crew.Remove(crew);
-            await _context.SaveChangesAsync();
-            return Ok(new { Message = "Equipo eliminada para " + artist.Name });
+            // var artist = _context.Artist.Include(a => a.Crew).FirstOrDefault(a => a.CrewId == id);
+            // var crew = artist?.Crew;
+            // if(artist == null || crew == null){
+            //     return BadRequest(new { Message = "Error al eliminar Red Social" });
+            // }
+            // artist.Crew = null;
+            // _context.Crew.Remove(crew);
+            // await _context.SaveChangesAsync();
+             return Ok(new { Message = "Equipo eliminada para " });
 
         }
 

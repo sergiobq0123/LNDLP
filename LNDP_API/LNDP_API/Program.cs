@@ -5,7 +5,7 @@ using LNDP_API.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using LNDP_API.Mapper;
+using LNDP_API.Mapping;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);

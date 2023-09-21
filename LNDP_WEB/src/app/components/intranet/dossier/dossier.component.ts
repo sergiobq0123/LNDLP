@@ -20,20 +20,28 @@ export class DossierComponent {
   dossiers: Array<any> = new Array<any>();
   dossierLink: any[] = [
     {
-      seccion: 'PR',
-      seccionUrl: 'prmarketing',
+      seccion: 'Home',
+      seccionUrl: '/Home',
     },
     {
-      seccion: 'mkt',
-      seccionUrl: 'dfhdfg',
+      seccion: 'Marketing',
+      seccionUrl: '/Marketing',
     },
     {
-      seccion: 'PghgR',
-      seccionUrl: 'dfdsafh',
+      seccion: 'Agency',
+      seccionUrl: '/Agency',
     },
     {
-      seccion: 'dfh',
-      seccionUrl: 'dfh',
+      seccion: 'Visual',
+      seccionUrl: '/Visual',
+    },
+    {
+      seccion: 'TourManager',
+      seccionUrl: '/Tourmanager',
+    },
+    {
+      seccion: 'Artistas y sellos',
+      seccionUrl: '/ArtistasSellos',
     },
   ];
   /**

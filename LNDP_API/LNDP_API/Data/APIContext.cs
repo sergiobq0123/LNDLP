@@ -52,6 +52,17 @@ namespace LNDP_API.Data
                 .HasMany(a => a.Events)
                 .WithOne(e => e.Artist)
                 .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Artist>()
+                .HasOne(a => a.SocialNetwork)
+                .WithOne(sm => sm.Artist)
+                .HasForeignKey<SocialNetwork>(sm => sm.ArtistId)
+                .OnDelete(DeleteBehavior.Cascade); 
+            modelBuilder.Entity<Artist>()
+                .HasOne(a => a.Crew)
+                .WithOne(sm => sm.Artist)
+                .HasForeignKey<Crew>(sm => sm.ArtistId)
+                .OnDelete(DeleteBehavior.Cascade); 
+    
         }
     }
 }

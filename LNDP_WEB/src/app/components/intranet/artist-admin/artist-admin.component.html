@@ -21,7 +21,7 @@
     (filtered)="filterData($event)"
     (sort)="sortData($event)"
     [hasActions]="true"
-    (modified)="updateElement($event)"
+    (modified)="updateElement(this.artistService, $event)"
     (rowAdded)="newRowAdded = $event"
     (create)="createElement($event)"
     (delete)="deleteElement($event)"
@@ -34,16 +34,16 @@
   </app-generic-table>
 </ng-template>
 
-<ng-template #crewTemplate let-rowData="rowData">
+<ng-template #socialNetworkTemplate let-rowData="rowData">
   <button mat-icon-button malToolTipe="Ver la crew" matTooltipShowDelay="1000" aria-label="Ver la crew"
-    (click)="showDialog(rowData.id, rowData.name, rowData.crew)">
+    (click)="showFormDialogSocialNetwork(rowData.socialNetwork)">
     <mat-icon>supervisor_account</mat-icon>
   </button>
 </ng-template>
 
-<ng-template #socialNetworkTemplate let-rowData="rowData">
+<ng-template #crewTemplate let-rowData="rowData">
   <button mat-icon-button malToolTipe="Ver la crew" matTooltipShowDelay="1000" aria-label="Ver la crew"
-    (click)="showDialog(rowData.id, rowData.name, rowData.socialNetwork)">
+    (click)="showFormDialogCrew( rowData.crew)">
     <mat-icon>supervisor_account</mat-icon>
   </button>
 </ng-template>
