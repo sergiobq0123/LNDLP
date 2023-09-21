@@ -5,6 +5,9 @@ using LNDP_API.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Linq.Expressions;
 using TTTAPI.Utils;
+using LNDP_API.Dtos;
+using AutoMapper;
+using Microsoft.AspNetCore.SignalR.Protocol;
 
 namespace LNDP_API.Controllers
 {   
@@ -13,10 +16,12 @@ namespace LNDP_API.Controllers
     public class ArtistController : ControllerBase
     {
         private readonly APIContext _context;
+        private readonly IMapper _mapper;
 
-        public ArtistController(APIContext context)
+        public ArtistController(APIContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -85,11 +90,16 @@ namespace LNDP_API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Artist>> PostArtist(Artist Artist)
+        public async Task<ActionResult<Artist>> PostArtist([FromBody] ArtistDto artistDto)
         {
-            _context.Artist.Add(Artist);
+            var artist = _mapper.Map<Artist>(artistDto);
+            var socialNetwork = _mapper.Map<SocialNetwork>(artistDto);
+            var crew = _mapper.Map<Crew>(artistDto);
+            artist.SocialNetwork = socialNetwork;
+            artist.Crew = crew;
+            _context.Artist.Add(artist);
             await _context.SaveChangesAsync();
-            return Ok(new { Message = "Artista " + Artist.Name + " creado con éxito"  });
+            return Ok();
         }
 
         [HttpPost("postImage/{id}")]
@@ -144,18 +154,18 @@ namespace LNDP_API.Controllers
                 return NotFound();
             }
             
-            var socialNetwork = _context.SocialNetwork.FirstOrDefault(s => s.Artist == Artist);
-            var crew = _context.Crew.FirstOrDefault(c => c.Artist == Artist);
-            var user = _context.User.FirstOrDefault(c => c.Artist == Artist);
-            if(socialNetwork != null){
-                _context.SocialNetwork.Remove(socialNetwork);
-            }
-            if(crew != null){
-                _context.Crew.Remove(crew);
-            }
-            if (user != null){
-                _context.User.Remove(user);
-            }
+            // var socialNetwork = _context.SocialNetwork.FirstOrDefault(s => s.Artist == Artist);
+            // var crew = _context.Crew.FirstOrDefault(c => c.Artist == Artist);
+            // var user = _context.User.FirstOrDefault(c => c.Artist == Artist);
+            // if(socialNetwork != null){
+            //     _context.SocialNetwork.Remove(socialNetwork);
+            // }
+            // if(crew != null){
+            //     _context.Crew.Remove(crew);
+            // }
+            // if (user != null){
+            //     _context.User.Remove(user);
+            //}
 
             
             _context.Artist.Remove(Artist);

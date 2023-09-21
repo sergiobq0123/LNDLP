@@ -12,7 +12,7 @@ namespace LNDP_API.Data
         public DbSet<LNDP_API.Models.User> User {get ; set ; }
         public DbSet<LNDP_API.Models.Artist> Artist {get ; set ; }
         public DbSet<LNDP_API.Models.Crew> Crew {get ; set ; }
-        public DbSet<LNDP_API.Models.Dosier> Dosier {get ; set ; }
+        public DbSet<LNDP_API.Models.Dossier> Dossier {get ; set ; }
         public DbSet<LNDP_API.Models.SocialNetwork> SocialNetwork {get ; set ; }
         public DbSet<LNDP_API.Models.Event> Event {get ; set ; }
         public DbSet<LNDP_API.Models.EventType> EventType {get ; set ; }
@@ -52,6 +52,17 @@ namespace LNDP_API.Data
                 .HasMany(a => a.Events)
                 .WithOne(e => e.Artist)
                 .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Artist>()
+                .HasOne(a => a.SocialNetwork)
+                .WithOne(sm => sm.Artist)
+                .HasForeignKey<SocialNetwork>(sm => sm.ArtistId)
+                .OnDelete(DeleteBehavior.Cascade); 
+            modelBuilder.Entity<Artist>()
+                .HasOne(a => a.Crew)
+                .WithOne(sm => sm.Artist)
+                .HasForeignKey<Crew>(sm => sm.ArtistId)
+                .OnDelete(DeleteBehavior.Cascade); 
+    
         }
     }
 }

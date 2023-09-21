@@ -73,15 +73,15 @@ namespace LNDP_API.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteSocialNetwork(int id)
         {
-            var artist = _context.Artist.Include(a => a.SocialNetwork).FirstOrDefault(a => a.SocialNetworkId == id);
-            var socialNetwork = artist?.SocialNetwork;
-            if(artist == null || socialNetwork == null){
-                return BadRequest(new { Message = "Error al eliminar Red Social" });
-            }
-            artist.SocialNetworkId = null;
-            _context.SocialNetwork.Remove(socialNetwork);
-            await _context.SaveChangesAsync();
-            return Ok(new { Message = "Red Social eliminada para " + artist.Name });
+            // var artist = _context.Artist.Include(a => a.SocialNetwork).FirstOrDefault(a => a.SocialNetworkId == id);
+            // var socialNetwork = artist?.SocialNetwork;
+            // if(artist == null || socialNetwork == null){
+            //     return BadRequest(new { Message = "Error al eliminar Red Social" });
+            // }
+            // artist.SocialNetworkId = null;
+            // _context.SocialNetwork.Remove(socialNetwork);
+            // await _context.SaveChangesAsync();
+            return Ok(new { Message = "Red Social eliminada para "  });
         }
 
         [HttpPost("filter")]

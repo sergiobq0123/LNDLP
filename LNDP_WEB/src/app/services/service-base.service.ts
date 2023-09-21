@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 import { Urls } from '../common/urls';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Filter } from '../intranet/generic-table/Filter';
+import { Filter } from '../components/intranet/generic-table/Filter';
 
 @Injectable({
   providedIn: 'root'
@@ -51,6 +51,9 @@ export class ServiceBaseService {
   }
   public update(id: number, data: any): Observable<any>{
     return this.http.put(`${this.getUrl}/${id}`, data)
+  }
+  public updateAll(data: any): Observable<any>{
+    return this.http.put(this.getUrl, data)
   }
   public post(url: string, data: any): Observable<any>{
     return this.http.post(url, data)

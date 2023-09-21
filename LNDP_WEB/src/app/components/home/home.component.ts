@@ -1,4 +1,5 @@
 import { Component} from '@angular/core';
+import { DossierService } from 'src/app/services/intranet/dossier.service';
 
 
 @Component({
