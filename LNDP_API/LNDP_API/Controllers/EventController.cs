@@ -143,7 +143,7 @@ namespace LNDP_API.Controllers
         private async Task<ActionResult<IEnumerable<Event>>> GetEventsForCrew(string tipo, string token)
         {
             var userId = _tokenService.ObtenerIdArtistaDesdeToken(token);
-            var artist = await _context.Artist.FirstOrDefaultAsync(a => a.UserId == userId);
+            var artist = await _context.Artist.FirstOrDefaultAsync(a => a.User.Id == userId);
             if (artist != null)
             {
                 return await _context.Event

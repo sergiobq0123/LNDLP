@@ -1,61 +1,50 @@
-<mat-toolbar class="mat-toolbar">
+<mat-toolbar>
   <!-- Logo a la izquierda -->
   <div class="logo">
     <img src="../../../assets/logo-pagina-inicio-blanco1.png" alt="Logo">
   </div>
 
-
   <div class="botonList" *ngIf="isMobile">
-    <button
-      class="mat-toolbar-menu-button"
-      mat-icon-button
-      (click)="toggleMenu()"
-      [class.active]="showMenu"
-    >
-    <mat-icon class="mat-icon mat-icon-primary">apps</mat-icon>
-      <div></div>
-      <div></div>
-      <div></div>
+    <button mat-icon-button (click)="toggleMenu()" [class.active]="showMenu">
+      <mat-icon>apps</mat-icon>
     </button>
   </div>
 
   <div *ngIf="isMobile && showMenu" class="dropdown-menu">
-    <a mat-button routerLink="/seccion1">PR&MKTNG</a>
-    <a mat-button routerLink="/seccion2">Agency</a>
-    <a mat-button routerLink="/seccion3">Visual</a>
-    <a mat-button routerLink="/seccion3">Tour Manager</a>
-    <a mat-button routerLink="/seccion3">Artistas</a>
+    <a mat-button routerLink="/Marketing">PR&MKTNG</a>
+    <a mat-button routerLink="/Agency">Agency</a>
+    <a mat-button routerLink="/Visual">Visual</a>
+    <a mat-button routerLink="/Tourmanager">Tour Manager</a>
+    <a mat-button routerLink="/ArtistasSellos">Artistas</a>
   </div>
 
   <!-- Secciones a la derecha -->
   <div *ngIf="!isMobile && !showMenu" class="secciones">
-    <a mat-button routerLink="/seccion1">PR&MKTNG</a>
-    <a mat-button routerLink="/seccion2">Agency</a>
-    <a mat-button routerLink="/seccion3">Visual</a>
-    <a mat-button routerLink="/seccion3">Tour Manager</a>
-    <a mat-button routerLink="/seccion3">Artistas y sellos</a>
+    <a mat-button routerLink="/Marketing">PR&MKTNG</a>
+    <a mat-button routerLink="/Agency">Agency</a>
+    <a mat-button routerLink="/Visual">Visual</a>
+    <a mat-button routerLink="/Tourmanager">Tour Manager</a>
+    <a mat-button routerLink="/ArtistasSellos">Artistas y sellos</a>
   </div>
 
-
   <!-- Si el usuario NO está iniciado sesión -->
-<div *ngIf="!isLogin" class="login">
-  <button mat-icon-button [matMenuTriggerFor]="menu">
-    <mat-icon class="mat-icon mat-icon-primary">account_circle</mat-icon>
-  </button>
-  <mat-menu #menu="matMenu">
-    <button mat-menu-item [routerLink]="'Login'">Iniciar Sesión</button>
-  </mat-menu>
-</div>
+  <div *ngIf="!isLogin" class="login">
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>account_circle</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item [routerLink]="'Login'">Iniciar Sesión</button>
+    </mat-menu>
+  </div>
 
-<!-- Si el usuario está iniciado sesión -->
-<div *ngIf="isLogin" class="logout">
-  <p>{{ user?.username }} </p>
-  <button mat-icon-button [matMenuTriggerFor]="menu">
-    <mat-icon>account_circle</mat-icon>
-  </button>
-  <mat-menu #menu="matMenu">
-    <button mat-menu-item [routerLink]="['/Intranet/Home']">Intranet</button>
-  </mat-menu>
-</div>
-
+  <!-- Si el usuario está iniciado sesión -->
+  <div *ngIf="isLogin" class="logout">
+    <p>{{ user?.username }} </p>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>account_circle</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item [routerLink]="['/Intranet/Home']">Intranet</button>
+    </mat-menu>
+  </div>
 </mat-toolbar>

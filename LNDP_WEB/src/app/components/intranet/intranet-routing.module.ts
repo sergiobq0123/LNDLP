@@ -4,11 +4,9 @@ import { ArtistAdminComponent } from './artist-admin/artist-admin.component';
 import { GenericSidenavComponent } from './generic-sidenav/generic-sidenav.component';
 import { ConcertAdminComponent } from './concert-admin/concert-admin.component';
 import { FestivalAdminComponent } from './festival-admin/festival-admin.component';
-import { SocialNetwokAdminComponent } from './social-netwok-admin/social-netwok-admin.component';
 import { UserAdminComponent } from './user-admin/user-admin.component';
 import { HomeAdminComponent } from './home-admin/home-admin.component';
 import { EventAdminComponent } from './event-admin/event-admin.component';
-import { CrewAdminComponent } from './crew-admin/crew-admin.component';
 import { ArtistImageComponent } from './artist-image/artist-image.component';
 import { DossierComponent } from './dossier/dossier.component';
 
@@ -33,20 +31,12 @@ const routes: Routes = [
         component : ConcertAdminComponent,
       },
       {
-        path : 'RedesSociales',
-        component : SocialNetwokAdminComponent,
-      },
-      {
         path : 'Usuarios',
         component : UserAdminComponent,
       },
       {
         path : 'Eventos',
         component : EventAdminComponent,
-      },
-      {
-        path : 'Equipos',
-        component : CrewAdminComponent,
       },
       {
         path : 'ImagenesArtistas',

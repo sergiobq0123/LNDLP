@@ -18,6 +18,9 @@ import { AgencyWebComponent } from './components/agency-web/agency-web.component
 import { VisualWebComponent } from './components/visual-web/visual-web.component';
 import { TourManagerWebComponent } from './components/tour-manager-web/tour-manager-web.component';
 import { ArtistaSellosWebComponent } from './components/artista-sellos-web/artista-sellos-web.component';
+import { ArtistDetailWebComponent } from './components/artist-detail-web/artist-detail-web.component';
+import { ContactWebComponent } from './components/contact-web/contact-web.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +34,9 @@ import { ArtistaSellosWebComponent } from './components/artista-sellos-web/artis
     VisualWebComponent,
     TourManagerWebComponent,
     ArtistaSellosWebComponent,
+    ArtistDetailWebComponent,
+    ContactWebComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,

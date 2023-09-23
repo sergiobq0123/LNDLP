@@ -65,6 +65,18 @@
       "PackagePath": "staticwebassets\\assets\\section\\image_1695317416166.jpg"
     },
     {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\section\\image_1695389320595.jpg",
+      "PackagePath": "staticwebassets\\assets\\section\\image_1695389320595.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\section\\image_1695389331735.jpg",
+      "PackagePath": "staticwebassets\\assets\\section\\image_1695389331735.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\section\\image_1695389342797.jpg",
+      "PackagePath": "staticwebassets\\assets\\section\\image_1695389342797.jpg"
+    },
+    {
       "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.LNDP_API.Microsoft.AspNetCore.StaticWebAssets.props",
       "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
     },

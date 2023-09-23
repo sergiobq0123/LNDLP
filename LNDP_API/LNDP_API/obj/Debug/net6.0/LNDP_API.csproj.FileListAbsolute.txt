@@ -383,3 +383,5 @@ C:\Users\ssanc\OneDrive\Escritorio\LNDP\LNDP_API\LNDP_API\bin\Debug\net6.0\Micro
 C:\Users\ssanc\OneDrive\Escritorio\LNDP\LNDP_API\LNDP_API\bin\Debug\net6.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 C:\Users\ssanc\OneDrive\Escritorio\LNDP\LNDP_API\LNDP_API\bin\Debug\net6.0\Newtonsoft.Json.Bson.dll
 C:\Users\ssanc\OneDrive\Escritorio\LNDP\LNDP_API\LNDP_API\bin\Debug\net6.0\LNDP_API.staticwebassets.runtime.json
+C:\Users\ssanc\OneDrive\Escritorio\LNDP\LNDP_API\LNDP_API\bin\Debug\net6.0\SendGrid.dll
+C:\Users\ssanc\OneDrive\Escritorio\LNDP\LNDP_API\LNDP_API\bin\Debug\net6.0\StarkbankEcdsa.dll
