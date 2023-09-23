@@ -8,13 +8,13 @@ import { GenericSidenavComponent } from './components/intranet/generic-sidenav/g
 import { ArtistAdminComponent } from './components/intranet/artist-admin/artist-admin.component';
 import { FestivalAdminComponent } from './components/intranet/festival-admin/festival-admin.component';
 import { ConcertAdminComponent } from './components/intranet/concert-admin/concert-admin.component';
-import { SocialNetwokAdminComponent } from './components/intranet/social-netwok-admin/social-netwok-admin.component';
 import { UserAdminComponent } from './components/intranet/user-admin/user-admin.component';
 import { MarketingWebComponent } from './components/marketing-web/marketing-web.component';
 import { AgencyWebComponent } from './components/agency-web/agency-web.component';
 import { VisualWebComponent } from './components/visual-web/visual-web.component';
 import { TourManagerWebComponent } from './components/tour-manager-web/tour-manager-web.component';
 import { ArtistaSellosWebComponent } from './components/artista-sellos-web/artista-sellos-web.component';
+import { ArtistDetailWebComponent } from './components/artist-detail-web/artist-detail-web.component';
 
 const routes: Routes = [
   {
@@ -52,6 +52,10 @@ const routes: Routes = [
   {
     path : 'Login',
     component : LoginComponent,
+  },
+  {
+    path : 'Artist/:id',
+    component : ArtistDetailWebComponent,
   },
   {
     path : '**',

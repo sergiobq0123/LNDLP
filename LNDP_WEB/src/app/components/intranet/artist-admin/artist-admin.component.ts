@@ -14,7 +14,6 @@ import { notifications } from 'src/app/common/notifications';
 import { MatTableDataSource } from '@angular/material/table';
 import { GenericTableComponent } from '../generic-table/generic-table.component';
 import { Filter } from '../generic-table/Filter';
-import { ArtistCrewComponent } from '../dialog-artist/artist-crew.component';
 import { SocialNetworkService } from 'src/app/services/intranet/social-network.service';
 import { CrewService } from 'src/app/services/intranet/crew.service';
 
@@ -505,12 +504,6 @@ export class ArtistAdminComponent {
         this.apiFailing = true;
       }
     );
-  }
-
-  showDialog(artistaId: number, artistaName: string, dataShow: any) {
-    this.dialog.open(ArtistCrewComponent, {
-      data: { artistaId, artistaName, dataShow },
-    });
   }
 
   updatePageNumber(pageNum: number) {

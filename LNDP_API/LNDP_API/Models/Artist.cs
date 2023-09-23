@@ -12,7 +12,7 @@ namespace LNDP_API.Models {
         public  string? Phone {get ; set ; }
         public Crew? Crew { get; set; }
         public SocialNetwork? SocialNetwork { get; set; }
-        public int? UserId { get; set; }
+        public User? User { get; set; }
         public ICollection<Event>? Events {get; set;} 
     }
 }

@@ -9,6 +9,7 @@ export class Urls {
   static REGISTER = '/Register'
   static USERROLE = '/api/UserRole'
   static ARTIST = '/api/Artist'
+  static EMAIL = '/api/Email'
   static FESTIVAL = '/api/Event/type/Festival'
   static CONCIERTO = '/api/Event/type/Concierto'
   static SOCIALNETWORK = '/api/SocialNetwork'

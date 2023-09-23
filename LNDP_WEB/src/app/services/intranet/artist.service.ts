@@ -12,12 +12,7 @@ export class ArtistService extends ServiceBaseService {
     super(http, Urls.ARTIST);
    }
 
-   getArtistWithoutSN(){
-    return this.getToSpecificURL(this.getUrl + "/withoutSocialNetWork")
-   }
-   getArtistWithoutC(){
-    return this.getToSpecificURL(this.getUrl + "/withoutCrew")
-   }
+
    getArtistWithoutU(){
     return this.getToSpecificURL(this.getUrl + "/withoutUser")
    }

@@ -1,0 +1,121 @@
+.imagen-izquierda {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.imagen-derecha {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.imagen-izquierda img,
+.imagen-derecha img {
+  max-width: 40%;
+  height: auto;
+  display: block; /* Oculta las imágenes en pantallas pequeñas */
+  text-align: center;
+}
+
+.formulario {
+  text-align: center;
+  background-color: #000000;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  max-width: 800px;
+  width: 100%; /* Ocupa todo el ancho disponible */
+}
+
+.formulario-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
+}
+
+.titulo-formulario {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: white;
+  text-align: center;
+}
+
+.nombre{
+  width: 90%;
+}
+.correo{
+  width: 90%;
+}
+.mensaje{
+  width: 90%;
+  height: 100%;
+}
+
+.formulario-data {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Alinea los elementos en la parte superior */
+  gap: 10px; /* Espacio entre los campos de formulario */
+  max-height: 300px; /* Ajusta la altura máxima según tus necesidades */
+}
+
+.formulario-izquierda,
+.formulario-derecha {
+  display: inline-block;
+  vertical-align: top;
+  width: 50%; /* Divide el formulario en dos columnas */
+  padding: 10px;
+  box-sizing: border-box;
+  height: 100%;
+}
+
+.mat-form-field {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+button[type="submit"] {
+  display: block;
+  margin: 0 auto;
+}
+
+@media screen and (max-width: 768px) {
+  .formulario-container {
+    flex-direction: column; /* Apila elementos verticalmente */
+    justify-content: flex-start;
+  }
+  .formulario-data {
+    flex-direction: column; /* Apila elementos verticalmente */
+    align-items: center;
+  }
+
+  .formulario {
+    max-width: 100%; /* Ocupa todo el ancho disponible en pantallas pequeñas */
+    text-align: center;
+    justify-content: center;
+  }
+
+  .formulario-izquierda,
+  .formulario-derecha {
+    width: 100%;
+    display: inline-block;
+    vertical-align: top;
+    padding: 0%;
+  }
+
+  .imagen-izquierda,
+  .imagen-derecha {
+    display: none; /* Oculta las imágenes en pantallas pequeñas */
+    padding: 0%;
+  }
+
+  .mat-form-field {
+    width: 100%; /* Ocupa todo el ancho disponible en pantallas pequeñas */
+  }
+
+  textarea.mat-input-element {
+    height: auto; /* Reestablece la altura automática para el textarea */
+  }
+}
