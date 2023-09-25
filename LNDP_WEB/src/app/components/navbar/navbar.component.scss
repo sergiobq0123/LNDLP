@@ -14,9 +14,7 @@
 }
 
 .logo img {
-  max-width: 100%; /* Limita el tamaño máximo del logo al ancho del contenedor */
-  max-height: 100px; /* Establece una altura máxima para el logo (ajusta según tus necesidades) */
-  height: auto; /* Permite que la altura se ajuste proporcionalmente al ancho */
+  aspect-ratio: attr(width) / attr(height);
 }
 
 /* Estilos para las secciones y el botón de inicio de sesión (a la derecha) */

@@ -1,7 +1,9 @@
 <mat-toolbar>
   <!-- Logo a la izquierda -->
   <div class="logo">
-    <img src="../../../assets/logo-pagina-inicio-blanco1.png" alt="Logo">
+    <a mat-button routerLink="/Home">
+      <img src="../../../assets/PaginaInicio/logo-navbar.png" alt="Logo" width="100px" height="100px"/>
+    </a>
   </div>
 
   <div class="botonList" *ngIf="isMobile">
@@ -39,7 +41,7 @@
 
   <!-- Si el usuario está iniciado sesión -->
   <div *ngIf="isLogin" class="logout">
-    <p>{{ user?.username }} </p>
+    <p>{{ user?.username }}</p>
     <button mat-icon-button [matMenuTriggerFor]="menu">
       <mat-icon>account_circle</mat-icon>
     </button>
