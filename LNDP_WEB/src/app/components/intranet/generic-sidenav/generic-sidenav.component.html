@@ -12,9 +12,9 @@
           <mat-grid-tile [colspan]="opened ? 3 : 0">
             <img
               *ngIf="opened"
-              src="../../../assets/logo-pagina-inicio-blanco.png"
+              src="../../../../assets/PaginaInicio/logo-navbar.png"
               alt="LNDPLogo"
-              width="150px;"
+              width="90px"
               [routerLink]="''"
               matTooltip="Home"
               matTooltipPosition="right"
@@ -97,6 +97,34 @@
       >
         <mat-icon mat-list-icon class="menu-button">person_pin</mat-icon>
         <span *ngIf="opened" class="menu-item" class="menu-button">Artist</span>
+      </mat-list-item>
+
+      <mat-list-item
+        [routerLink]="'Song'"
+        routerLinkActive="highlighted"
+        matTooltip="Canciones"
+        matTooltipPosition="right"
+        matTooltipShowDelay="500"
+        [matTooltipDisabled]="opened"
+      >
+        <mat-icon mat-list-icon class="menu-button">add</mat-icon>
+        <span *ngIf="opened" class="menu-item" class="menu-button"
+          >Canciones</span
+        >
+      </mat-list-item>
+
+      <mat-list-item
+        [routerLink]="'Albumes'"
+        routerLinkActive="highlighted"
+        matTooltip="Albumes"
+        matTooltipPosition="right"
+        matTooltipShowDelay="500"
+        [matTooltipDisabled]="opened"
+      >
+        <mat-icon mat-list-icon class="menu-button">delete</mat-icon>
+        <span *ngIf="opened" class="menu-item" class="menu-button"
+          >Albumes</span
+        >
       </mat-list-item>
 
       <mat-list-item

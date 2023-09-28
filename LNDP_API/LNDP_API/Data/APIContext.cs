@@ -17,6 +17,8 @@ namespace LNDP_API.Data
         public DbSet<LNDP_API.Models.Event> Event {get ; set ; }
         public DbSet<LNDP_API.Models.EventType> EventType {get ; set ; }
         public DbSet<LNDP_API.Models.UserRole> UserRole {get ; set ; }
+        public DbSet<LNDP_API.Models.Album> Album {get ; set ; }
+        public DbSet<LNDP_API.Models.Song> Song {get ; set ; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {   
@@ -50,6 +52,14 @@ namespace LNDP_API.Data
             );
             modelBuilder.Entity<Artist>()
                 .HasMany(a => a.Events)
+                .WithOne(e => e.Artist)
+                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Artist>()
+                .HasMany(a => a.Albums)
+                .WithOne(e => e.Artist)
+                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Artist>()
+                .HasMany(a => a.Songs)
                 .WithOne(e => e.Artist)
                 .OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Artist>()

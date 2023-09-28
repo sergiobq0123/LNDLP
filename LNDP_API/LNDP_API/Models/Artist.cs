@@ -14,5 +14,7 @@ namespace LNDP_API.Models {
         public SocialNetwork? SocialNetwork { get; set; }
         public User? User { get; set; }
         public ICollection<Event>? Events {get; set;} 
+        public ICollection<Album>? Albums {get; set;} 
+        public ICollection<Song>? Songs {get; set;} 
     }
 }

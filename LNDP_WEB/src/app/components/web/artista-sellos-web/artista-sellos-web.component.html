@@ -1,0 +1,67 @@
+<h1>LNDLP Artistas</h1>
+<div class="container">
+  <div class="card" *ngFor="let artist of artists">
+    <div class="imgBx">
+      <img
+        [src]="artist.photo"
+        alt=""
+        width="100px"
+        height="auto"
+      />
+    </div>
+    <div class="details">
+      <div class="content">
+        <h5>
+          {{artist.name}}
+        </h5>
+        <ul>
+          <li>
+            <a [href]="'https://www.instagram.com/' +artist.socialNetwork?.instagram"
+              target="_blank"
+            >
+              <button>
+                <img
+                src="./../../../assets/RRSSArtist/logotipo-de-instagram.png"
+                alt="Instagram"
+            />
+              </button></a>
+          </li>
+          <li>
+            <a [href]="artist.socialNetwork?.twitter"
+            target="_blank"
+              >
+              <button><img
+                src="./../../../assets/RRSSArtist/logotipo-de-twitter.png"
+                alt="Twitter"
+            /></button></a>
+          </li>
+          <li>
+            <a [href]="artist.socialNetwork?.youtube"
+            target="_blank"
+              ><button><img
+                src="./../../../assets/RRSSArtist/logotipo-de-youtube.png"
+                alt="Youtube"
+            /></button></a>
+          </li>
+          <li>
+            <a [href]="artist.socialNetwork?.spotify"
+            target="_blank"
+              ><button><img
+                src="./../../../assets/RRSSArtist/logotipo-de-spotify.png"
+                alt="Spotify"
+            /></button></a>
+          </li>
+          <li>
+            <a [href]="artist.socialNetwork?.tiktok"
+            target="_blank"
+              ><button><img
+                src="./../../../assets/RRSSArtist/logotipo-de-tiktok.png"
+                alt="TikTok"
+            /></button></a>
+          </li>
+        </ul>
+        <a (click)="openArtistDetail(artist)" class="button-read-more">Saber más</a>
+      </div>
+    </div>
+  </div>
+</div>

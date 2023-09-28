@@ -10,7 +10,6 @@ import { Column } from '../generic-table/column';
 import { ArtistService } from 'src/app/services/intranet/artist.service';
 import { Validators } from '@angular/forms';
 import { GenericFormDialogComponent } from '../generic-form-dialog/generic-form-dialog.component';
-import { notifications } from 'src/app/common/notifications';
 import { MatTableDataSource } from '@angular/material/table';
 import { GenericTableComponent } from '../generic-table/generic-table.component';
 import { Filter } from '../generic-table/Filter';
@@ -453,7 +452,7 @@ export class ArtistAdminComponent {
       (res) => {
         this.getArtist();
         this.notificationService.showMessageOnSnackbar(
-          notifications.ENTRY_DELETED_SUCCESSFULLY,
+          res.message,
           'OK!',
           350000,
           'success-button'
@@ -465,7 +464,7 @@ export class ArtistAdminComponent {
       },
       (err) => {
         this.notificationService.showMessageOnSnackbar(
-          notifications.ENTRY_NOT_DELETED,
+          err.error.message,
           'KO!',
           3500,
           'err-button'

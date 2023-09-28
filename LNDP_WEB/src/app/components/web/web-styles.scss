@@ -1,0 +1,86 @@
+@import "../../app.component.scss";
+
+* {
+  background-color: black;
+}
+
+h1 {
+  font-family: "Akira";
+  font-size: 60px;
+  color: white;
+  text-align: center;
+  padding: 1%;
+}
+
+h5 {
+  font-family: "Akira";
+  font-size: 20px;
+  color: white;
+  text-align: center;
+  padding: 1%;
+}
+
+h3 {
+  font-family: "Akira";
+  font-size: 30px;
+  color: white;
+  text-align: center;
+  padding: 1%;
+  padding-top: 50px;
+}
+
+p {
+  color: white;
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 25px;
+    padding: 10px;
+  }
+  h3 {
+    font-size: 15px;
+    padding: 10px;
+    padding-bottom: 10px;
+  }
+}
+
+@mixin custom-button() {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border: 0px;
+  border-radius: 50%;
+  z-index: 1;
+  &:not([disabled]) {
+    cursor: pointer;
+  }
+  &:hover:not([disabled]) {
+    box-shadow: 5px 5px 5px -3px rgba(0, 0, 0, 0.19);
+  }
+}
+
+@mixin custom-button-2() {
+  width: 90px;
+  text-decoration: none;
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  text-align: center;
+  transition-duration: 0.3s;
+  transition-property: all;
+  transition-timing-function: ease;
+  margin: 0.75rem 0;
+  border: 1px solid white;
+  color: #e1e7ef;
+  cursor: pointer;
+  &:hover {
+    border: 1px solid #f3f3f3;
+    background: white;
+    color: #000;
+  }
+}
+
