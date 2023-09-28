@@ -33,39 +33,10 @@ namespace LNDP_API.Controllers
             return await _context.Artist
             .Include(u => u.Crew)
             .Include(u => u.SocialNetwork)
+            .Include(u => u.Songs)
+            .Include(u => u.Albums)
             .ToListAsync();
         }
-
-        [HttpGet("withoutSocialNetWork")]
-        public async Task<ActionResult<IEnumerable<Artist>>> GetArtistWithoutSN()
-        {
-            if(_context.Artist == null){
-                return NotFound();
-            }
-            return await _context.Artist
-            .Where(u => u.SocialNetwork == null)
-            .ToListAsync();
-        }
-        // [HttpGet("withoutUser")]
-        // public async Task<ActionResult<IEnumerable<Artist>>> GetArtistWithoutU()
-        // {
-        //     if(_context.Artist == null){
-        //         return NotFound();
-        //     }
-        //     return await _context.Artist
-        //     .Where(u => u.UserId == null)
-        //     .ToListAsync();
-        // }
-        // [HttpGet("withoutCrew")]
-        // public async Task<ActionResult<IEnumerable<Artist>>> GetArtistWithoutC()
-        // {
-        //     if(_context.Artist == null){
-        //         return NotFound();
-        //     }
-        //     return await _context.Artist
-        //     .Where(u => u.Crew == null)
-        //     .ToListAsync();
-        // }
 
         [HttpPost("filter")]
         public async Task<ActionResult<IEnumerable<Artist>>> GetFilteredArtist([FromBody] List<Filter> filters)
@@ -82,11 +53,19 @@ namespace LNDP_API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Artist>> GetArtist(int id)
         {         
-            var Artist = await _context.Artist.FindAsync(id);
-            if(Artist == null){
-                return NotFound();
+            var artist = await _context.Artist
+                .Include(a => a.SocialNetwork)   
+                .Include(a => a.Crew)   
+                .Include(a => a.Songs)   
+                .Include(a => a.Albums)
+                .Include(a => a.Events)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(a => a.Id == id);
+
+            if(artist == null){
+                return NotFound(new { Message = "El artista no se ha encontrado" });
             }
-            return Artist;
+            return artist;
         }
 
         [HttpPost]
@@ -99,7 +78,7 @@ namespace LNDP_API.Controllers
             artist.Crew = crew;
             _context.Artist.Add(artist);
             await _context.SaveChangesAsync();
-            return Ok();
+            return Ok(new { Message = "Artista creado con éxito" });
         }
 
         [HttpPost("postImage/{id}")]
@@ -139,11 +118,11 @@ namespace LNDP_API.Controllers
         public async Task<ActionResult> PutArtist(int id, Artist Artist)
         {
             if(id != Artist.Id){
-                return BadRequest(new { Message = "Error al eliminar Artista" });
+                return BadRequest(new { Message = "El artista no se ha encontrado" });
             }
             _context.Entry(Artist).State = EntityState.Modified;
             await _context.SaveChangesAsync();
-            return Ok(new { Message = "Artista actualizo con exito"});
+            return Ok(new { Message = "Artista actualizado con exito"});
         }
 
         [HttpDelete("{id}")]
@@ -151,27 +130,12 @@ namespace LNDP_API.Controllers
         {
             var Artist = await _context.Artist.FindAsync(id);
             if(Artist == null){
-                return NotFound();
+                return NotFound(new { Message = "El artista no se ha encontrado" });
             }
-            
-            // var socialNetwork = _context.SocialNetwork.FirstOrDefault(s => s.Artist == Artist);
-            // var crew = _context.Crew.FirstOrDefault(c => c.Artist == Artist);
-            // var user = _context.User.FirstOrDefault(c => c.Artist == Artist);
-            // if(socialNetwork != null){
-            //     _context.SocialNetwork.Remove(socialNetwork);
-            // }
-            // if(crew != null){
-            //     _context.Crew.Remove(crew);
-            // }
-            // if (user != null){
-            //     _context.User.Remove(user);
-            //}
-
-            
             _context.Artist.Remove(Artist);
             await _context.SaveChangesAsync();
 
-            return Ok();
+            return Ok(new { Message = "Artista borrado con éxito"});
         }
 
         private bool ArtistExists(int id){

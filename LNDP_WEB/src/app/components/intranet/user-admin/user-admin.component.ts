@@ -10,7 +10,6 @@ import { Column } from '../generic-table/column';
 import { UsersService } from 'src/app/services/intranet/users.service';
 import { GenericTableComponent } from '../generic-table/generic-table.component';
 import { Validators } from '@angular/forms';
-import { notifications } from 'src/app/common/notifications';
 import { GenericFormDialogComponent } from '../generic-form-dialog/generic-form-dialog.component';
 import { Filter } from '../generic-table/Filter';
 import { UserRoleService } from 'src/app/services/intranet/user-role.service';
@@ -212,7 +211,7 @@ export class UserAdminComponent {
       (res) => {
         this.getUsers();
         this.notificationService.showMessageOnSnackbar(
-          notifications.ENTRY_DELETED_SUCCESSFULLY,
+          res.message,
           'OK!',
           3500,
           'succes-button'
@@ -224,7 +223,7 @@ export class UserAdminComponent {
       },
       (err) => {
         this.notificationService.showMessageOnSnackbar(
-          notifications.ENTRY_NOT_DELETED,
+          err.error.message,
           'KO!',
           3500,
           'err-button'
@@ -242,7 +241,7 @@ export class UserAdminComponent {
       (res) => {
         this.getUsers();
         this.notificationService.showMessageOnSnackbar(
-          notifications.ENTRY_CREATED_SUCCESSFULLY,
+          res.message,
           'OK!',
           3500,
           'succes-button'
@@ -251,7 +250,7 @@ export class UserAdminComponent {
       },
       (err) => {
         this.notificationService.showMessageOnSnackbar(
-          notifications.ENTRY_NOT_CREATED,
+          err.error.message,
           'KO!',
           3500,
           'err-button'
@@ -266,7 +265,7 @@ export class UserAdminComponent {
       (res) => {
         this.getUsers();
         this.notificationService.showMessageOnSnackbar(
-          notifications.ENTRY_SAVED_SUCCESSFULLY,
+          res.message,
           'OK!',
           3500,
           'succes-button'
@@ -275,7 +274,7 @@ export class UserAdminComponent {
       },
       (err) => {
         this.notificationService.showMessageOnSnackbar(
-          notifications.ENTRY_NOT_SAVED,
+          err.error.message,
           'KO!',
           3500,
           'err-button'

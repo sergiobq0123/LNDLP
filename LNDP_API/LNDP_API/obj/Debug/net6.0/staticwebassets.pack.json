@@ -17,8 +17,28 @@
       "PackagePath": "staticwebassets\\assets\\4.png"
     },
     {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Captura de pantalla 2023-09-27 201038.png",
+      "PackagePath": "staticwebassets\\assets\\Captura de pantalla 2023-09-27 201038.png"
+    },
+    {
       "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\PNG-de-personas.webp",
       "PackagePath": "staticwebassets\\assets\\PNG-de-personas.webp"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\albumes\\image_1695924727183.jpg",
+      "PackagePath": "staticwebassets\\assets\\albumes\\image_1695924727183.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\albumes\\image_1695924749731.jpg",
+      "PackagePath": "staticwebassets\\assets\\albumes\\image_1695924749731.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\albumes\\image_1695924761291.jpg",
+      "PackagePath": "staticwebassets\\assets\\albumes\\image_1695924761291.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\albumes\\image_1695924771682.jpg",
+      "PackagePath": "staticwebassets\\assets\\albumes\\image_1695924771682.jpg"
     },
     {
       "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\atm_1.jpg",
@@ -75,6 +95,86 @@
     {
       "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\section\\image_1695389342797.jpg",
       "PackagePath": "staticwebassets\\assets\\section\\image_1695389342797.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\section\\image_1695504550926.jpg",
+      "PackagePath": "staticwebassets\\assets\\section\\image_1695504550926.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\section\\image_1695665419096.jpg",
+      "PackagePath": "staticwebassets\\assets\\section\\image_1695665419096.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\section\\image_1695918190275.jpg",
+      "PackagePath": "staticwebassets\\assets\\section\\image_1695918190275.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\section\\image_1695918410032.jpg",
+      "PackagePath": "staticwebassets\\assets\\section\\image_1695918410032.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\section\\image_1695918495668.jpg",
+      "PackagePath": "staticwebassets\\assets\\section\\image_1695918495668.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\section\\image_1695918752811.jpg",
+      "PackagePath": "staticwebassets\\assets\\section\\image_1695918752811.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\section\\image_1695918853158.jpg",
+      "PackagePath": "staticwebassets\\assets\\section\\image_1695918853158.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\section\\image_1695918940065.jpg",
+      "PackagePath": "staticwebassets\\assets\\section\\image_1695918940065.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\section\\image_1695919041943.jpg",
+      "PackagePath": "staticwebassets\\assets\\section\\image_1695919041943.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\section\\image_1695919113453.jpg",
+      "PackagePath": "staticwebassets\\assets\\section\\image_1695919113453.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\section\\image_1695919534129.jpg",
+      "PackagePath": "staticwebassets\\assets\\section\\image_1695919534129.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\section\\image_1695919557660.jpg",
+      "PackagePath": "staticwebassets\\assets\\section\\image_1695919557660.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\section\\image_1695919813747.jpg",
+      "PackagePath": "staticwebassets\\assets\\section\\image_1695919813747.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\section\\image_1695921018264.jpg",
+      "PackagePath": "staticwebassets\\assets\\section\\image_1695921018264.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\section\\image_1695921047675.jpg",
+      "PackagePath": "staticwebassets\\assets\\section\\image_1695921047675.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\section\\image_1695921660790.jpg",
+      "PackagePath": "staticwebassets\\assets\\section\\image_1695921660790.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\section\\image_1695921736355.jpg",
+      "PackagePath": "staticwebassets\\assets\\section\\image_1695921736355.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\section\\image_1695921801184.jpg",
+      "PackagePath": "staticwebassets\\assets\\section\\image_1695921801184.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\section\\image_1695921835090.jpg",
+      "PackagePath": "staticwebassets\\assets\\section\\image_1695921835090.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\section\\image_1695924683707.jpg",
+      "PackagePath": "staticwebassets\\assets\\section\\image_1695924683707.jpg"
     },
     {
       "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.LNDP_API.Microsoft.AspNetCore.StaticWebAssets.props",

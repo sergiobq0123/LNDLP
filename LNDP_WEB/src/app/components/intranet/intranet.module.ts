@@ -17,6 +17,8 @@ import { EventAdminComponent } from './event-admin/event-admin.component';
 import { DialogImagenAdminComponent } from './dialog-imagen-admin/dialog-imagen-admin.component';
 import { ArtistImageComponent } from './artist-image/artist-image.component';
 import { DossierComponent } from './dossier/dossier.component';
+import { ArtistSongComponent } from './artist-song/artist-song.component';
+import { ArtistAlbumComponent } from './artist-album/artist-album.component';
 
 
 
@@ -36,6 +38,8 @@ import { DossierComponent } from './dossier/dossier.component';
     DialogImagenAdminComponent,
     ArtistImageComponent,
     DossierComponent,
+    ArtistSongComponent,
+    ArtistAlbumComponent,
   ],
   imports: [
     IntranetRoutingModule,

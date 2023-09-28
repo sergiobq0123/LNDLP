@@ -1,52 +1,67 @@
-<div class="artist-container">
-  <ng-container *ngFor="let artist of artists" class="artist-card">
-    <mat-card class="artist-card">
-      <mat-card-title class="artist-name">{{ artist.name }}</mat-card-title>
-      <mat-card-content class="artist-image-container">
-        <img
-          [src]="artist.photo"
-          alt="{{ artist.name }} Image"
-          class="artist-image"
-        />
-      </mat-card-content>
-      <mat-card-actions>
-        <div class="social-network-container">
-          <a
-            [href]="'https://www.instagram.com/' + artist.socialNetwork?.instagram"
+<h1>LNDLP Artistas</h1>
+<div class="container">
+  <div class="card" *ngFor="let artist of artists">
+    <div class="imgBx">
+      <img
+        [src]="artist.photo"
+        alt=""
+        width="100px"
+        height="auto"
+      />
+    </div>
+    <div class="details">
+      <div class="content">
+        <h5>
+          {{artist.name}}
+        </h5>
+        <ul>
+          <li>
+            <a [href]="'https://www.instagram.com/' +artist.socialNetwork?.instagram"
+              target="_blank"
+            >
+              <button>
+                <img
+                src="./../../../assets/RRSSArtist/logotipo-de-instagram.png"
+                alt="Instagram"
+            />
+              </button></a>
+          </li>
+          <li>
+            <a [href]="artist.socialNetwork?.twitter"
             target="_blank"
-            class="logo-artist-social-network"
-          >
-            <img src="./../../../assets/RRSSArtist/instagram.png" alt="Instagram" />
-          </a>
-          <a
-            [href]="'https://www.youtube.com/' + artist.socialNetwork?.youtube"
+              >
+              <button><img
+                src="./../../../assets/RRSSArtist/logotipo-de-twitter.png"
+                alt="Twitter"
+            /></button></a>
+          </li>
+          <li>
+            <a [href]="artist.socialNetwork?.youtube"
             target="_blank"
-            class="logo-artist-social-network"
-          >
-            <img src="./../../../assets/RRSSArtist/youtube.png" alt="YouTube" />
-          </a>
-          <a
-            [href]="'https://www.spotify.com/' +artist.socialNetwork?.spotify"
+              ><button><img
+                src="./../../../assets/RRSSArtist/logotipo-de-youtube.png"
+                alt="Youtube"
+            /></button></a>
+          </li>
+          <li>
+            <a [href]="artist.socialNetwork?.spotify"
             target="_blank"
-            class="logo-artist-social-network"
-          >
-            <img src="./../../../assets/RRSSArtist/spotify.png" alt="Spotify" />
-          </a>
-          <a
-            [href]="'https://www.tiktok.com/@' +artist.socialNetwork?.tikTok"
+              ><button><img
+                src="./../../../assets/RRSSArtist/logotipo-de-spotify.png"
+                alt="Spotify"
+            /></button></a>
+          </li>
+          <li>
+            <a [href]="artist.socialNetwork?.tiktok"
             target="_blank"
-            class="logo-artist-social-network"
-          >
-            <img src="./../../../assets/RRSSArtist/tiktok.png" alt="TikTok" />
-          </a>
-          <a
-            class="logo-artist-social-network"
-            (click)="openArtistDetail(artist)"
-          >
-            <img src="./../../../assets/RRSSArtist/twitter.png" alt="Twitter" />
-          </a>
-        </div>
-      </mat-card-actions>
-    </mat-card>
-  </ng-container>
+              ><button><img
+                src="./../../../assets/RRSSArtist/logotipo-de-tiktok.png"
+                alt="TikTok"
+            /></button></a>
+          </li>
+        </ul>
+        <a (click)="openArtistDetail(artist)" class="button-read-more">Saber más</a>
+      </div>
+    </div>
+  </div>
 </div>

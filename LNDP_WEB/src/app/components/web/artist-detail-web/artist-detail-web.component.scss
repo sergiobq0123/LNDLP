@@ -1,0 +1,33 @@
+@import '../web-styles.scss';
+.container {
+  padding: 30px 30px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 50px; /* Separación más grande entre las tarjetas de artistas */
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.container-image {
+  width: 300px;
+  height: 520px;
+}
+
+.container-description {
+  width: 600px;
+  height: 300px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+
+  &p{
+    padding: 20px;
+  }
+}
+
+.image{
+  max-width: 100%;
+  max-height: 100%;
+}

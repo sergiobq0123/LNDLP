@@ -100,6 +100,34 @@
       </mat-list-item>
 
       <mat-list-item
+        [routerLink]="'Song'"
+        routerLinkActive="highlighted"
+        matTooltip="Canciones"
+        matTooltipPosition="right"
+        matTooltipShowDelay="500"
+        [matTooltipDisabled]="opened"
+      >
+        <mat-icon mat-list-icon class="menu-button">add</mat-icon>
+        <span *ngIf="opened" class="menu-item" class="menu-button"
+          >Canciones</span
+        >
+      </mat-list-item>
+
+      <mat-list-item
+        [routerLink]="'Albumes'"
+        routerLinkActive="highlighted"
+        matTooltip="Albumes"
+        matTooltipPosition="right"
+        matTooltipShowDelay="500"
+        [matTooltipDisabled]="opened"
+      >
+        <mat-icon mat-list-icon class="menu-button">delete</mat-icon>
+        <span *ngIf="opened" class="menu-item" class="menu-button"
+          >Albumes</span
+        >
+      </mat-list-item>
+
+      <mat-list-item
         [routerLink]="'Usuarios'"
         routerLinkActive="highlighted"
         matTooltip="Usuarios"

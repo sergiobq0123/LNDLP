@@ -1,0 +1,32 @@
+@import './../web-styles.scss';
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.container-item {
+  max-width: 300px;
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  text-align: center;
+}
+
+.container-item-image img {
+  max-width: 100%; /* La imagen ocupará el ancho completo del div */
+  height: auto; /* Mantener la relación de aspecto */
+}
+
+.button{
+   @include custom-button-2
+}
+
+
+@media (max-width: 768px) {
+  .container-item {
+    flex: 1;
+    max-width: 100%;
+  }
+}

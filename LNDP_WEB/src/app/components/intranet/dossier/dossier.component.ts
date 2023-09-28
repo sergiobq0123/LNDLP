@@ -131,9 +131,10 @@ export class DossierComponent {
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result !== undefined && result !== null && result !== '') {
+        console.log(result);
+
         this.convertImage(result.photo);
         this._dossierService.postImage(result.section, this.photo).subscribe(res => {
-          console.log(res);
           this.getDossier()
         })
       }

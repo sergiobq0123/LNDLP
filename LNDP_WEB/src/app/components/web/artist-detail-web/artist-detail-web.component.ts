@@ -8,10 +8,11 @@ import { ArtistService } from '../../../services/intranet/artist.service';
   styleUrls: ['./artist-detail-web.component.scss']
 })
 export class ArtistDetailWebComponent {
+  @Input() artistDetail : any ;
 
   artist: any;
 
-  constructor(private route: ActivatedRoute, private router: Router, private artistService : ArtistService) {}
+  constructor(private route: ActivatedRoute, private artistService : ArtistService) {}
 
   ngOnInit() {
     this.route.params.subscribe(params => {

@@ -31,7 +31,6 @@ namespace LNDP_API.Controllers
         [HttpPost]
         public async Task<ActionResult> PostDossier([FromForm] IFormFile? image, [FromForm] string section)
         {
-            Console.WriteLine(image);
             if (image != null && image.Length > 0)
             {
                 var assetsFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/assets/section");
