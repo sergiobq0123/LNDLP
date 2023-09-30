@@ -2,18 +2,23 @@
   [contentTemplate]="contentTemplate"
   [windowTitle]="'Festivales'"
 ></app-generic-window>
-
+<app-spinner *ngIf="this.spinner"></app-spinner>
 <ng-template #contentTemplate>
   <app-generic-table
     [tableData]="festivales"
     [tableColumns]="festivalColumns"
     [isPageable]="true"
     [isSortable]="true"
+    [apiFailing]="apiFailing"
     (filtered)="filterData($event)"
     [hasActions]="false"
     [paginationSizes]="[5, 10, 20]"
-    [defaultPageSize]="10"
-    (pageNum)="updatePageNumber($event)"
+    [pageSize]="pageSize"
+    [pageNumber]="pageNumber"
+    [totalRecords]="totalFestivals"
+    (paginationChange)="onPaginationChange($event)"
+    [canManageColumns]="true"
+    [hasFilter]="true"
     *ngIf="loaded"
   >
   </app-generic-table>

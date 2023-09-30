@@ -7,10 +7,10 @@
       <h5>{{item.name}}</h5>
     </div>
     <div class="container-item-button">
-      <p class="fecha">28 / 12 / 2022</p>
+      <p class="fecha">{{item.date}}</p>
     </div>
     <div class="container-item-button">
-      <a class="button">Escuchar</a>
+      <a class="button" [href]="item.url" target="_blank">Escuchar</a>
     </div>
   </div>
 </div>

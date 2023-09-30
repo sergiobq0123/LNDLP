@@ -9,6 +9,8 @@ import { ContentType } from '../generic-form-dialog/generic-content';
 import { Validators } from '@angular/forms';
 import { GenericFormDialogComponent } from '../generic-form-dialog/generic-form-dialog.component';
 import { DossierService } from '../../../services/intranet/dossier.service';
+import { NotificationService } from 'src/app/services/notification.service';
+import { notifications } from 'src/app/common/notifications';
 
 @Component({
   selector: 'app-dossier',
@@ -16,8 +18,9 @@ import { DossierService } from '../../../services/intranet/dossier.service';
   styleUrls: ['./dossier.component.scss'],
 })
 export class DossierComponent {
-  photo : any
+  photo: any;
   dossiers: Array<any> = new Array<any>();
+  spinner: boolean = false;
   dossierLink: any[] = [
     {
       seccion: 'Home',
@@ -44,25 +47,39 @@ export class DossierComponent {
       seccionUrl: '/ArtistasSellos',
     },
   ];
-  /**
-   *
-   */
-  constructor(public dialog: MatDialog, private _dossierService : DossierService) {}
+
+  constructor(
+    public _dialog: MatDialog,
+    private _dossierService: DossierService,
+    private _notificationService: NotificationService
+  ) {}
 
   @ViewChild('dossierImageTemplate') crewTemplate: TemplateRef<any>;
 
-  ngOnInit(){
-    this.getDossier()
+  ngOnInit() {
+    this.getDossier();
   }
 
-  getDossier(){
-    this._dossierService.get().subscribe((res) => {
-      console.log(res);
-      let dossier = new Array();
-      res.forEach((val) => {
-        dossier.push(val);
-      });
-      this.dossiers = [...dossier];
+  getDossier() {
+    this.spinner = true;
+    this._dossierService.get().subscribe({
+      next: (res) => {
+        let dossier = new Array();
+        res.forEach((val) => {
+          dossier.push(val);
+        });
+        this.dossiers = [...dossier];
+        this.spinner = false;
+      },
+      error: (err) => {
+        this._notificationService.showMessageOnSnackbar(
+          notifications.LOADING_DATA_FAIL,
+          'X',
+          3500,
+          'err-button'
+        );
+        this.spinner = false;
+      },
     });
   }
 
@@ -77,14 +94,30 @@ export class DossierComponent {
       return {
         id: item.id,
         order: item.index,
-        photo : item.photo,
-        section : item.section
+        photo: item.photo,
+        section: item.section,
       };
     });
-    this._dossierService.updateAll(updatedDossierItems).subscribe(res => {
-      console.log(res);
-
-    })
+    this._dossierService.updateAll(updatedDossierItems).subscribe({
+      next: (res) => {;
+        this._notificationService.showMessageOnSnackbar(
+          res.message,
+          'X',
+          3500,
+          'success-button'
+        );
+        this.spinner = false;
+      },
+      error: (err) => {
+        this._notificationService.showMessageOnSnackbar(
+          notifications.LOADING_DATA_FAIL,
+          'X',
+          3500,
+          'err-button'
+        );
+        this.spinner = false;
+      },
+    });
   }
 
   setDossierForm(): any[] {
@@ -125,7 +158,7 @@ export class DossierComponent {
       formCols: 2,
       dialogTitle: 'Añade una nueva imagen',
     };
-    const dialogRef = this.dialog.open(GenericFormDialogComponent, {
+    const dialogRef = this._dialog.open(GenericFormDialogComponent, {
       data: dialogData,
       minWidth: 600,
     });
@@ -134,9 +167,11 @@ export class DossierComponent {
         console.log(result);
 
         this.convertImage(result.photo);
-        this._dossierService.postImage(result.section, this.photo).subscribe(res => {
-          this.getDossier()
-        })
+        this._dossierService
+          .postImage(result.section, this.photo)
+          .subscribe((res) => {
+            this.getDossier();
+          });
       }
     });
   }
@@ -154,7 +189,7 @@ export class DossierComponent {
     }
     const byteArray = new Uint8Array(byteNumbers);
     const blob = new Blob([byteArray], { type: mimeType });
-    const originalFileName = this.generarNombreUnico("image");
+    const originalFileName = this.generarNombreUnico('image');
     this.photo = new File([blob], originalFileName, { type: mimeType });
   }
 
@@ -168,10 +203,9 @@ export class DossierComponent {
   }
 
   deleteDossier(id: number) {
-    this._dossierService.delete(id).subscribe(res => {
+    this._dossierService.delete(id).subscribe((res) => {
       console.log(res);
-      this.getDossier()
+      this.getDossier();
     });
   }
-
 }

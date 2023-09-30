@@ -1,3 +1,5 @@
+@import './../../app.component.scss';
+
 /* Estilo para el footer */
 .footer {
   background-color: black;
@@ -20,6 +22,9 @@
   gap: 20px;
   justify-content: center;
   align-items: center;
+}
+p{
+  font-family: "MyriadproBold"
 }
 
 .container-enlaces a {

@@ -1,11 +1,77 @@
-@import '../intranet.routing-module.scss';
+@import '../intranet.component.scss';
 
-.title {
-  font-size: 20px;
-  margin-bottom: 0px;
-}
-
-.content {
+.popupbox {
+  background-color: $dark-color;
+  font-family: $secondary-font;
   padding: 12px 30px 5px 30px;
+  display: flex;
+  flex-direction: column;
+}
+.icon {
+  color: $light-color;
+}
+:host ::ng-deep .mdc-text-field:not(.mdc-text-field--disabled) .mdc-floating-label {
+  color: $light-color;
+}
+:host ::ng-deep .mdc-text-field--invalid:not(.mdc-text-field--disabled) .mdc-floating-label {
+  color: var(--mdc-theme-error, #f44336);
+}
+.title {
+  margin-bottom: 0;
+  margin-left: 5px;
+  color: $light-color;
+  font-size: 1.8rem;
 }
 
+.tile-content {
+  all: inherit;
+  color: $light-color;
+  font-size: 10px;
+}
+.textplain {
+  margin-left: 5px;
+  font-size: 1rem;
+}
+
+.buttonsbox {
+  display: flex;
+  margin-bottom: 10px;
+  gap: 10px;
+  &__cancelbtn {
+    @include custom-button;
+    color: $power-color;
+    background-color: $light-color;
+    &:hover {
+      background-color: $extra-color;
+      color: $light-color;
+    }
+  }
+  &__savebtn {
+    @include custom-button;
+    color: $light-color;
+    background-color: $power-color;
+    &:hover {
+      background-color: $extra-color;
+      color: $light-color;
+    }
+  }
+  &__disabledbtn {
+    background-color: $middle-dark-color;
+    color: rgba($light-color, 0.6);
+    &:hover {
+      background-color: $middle-dark-color;
+      color: rgba($light-color, 0.6);
+    }
+  }
+}
+:host ::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: $power-color;
+}
+:host ::ng-deep .mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__input {
+  color: $light-color;
+  caret-color: $light-color;
+}
+
+.mdc-text-field--focused:not(.mdc-text-field--disabled) .mdc-floating-label {
+  color: $light-color;
+}

@@ -1,83 +1,106 @@
-<div mat-dialog-title class="title">{{data.dialogTitle}}</div>
-<div mat-dialog-content class="content">
+<div class="popupbox">
+  <div mat-dialog-title class="title">{{ data.dialogTitle }}</div>
+  <div mat-dialog-content class="content">
     <form [formGroup]="VOForm" autocomplete="off" *ngIf="loaded">
-        <mat-grid-list [cols]="data.formCols" rowHeight="90px" gutterSize="15px">
-            <mat-grid-tile *ngFor="let item of data.formFields" [colspan]="item.position?.colSpan"
-                [rowspan]="item.position?.rowSpan" class="row">
-                <ng-container *ngIf="!item.hidden">
-                    <ng-container [ngSwitch]="item.type">
-                        <ng-container *ngSwitchCase="'editableTextFields'">
-                            <mat-form-field appearance="fill" style="width: 100%">
-                                <mat-label>{{item.name}}</mat-label>
-                                <input matInput type="text" formControlName="{{item.dataKey}}" >
-                                <mat-error *ngIf="controls[item.dataKey].errors">
-                                    {{getValidatorErrorMessage(controls[item.dataKey].errors)}}
-                                </mat-error>
-                            </mat-form-field>
-                        </ng-container>
-                        <ng-container *ngSwitchCase="'plainText'">
-                            <mat-label>{{item.name}}</mat-label>
-                            <p class="plain-text">
-                                {{controls[item.dataKey]}}
-                            </p>
-                        </ng-container>
-                        <ng-container *ngSwitchCase="'dropdownFields'">
-                            <mat-form-field appearance="fill" style="width: 100%">
-                                <mat-label>{{item.name}}</mat-label>
-                                <mat-select formControlName="{{item.dataKey}}">
-                                    <mat-option *ngFor="let option of item.dropdown" [value]="option[item.dropdownKeyValue]">
-                                        {{option[item.dropdownKeyToShow]}}
-                                    </mat-option>
-                                </mat-select>
-                                <mat-error *ngIf="controls[item.dataKey].errors">
-                                    {{getValidatorErrorMessage(controls[item.dataKey].errors)}}
-                                </mat-error>
-                            </mat-form-field>
-                        </ng-container>
-                        <ng-container *ngSwitchCase="'radioButtons'">
-                            <mat-radio-group matNativeControl formControlName="{{item.dataKey}}" color="primary">
-                                <mat-radio-button *ngFor="let button of item.radioButtons" value="{{button.value}}"
-                                    style="margin-right: 20px;">{{button.shown}}</mat-radio-button>
-                            </mat-radio-group>
-                        </ng-container>
-                        <ng-container *ngSwitchCase="'checkbox'">
-                            <mat-checkbox formControlName="{{item.dataKey}}"
-                                color="primary">{{item.checkboxText}}</mat-checkbox>
-                        </ng-container>
-                        <ng-container *ngSwitchCase="'datePicker'">
-                            <mat-form-field appearance="fill" style="width: 100%;">
-                                <input matInput [matDatepicker]="picker" formControlName="{{item.dataKey}}">
-                                <mat-hint>MM/DD/YYYY</mat-hint>
-                                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                                <mat-datepicker #picker></mat-datepicker>
-                                <mat-error *ngIf="controls[item.dataKey].errors">
-                                  {{getValidatorErrorMessage(controls[item.dataKey].errors)}}
-                              </mat-error>
-                            </mat-form-field>
-                        </ng-container>
-                        <ng-container *ngSwitchCase="'imageFile'">
-                          <input type="file" (change)="onImageInputChange($event)" accept="image/*" formControlName="{{item.dataKey}}">
-                          <div *ngIf="selectedImage">
-                            <img [src]="selectedImage" alt="Preview" style="max-width: 100%; max-height: 190px;">
-                          </div>
-                          <button mat-button (click)="removeSelectedImage()" *ngIf="selectedImage">
-                            <mat-icon class="delete-button">delete</mat-icon>
-                          </button>
-                        </ng-container>
-                        <ng-container *ngSwitchCase="'specialContent'">
-                            <ng-container [ngTemplateOutlet]="item.template"
-                                [ngTemplateOutletContext]="{ $implicit: controls[item.dataKey] }">
-                            </ng-container>
-                        </ng-container>
-                        <ng-container *ngSwitchDefault>
-                            <p>--</p>
-                        </ng-container>
-                    </ng-container>
+      <mat-grid-list [cols]="data.formCols" [rowHeight]="rowHeight" [gutterSize]="gutterSize">
+        <mat-grid-tile
+          *ngFor="let item of data.formFields"
+          [colspan]="item.position?.colSpan"
+          [rowspan]="item.position?.rowSpan"
+          class="row">
+          <div *ngIf="!item.hidden" class="tile-content" [style]="item.style">
+            <ng-container [ngSwitch]="item.type">
+              <ng-container *ngSwitchCase="'editableTextFields'">
+                <mat-form-field appearance="fill" style="width: 100%">
+                  <mat-label>{{ item.name }}</mat-label>
+                  <input matInput type="text" formControlName="{{ item.dataKey }}" />
+                  <mat-error *ngIf="controls[item.dataKey].errors">
+                    {{ getValidatorErrorMessage(controls[item.dataKey].errors) }}
+                  </mat-error>
+                </mat-form-field>
+              </ng-container>
+              <ng-container *ngSwitchCase="'plainText'">
+                <mat-label class="textplain"
+                  >Ticket: <span class="textplain">{{ item.name }}</span></mat-label
+                >
+                <mat-label class="textplain">
+                  {{ controls[item.dataKey].value }}
+                </mat-label>
+              </ng-container>
+              <ng-container *ngSwitchCase="'dropdownFields'">
+                <mat-form-field appearance="fill" style="width: 100%">
+                  <mat-label>{{ item.name }}</mat-label>
+                  <mat-select formControlName="{{ item.dataKey }}">
+                    <mat-option *ngFor="let option of item.dropdown" [value]="option[item.dropdownKeyValue]">
+                      {{ option[item.dropdownKeyToShow] }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="controls[item.dataKey].errors">
+                    {{ getValidatorErrorMessage(controls[item.dataKey].errors) }}
+                  </mat-error>
+                </mat-form-field>
+              </ng-container>
+              <ng-container *ngSwitchCase="'radioButtons'">
+                <mat-radio-group matNativeControl formControlName="{{ item.dataKey }}" color="primary">
+                  <mat-radio-button
+                    *ngFor="let button of item.radioButtons"
+                    value="{{ button.value }}"
+                    style="margin-right: 20px"
+                    >{{ button.shown }}</mat-radio-button
+                  >
+                </mat-radio-group>
+              </ng-container>
+              <ng-container *ngSwitchCase="'checkbox'">
+                <mat-checkbox formControlName="{{ item.dataKey }}" color="primary">{{
+                  item.checkboxText
+                }}</mat-checkbox>
+              </ng-container>
+              <ng-container *ngSwitchCase="'datePicker'">
+                <mat-form-field appearance="fill" style="width: 100%">
+                  <mat-label>{{ item.name }}</mat-label>
+                  <input matInput [matDatepicker]="picker" formControlName="{{ item.dataKey }}" />
+                  <mat-hint>MM/DD/YYYY</mat-hint>
+                  <mat-datepicker-toggle matIconSuffix [for]="picker" class="icon"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                  <mat-error *ngIf="controls[item.dataKey].errors">
+                    {{ getValidatorErrorMessage(controls[item.dataKey].errors) }}
+                  </mat-error>
+                </mat-form-field>
+              </ng-container>
+              <ng-container *ngSwitchCase="'imageFile'">
+                <input type="file" (change)="onImageInputChange($event)" accept="image/*" formControlName="{{item.dataKey}}">
+                <div *ngIf="selectedImage">
+                  <img [src]="selectedImage" alt="Preview" style="max-width: 100%; max-height: 190px;">
+                </div>
+                <button mat-button (click)="removeSelectedImage()" *ngIf="selectedImage">
+                  <mat-icon class="delete-button">delete</mat-icon>
+                </button>
+              </ng-container>
+              <ng-container *ngSwitchCase="'specialContent'">
+                <ng-container
+                  [ngTemplateOutlet]="item.template"
+                  [ngTemplateOutletContext]="{
+                    $implicit: controls[item.dataKey]
+                  }">
                 </ng-container>
-            </mat-grid-tile>
-        </mat-grid-list>
-    </form></div>
-<div mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>Cancel</button>
-    <button mat-button [disabled]="VOForm.invalid" (click)="onSave()">Save</button>
+              </ng-container>
+              <ng-container *ngSwitchDefault>
+                <p>--</p>
+              </ng-container>
+            </ng-container>
+          </div>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </form>
+  </div>
+  <div mat-dialog-actions align="end" class="buttonsbox">
+    <button mat-dialog-close class="buttonsbox__cancelbtn">Cancel</button>
+    <button
+      [disabled]="VOForm.invalid"
+      (click)="onSave()"
+      class="buttonsbox__savebtn"
+      [ngClass]="{ buttonsbox__disabledbtn: VOForm.invalid }">
+      Save
+    </button>
+  </div>
 </div>

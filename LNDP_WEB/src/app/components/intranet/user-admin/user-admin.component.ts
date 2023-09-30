@@ -15,6 +15,8 @@ import { Filter } from '../generic-table/Filter';
 import { UserRoleService } from 'src/app/services/intranet/user-role.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { ArtistService } from 'src/app/services/intranet/artist.service';
+import { PageEvent } from '@angular/material/paginator';
+
 
 
 @Component({
@@ -38,6 +40,8 @@ export class UserAdminComponent {
     sensitivity: 'base',
   });
   spinner: boolean = false;
+  pageSize : number = 10;
+  totalUsers = 50
 
   @ViewChild(GenericTableComponent) table: GenericTableComponent;
 
@@ -284,7 +288,9 @@ export class UserAdminComponent {
     );
   }
 
-  updatePageNumber(pageNum: number) {
-    this.pageNumber = pageNum;
+  onPaginationChange(PageEvent: PageEvent){
+    this.pageNumber = PageEvent.pageIndex + 1;
+    this.pageSize = PageEvent.pageSize;
+    this.getUsers();
   }
 }

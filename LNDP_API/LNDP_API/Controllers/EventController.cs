@@ -14,12 +14,10 @@ namespace LNDP_API.Controllers
     public class EventController : ControllerBase
     {
         private readonly APIContext _context;
-        private readonly ITokenService _tokenService;
 
-        public EventController(APIContext context, ITokenService tokenService)
+        public EventController(APIContext context)
         {
             _context = context;
-            _tokenService = tokenService;
         }
 
         [HttpGet("type/{tipo}")]
@@ -29,20 +27,21 @@ namespace LNDP_API.Controllers
                     return NotFound();
             }
             var token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", string.Empty);
-            var tipoUsuario = _tokenService.ObtenerTipoDeUsuarioDesdeToken(token);
-            switch (tipoUsuario)
-            {
-                case "Admin":
-                    return await GetEventsForAdmin(tipo);
-                case "Crew":
-                    return await GetEventsForCrew(tipo, token);
-                case "TokenInválido":
-                    return BadRequest("El token proporcionado no es válido");
-                case "UsuarioDesconocido":
-                    return BadRequest("El usuario no es conocido");
-                default:
-                    return await GetEventsForDefaultUser(tipo);
-            }
+            // var tipoUsuario = _tokenService.ObtenerTipoDeUsuarioDesdeToken(token);
+            // switch (tipoUsuario)
+            // {
+            //     case "Admin":
+            //         return await GetEventsForAdmin(tipo);
+            //     // case "Crew":
+            //     //     return await GetEventsForCrew(tipo, token);
+            //     case "TokenInválido":
+            //         return BadRequest("El token proporcionado no es válido");
+            //     case "UsuarioDesconocido":
+            //         return BadRequest("El usuario no es conocido");
+            //     default:
+            //         return await GetEventsForDefaultUser(tipo);
+            // }
+            return Ok();
         }
         
         [HttpGet]
@@ -140,25 +139,25 @@ namespace LNDP_API.Controllers
                 .ToListAsync();
         }
 
-        private async Task<ActionResult<IEnumerable<Event>>> GetEventsForCrew(string tipo, string token)
-        {
-            var userId = _tokenService.ObtenerIdArtistaDesdeToken(token);
-            var artist = await _context.Artist.FirstOrDefaultAsync(a => a.User.Id == userId);
-            if (artist != null)
-            {
-                return await _context.Event
-                    .Where(e => e.EventType.EventName == tipo)
-                    .Where(e => e.ArtistId == artist.Id)
-                    .ToListAsync();
-            }
-            else
-            {
-                return await _context.Event
-                    .Where(e => e.EventType.EventName == tipo)
-                    .Where(e => e.ArtistId == artist.Id)
-                    .ToListAsync();
-            }
-        }
+        // private async Task<ActionResult<IEnumerable<Event>>> GetEventsForCrew(string tipo, string token)
+        // {
+        //     var userId = _tokenService.ObtenerIdArtistaDesdeToken(token);
+        //     var artist = await _context.Artist.FirstOrDefaultAsync(a => a.User.Id == userId);
+        //     if (artist != null)
+        //     {
+        //         return await _context.Event
+        //             .Where(e => e.EventType.EventName == tipo)
+        //             .Where(e => e.ArtistId == artist.Id)
+        //             .ToListAsync();
+        //     }
+        //     else
+        //     {
+        //         return await _context.Event
+        //             .Where(e => e.EventType.EventName == tipo)
+        //             .Where(e => e.ArtistId == artist.Id)
+        //             .ToListAsync();
+        //     }
+        // }
 
         private async Task<ActionResult<IEnumerable<Event>>> GetEventsForDefaultUser(string tipo)
         {

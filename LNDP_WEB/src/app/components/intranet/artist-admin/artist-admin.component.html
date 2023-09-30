@@ -2,7 +2,7 @@
   [contentTemplate]="contentTemplate"
   [windowTitle]="'Artistas'"
 ></app-generic-window>
-
+<app-spinner *ngIf="this.spinner"></app-spinner>
 <ng-template #contentTemplate>
   <button
     [disabled]="newRowAdded || entryBeingEdited"
@@ -21,13 +21,17 @@
     (filtered)="filterData($event)"
     (sort)="sortData($event)"
     [hasActions]="true"
-    (modified)="updateElement(this.artistService, $event)"
+    (modified)="updateElement(this._artistService, $event)"
     (rowAdded)="newRowAdded = $event"
     (create)="createElement($event)"
     (delete)="deleteElement($event)"
     [paginationSizes]="[5, 10, 20]"
-    [defaultPageSize]="10"
-    (pageNum)="updatePageNumber($event)"
+    [pageSize]="pageSize"
+    [pageNumber]="pageNumber"
+    [totalRecords]="totalArtist"
+    (paginationChange)="onPaginationChange($event)"
+    [canManageColumns]="true"
+    [hasFilter]="true"
     (edited)="entryBeingEdited = $event"
     *ngIf="loaded"
   >

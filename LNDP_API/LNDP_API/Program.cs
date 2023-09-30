@@ -1,12 +1,12 @@
 using System.Text;
 using LNDP_API.Data;
-using LNDP_API.Data.Interfaces;
 using LNDP_API.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using LNDP_API.Mapping;
 using System.Text.Json.Serialization;
+using TTTAPI.JWT.Managers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,7 +27,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Token"])),
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["key"])),
             ValidateIssuer = false,
             ValidateAudience = false,
         };
@@ -38,8 +38,9 @@ builder.Services.AddCors(options => {
     });
 });
 //Add token service
-builder.Services.AddScoped<ITokenService, TokenService>();
-builder.Services.AddScoped<IAuthRepository, AuthRepository>(); // Aquí AuthRepository es la implementación concreta de IAuthRepository
+builder.Services.AddTransient<IJwtService, JwtService>();
+builder.Services.AddScoped<IArtistService, ArtistService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
 builder.Services.AddControllers().AddJsonOptions(x =>
                 x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
@@ -57,10 +58,13 @@ using (var scope = app.Services.CreateScope()){
     var DbContext = scope.ServiceProvider.GetRequiredService<APIContext>();
     DbContext.Database.Migrate();
 }
-
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+app.UseAuthentication();  
+
 app.UseAuthorization();
+app.UseMiddleware<JwtMiddleware>();
 
 app.MapControllers();
 

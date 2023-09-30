@@ -26,7 +26,6 @@ namespace LNDP_API.Controllers
             }
             return await _context.User
             .Include(u => u.UserRole)
-            .Include(u => u.Artist)
             .ToListAsync();
 
         }

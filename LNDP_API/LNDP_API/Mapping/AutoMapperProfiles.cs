@@ -8,11 +8,11 @@ namespace LNDP_API.Mapping{
         {
             CreateMap<UserRegistrerDto, User>();
             CreateMap<UserLoginDto, User>();
-            CreateMap<User, UserLisDto>();
             // postArtist
             CreateMap<ArtistDto, SocialNetwork>();
             CreateMap<ArtistDto, Crew>();
             CreateMap<ArtistDto, Artist>();
+            CreateMap<ArtistDto, UserRegistrerDto>();
         }
     }
 }

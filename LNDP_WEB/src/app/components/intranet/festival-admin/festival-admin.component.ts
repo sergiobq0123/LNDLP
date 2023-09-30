@@ -4,7 +4,9 @@ import { ContentType } from '../generic-form-dialog/generic-content';
 import { Sort } from '@angular/material/sort';
 import { FestivalService } from 'src/app/services/intranet/festival.service';
 import { Filter } from '../generic-table/Filter';
-
+import { NotificationService } from 'src/app/services/notification.service';
+import { notifications } from 'src/app/common/notifications';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-festival-admin',
@@ -17,9 +19,14 @@ export class FestivalAdminComponent {
   pageNumber: number = 1;
   loaded: boolean = false;
   collator = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' });
+  spinner: boolean = false;
+  apiFailing: boolean = false;
+  pageSize : number = 10;
+  totalFestivals = 50
 
   constructor(
-    private festivalService: FestivalService,
+    private _festivalService: FestivalService,
+    private _notificationService : NotificationService
   ){}
 
   ngOnInit(){
@@ -27,23 +34,27 @@ export class FestivalAdminComponent {
   }
 
   getFestivales() {
-    this.festivalService.get().subscribe((res) => {
-      console.log(res);
-
-      let festivales = new Array();
-      res.forEach(val => {
-        festivales.push(val)
-      });
-      this.festivales = [... festivales];
-      console.log(this.festivales);
-
-      this.setColumns();
-      this.loaded = true;
+    this.spinner = true;
+    this._festivalService.get().subscribe({
+      next : res => {
+        let festivales = new Array();
+        res.forEach(val => {
+          festivales.push(val)
+        });
+        this.festivales = [... festivales];
+        this.setColumns();
+        this.loaded = true;
+        this.spinner = false;
+      },
+      error : err => {
+        this._notificationService.showMessageOnSnackbar(notifications.LOADING_DATA_FAIL, 'X', 3500, 'err-button');
+        this.spinner = false;
+      }
     })
   }
 
   filterData(filters : Filter[]){
-    this.festivalService.getFiltered(filters).subscribe(res =>{
+    this._festivalService.getFiltered(filters).subscribe(res =>{
       this.festivales = res
     })
   }
@@ -95,7 +106,9 @@ export class FestivalAdminComponent {
     ];
   }
 
-  updatePageNumber(pageNum: number) {
-    this.pageNumber = pageNum;
+  onPaginationChange(PageEvent: PageEvent){
+    this.pageNumber = PageEvent.pageIndex + 1;
+    this.pageSize = PageEvent.pageSize;
+    this.getFestivales();
   }
 }

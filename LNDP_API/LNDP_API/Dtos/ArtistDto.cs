@@ -15,5 +15,9 @@ namespace LNDP_API.Dtos {
         public string? RoadManager {get;set;}
         public string? SoundTechnician {get;set;}
         public string? LightingTechnician {get;set;}
+        public string Email {get; set; }
+        public string Password { get; set; }
+        public string Username {get; set; }
+        public int UserRoleId {get; set;}
     }
 }

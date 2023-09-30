@@ -8,6 +8,7 @@ using TTTAPI.Utils;
 using LNDP_API.Dtos;
 using AutoMapper;
 using Microsoft.AspNetCore.SignalR.Protocol;
+using LNDP_API.Services;
 
 namespace LNDP_API.Controllers
 {   
@@ -17,13 +18,16 @@ namespace LNDP_API.Controllers
     {
         private readonly APIContext _context;
         private readonly IMapper _mapper;
+        private readonly IArtistService _artistService;
 
-        public ArtistController(APIContext context, IMapper mapper)
+        public ArtistController(APIContext context, IMapper mapper, IArtistService artistService)
         {
             _context = context;
             _mapper = mapper;
+            _artistService = artistService;
         }
 
+ 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Artist>>> GetArtist()
         {
@@ -71,11 +75,7 @@ namespace LNDP_API.Controllers
         [HttpPost]
         public async Task<ActionResult<Artist>> PostArtist([FromBody] ArtistDto artistDto)
         {
-            var artist = _mapper.Map<Artist>(artistDto);
-            var socialNetwork = _mapper.Map<SocialNetwork>(artistDto);
-            var crew = _mapper.Map<Crew>(artistDto);
-            artist.SocialNetwork = socialNetwork;
-            artist.Crew = crew;
+            var artist = await _artistService.CreateArtist(artistDto);
             _context.Artist.Add(artist);
             await _context.SaveChangesAsync();
             return Ok(new { Message = "Artista creado con éxito" });

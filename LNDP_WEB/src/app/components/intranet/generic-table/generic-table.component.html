@@ -1,297 +1,188 @@
-<!-- filter options and manage column buttons -->
-<button mat-raised-button class="filter-options" [ngStyle]="(showFilterOptions) && {'background-color': '#404040', 'color': 'white'}" (click)="showFilterOptions = !showFilterOptions; showColumnSelection = false">
-  <mat-icon class="filter-options-icon" [ngStyle]="(showFilterOptions) && {'color': 'white'}">filter_alt</mat-icon>Filter options
-</button>
-<button mat-raised-button class="column-filter" [ngStyle]="(showColumnSelection) && {'background-color': '#404040', 'color': 'white'}" (click)="showColumnSelection = !showColumnSelection; showFilterOptions = false">
-  <mat-icon class="filter-column-icon" [ngStyle]="(showColumnSelection) && {'color': 'white'}">splitscreen</mat-icon>Manage columns
-</button>
+<div class="buttons">
+  <button
+    *ngIf="canManageColumns"
+    class="managecolumns-button"
+    matTooltip="Manage Columns"
+    matTooltipPosition="below"
+    matTooltipShowDelay="500"
+    (click)="showColumnSelection = !showColumnSelection; showFilterOptions = false">
+    <mat-icon>view_column</mat-icon>
+  </button>
+  <button
+    *ngIf="hasFilter"
+    class="filter-button"
+    matTooltip="Filter Options"
+    matTooltipPosition="below"
+    matTooltipShowDelay="500"
+    (click)="showFilterOptions = !showFilterOptions; showColumnSelection = false">
+    <mat-icon>filter_alt</mat-icon>
+  </button>
+</div>
 
 <!-- manage columns -->
-<div mat-raised-button-activated class="column-selector" *ngIf="showColumnSelection" cdkDropListGroup>
+<div
+  mat-raised-button-activated
+  class="column-selector"
+  *ngIf="showColumnSelection && canManageColumns"
+  cdkDropListGroup>
   <div class="available-columns-container">
-    <h2 class="column-selection-title">Available columns<mat-icon class="filter-title-icon">done</mat-icon></h2>
-    <div class="column-list" cdkDropList (cdkDropListDropped)="columnDropped($event)" [cdkDropListData]="getAvailableColumns()" cdkDropListOrientation="horizontal" id="availableColumns">
-      <div class="column-box" *ngFor="let column of getAvailableColumns()" cdkDrag [cdkDragData]="column" cdkDragBoundary=".column-selector"> {{ column }}</div>
+    <h2 class="column-selection-title">
+      Undisplayed columns <mat-icon class="filter-title-icon">visibility_off</mat-icon>
+    </h2>
+    <div
+      class="column-list"
+      cdkDropList
+      (cdkDropListDropped)="columnDropped($event)"
+      [cdkDropListData]="getAvailableColumns()"
+      cdkDropListOrientation="horizontal"
+      id="availableColumns">
+      <div
+        class="column-box"
+        *ngFor="let column of getAvailableColumns()"
+        cdkDrag
+        [cdkDragData]="column"
+        cdkDragBoundary=".column-selector">
+        {{ column }}
+      </div>
     </div>
   </div>
   <div class="displayed-columns-container">
-    <h2 class="column-selection-title">
-      Displayed columns<mat-icon class="filter-title-icon">visibility</mat-icon></h2>
-    <div class="column-list" cdkDropList (cdkDropListDropped)="columnDropped($event)" [cdkDropListData]="getDisplayedColumns()" cdkDropListOrientation="horizontal" id="displayedColumns">
-      <div class="column-box" *ngFor="let column of getDisplayedColumns()" cdkDrag [cdkDragData]="column" cdkDragBoundary=".column-selector" class="column-box"> {{ column }}</div>
-    </div>
-  </div>
-</div>
-
-<!-- filter options selector -->
-<div mat-raised-button-activated class="filter-options-selector-container" *ngIf="showFilterOptions">
-  <ng-container class="filter-options-inputs-container">
-    <mat-form-field class="filter-option-form">
-      <mat-label class="filter-option-label">Add filter
-        <mat-icon class="filter-options-add">add</mat-icon>
-      </mat-label>
-      <mat-select class="filter-option-select" [(ngModel)]="selectedOption">
-        <mat-option class="filter-option-options" selected="true" disabled="disabled">Select filter to add</mat-option>
-        <mat-option class="filter-option-options" *ngFor="let item of getUnselectedColumns()" [value]="item">
-          {{item.name}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <ng-container class="filtered-options" *ngIf="selectedOption">
-      <div class="filter-options-row" style="margin-bottom: 35px;">
-        <mat-checkbox class="filter-checkbox" (change)="showFilterInput = !showFilterInput" checked="true">{{selectedOption.name}} </mat-checkbox>
-        <ng-container *ngIf="showFilterInput" [ngSwitch]="selectedOption.type">
-
-          <!-- filter options dropdownFields -->
-          <ng-container *ngSwitchCase="'dropdownFields'">
-            <mat-form-field class="filters-condition" appearance="fill">
-              <mat-select class="filter-option-select" [(ngModel)]="selectedOptionCondition">
-                <mat-option class="filter-option-options" *ngFor="let condition of filterTypeDropdownConditions" value={{condition}}>
-                  {{condition}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-            <mat-form-field class="filters-condition" appearance="fill">
-              <mat-select [(ngModel)]="filterInput" matNativeControl>
-                <mat-option *ngFor="let dropdownValue of selectedOption.dropdown" [value]="getDropdownKeyValue(dropdownValue)">
-                  {{ getDropdownValue(dropdownValue) }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </ng-container>
-
-          <!-- filter options checkbox -->
-          <ng-container *ngSwitchCase="'checkbox'">
-            <mat-checkbox formControlName="{{selectedOption.dataKey}}">
-              {{selectedOption.checkboxText}}
-            </mat-checkbox>
-          </ng-container>
-
-          <!-- filter options datepicker -->
-          <ng-container *ngSwitchCase="'datePicker'">
-            <mat-form-field class="filters-condition" appearance="fill">
-              <mat-select class="filter-option-select" [(ngModel)]="selectedOptionCondition">
-                <mat-option class="filter-option-options" *ngFor="let condition of filterTypeDateConditions" value={{condition}}>
-                  {{condition}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-            <ng-container *ngIf="selectedOptionCondition === FilterCondition.IS || selectedOptionCondition === FilterCondition.MORE_OR_EQUALS || selectedOptionCondition === FilterCondition.LESS_OR_EQUALS">
-              <mat-form-field class="filters-condition" appearance="fill">
-                <input matInput [matDatepicker]="picker" [(ngModel)]="startDate">
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-              </mat-form-field>
-            </ng-container>
-            <ng-container *ngIf="selectedOptionCondition === 'between'">
-              <mat-form-field class="filters-condition" appearance="fill">
-                <input matInput [matDatepicker]="startPicker" [(ngModel)]="startDate">
-                <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
-                <mat-datepicker #startPicker></mat-datepicker>
-              </mat-form-field>
-              <mat-form-field class="filters-condition" appearance="fill">
-                <input matInput [matDatepicker]="endPicker" [(ngModel)]="endDate">
-                <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
-                <mat-datepicker #endPicker></mat-datepicker>
-              </mat-form-field>
-            </ng-container>
-          </ng-container>
-
-          <ng-container *ngSwitchDefault>
-            <mat-form-field class="filters-condition" appearance="fill">
-              <mat-select class="filter-option-select" [(ngModel)]="selectedOptionCondition">
-                <mat-option class="filter-option-options" *ngFor="let condition of filterTypeInputConditions" value={{condition}}>
-                  {{condition}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-            <mat-form-field class="filters-condition" appearance="fill">
-              <input class="filterInput" [(ngModel)]="filterInput" matInput placeholder="Filter">
-            </mat-form-field>
-          </ng-container>
-
-        <div class="button-addFilter-container">
-          <button mat-icon-button class="material-icons app-toolbar-menu save-button addFilter-disabled-button" matTooltip="Add Filter"
-            matTooltipShowDelay="500" (click)="addFilter()" color="warn" [disabled]="selectedOptionCondition == null" [ngStyle]="selectedOptionCondition == null ? {'color': 'lightgray'} : {}" style="align-items: center;">
-            <mat-icon>check_circle</mat-icon>
-          </button>
-        </div>
-
-        </ng-container>
+    <h2 class="column-selection-title">Displayed columns <mat-icon class="filter-title-icon">visibility</mat-icon></h2>
+    <div
+      class="column-list"
+      cdkDropList
+      (cdkDropListDropped)="columnDropped($event)"
+      [cdkDropListData]="getDisplayedColumns()"
+      cdkDropListOrientation="horizontal"
+      id="displayedColumns">
+      <div
+        class="column-box"
+        *ngFor="let column of getDisplayedColumns()"
+        cdkDrag
+        [cdkDragData]="column"
+        cdkDragBoundary=".column-selector"
+        class="column-box">
+        {{ column }}
       </div>
-    </ng-container>
-  </ng-container>
-
-  <!--Array of Filters-->
-   <ng-container *ngIf="this.selectedFilters.length > 0">
-
-    <div class="filter-options-row" *ngFor="let filter of selectedFilters">
-
-      <mat-checkbox class="filter-checkbox" checked="true" (change)="removeFilter(filter)">
-        {{filter.name}}
-      </mat-checkbox>
-
-      <ng-container [ngSwitch]="filter.type">
-        <ng-container *ngSwitchCase="'datePicker'">
-          <mat-form-field class="filters-condition" appearance="fill">
-            <mat-select class="filter-option-select" [(ngModel)]="filter.condition">
-              <mat-option class="filter-option-options" *ngFor="let condition of filterTypeDateConditions" [value]="condition">
-                {{ condition }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-
-          <ng-container *ngIf="filter.condition === FilterCondition.IS || filter.condition === FilterCondition.MORE_OR_EQUALS || filter.condition === FilterCondition.LESS_OR_EQUALS">
-            <mat-form-field class="filters-condition" appearance="fill">
-              <input matInput [matDatepicker]="picker" [(ngModel)]="filter.startDate">
-              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-              <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
-          </ng-container>
-
-          <ng-container *ngIf="filter.condition === 'between'">
-            <mat-form-field class="filters-condition" appearance="fill">
-              <input matInput [matDatepicker]="startPicker" [(ngModel)]="filter.startDate">
-              <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
-              <mat-datepicker #startPicker></mat-datepicker>
-            </mat-form-field>
-            <mat-form-field class="filters-condition" appearance="fill">
-              <input matInput [matDatepicker]="endPicker" [(ngModel)]="filter.endDate">
-              <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
-              <mat-datepicker #endPicker></mat-datepicker>
-            </mat-form-field>
-          </ng-container>
-        </ng-container>
-
-        <ng-container *ngSwitchCase="'dropdownFields'">
-          <mat-form-field class="filters-condition" appearance="fill">
-            <mat-select class="filter-option-select" [(ngModel)]="filter.condition">
-              <mat-option class="filter-option-options" *ngFor="let condition of filterTypeDropdownConditions" value="{{ condition }}" selected>
-                {{ condition }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-
-          <mat-form-field class="filters-condition" appearance="fill">
-            <mat-select [(ngModel)]="filter.filterInput" matNativeControl>
-              <mat-option *ngFor="let dropdownValue of filter.dropdown" [value]="getDropdownKeyValue(dropdownValue)">
-                {{ getDropdownValue(dropdownValue) }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </ng-container>
-
-        <ng-container *ngSwitchDefault>
-          <mat-form-field class="filters-condition" appearance="fill">
-            <mat-select class="filter-option-select" [(ngModel)]="filter.condition">
-              <mat-option class="filter-option-options" *ngFor="let condition of filterTypeInputConditions" value="{{ condition }}" selected>
-                {{ condition }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field class="filters-condition" appearance="fill">
-            <input class="filterInput" [(ngModel)]="filter.filterInput" matInput placeholder="{{ filter.filterInput }}">
-          </mat-form-field>
-        </ng-container>
-    </ng-container>
-
     </div>
-  </ng-container>
-
-  <!-- filter options buttoms -->
-  <div class="filter-options-buttons-container">
-    <button mat-raised-button class="filter-options-apply" (click)="applyFilterOption()">
-      <mat-icon class="filter-options-apply">done</mat-icon>APPLY
-    </button>
-
-    <button mat-raised-button class="filter-options-reset" (click)="resetFilterOptions()">
-      <mat-icon class="filter-options-reset">restart_alt</mat-icon>Reset
-    </button>
-
-    <button mat-raised-button class="filter-options-save">
-      <mat-icon class="filter-options-save">save</mat-icon>Save Filter Options
-    </button>
   </div>
 </div>
+
+<app-generic-filter
+  [tableDataSource]="tableDataSource"
+  [tableColumns]="tableColumns"
+  (filtered)="filtered.emit($event)"
+  *ngIf="showFilterOptions && hasFilter"></app-generic-filter>
 
 <div class="table-container">
   <form [formGroup]="VOForm" autocomplete="off">
     <ng-container formArrayName="VORows">
-      <table mat-table [dataSource]="tableDataSource" matSort (cdkDropListDropped)="drop($event)"
-        [cdkDropListDisabled]="dragDisabled || !isOrderable" cdkDropList (matSortChange)="sortTable($event)"
+      <table
+        class="table"
+        mat-table
+        [dataSource]="tableDataSource"
+        matSort
+        (cdkDropListDropped)="drop($event)"
+        [cdkDropListDisabled]="dragDisabled || !isOrderable"
+        cdkDropList
+        (matSortChange)="sortTable($event)"
         multiTemplateDataRows>
         <ng-container *ngFor="let tableColumn of tableColumns" [matColumnDef]="tableColumn.name">
           <!-- if sortable column header -->
           <ng-container *ngIf="tableColumn.isSortable; else notSortable">
-            <th mat-header-cell *matHeaderCellDef [mat-sort-header]="tableColumn.name"
+            <th
+              class="mat-header"
+              mat-header-cell
+              *matHeaderCellDef
+              [mat-sort-header]="tableColumn.name"
               [arrowPosition]="tableColumn.position === 'right' ? 'before' : 'after'"
-              [ngStyle]="{ 'width': tableColumn.width }">
-              {{tableColumn.name}}
+              [ngStyle]="{ width: tableColumn.width }"
+              [matTooltip]="defineTooltip(tableColumn.name)"
+              matTooltipPosition="below"
+              matTooltipShowDelay="500">
+              {{ tableColumn.name }}
             </th>
           </ng-container>
           <!-- else not sortable -->
           <ng-template #notSortable>
-            <th mat-header-cell *matHeaderCellDef [class.text-right]="tableColumn.position == 'right'"
-              [ngStyle]="{ 'width': tableColumn.width }">
-              {{tableColumn.name}}
+            <th
+              matTooltip="Add Time Logged"
+              matTooltipPosition="below"
+              matTooltipShowDelay="500"
+              mat-header-cell
+              *matHeaderCellDef
+              [class.text-right]="tableColumn.position == 'right'"
+              [ngStyle]="{ width: tableColumn.width }">
+              {{ tableColumn.name }}
             </th>
           </ng-template>
 
           <!-- column data -->
-          <td mat-cell *matCellDef="let element; let i = dataIndex;" [ngStyle]="{ 'width': tableColumn.width }"
-            [class.text-right]="tableColumn.position == 'right'" [class.notEditable]="element.value.isEditable"
+          <td
+            mat-cell
+            *matCellDef="let element; let i = dataIndex"
+            [ngStyle]="{ width: tableColumn.width }"
+            [class.text-right]="tableColumn.position == 'right'"
+            [class.notEditable]="element.value.isEditable"
             [formGroup]="element">
             <ng-container [ngSwitch]="tableColumn.type">
               <ng-container *ngSwitchCase="'editableTextFields'">
-                <mat-form-field appearance="fill" style="width: 100%;">
-                  <input matInput type="text" formControlName="{{tableColumn.dataKey}}">
+                <mat-form-field appearance="fill" style="width: 100%">
+                  <input matInput type="text" formControlName="{{ tableColumn.dataKey }}" />
                   <mat-error *ngIf="element.controls[tableColumn.dataKey].errors">
-                    {{getValidatorErrorMessage(element.controls[tableColumn.dataKey].errors)}}
+                    {{ getValidatorErrorMessage(element.controls[tableColumn.dataKey].errors) }}
                   </mat-error>
                 </mat-form-field>
               </ng-container>
-              <ng-container *ngSwitchCase="'plainText'">
-                <p class="plain-text">
-                  {{(element.getRawValue())[tableColumn.dataKey]}}
-                </p>
-              </ng-container>
               <ng-container *ngSwitchCase="'dropdownFields'">
-                <mat-form-field appearance="fill" style="width: 100%;">
-                  <mat-select formControlName="{{tableColumn.dataKey}}">
+                <mat-form-field appearance="fill" style="width: 100%">
+                  <mat-select formControlName="{{ tableColumn.dataKey }}">
                     <mat-option *ngFor="let item of tableColumn.dropdown" [value]="item[tableColumn.dropdownKeyValue]">
-                      {{item[tableColumn.dropdownKeyToShow]}}
+                      {{ item[tableColumn.dropdownKeyToShow] }}
                     </mat-option>
                   </mat-select>
                   <mat-error *ngIf="element.controls[tableColumn.dataKey].errors">
-                    {{getValidatorErrorMessage(element.controls[tableColumn.dataKey].errors)}}
+                    {{ getValidatorErrorMessage(element.controls[tableColumn.dataKey].errors) }}
                   </mat-error>
                 </mat-form-field>
               </ng-container>
               <ng-container *ngSwitchCase="'radioButtons'">
-                <mat-radio-group matNativeControl formControlName="{{tableColumn.dataKey}}" color="primary"
+                <mat-radio-group
+                  matNativeControl
+                  formControlName="{{ tableColumn.dataKey }}"
+                  color="primary"
                   [disabled]="element.value.isEditable">
-                  <mat-radio-button *ngFor="let button of tableColumn.radioButtons" value="{{button.value}}"
-                    style="margin-right: 20px;">{{button.shown}}</mat-radio-button>
+                  <mat-radio-button
+                    *ngFor="let button of tableColumn.radioButtons"
+                    value="{{ button.value }}"
+                    style="margin-right: 20px"
+                    >{{ button.shown }}</mat-radio-button
+                  >
                 </mat-radio-group>
               </ng-container>
               <ng-container *ngSwitchCase="'checkbox'">
-                <mat-checkbox formControlName="{{tableColumn.dataKey}}"
-                  color="primary">{{tableColumn.checkboxText}}</mat-checkbox>
+                <mat-checkbox formControlName="{{ tableColumn.dataKey }}" color="primary">{{
+                  tableColumn.checkboxText
+                }}</mat-checkbox>
               </ng-container>
               <ng-container *ngSwitchCase="'datePicker'">
-                <mat-form-field appearance="fill" style="width: 100%;">
-                  <input matInput [matDatepicker]="picker" formControlName="{{tableColumn.dataKey}}">
+                <mat-form-field appearance="fill" style="width: 100%">
+                  <input matInput [matDatepicker]="picker" formControlName="{{ tableColumn.dataKey }}" />
                   <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                   <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
               </ng-container>
               <ng-container *ngSwitchCase="'specialContent'">
-                <ng-container [ngTemplateOutlet]="tableColumn.template"
-                  [ngTemplateOutletContext]="{ $implicit: element.getRawValue()[tableColumn.dataKey], isNewRow: element.value.isNewRow, row: element, rowData: element.getRawValue() }">
+                <ng-container
+                  [ngTemplateOutlet]="tableColumn.template"
+                  [ngTemplateOutletContext]="{
+                    $implicit: element.getRawValue()[tableColumn.dataKey],
+                    isNewRow: element.value.isNewRow,
+                    row: element,
+                    rowData: element.getRawValue()
+                  }">
                 </ng-container>
               </ng-container>
-              <!-- Mio -->
               <ng-container *ngSwitchCase="'buttonMap'">
                 <button class="button-map" (click)="openMaps(element.getRawValue()[tableColumn.dataKey])">
                   <mat-icon class="button-map-icon">directions_car</mat-icon>
@@ -302,9 +193,10 @@
                   <mat-icon class="button-map-icon">directions_car</mat-icon>
                 </button>
               </ng-container>
-              <!-- mio -->
               <ng-container *ngSwitchDefault>
-                <p>--</p>
+                <p class="plain-text">
+                  {{ element.getRawValue()[tableColumn.dataKey] }}
+                </p>
               </ng-container>
             </ng-container>
           </td>
@@ -321,8 +213,10 @@
           <th mat-header-cell *matHeaderCellDef aria-label="expand">&nbsp;</th>
           <td mat-cell *matCellDef="let element" class="expand">
             <ng-container *ngIf="!element.value.isNewRow">
-              <button mat-icon-button aria-label="expand row"
-                (click)="(expandedElement = expandedElement === element ? null : element); $event.stopPropagation();">
+              <button
+                mat-icon-button
+                aria-label="expand row"
+                (click)="expandedElement = expandedElement === element ? null : element; $event.stopPropagation()">
                 <mat-icon *ngIf="expandedElement !== element">keyboard_arrow_down</mat-icon>
                 <mat-icon *ngIf="expandedElement === element">keyboard_arrow_up</mat-icon>
               </button>
@@ -330,39 +224,70 @@
           </td>
         </ng-container>
 
-        <ng-container matColumnDef="_logTime" *ngIf="hasLogTime">
-          <th mat-header-cell *matHeaderCellDef> Action </th>
-          <td mat-cell *matCellDef="let element; let i = dataIndex" [formGroup]="element">
-            <button mat-icon-button class="material-icons app-toolbar-menu log-time-button" matTooltip="Log Time"
-              matTooltipShowDelay="500" (click)="logTime.emit(element.getRawValue())">
-              <mat-icon>hourglass_empty</mat-icon>
-            </button>
-          </td>
-        </ng-container>
-
         <ng-container matColumnDef="_action" *ngIf="hasActions">
-          <th mat-header-cell *matHeaderCellDef> Action </th>
+          <th mat-header-cell *matHeaderCellDef>Action</th>
           <td mat-cell *matCellDef="let element; let i = dataIndex" [formGroup]="element">
-            <button mat-icon-button class="material-icons app-toolbar-menu save-button" matTooltip="Save Changes"
-              matTooltipShowDelay="500" (click)="Save(element, i + (tableDataSource.paginator != undefined ? tableDataSource.paginator.pageIndex * tableDataSource.paginator.pageSize : 0))"
-              *ngIf="!element.value.isEditable" color="primary" [disabled]="VOForm.invalid">
-              <mat-icon>check_circle</mat-icon>
+            <button
+              class="post-button"
+              matTooltip="Save Changes"
+              matTooltipShowDelay="500"
+              (click)="
+                Save(
+                  element,
+                  i +
+                    (tableDataSource.paginator != undefined
+                      ? tableDataSource.paginator.pageIndex * tableDataSource.paginator.pageSize
+                      : 0)
+                )
+              "
+              *ngIf="!element.value.isEditable"
+              color="primary"
+              [disabled]="VOForm.invalid">
+              <mat-icon>check</mat-icon>
             </button>
 
-            <button mat-icon-button class="material-icons app-toolbar-menu cancel-button" matTooltip="Cancel Changes"
-              matTooltipShowDelay="500" color="warn" (click)="Cancel(element, i + (tableDataSource.paginator != undefined ? tableDataSource.paginator.pageIndex * tableDataSource.paginator.pageSize : 0))"
+            <button
+              class="post-button"
+              matTooltip="Cancel Changes"
+              matTooltipShowDelay="500"
+              matTooltipPosition="below"
+              (click)="
+                Cancel(
+                  element,
+                  i +
+                    (tableDataSource.paginator != undefined
+                      ? tableDataSource.paginator.pageIndex * tableDataSource.paginator.pageSize
+                      : 0)
+                )
+              "
               *ngIf="!element.getRawValue().isEditable">
-              <mat-icon>cancel</mat-icon>
+              <mat-icon>close</mat-icon>
             </button>
 
-            <button mat-icon-button class="material-icons app-toolbar-menu save-button"
-              *ngIf="element.getRawValue().isEditable" matTooltip="Edit" matTooltipShowDelay="500" color="primary"
-              (click)="Edit(element, i + (tableDataSource.paginator != undefined ? tableDataSource.paginator.pageIndex * tableDataSource.paginator.pageSize : 0))">
+            <button
+              class="edit-button"
+              *ngIf="element.getRawValue().isEditable"
+              matTooltip="Edit User"
+              matTooltipPosition="below"
+              matTooltipShowDelay="500"
+              (click)="
+                Edit(
+                  element,
+                  i +
+                    (tableDataSource.paginator != undefined
+                      ? tableDataSource.paginator.pageIndex * tableDataSource.paginator.pageSize
+                      : 0)
+                )
+              ">
               <mat-icon>edit</mat-icon>
             </button>
 
-            <button mat-icon-button class="material-icons app-toolbar-menu delete-button"
-              *ngIf="element.getRawValue().isEditable" matTooltip="Delete" matTooltipShowDelay="500" color="warn"
+            <button
+              class="edit-button"
+              *ngIf="element.getRawValue().isEditable"
+              matTooltip="Delete User"
+              matTooltipPosition="below"
+              matTooltipShowDelay="500"
               (click)="Delete(element)">
               <mat-icon>delete</mat-icon>
             </button>
@@ -371,22 +296,34 @@
 
         <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
         <ng-container matColumnDef="expandedDetail">
-          <td mat-cell *matCellDef="let element; let i = dataIndex" [attr.colspan]="displayedColumns.length"
+          <td
+            mat-cell
+            *matCellDef="let element; let i = dataIndex"
+            [attr.colspan]="displayedColumns.length"
             class="expand">
             <div [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-              <ng-container [ngTemplateOutlet]="expandTemplate" *ngIf="isExpandable && !element.value.isNewRow"
-                [ngTemplateOutletContext]="{ $implicit: expandData.at(i + (tableDataSource.paginator != undefined ? tableDataSource.paginator.pageIndex * tableDataSource.paginator.pageSize : 0)), parentId: element.getRawValue().id }">
+              <ng-container
+                [ngTemplateOutlet]="expandTemplate"
+                *ngIf="isExpandable && !element.value.isNewRow"
+                [ngTemplateOutletContext]="{
+                  $implicit: expandData.at(
+                    i +
+                      (tableDataSource.paginator != undefined
+                        ? tableDataSource.paginator.pageIndex * tableDataSource.paginator.pageSize
+                        : 0)
+                  ),
+                  parentId: element.getRawValue().id
+                }">
               </ng-container>
             </div>
           </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row cdkDrag *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr mat-row cdkDrag *matRowDef="let row; columns: displayedColumns"></tr>
         <tr class="mat-row" *matNoDataRow>
           <td class="mat-cell" colspan="7">
             <div class="empty-table-message">
-              <i class="material-icons">info</i>
               <p>No records found in the database</p>
             </div>
           </td>
@@ -399,12 +336,37 @@
   </form>
 </div>
 
-<div class="background-adding-btn" (click)="addNewRow()" *ngIf="canAddRows" [ngStyle]="(newRowAdded || entryBeingEdited || editingOutside) && {'background-color' : 'black', 'cursor': 'auto', 'hover': 'background-color: black'}" matTooltip="Add new Line to Order" matTooltipShowDelay="500" [matTooltipDisabled]="(newRowAdded || entryBeingEdited || editingOutside)">
-  <button class="add-btn" mat-icon-button [disabled]="newRowAdded || entryBeingEdited || editingOutside" style="margin: auto; padding-bottom: 15px; display: flex; justify-content: center; align-items: center;">
+<div
+  class="background-adding-btn"
+  (click)="addNewRow()"
+  *ngIf="canAddRows"
+  [ngStyle]="
+    (newRowAdded || entryBeingEdited || editingOutside) && {
+      'background-color': 'black',
+      cursor: 'auto',
+      hover: 'background-color: black'
+    }
+  "
+  matTooltip="Add new Line to Order"
+  matTooltipShowDelay="500"
+  matTooltipPosition="below"
+  [matTooltipDisabled]="newRowAdded || entryBeingEdited || editingOutside">
+  <button
+    class="add-btn"
+    mat-icon-button
+    [disabled]="newRowAdded || entryBeingEdited || editingOutside"
+    style="margin: auto; padding-bottom: 15px; display: flex; justify-content: center; align-items: center">
     <mat-icon class="add-btn-icon">add_box</mat-icon>
   </button>
 </div>
 <!-- Pagination -->
-<mat-paginator *ngIf="isPageable" [pageSizeOptions]="paginationSizes" [pageSize]="defaultPageSize"
-  (page)="paginationChanges($event)" showFirstLastButtons>
+<mat-paginator
+  class="paginator"
+  *ngIf="isPageable"
+  [pageSizeOptions]="paginationSizes"
+  [pageSize]="pageSize"
+  [pageIndex]="pageNumber - 1"
+  [length]="totalRecords"
+  (page)="onPaginationChange($event)"
+  showFirstLastButtons>
 </mat-paginator>

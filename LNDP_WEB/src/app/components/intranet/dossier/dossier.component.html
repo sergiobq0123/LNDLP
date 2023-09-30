@@ -2,7 +2,7 @@
   [contentTemplate]="contentTemplate"
   [windowTitle]="'Dossier'"
 ></app-generic-window>
-
+<app-spinner *ngIf="this.spinner"></app-spinner>
 <ng-template #contentTemplate>
   <button
     class="add-container"
@@ -17,7 +17,6 @@
       <div class="card-content">
         <div class="image-section">
           <img
-            mat-card-avatar
             class="card-image"
             [src]="item.photo"
             alt="{{ item.title }}"

@@ -11,4 +11,5 @@ export class notifications {
   static FILTER_NOT_SELECTED = 'Filter condition not selected';
   static FILTER_ALLREADY_ADDED = 'Filter with the same column already added';
   static FILTER_NOT_CREATED = 'Filter is not created, you must add a filter before apply';
+  static LOADING_DATA_FAIL = 'Ocurrió un error mientras se cargaban los datos'
 }

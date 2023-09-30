@@ -1,0 +1,125 @@
+/*color-palette*/
+$white: #ffffff;
+$black: #000000;
+$red: #ff0000;
+$background_grey1: #404040;
+$background-white: #ffffff;
+$background-white1: #ededed;
+$background_white2: #f2f2f2;
+$highlight_color: #c12828;
+$transparent: #00000000;
+
+$dark-color: #182636;
+$middle-dark-color: #7f92a4;
+$light-color: #efefee;
+$power-color: #185fa7;
+$extra-color: #ff8407;
+
+$main-font: "League Spartan", sans-serif;
+$secondary-font: "Montserrat", sans-serif;
+
+
+@mixin custom-iconbutton() {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 0px;
+  border-radius: 50%;
+  z-index: 1;
+  &:not([disabled]) {
+    cursor: pointer;
+  }
+  &:hover:not([disabled]) {
+    box-shadow: 5px 5px 5px -3px rgba(0, 0, 0, 0.19);
+  }
+}
+@mixin custom-button() {
+  cursor: pointer;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 5px;
+  font-size: 14px;
+  margin-top: 20px;
+  letter-spacing: 1px;
+  transition: 0.3s;
+  box-shadow:
+    6px 6px 10px -1px rgba(0, 0, 0, 0.15),
+    -6px -6px 10px -1px rgba(48, 47, 47, 0.7);
+  text-transform: uppercase;
+  width: 120px;
+  align-self: center;
+}
+
+.table .mat-paginator-range-label {
+  display: none;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+  color: $red;
+}
+
+/* Border */
+.mat-form-field-appearance-outline .mat-form-field-outline {
+  color: $white;
+  /* background-color: white; */
+}
+
+.hidden {
+  display: none;
+}
+
+.mat-column-select {
+  overflow: initial;
+}
+
+.mat-mdc-form-field {
+  display: inline-grid;
+  margin-top: 20px;
+}
+
+.add-button {
+  height: 100%;
+  width: 100%;
+  font-size: 35px;
+  margin: 0%;
+}
+
+.add-container {
+  border: none;
+  padding: 0%;
+  height: 35px;
+  background-color: $transparent;
+  transition: 0.3s;
+  color: $light-color;
+  &:hover:not([disabled]) {
+    color: $extra-color;
+    transform: scale(1.3) rotate(90deg);
+  }
+}
+.mdc-text-field--disabled.mdc-text-field--filled {
+  background-color: $power-color;
+  color: $light-color;
+}
+
+.mdc-text-field--no-label:not(.mdc-text-field--textarea) .mat-mdc-form-field-input-control.mdc-text-field__input,
+.mat-mdc-text-field-wrapper .mat-mdc-form-field-input-control {
+  color: $light-color;
+}
+.mat-mdc-header-cell {
+  color: $light-color;
+}
+.leftbuttons {
+  display: flex;
+  gap: 10px;
+  height: 24px;
+}
+.cdk-overlay-dark-backdrop {
+  background: rgba(#fff, 0.32);
+}
+.mat-sort-header-arrow {
+  color: $light-color;
+}

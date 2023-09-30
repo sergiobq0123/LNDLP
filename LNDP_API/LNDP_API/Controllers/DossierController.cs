@@ -5,6 +5,7 @@ using LNDP_API.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Linq.Expressions;
 using TTTAPI.Utils;
+using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 
 namespace LNDP_API.Controllers
 {   
@@ -83,11 +84,11 @@ namespace LNDP_API.Controllers
                     }
                 }
                 await _context.SaveChangesAsync();
-                return Ok(); 
+                return Ok(new { Message = "Se ha actualizado el orden del dossier" }); 
             }
             catch (DbUpdateConcurrencyException)
             {
-                return StatusCode(500, "Ocurrió un error al actualizar la base de datos.");
+                return StatusCode(500, new { Message = "Se ha producdio un error actualizando el orden" });
             }
         }
         [HttpDelete("{id}")]

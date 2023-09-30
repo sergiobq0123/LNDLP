@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ArtistAdminComponent } from './artist-admin/artist-admin.component';
-import { GenericSidenavComponent } from './generic-sidenav/generic-sidenav.component';
 import { ConcertAdminComponent } from './concert-admin/concert-admin.component';
 import { FestivalAdminComponent } from './festival-admin/festival-admin.component';
 import { UserAdminComponent } from './user-admin/user-admin.component';
@@ -11,10 +10,11 @@ import { ArtistImageComponent } from './artist-image/artist-image.component';
 import { DossierComponent } from './dossier/dossier.component';
 import { ArtistSongComponent } from './artist-song/artist-song.component';
 import { ArtistAlbumComponent } from './artist-album/artist-album.component';
+import { IntranetComponent } from './intranet.component';
 
 const routes: Routes = [
   {path : '',
-    component : GenericSidenavComponent,
+    component : IntranetComponent,
     children :[
       {
         path : 'Home',
