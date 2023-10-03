@@ -13,6 +13,7 @@ import { Column } from '../generic-table/column';
 import { GenericTableComponent } from '../generic-table/generic-table.component';
 import { AlbumService } from 'src/app/services/intranet/album.service';
 import { NotificationService } from 'src/app/services/notification.service';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-artist-album',
@@ -29,6 +30,9 @@ export class ArtistAlbumComponent {
   entryBeingEdited: boolean = false;
   pageNumber: number = 1;
   photo: any;
+  spinner: boolean = false;
+  pageSize : number = 10;
+  totalAlbums = 50
 
   @ViewChild(GenericTableComponent) table: GenericTableComponent;
 
@@ -55,14 +59,23 @@ export class ArtistAlbumComponent {
   }
 
   getAlbums() {
-    this._albumService.get().subscribe((res) => {
-      let songs = new Array();
-      res.forEach((val) => {
-        songs.push(val);
-      });
-      this.albums = [...songs];
-      this.setColumns();
-      this.loaded = true;
+    this.spinner = true;
+    this._albumService.get().subscribe({
+      next : res => {
+        let songs = new Array();
+        res.forEach((val) => {
+          songs.push(val);
+        });
+        this.albums = [...songs];
+        this.setColumns();
+        this.loaded = true;
+        this.spinner = false
+      },
+      error : err => {
+        this._notificationService.showMessageOnSnackbar(notifications.LOADING_DATA_FAIL, 'X', 3500, 'err-button');
+        this.apiFailing = false;
+        this.spinner = false;
+      }
     });
   }
 
@@ -95,6 +108,22 @@ export class ArtistAlbumComponent {
         type: ContentType.editableTextFields,
       },
       {
+        name: 'URL',
+        dataKey: 'url',
+        position: 'left',
+        isSortable: true,
+        hidden: false,
+        type: ContentType.editableTextFields,
+      },
+      {
+        name: 'Fecha',
+        dataKey: 'date',
+        position: 'left',
+        isSortable: true,
+        hidden: false,
+        type: ContentType.datePicker,
+      },
+      {
         name: 'Photo',
         dataKey: 'photo',
         type: ContentType.imageFile
@@ -123,6 +152,18 @@ export class ArtistAlbumComponent {
         dropdown: this.getArtist(),
         dropdownKeyToShow: 'name',
         dropdownKeyValue: 'id',
+      },
+      {
+        name: 'Date',
+        dataKey: 'date',
+        position: { row: 1, col: 1, rowSpan: 1, colSpan: 1 },
+        type: ContentType.datePicker,
+      },
+      {
+        name: 'URL',
+        dataKey: 'url',
+        position: { row: 1, col: 1, rowSpan: 1, colSpan: 1 },
+        type: ContentType.editableTextFields,
       },
       {
         name: 'Imagen',
@@ -265,5 +306,11 @@ export class ArtistAlbumComponent {
     const extension = nombreOriginal.split('.').pop();
     const nombreUnico = `${nombreSinExtension}_${timestamp}.jpg`;
     return nombreUnico;
+  }
+
+  onPaginationChange(PageEvent: PageEvent){
+    this.pageNumber = PageEvent.pageIndex + 1;
+    this.pageSize = PageEvent.pageSize;
+    this.getAlbums();
   }
 }

@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace LNDP_API.Models {
     public class Artist : ModelBase {
         public string? Name {get ; set ; }
+        public string? Description {get ; set ; }
         public string? City {get ; set ; }
         public string ? Photo {get ; set ; }
         public string? RecruitmentEmail {get ; set ; }

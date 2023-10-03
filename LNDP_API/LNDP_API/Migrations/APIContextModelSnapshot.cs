@@ -33,10 +33,16 @@ namespace LNDP_API.Migrations
                     b.Property<int?>("ArtistId")
                         .HasColumnType("integer");
 
+                    b.Property<DateTime?>("Date")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
                     b.Property<string>("Photo")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Url")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -60,6 +66,9 @@ namespace LNDP_API.Migrations
                     b.Property<string>("CommunicationEmail")
                         .HasColumnType("text");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
@@ -72,9 +81,39 @@ namespace LNDP_API.Migrations
                     b.Property<string>("RecruitmentEmail")
                         .HasColumnType("text");
 
+                    b.Property<int?>("UserId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("Artist");
+                });
+
+            modelBuilder.Entity("LNDP_API.Models.Brand", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Photo")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Brand");
                 });
 
             modelBuilder.Entity("LNDP_API.Models.Crew", b =>
@@ -201,6 +240,31 @@ namespace LNDP_API.Migrations
                         });
                 });
 
+            modelBuilder.Entity("LNDP_API.Models.Record", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Photo")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Record");
+                });
+
             modelBuilder.Entity("LNDP_API.Models.SocialNetwork", b =>
                 {
                     b.Property<int>("Id")
@@ -267,9 +331,6 @@ namespace LNDP_API.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("ArtistId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Email")
                         .HasColumnType("text");
 
@@ -286,9 +347,6 @@ namespace LNDP_API.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ArtistId")
-                        .IsUnique();
 
                     b.HasIndex("UserRoleId");
 
@@ -331,6 +389,15 @@ namespace LNDP_API.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Artist");
+                });
+
+            modelBuilder.Entity("LNDP_API.Models.Artist", b =>
+                {
+                    b.HasOne("LNDP_API.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("LNDP_API.Models.Crew", b =>
@@ -381,15 +448,9 @@ namespace LNDP_API.Migrations
 
             modelBuilder.Entity("LNDP_API.Models.User", b =>
                 {
-                    b.HasOne("LNDP_API.Models.Artist", "Artist")
-                        .WithOne("User")
-                        .HasForeignKey("LNDP_API.Models.User", "ArtistId");
-
                     b.HasOne("LNDP_API.Models.UserRole", "UserRole")
                         .WithMany()
                         .HasForeignKey("UserRoleId");
-
-                    b.Navigation("Artist");
 
                     b.Navigation("UserRole");
                 });
@@ -405,8 +466,6 @@ namespace LNDP_API.Migrations
                     b.Navigation("SocialNetwork");
 
                     b.Navigation("Songs");
-
-                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }

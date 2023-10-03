@@ -5,34 +5,20 @@
     <img class="image" [src]="artist.photo" />
   </div>
   <div class="container-description">
-    <p>
-      Duis culpa proident culpa cillum pariatur consectetur laborum anim duis
-      aute cillum ullamco. Commodo qui aute irure esse non adipisicing. Est
-      deserunt aliqua esse cupidatat id aliqua deserunt. Adipisicing magna et
-      cillum ex culpa culpa eu esse eiusmod laborum magna ad elit mollit. Sint
-      magna et qui commodo qui cupidatat nostrud cupidatat. Mollit anim ut aute
-      eiusmod labore exercitation laboris. Do amet laboris Lorem dolor dolore
-      officia enim. Qui est nulla tempor cupidatat magna voluptate. Incididunt
-      irure aute laboris culpa velit ea consectetur in qui aliqua dolor sint
-      excepteur. Fugiat ex velit tempor voluptate culpa in amet velit eu esse
-      quis ex aute est. Adipisicing ea aliquip sint sunt esse quis commodo sunt
-      ipsum pariatur exercitation ex exercitation. Dolore dolor do aliquip
-      aliqua aute sint deserunt magna reprehenderit quis culpa proident.
-    </p>
+    <p>{{ artist.description }}</p>
   </div>
 </div>
 
 <div *ngIf="this.artist.albums != null">
   <h3>Albumes</h3>
-  <app-artist-detail-album-web
+  <app-generic-card
+    [buttonText]="'Escuchar'"
     [array]="this.artist.albums"
-  ></app-artist-detail-album-web>
+  ></app-generic-card>
 </div>
 
-<div *ngIf="this.artist.songs != null">
-  <h3>Canciones</h3>
-  <app-artist-videos-web [array]="this.artist.songs"></app-artist-videos-web>
-</div>
+<h3>Canciones</h3>
+<app-generic-youtube [array]="this.artist.songs"></app-generic-youtube>
 
 <div *ngIf="this.artist.events != null">
   <h3>Eventos</h3>

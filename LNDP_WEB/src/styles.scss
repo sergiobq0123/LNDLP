@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 
-* { margin: 0; padding: 0; border: 0;  }
+* { margin: 0; padding: 0; border: 0; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .mat-mdc-snack-bar-container{
@@ -22,6 +22,18 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 @font-face {
   font-family: 'Akira';
   src: url("./assets/Fuente/Akira\ Expanded\ Demo.otf");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'MyriadproBold';
+  src: url("assets/Fuente/MYRIADPRO-BOLD.OTF");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'MyriadproSemiBold';
+  src: url("assets/Fuente/MyriadPro-Light.otf");
   font-weight: normal;
   font-style: normal;
 }

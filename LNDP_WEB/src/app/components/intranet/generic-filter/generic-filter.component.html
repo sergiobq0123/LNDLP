@@ -1,0 +1,116 @@
+<!-- filter options selector -->
+<div class="filter-options-selector-container">
+  <ng-container class="filter-options-inputs-container">
+    <mat-form-field class="filter-option-form">
+      <mat-label class="filter-option-label"
+        >Add filter
+        <mat-icon class="filter-options-add">add</mat-icon>
+      </mat-label>
+      <mat-select class="filter-option-select" [(ngModel)]="selectedOption" (selectionChange)="addFilter()">
+        <mat-option class="filter-option-options" selected="true" disabled="disabled">Select filter to add</mat-option>
+        <mat-option class="filter-option-options" *ngFor="let item of getUnselectedColumns()" [value]="item">
+          {{ item.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </ng-container>
+
+  <!--Array of Filters-->
+  <ng-container *ngIf="this.selectedFilters.length > 0">
+    <div class="filter-options-row" *ngFor="let filter of selectedFilters">
+      <mat-checkbox class="filter-checkbox" [checked]="filter.active" (change)="onFilterActiveChange(filter.dataKey)">
+        {{ filter.name }}
+      </mat-checkbox>
+
+      <ng-container *ngIf="filter.active">
+        <!-- CONDITION SELECTOR -->
+        <mat-form-field class="filters-condition" appearance="fill">
+          <mat-select class="filter-option-select" [(ngModel)]="filter.condition">
+            <mat-option
+              class="filter-option-options"
+              *ngFor="let condition of getFilterConditions(filter.type)"
+              value="{{ condition }}"
+              selected>
+              {{ condition }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <ng-container [ngSwitch]="filter.type">
+          <!-- DROPDOWN -->
+          <ng-container *ngSwitchCase="'dropdownFields'">
+            <mat-form-field class="filters-condition" appearance="fill">
+              <mat-select [(ngModel)]="filter.filterInput" matNativeControl>
+                <mat-option *ngFor="let dropdownValue of filter.dropdown" [value]="getDropdownKeyValue(dropdownValue)">
+                  {{ getDropdownValue(dropdownValue) }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </ng-container>
+
+          <!-- DATE PICKER -->
+          <ng-container *ngSwitchCase="filter.type === 'datePicker' || filter.type === 'dateText' ? filter.type : ''">
+            <mat-form-field class="filters-condition" appearance="fill">
+              <input
+                matInput
+                [matDatepicker]="startPicker"
+                [(ngModel)]="filter.startDate"
+                [formControl]="startDate"
+                required />
+              <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+              <mat-datepicker #startPicker></mat-datepicker>
+              <mat-error *ngIf="startDate.invalid">Not a valid date</mat-error>
+            </mat-form-field>
+          </ng-container>
+
+          <!-- TEXT INPUT -->
+          <ng-container *ngSwitchDefault>
+            <mat-form-field class="filters-condition" appearance="fill">
+              <input
+                class="filterInput"
+                [(ngModel)]="filter.filterInput"
+                matInput
+                placeholder="{{ filter.filterInput }}" />
+            </mat-form-field>
+          </ng-container>
+        </ng-container>
+
+        <!-- ONLY FOR DATEPICKER -->
+        <mat-form-field
+          class="filters-condition"
+          appearance="fill"
+          *ngIf="
+            (filter.type === 'datePicker' || filter.type === 'dateText') && filter.condition === FilterCondition.BETWEEN
+          ">
+          <input matInput [matDatepicker]="endPicker" [(ngModel)]="filter.endDate" [formControl]="endDate" required />
+          <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+          <mat-datepicker #endPicker></mat-datepicker>
+          <mat-error *ngIf="endDate.invalid">Not a valid date</mat-error>
+        </mat-form-field>
+      </ng-container>
+    </div>
+  </ng-container>
+
+  <!-- filter options buttoms -->
+  <div class="filter-options-buttons-container">
+    <button
+      matTooltip="Apply filter"
+      matTooltipPosition="below"
+      matTooltipShowDelay="500"
+      (click)="applyFilterOption()">
+      <mat-icon>done</mat-icon>
+    </button>
+
+    <button
+      matTooltip="Reset filter"
+      matTooltipPosition="below"
+      matTooltipShowDelay="500"
+      (click)="resetFilterOptions()">
+      <mat-icon>restart_alt</mat-icon>
+    </button>
+
+    <button matTooltip="Save filter options" matTooltipPosition="below" matTooltipShowDelay="500">
+      <mat-icon>save</mat-icon>
+    </button>
+  </div>
+</div>

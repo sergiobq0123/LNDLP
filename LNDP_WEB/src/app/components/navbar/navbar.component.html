@@ -47,6 +47,7 @@
     </button>
     <mat-menu #menu="matMenu">
       <button mat-menu-item [routerLink]="['/Intranet/Home']">Intranet</button>
+      <button mat-menu-item (click)="logout()" [routerLink]="['']">Log out</button>
     </mat-menu>
   </div>
 </mat-toolbar>

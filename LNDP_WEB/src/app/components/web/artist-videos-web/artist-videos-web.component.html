@@ -1,5 +1,0 @@
-<div class="container">
-  <div *ngFor="let item of array" class="container-item" [ngStyle]="{ 'grid-template-columns': 'repeat(auto-fill, minmax(' + this.width + ', 1fr))' }">
-    <iframe class="iframe" [src]="getSafeUrl(item.url)"></iframe>
-  </div>
-</div>

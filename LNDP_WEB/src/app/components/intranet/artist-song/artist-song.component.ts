@@ -12,6 +12,8 @@ import { GenericFormDialogComponent } from '../generic-form-dialog/generic-form-
 import { MatDialog } from '@angular/material/dialog';
 import { ArtistService } from 'src/app/services/intranet/artist.service';
 import { NotificationService } from 'src/app/services/notification.service';
+import { PageEvent } from '@angular/material/paginator';
+
 
 @Component({
   selector: 'app-artist-song',
@@ -27,6 +29,9 @@ export class ArtistSongComponent {
   newRowAdded: boolean = false;
   entryBeingEdited: boolean = false;
   pageNumber: number = 1;
+  spinner: boolean = false;
+  pageSize : number = 10;
+  totalSongs = 50
 
   @ViewChild(GenericTableComponent) table: GenericTableComponent;
 
@@ -55,14 +60,23 @@ export class ArtistSongComponent {
   }
 
   getSongs() {
-    this._songService.get().subscribe((res) => {
-      let songs = new Array();
-      res.forEach((val) => {
-        songs.push(val);
-      });
-      this.songs = [...songs];
-      this.setColumns();
-      this.loaded = true;
+    this.spinner = true;
+    this._songService.get().subscribe({
+      next : res => {
+        let songs = new Array();
+        res.forEach((val) => {
+          songs.push(val);
+        });
+        this.songs = [...songs];
+        this.setColumns();
+        this.loaded = true;
+        this.spinner = false;
+      },
+      error : err => {
+        this._notificationService.showMessageOnSnackbar(notifications.LOADING_DATA_FAIL, 'X', 3500, 'err-button');
+        this.apiFailing = false;
+        this.spinner = false;
+      }
     });
   }
 
@@ -237,7 +251,9 @@ export class ArtistSongComponent {
     );
   }
 
-  updatePageNumber(pageNum: number) {
-    this.pageNumber = pageNum;
+  onPaginationChange(PageEvent: PageEvent){
+    this.pageNumber = PageEvent.pageIndex + 1;
+    this.pageSize = PageEvent.pageSize;
+    this.getArtist();
   }
 }

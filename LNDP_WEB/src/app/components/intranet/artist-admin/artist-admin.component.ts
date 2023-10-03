@@ -15,6 +15,8 @@ import { GenericTableComponent } from '../generic-table/generic-table.component'
 import { Filter } from '../generic-table/Filter';
 import { SocialNetworkService } from 'src/app/services/intranet/social-network.service';
 import { CrewService } from 'src/app/services/intranet/crew.service';
+import { notifications } from 'src/app/common/notifications';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-artist-admin',
@@ -39,17 +41,19 @@ export class ArtistAdminComponent {
     sensitivity: 'base',
   });
   spinner: boolean = false;
+  pageSize : number = 10;
+  totalArtist = 50
 
   @ViewChild(GenericTableComponent) table: GenericTableComponent;
   @ViewChild('crewTemplate') crewTemplate: TemplateRef<any>;
   @ViewChild('socialNetworkTemplate') socialNetworkTemplate: TemplateRef<any>;
 
   constructor(
-    public artistService: ArtistService,
-    public dialog: MatDialog,
-    private notificationService: NotificationService,
-    private socialNetworkService : SocialNetworkService,
-    private crewService : CrewService,
+    public _artistService: ArtistService,
+    public _dialog: MatDialog,
+    private _notificationService: NotificationService,
+    private _socialNetworkService : SocialNetworkService,
+    private _crewService : CrewService,
   ) {}
 
   ngOnInit() {
@@ -60,14 +64,23 @@ export class ArtistAdminComponent {
   }
 
   getArtist() {
-    this.artistService.get().subscribe((res) => {
-      let artists = new Array();
-      res.forEach((val) => {
-        artists.push(val);
-      });
-      this.artists = [...artists];
-      this.setColumns();
-      this.loaded = true;
+    this.spinner = true;
+    this._artistService.get().subscribe({
+      next: res => {
+        let artists = new Array();
+        res.forEach((val) => {
+          artists.push(val);
+        });
+        this.artists = [...artists];
+        this.setColumns();
+        this.spinner = false
+        this.loaded = true;
+      },
+      error : err => {
+        this._notificationService.showMessageOnSnackbar(notifications.LOADING_DATA_FAIL, 'X', 3500, 'err-button');
+        this.apiFailing = false;
+        this.spinner = false;
+      }
     });
   }
 
@@ -352,7 +365,7 @@ export class ArtistAdminComponent {
       formCols: 2,
       dialogTitle: 'Añade un nuevo artista',
     };
-    const dialogRef = this.dialog.open(GenericFormDialogComponent, {
+    const dialogRef = this._dialog.open(GenericFormDialogComponent, {
       data: dialogData,
       minWidth: 600,
     });
@@ -371,35 +384,34 @@ export class ArtistAdminComponent {
       formCols: 2,
       dialogTitle: 'Red Social',
     };
-    const dialogRef = this.dialog.open(GenericFormDialogComponent, {
+    const dialogRef = this._dialog.open(GenericFormDialogComponent, {
       data: dialogData,
       minWidth: 600,
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result !== undefined && result !== null && result !== '') {
         console.log(result);
-        this.updateElement(this.socialNetworkService, result);
+        this.updateElement(this._socialNetworkService, result);
       }
     });
   }
 
   showFormDialogCrew(dataShow: any) {
     console.log(dataShow);
-
     let dialogData = {
       formData: dataShow,
       formFields: this.crewForm,
       formCols: 2,
       dialogTitle: 'Equipo',
     };
-    const dialogRef = this.dialog.open(GenericFormDialogComponent, {
+    const dialogRef = this._dialog.open(GenericFormDialogComponent, {
       data: dialogData,
       minWidth: 600,
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result !== undefined && result !== null && result !== '') {
         console.log(result);
-        this.updateElement(this.crewService,result);
+        this.updateElement(this._crewService,result);
       }
     });
   }
@@ -427,7 +439,7 @@ export class ArtistAdminComponent {
     service.update(event.id, event).subscribe(
       (res) => {
         this.getArtist();
-        this.notificationService.showMessageOnSnackbar(
+        this._notificationService.showMessageOnSnackbar(
           res.message,
           'OK!',
           3500,
@@ -436,7 +448,7 @@ export class ArtistAdminComponent {
         this.apiFailing = false;
       },
       (err) => {
-        this.notificationService.showMessageOnSnackbar(
+        this._notificationService.showMessageOnSnackbar(
           err.error.message,
           'KO!',
           3500,
@@ -448,10 +460,10 @@ export class ArtistAdminComponent {
   }
 
   deleteElement(event: any) {
-    this.artistService.delete(event.id).subscribe(
+    this._artistService.delete(event.id).subscribe(
       (res) => {
         this.getArtist();
-        this.notificationService.showMessageOnSnackbar(
+        this._notificationService.showMessageOnSnackbar(
           res.message,
           'OK!',
           350000,
@@ -463,7 +475,7 @@ export class ArtistAdminComponent {
         }
       },
       (err) => {
-        this.notificationService.showMessageOnSnackbar(
+        this._notificationService.showMessageOnSnackbar(
           err.error.message,
           'KO!',
           3500,
@@ -475,17 +487,17 @@ export class ArtistAdminComponent {
   }
 
   filterData(filters: Filter[]) {
-    this.artistService.getFiltered(filters).subscribe((res) => {
+    this._artistService.getFiltered(filters).subscribe((res) => {
       this.artists = res;
     });
   }
 
   createElement(event: any) {
     event.id = 0;
-    this.artistService.create(event).subscribe(
+    this._artistService.create(event).subscribe(
       (res) => {
         this.getArtist();
-        this.notificationService.showMessageOnSnackbar(
+        this._notificationService.showMessageOnSnackbar(
           res.message,
           'OK!',
           3500,
@@ -494,7 +506,7 @@ export class ArtistAdminComponent {
         this.apiFailing = false;
       },
       (err) => {
-        this.notificationService.showMessageOnSnackbar(
+        this._notificationService.showMessageOnSnackbar(
           err.error.message,
           'ERROr!',
           3500,
@@ -505,7 +517,9 @@ export class ArtistAdminComponent {
     );
   }
 
-  updatePageNumber(pageNum: number) {
-    this.pageNumber = pageNum;
+  onPaginationChange(PageEvent: PageEvent){
+    this.pageNumber = PageEvent.pageIndex + 1;
+    this.pageSize = PageEvent.pageSize;
+    this.getArtist();
   }
 }

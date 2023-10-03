@@ -20,25 +20,27 @@ export class LoginComponent {
 
   constructor(
     private _formBuilder: FormBuilder,
-    public _authServvice: AuthService,
+    public _authService: AuthService,
     public _router : Router,
     private _notificationService : NotificationService
     ) { }
 
 
     SubmitLogin(useremail, password) {
-      this._authServvice.login(useremail, password).subscribe({
+      this._authService.login(useremail, password).subscribe(
+        {
+        next: res =>{
+          this._authService.setToken(res.token)
+          this._router.navigateByUrl('')
+        },
         error : error => {
-          console.log(error.error);
+          console.log(error);
 
           this._notificationService.showErrorOnSnackbar(error.error, 'Close', 3500)
           this.LoginForm.get('password').setValue('')
-        },
-        next: res =>{
-          this._authServvice.setToken(res.token)
-          this._router.navigateByUrl('')
         }
-      })
+      }
+      )
     }
 
 

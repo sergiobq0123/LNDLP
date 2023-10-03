@@ -2,6 +2,8 @@
   [contentTemplate]="contentTemplate"
   [windowTitle]="'Albumes'"
 ></app-generic-window>
+<app-spinner *ngIf="this.spinner"></app-spinner>
+
 
 <ng-template #contentTemplate>
   <button
@@ -24,8 +26,12 @@
     (rowAdded)="newRowAdded = $event"
     (delete)="deleteElement($event)"
     [paginationSizes]="[5, 10, 20]"
-    [defaultPageSize]="10"
-    (pageNum)="updatePageNumber($event)"
+    [pageSize]="pageSize"
+    [pageNumber]="pageNumber"
+    [totalRecords]="totalAlbums"
+    (paginationChange)="onPaginationChange($event)"
+    [canManageColumns]="true"
+    [hasFilter]="true"
     (edited)="entryBeingEdited = $event"
     *ngIf="loaded"
   >

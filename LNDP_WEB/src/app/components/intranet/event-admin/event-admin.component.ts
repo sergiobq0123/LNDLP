@@ -12,7 +12,7 @@ import { notifications } from 'src/app/common/notifications';
 import { EventTypeService } from 'src/app/services/intranet/event-type.service';
 import { Filter } from '../generic-table/Filter';
 import { ArtistService } from '../../../services/intranet/artist.service';
-import { MatFormField } from '@angular/material/form-field';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-event-admin',
@@ -32,15 +32,17 @@ export class EventAdminComponent {
   apiFailing: boolean = false;
   collator = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' });
   spinner: boolean = false;
+  pageSize : number = 10;
+  totalEvents = 50
 
   @ViewChild(GenericTableComponent) table: GenericTableComponent;
 
   constructor(
-    private eventsService: EventService,
-    private artistService: ArtistService,
-    private eventsTypeService : EventTypeService,
-    public dialog : MatDialog,
-    private notificationService : NotificationService
+    private _eventsService: EventService,
+    private _artistService: ArtistService,
+    private _eventsTypeService : EventTypeService,
+    public _dialog : MatDialog,
+    private _notificationService : NotificationService
   ){}
 
   ngOnInit(){
@@ -50,7 +52,7 @@ export class EventAdminComponent {
   }
 
   getEventsType(){
-    this.eventsTypeService.get().subscribe((res) => {
+    this._eventsTypeService.get().subscribe((res) => {
       let eventsType = new Array();
       res.forEach(val => {
         eventsType.push(val)
@@ -60,19 +62,28 @@ export class EventAdminComponent {
   }
 
   getEvents() {
-    this.eventsService.get().subscribe((res) => {
-      let events = new Array();
-      res.forEach(val => {
-        events.push(val)
-      });
-      this.eventos = [... events];
-      this.setColumns();
-      this.loaded = true;
+    this.spinner = true;
+    this._eventsService.get().subscribe({
+      next : res => {
+        let events = new Array();
+        res.forEach(val => {
+          events.push(val)
+        });
+        this.eventos = [... events];
+        this.setColumns();
+        this.loaded = true;
+        this.spinner = false
+      },
+      error : err => {
+        this._notificationService.showMessageOnSnackbar(notifications.LOADING_DATA_FAIL, 'X', 3500, 'err-button');
+        this.apiFailing = false;
+        this.spinner = false;
+      }
     });
   }
 
   getArtist(){
-    this.artistService.get().subscribe((res) => {
+    this._artistService.get().subscribe((res) => {
       let artists = new Array();
       res.forEach(val => {
         artists.push(val)
@@ -216,7 +227,7 @@ export class EventAdminComponent {
     }
     console.log(dialogData.formFields);
 
-    const dialogRef = this.dialog.open(GenericFormDialogComponent, {data: dialogData, minWidth : 600});
+    const dialogRef = this._dialog.open(GenericFormDialogComponent, {data: dialogData, minWidth : 600});
     dialogRef.afterClosed().subscribe(result => {
       if(result !== undefined && result !== null && result !== ''){
         console.log(result);
@@ -237,27 +248,27 @@ export class EventAdminComponent {
   }
 
   updateElement(event: any) {
-    this.eventsService.update(event.id, event).subscribe(res => {
+    this._eventsService.update(event.id, event).subscribe(res => {
       this.getEvents();
-      this.notificationService.showMessageOnSnackbar(res.message, 'OK!', 3500, 'success-button');
+      this._notificationService.showMessageOnSnackbar(res.message, 'OK!', 3500, 'success-button');
       this.apiFailing = false;
     }, err => {
-      this.notificationService.showMessageOnSnackbar(err.error.message, 'KO!', 3500, 'err-button')
+      this._notificationService.showMessageOnSnackbar(err.error.message, 'KO!', 3500, 'err-button')
       this.apiFailing = true;
     }
     )
   }
 
   deleteElement(event: any) {
-    this.eventsService.delete(event.id).subscribe(res => {
+    this._eventsService.delete(event.id).subscribe(res => {
       this.getEvents();
-      this.notificationService.showMessageOnSnackbar(res.message, 'OK!', 3500, 'success-button');
+      this._notificationService.showMessageOnSnackbar(res.message, 'OK!', 3500, 'success-button');
       this.apiFailing = false;
       if(this.table.tableDataSource.data.length === 1){
         this.table.setTableDataSource();
       }
     }, err => {
-      this.notificationService.showMessageOnSnackbar(err.error.message, 'KO!', 3500, 'err-button')
+      this._notificationService.showMessageOnSnackbar(err.error.message, 'KO!', 3500, 'err-button')
       this.apiFailing = true;
     }
     )
@@ -265,24 +276,26 @@ export class EventAdminComponent {
 
   createElement(event: any) {
     event.id = 0;
-    this.eventsService.create(event).subscribe(res => {
+    this._eventsService.create(event).subscribe(res => {
       this.getEvents();
-      this.notificationService.showMessageOnSnackbar(res.message, 'OK!', 3500, 'success-button');
+      this._notificationService.showMessageOnSnackbar(res.message, 'OK!', 3500, 'success-button');
       this.apiFailing = false;
     }, err => {
-      this.notificationService.showMessageOnSnackbar(err.error.message, 'KO!', 3500, 'err-button')
+      this._notificationService.showMessageOnSnackbar(err.error.message, 'KO!', 3500, 'err-button')
       this.apiFailing = true;
     }
     )
   }
 
   filterData(filters : Filter[]){
-    this.eventsService.getFiltered(filters).subscribe(res =>{
+    this._eventsService.getFiltered(filters).subscribe(res =>{
       this.eventos = res
     })
   }
 
-  updatePageNumber(pageNum: number) {
-    this.pageNumber = pageNum;
+  onPaginationChange(PageEvent: PageEvent){
+    this.pageNumber = PageEvent.pageIndex + 1;
+    this.pageSize = PageEvent.pageSize;
+    this.getEvents();
   }
 }

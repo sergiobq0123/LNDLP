@@ -1,60 +1,14 @@
-<h1>LNDLP VISUAL</h1>
-<div class="container-comment">
-  <p class="text-comment">
-    Contamos con más de 5 años en el sector y más de 200 videoclips a nuestras
-    espaldas. Nos encargamos de la preproducción, rodaje, montaje y etalonaje.
-    Nos encargamos de cubrir los eventos y actuaciones con fotografía y vídeo, a
-    gusto del cliente. Con mucha experiencia en el sector hemos cubierto eventos
-    de empresas importantes de la industria.
-  </p>
-</div>
+<app-generic-title [title]="this.title" [description]="this.description"></app-generic-title>
 
 <h3>Videos de YouTube</h3>
-<div class="container-youtube">
-  <div class="youtube-video">
-    <iframe
-      class="iframe"
-      src="https://www.youtube.com/embed/AUdz46rXKCM"
-    ></iframe>
-  </div>
-  <div class="youtube-video">
-    <iframe
-      class="iframe"
-      src="https://www.youtube.com/embed/T-h7wOc5VPs"
-    ></iframe>
-  </div>
-  <div class="youtube-video">
-    <iframe
-      class="iframe"
-      src="https://www.youtube.com/embed/iCQvEXbRH9I"
-    ></iframe>
-  </div>
-  <div class="youtube-video">
-    <iframe
-      class="iframe"
-      src="https://www.youtube.com/embed/KpqZAxVrVas"
-    ></iframe>
-  </div>
-  <div class="youtube-video">
-    <iframe
-      class="iframe"
-      src="https://www.youtube.com/embed/rhyDllnbZW8"
-    ></iframe>
-  </div>
-  <div class="youtube-video">
-    <iframe
-      class="iframe"
-      src="https://www.youtube.com/embed/rhyDllnbZW8"
-    ></iframe>
-  </div>
-</div>
+<app-generic-youtube [array]="this.youtubeVideo"></app-generic-youtube>
 
 <div class="container-button">
   <a href="https://www.youtube.com/playlist?list=PLSx0s1NOm742LJsSYoOXrh0DN1fJrmBbJ" target="_blank" class="button-ver-videos">Ver más videos</a>
 </div>
 
 
-
+<h3>Fotos de festivales</h3>
 <div class="carrousel">
   <app-visual-carrousel-web
     [nombreCarrousel]="carrouselName1"

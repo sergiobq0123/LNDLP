@@ -1,0 +1,39 @@
+<form [formGroup]="email" (submit)="enviarFormulario()">
+  <div class="formulario-container">
+    <div class="imagen-izquierda">
+      <img src="../../../../assets/PaginaInicio/logo-izq-form.jpg" />
+    </div>
+    <div class="formulario">
+      <h2 class="titulo-formulario">Formulario de Contacto</h2>
+      <div class="formulario-data">
+        <div class="formulario-izquierda">
+          <mat-form-field class="nombre">
+            <mat-label>Nombre</mat-label>
+            <input matInput class="form-control" formControlName="nombre" />
+          </mat-form-field>
+
+          <mat-form-field class="correo">
+            <mat-label>Correo electrónico</mat-label>
+            <input matInput class="form-control" formControlName="email" />
+          </mat-form-field>
+        </div>
+        <div class="formulario-derecha">
+          <mat-form-field class="mensaje">
+            <mat-label>Mensaje</mat-label>
+            <textarea
+              class="text-area"
+              matInput
+              class="form-control"
+              formControlName="mensaje"
+            ></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+      <button mat-raised-button color="primary" type="submit">Enviar</button>
+    </div>
+    <div class="imagen-derecha">
+      <img src="../../../../assets/PaginaInicio/logo-der-form.jpg" />
+    </div>
+  </div>
+</form>
+

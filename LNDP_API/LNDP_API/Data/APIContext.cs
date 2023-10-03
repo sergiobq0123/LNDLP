@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using LNDP_API.Models;
 
 
@@ -19,6 +18,8 @@ namespace LNDP_API.Data
         public DbSet<LNDP_API.Models.UserRole> UserRole {get ; set ; }
         public DbSet<LNDP_API.Models.Album> Album {get ; set ; }
         public DbSet<LNDP_API.Models.Song> Song {get ; set ; }
+        public DbSet<LNDP_API.Models.Record> Record {get ; set ; }
+        public DbSet<LNDP_API.Models.Brand> Brand {get ; set ; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {   

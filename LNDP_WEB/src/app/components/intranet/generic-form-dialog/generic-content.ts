@@ -8,6 +8,7 @@ export enum ContentType {
     radioButtons = 'radioButtons',
     checkbox = 'checkbox',
     datePicker = 'datePicker',
+    dateText = 'dateText',
     specialContent = 'specialContent',
     buttonMap = 'buttonMap',
     imageFile = 'imageFile'
@@ -37,4 +38,5 @@ export interface GenericContent {
 
 export interface GenericForm extends GenericContent {
     position?: PositionInGrid;
+    style?: string
 }

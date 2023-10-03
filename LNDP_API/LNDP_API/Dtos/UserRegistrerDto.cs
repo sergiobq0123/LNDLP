@@ -6,6 +6,5 @@ namespace LNDP_API.Dtos{
         public string Password { get; set; }
         public string Username {get; set; }
         public int UserRoleId {get; set;}
-        public int? ArtistId {get; set;}
     }
 }

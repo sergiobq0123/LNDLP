@@ -1,29 +1,5 @@
 @import "./../web-styles.scss";
 
-.container-comment {
-  padding: 3px 15%;
-}
-
-.container-youtube {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.youtube-video {
-  width: 450px;
-  height: 275px;
-  margin: 35px; /* Espacio entre los videos */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.iframe {
-  width: 100%;
-  height: 100%;
-}
-
 .carrousel {
   padding-top: 50px;
   padding-bottom: 30px;

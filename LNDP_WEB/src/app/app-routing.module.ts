@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
+import { AuthGuard } from './guards/auth.guard';
 
 
 const routes: Routes = [
@@ -11,7 +12,8 @@ const routes: Routes = [
   },
   {
     path: 'Intranet',
-    loadChildren: () => import('./components/intranet/intranet.module').then(m => m.IntranetModule)
+    loadChildren: () => import('./components/intranet/intranet.module').then(m => m.IntranetModule),
+    canActivate: [AuthGuard]
   },
   {
     path: '',
@@ -23,10 +25,6 @@ const routes: Routes = [
           import('./components/web/web.module').then((m) => m.WebModule),
       },
     ],
-  },
-  {
-    path : 'Login',
-    component : LoginComponent,
   },
   {
     path : '**',

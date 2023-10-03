@@ -1,48 +1,16 @@
-@import "../../app.component.scss";
+$grey1 : #777777;
+$grey2: #5c5b5b;
+$yellow : #FFF7C4;
+
 
 * {
   background-color: black;
 }
 
-h1 {
-  font-family: "Akira";
-  font-size: 60px;
-  color: white;
-  text-align: center;
-  padding: 1%;
-}
-
-h5 {
-  font-family: "Akira";
-  font-size: 20px;
-  color: white;
-  text-align: center;
-  padding: 1%;
-}
-
-h3 {
-  font-family: "Akira";
-  font-size: 30px;
-  color: white;
-  text-align: center;
-  padding: 1%;
-  padding-top: 50px;
-}
-
 p {
   color: white;
-}
-
-@media (max-width: 768px) {
-  h1 {
-    font-size: 25px;
-    padding: 10px;
-  }
-  h3 {
-    font-size: 15px;
-    padding: 10px;
-    padding-bottom: 10px;
-  }
+  font-family: "MyriadproSemiBold";
+  line-height: 1;
 }
 
 @mixin custom-button() {
@@ -78,9 +46,53 @@ p {
   color: #e1e7ef;
   cursor: pointer;
   &:hover {
-    border: 1px solid #f3f3f3;
-    background: white;
+    border: 1px solid $grey1;
+    background: $grey2;
     color: #000;
   }
 }
+
+h1{
+  font-size: 60px;
+  font-family: "Akira";
+  color: white;
+  text-align: center;
+  margin: 0px;
+  padding-top: 40px;
+}
+
+h3{
+  font-size: 30px;
+  font-family: "Akira";
+  color: white;
+  text-align: center;
+  padding: 1%;
+  margin: 0px;
+  padding-top: 20px;
+}
+
+h5{
+  font-size: 20px;
+  font-family: "Akira";
+  color: white;
+  text-align: center;
+  padding: 1%;
+  margin: 0px;
+}
+
+@media (max-width: 768px) {
+  h1 {
+    padding: 10px;
+    line-height: 1;
+  }
+  h3 {
+    padding: 10px;
+    line-height: 1;
+  }
+  h5 {
+    padding: 10px;
+    line-height: 1;
+  }
+}
+
 

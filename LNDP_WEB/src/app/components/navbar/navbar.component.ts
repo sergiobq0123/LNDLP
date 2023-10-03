@@ -18,23 +18,14 @@ export class NavbarComponent {
 
   constructor(private _breakpointObserver: BreakpointObserver, private _authService : AuthService, private _usersService : UsersService) {}
 
-
   ngOnInit() {
     this._breakpointObserver
       .observe([Breakpoints.HandsetPortrait])
       .subscribe((result) => {
         this.isMobile = result.matches;
-        this.showMenu = false; // Oculta el menú desplegable al cargar la página
+        this.showMenu = false;
       });
       this.isLogin = this._authService.isLoggedIn();
-      this.getUser();
-  }
-
-  getUser():void {
-    var userLoggin = this._authService.whoIsLoggedIn();
-    this._usersService.get(+userLoggin.userID).subscribe((res) => {
-      this.user = res;
-    })
   }
 
   toggleMenu() {
@@ -43,7 +34,6 @@ export class NavbarComponent {
 
   logout() {
     this._authService.logout()
-    console.log("logout");
     this.isLogin = false;
   }
 

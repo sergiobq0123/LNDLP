@@ -1,20 +1,19 @@
-.generic-container{
-  width: 96%;
-  padding: 10px;
-  margin: auto;
-  background-color: white;
-}
+@import '../intranet.component.scss';
 
 .window-title {
-  margin-bottom: 20px;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  background-color: white;
-  text-align: center;
+  padding-top: 60px;
+  padding: 20px;
+  background-color: $dark-color;
 }
 
 .window-title-text {
-  font-size: xx-large;
-  margin: 20px;
+  font-size: 80px;
+  color:  $light-color;
+  text-transform: uppercase;
+  font-family: 'Akira';
+  font-weight: bolder;
 }
 
+.window-template {
+  padding: 20px;
+}

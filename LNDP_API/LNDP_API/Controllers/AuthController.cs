@@ -1,9 +1,9 @@
 using AutoMapper;
 using LNDP_API.Data;
-using LNDP_API.Data.Interfaces;
 using LNDP_API.Dtos;
 using LNDP_API.Models;
 using LNDP_API.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,85 +13,44 @@ namespace LNDP_API.Controllers{
     [Route("api/[controller]")]
     [ApiController]
     public class AuthController : ControllerBase{
-        private readonly IAuthRepository _repository;
-        private readonly ITokenService _tokenService;
+        private readonly IAuthService _authService;
         private readonly APIContext _context;
-        private readonly IMapper _mapper;
 
-        public AuthController(IAuthRepository repository, ITokenService tokenService, APIContext context, IMapper mapper)
+
+        public AuthController(IAuthService authService,  APIContext context)
         {
-            _repository = repository;
-            _tokenService = tokenService;
+            _authService = authService;
             _context = context;
-            _mapper = mapper;
         }
 
         [HttpPost("Register")]
-        public async Task<ActionResult<User>> Register(UserRegistrerDto userDto) {
-
-            var artist = await _context.Artist.FindAsync(userDto.ArtistId);
-            if(artist != null){
-                userDto.Email = userDto.Email.ToLower();
-                if(await _repository.ExistUser(userDto.Email)){
-                    return BadRequest("User with this email is registered");
-                }
-                var userNew = _mapper.Map<User>(userDto);
-                userNew.Artist = artist;
-                await _repository.Register(userNew, userDto.Password);
+        public async Task<ActionResult<User>> Register(UserRegistrerDto userDto) 
+        {
+            try
+            {
+                var user = await _authService.Register(userDto);
+                await _context.User.AddAsync(user);
+                await _context.SaveChangesAsync();
                 return Ok();
             }
-            return BadRequest();
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
-
+        [AllowAnonymous]
         [HttpPost("Login")]
-        public async Task<ActionResult<string>> Login(UserLoginDto userLoginDto){
-
-            if(!await _repository.ExistUser(userLoginDto.Email)){
-                return BadRequest("User not found");
-            }else {
-                var userFrom = await _repository.Login(userLoginDto.Email, userLoginDto.Password);
-                if(userFrom == null ){
-                    return BadRequest("Password is incorrect");
-                }else{
-                    var user = _mapper.Map<User>(userFrom);
-                    var token = _tokenService.CreateToken(user);
-                    return Ok(new { userFrom, token});
-                }
-            }
-        }
-        [HttpPut("{id}")]
-        public async Task<ActionResult> PutEvent(int id, User User)
+        public async Task<ActionResult<string>> Login(UserLoginDto userLoginDto)
         {
-            if(id != User.Id){
-                return BadRequest();
+            try
+            {
+                string token = await _authService.Login(userLoginDto.Email, userLoginDto.Password);
+                return Ok(new {token});
             }
-            _context.Entry(User).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            try {
-                await _context.SaveChangesAsync();
-            }
-            catch(DbUpdateConcurrencyException){
-                if(!UserExists(id)){
-                    return NotFound();
-                }
-                else{
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-
-        private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt){
-            using(var hmac = new System.Security.Cryptography.HMACSHA512()){
-                passwordSalt = hmac.Key;
-                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
         }
-
-        private bool UserExists(int id){
-            return (_context.User?.Any(u => u.Id == id)).GetValueOrDefault();
-        }
-
     }
 }

@@ -1,4 +1,4 @@
-@import './../intranet.routing-module.scss';
+@import '../intranet.component.scss';
 
 tr.detail-row {
   height: 0;
@@ -7,6 +7,7 @@ tr.detail-row {
 table {
   width: 100%;
   border-collapse: collapse;
+  background-color: $power-color;
 }
 
 td:not(.expand) {
@@ -31,6 +32,7 @@ tr {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  color: $light-color;
 }
 
 .isDisabled {
@@ -63,47 +65,40 @@ tr {
 }
 
 /*Filter buttons*/
-.column-filter, .filter-options, .filter-options-apply, .filter-options-reset, .filter-options-save {
+.column-filter,
+.filter-options {
   display: flex;
   gap: 4px;
   width: fit-content;
 }
 
-/*Filter buttons hover*/
-.filter-options-buttons-container button:hover {
-  color: red;
-}
-
-/* Filter options buttons */
-.filter-options-buttons-container {
-  display: flex;
-  gap: 20px;
-  margin-top: 20px;
-}
-
 /*Filter column button common*/
-.column-filter , .filter-options {
+.column-filter,
+.filter-options {
   float: right;
   margin-right: 30px;
   margin-top: 38px;
+  margin-bottom: 20px;
 }
 
 /*Filter icon and Column titles icon size*/
-mat-icon.filter-column-icon, mat-icon.filter-title-icon {
+mat-icon.filter-column-icon,
+mat-icon.filter-title-icon {
   font-size: 18px;
 }
 
 /*Filter buttons icon*/
-.filter-column-icon, .filter-options-icon {
-  color:rgb(220, 45, 45);
+.filter-column-icon,
+.filter-options-icon {
+  color: rgb(220, 45, 45);
 }
 
 .column-box {
-  background-color: whitesmoke;
+  background-color: $power-color;
   border-radius: 4px;
   width: fit-content;
   height: fit-content;
-  color: white;
+  color: $light-color;
   font-weight: 500;
   box-sizing: border-box;
   cursor: move;
@@ -114,7 +109,8 @@ mat-icon.filter-column-icon, mat-icon.filter-title-icon {
 .cdk-drag-preview {
   box-sizing: border-box;
   border-radius: 4px;
-  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+  box-shadow:
+    0 5px 5px -3px rgba(0, 0, 0, 0.2),
     0 8px 10px 1px rgba(0, 0, 0, 0.14),
     0 3px 14px 2px rgba(0, 0, 0, 0.12);
 }
@@ -133,7 +129,7 @@ mat-icon.filter-column-icon, mat-icon.filter-title-icon {
 
 /*Filter columns Titles*/
 h2.column-selection-title {
-  color: #ffffff;
+  color: $power-color;
   justify-content: center;
   align-items: center;
   width: fit-content;
@@ -142,7 +138,8 @@ h2.column-selection-title {
   min-width: 120px;
 }
 
-.available-columns-container, .displayed-columns-container {
+.available-columns-container,
+.displayed-columns-container {
   width: 100%;
 }
 
@@ -157,7 +154,7 @@ h2.column-selection-title {
   border-radius: 4px;
   border-width: 1px;
   padding: 5px;
-  background: white;
+  background: $dark-color;
   border-radius: 4px;
   overflow: hidden;
 }
@@ -166,14 +163,13 @@ h2.column-selection-title {
   vertical-align: middle;
 }
 
-/*Filter column and filter options selector container*/
-.column-selector, .filter-options-selector-container {
+.column-selector {
   display: flex;
   width: 100%;
   min-width: 500px;
   justify-content: center;
   align-items: flex-start;
-  background-color: #404040;
+  background-color: $light-color;
   box-sizing: border-box;
   padding: 20px;
   border-radius: 4px;
@@ -183,78 +179,138 @@ h2.column-selection-title {
   margin-top: 50px;
 }
 
-.filter-option-form {
-  margin-top: 0px;
-  text-align: left;
-  width: 350px;
-}
-
-.filter-options-row {
-  display: flex;
-  align-items: baseline;
-  gap: 20px;
-  box-sizing: border-box;
-  vertical-align: middle;
-  text-align: left;
-  width: 100%;
-  height: 40px;
-  margin-bottom: 20px;
-  margin-top: 20px;
-}
-
-.filter-checkbox {
-  background-color: #f5f5f5;
-  padding-left: 6px;
-  padding-right: 10px;
-  padding-top: 10px;
-  padding-bottom: 5px;
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
-  line-height: 24px;
-  box-sizing: border-box;
-  width: 250px;
-  height: 55px;
-}
-
-.filters-condition {
-  margin: 0;
-  width: 250px;
-}
-
-.filter-options-inputs-container {
-  margin-bottom: 10px;
-}
-
-/*Filter checkbox color*/
-.mat-mdc-checkbox.mat-accent {
-  --mdc-checkbox-selected-focus-icon-color: rgb(220, 45, 45);
-  --mdc-checkbox-selected-hover-icon-color: rgb(220, 45, 45);
-  --mdc-checkbox-selected-icon-color: rgb(220, 45, 45);
-  --mdc-checkbox-selected-pressed-icon-color: rgb(220, 45, 45);
-}
-
-.button-addFilter-container {
-  display: flex;
-  height: 56px;
-}
-
-.log-time-button {
-  color: rgb(220, 45, 45);
-}
-
 .table-container {
   overflow-x: auto;
   width: 100%;
+  background-color: #404040;
 }
 
-::ng-dep .mat-mdc-paginator-range-label{
+::ng-deep .mat-mdc-paginator-range-label {
   width: 120px;
 }
 
-.button-map-icon{
-  padding-left: 20px;
+.buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: -20px;
+}
+.managecolumns-button {
+  @include custom-iconbutton;
+  margin-bottom: 10px;
+  background-color: $power-color;
+  &:hover {
+    background-color: $extra-color;
+  }
+  mat-icon {
+    color: $light-color;
+  }
+}
+.managecolumns-button:hover mat-icon {
+  color: $light-color;
 }
 
-.button-map {
- background-color: transparent;
+.filter-button {
+  @include custom-iconbutton;
+  margin-bottom: 10px;
+  background-color: $power-color;
+  &:hover {
+    background-color: $extra-color;
+  }
+  mat-icon {
+    color: $light-color;
+  }
 }
+.filter-button:hover mat-icon {
+  color: $light-color;
+}
+.info-button {
+  @include custom-iconbutton;
+  background-color: $light-color;
+  &:hover {
+    background-color: $extra-color;
+  }
+  mat-icon {
+    color: $power-color;
+  }
+}
+.info-button:hover mat-icon {
+  color: $power-color;
+}
+
+.edit-button {
+  @include custom-iconbutton;
+  background-color: $light-color;
+  &:hover {
+    background-color: $extra-color;
+  }
+  mat-icon {
+    color: $power-color;
+  }
+}
+.edit-button:hover mat-icon {
+  color: $light-color;
+}
+.post-button {
+  @include custom-iconbutton;
+  background-color: $dark-color;
+  &:hover {
+    background-color: $extra-color;
+  }
+  mat-icon {
+    color: $light-color;
+  }
+}
+.post-button:hover mat-icon {
+  color: $light-color;
+}
+.mat-header {
+  color: $light-color;
+}
+
+.paginator {
+  background-color: $power-color;
+  color: $light-color !important;
+}
+.filter-option-label {
+  color: $light-color;
+}
+.mat-select-arrow {
+  color: $light-color;
+}
+
+:host ::ng-deep .mat-mdc-select-arrow {
+  color: $light-color;
+}
+
+:host ::ng-deep .mat-mdc-select-value {
+  color: $light-color;
+}
+
+:host ::ng-deep .mdc-notched-outline > * {
+  border-color: $light-color !important;
+}
+
+:host ::ng-deep .mat-mdc-paginator-icon {
+  fill: $light-color;
+}
+.syncjira-button {
+  @include custom-iconbutton;
+  background-color: $power-color;
+  &:hover {
+    background-color: $extra-color;
+  }
+  mat-icon {
+    color: $light-color;
+  }
+}
+.syncjira-button:hover mat-icon {
+  color: $light-color;
+}
+
+td.mat-column-_action {
+  display: flex;
+  gap: 5px;
+  margin-top: 20px;
+}
+
