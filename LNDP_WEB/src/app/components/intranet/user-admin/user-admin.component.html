@@ -7,10 +7,13 @@
   <button
     [disabled]="newRowAdded || entryBeingEdited"
     id="add-button"
-    class="add-container"
+    class="add-button"
     (click)="showFormDialog()"
+    matTooltip="Añadir usuario"
+    matTooltipPosition="below"
+    matTooltipShowDelay="500"
   >
-    <mat-icon class="add-buton">add_box</mat-icon>
+    <mat-icon>add_box</mat-icon>
   </button>
   <app-generic-table
     [tableData]="users"

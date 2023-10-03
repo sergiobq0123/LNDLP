@@ -9,10 +9,14 @@ namespace LNDP_API.Mapping{
             CreateMap<UserRegistrerDto, User>();
             CreateMap<UserLoginDto, User>();
             // postArtist
-            CreateMap<ArtistDto, SocialNetwork>();
-            CreateMap<ArtistDto, Crew>();
-            CreateMap<ArtistDto, Artist>();
-            CreateMap<ArtistDto, UserRegistrerDto>();
+            CreateMap<ArtistCreateDto, SocialNetwork>();
+            CreateMap<ArtistCreateDto, Crew>();
+            CreateMap<ArtistCreateDto, Artist>();
+            CreateMap<ArtistCreateDto, UserRegistrerDto>();
+            CreateMap<ArtistDto, Artist>().ReverseMap();
+            CreateMap<AlbumDto, Album>().ReverseMap();
+            CreateMap<RecordDto, Record>().ReverseMap();
+            CreateMap<BrandDto, Brand>().ReverseMap();
         }
     }
 }

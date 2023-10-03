@@ -1,5 +1,5 @@
 namespace LNDP_API.Dtos {
-    public class ArtistDto{
+    public class ArtistCreateDto{
         public string? Name {get ; set ; }
         public string? City {get ; set ; }
         public string ? Photo {get ; set ; }

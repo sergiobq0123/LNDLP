@@ -18,11 +18,11 @@ namespace LNDP_API.Services{
             _authService = authService;
         }
 
-        public async Task<Artist> CreateArtist(ArtistDto artistDto){
-            var artist = _mapper.Map<Artist>(artistDto);
-            var socialNetwork = _mapper.Map<SocialNetwork>(artistDto);
-            var crew = _mapper.Map<Crew>(artistDto);
-            var user = _mapper.Map<UserRegistrerDto>(artistDto);
+        public async Task<Artist> CreateArtist(ArtistCreateDto artistCreateDto){
+            var artist = _mapper.Map<Artist>(artistCreateDto);
+            var socialNetwork = _mapper.Map<SocialNetwork>(artistCreateDto);
+            var crew = _mapper.Map<Crew>(artistCreateDto);
+            var user = _mapper.Map<UserRegistrerDto>(artistCreateDto);
             var newUser = await _authService.Register(user);
             artist.SocialNetwork = socialNetwork;
             artist.Crew = crew;

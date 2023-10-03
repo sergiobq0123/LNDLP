@@ -20,6 +20,8 @@ import { ArtistAlbumComponent } from './artist-album/artist-album.component';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { GenericFilterComponent } from './generic-filter/generic-filter.component';
 import { IntranetComponent } from './intranet.component';
+import { RecordAdminComponent } from './record-admin/record-admin.component';
+import { BrandAdminComponent } from './brand-admin/brand-admin.component';
 
 
 
@@ -41,7 +43,9 @@ import { IntranetComponent } from './intranet.component';
     ArtistAlbumComponent,
     SpinnerComponent,
     GenericFilterComponent,
-    IntranetComponent
+    IntranetComponent,
+    RecordAdminComponent,
+    BrandAdminComponent
   ],
   imports: [
     IntranetRoutingModule,

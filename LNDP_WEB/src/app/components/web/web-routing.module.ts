@@ -6,7 +6,8 @@ import { VisualWebComponent } from './visual-web/visual-web.component';
 import { TourManagerWebComponent } from './tour-manager-web/tour-manager-web.component';
 import { ArtistaSellosWebComponent } from './artista-sellos-web/artista-sellos-web.component';
 import { ArtistDetailWebComponent } from './artist-detail-web/artist-detail-web.component';
-import { PrincipalWebComponent } from './principalWeb/principalWeb.component';
+import { HomePageWebComponent } from './home-page-web/home-page-web.component';
+;
 
 
 const routes: Routes = [
@@ -14,7 +15,7 @@ const routes: Routes = [
     children :[
       {
         path : '',
-        component : PrincipalWebComponent,
+        component : HomePageWebComponent,
       },
       {
         path : 'Marketing',

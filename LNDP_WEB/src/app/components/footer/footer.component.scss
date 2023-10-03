@@ -24,7 +24,8 @@
   align-items: center;
 }
 p{
-  font-family: "MyriadproBold"
+  font-family: "MyriadproBold";
+  margin: 0px;
 }
 
 .container-enlaces a {
@@ -99,6 +100,7 @@ p{
     .container-footer p,
     .container-footer a {
       flex: auto; /* Restaura el comportamiento por defecto para ocupar espacio igualmente */
+      padding-top: 12px;
     }
   }
 }

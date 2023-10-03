@@ -53,10 +53,7 @@ table {
   display: flex;
   flex-direction: column;
 }
-.profile {
-  position: absolute;
-  bottom: 0;
-}
+
 .mat-mdc-button-persistent-ripple mdc-icon-button__ripple {
   color: green($color: #000000);
 }

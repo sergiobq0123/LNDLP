@@ -19,5 +19,7 @@ export class Urls {
   static DOSSIER = '/api/Dossier'
   static SONG = '/api/Song'
   static ALBUM = '/api/Album'
+  static RECORD = '/api/Record'
+  static BRAND = '/api/Brand'
   static IMAGE = '/postImage'
 }

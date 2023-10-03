@@ -12,7 +12,7 @@ export class AlbumService extends ServiceBaseService {
     super(http, Urls.ALBUM);
    }
 
-   postImage(album: any, photo: any) {
+  postImage(album: any, photo: any) {
     const albumdata = {
       name: album.name,
       artistId: album.artistId,

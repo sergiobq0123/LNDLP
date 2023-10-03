@@ -1,1 +1,15 @@
-@import '../intranet.component.scss'
+@import '../intranet.component.scss';
+
+.add-button {
+  @include custom-iconbutton;
+  background-color: $power-color;
+  &:hover{
+    background-color: $extra-color;
+  }
+  mat-icon{
+    color: $light-color
+  }
+}
+.add-button:hover mat-icon{
+  color: $light-color
+}

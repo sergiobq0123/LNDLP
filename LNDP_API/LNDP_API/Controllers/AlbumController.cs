@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LNDP_API.Data;
 using LNDP_API.Models;
-using Microsoft.AspNetCore.Authorization;
+using LNDP_API.Dtos;
 using System.Linq.Expressions;
 using TTTAPI.Utils;
 using LNDP_API.Dtos;
@@ -26,13 +26,15 @@ namespace LNDP_API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Album>>> GetAlbum()
+        public async Task<ActionResult<IEnumerable<AlbumDto>>> GetAlbum()
         {
             if(_context.Album == null){
                 return NotFound();
             }
             return await _context.Album
             .Include( c => c.Artist)
+            .AsNoTracking()
+            .Select(a => _mapper.Map<AlbumDto>(a))
             .ToListAsync();
 
         }

@@ -7,6 +7,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./visual-web.component.scss'],
 })
 export class VisualWebComponent {
+  title = "Visual"
+  description = "Contamos con más de 5 años en el sector y más de 200 videoclips a nuestras espaldas. Nos encargamos de la preproducción, rodaje, montaje y etalonaje.Nos encargamos de cubrir los eventos y actuaciones con fotografía y vídeo, a gusto del cliente. Con mucha experiencia en el sector hemos cubierto eventos de empresas importantes de la industria."
+
   carrouselName1 = "Boombastic 2023"
   carrouselImages1: Array<any> = [
     {
@@ -98,5 +101,14 @@ export class VisualWebComponent {
     {
       url : './../../../../assets/Visual/igle.jpg'
     },
+  ]
+
+  youtubeVideo : Array<any> = [
+    {url : 'https://www.youtube.com/embed/AUdz46rXKCM'},
+    {url : 'https://www.youtube.com/embed/AUdz46rXKCM'},
+    {url : 'https://www.youtube.com/embed/AUdz46rXKCM'},
+    {url : 'https://www.youtube.com/embed/AUdz46rXKCM'},
+    {url : 'https://www.youtube.com/embed/AUdz46rXKCM'},
+    {url : 'https://www.youtube.com/embed/AUdz46rXKCM'},
   ]
 }

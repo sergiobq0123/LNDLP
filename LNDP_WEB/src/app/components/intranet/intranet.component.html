@@ -2,10 +2,10 @@
   <mat-sidenav #sidenav mode="side" [opened]="visible">
     <mat-nav-list>
       <mat-list-item
-        [routerLink]="'Home'"
+        [routerLink]="''"
         [routerLinkActiveOptions]="{ exact: true }"
         routerLinkActive="highlighted"
-        matTooltip="FirstView"
+        matTooltip="Página web"
         matTooltipPosition="right"
         matTooltipShowDelay="500"
       >
@@ -13,8 +13,24 @@
           mat-list-icon
           routerLinkActive="highlighted"
           [routerLinkActiveOptions]="{ exact: true }"
-          class="menu_button"
-          >supervisor_account</mat-icon
+          class="menu-button"
+          >web</mat-icon
+        >
+      </mat-list-item>
+      <mat-list-item
+        [routerLink]="'Home'"
+        [routerLinkActiveOptions]="{ exact: true }"
+        routerLinkActive="highlighted"
+        matTooltip="Home"
+        matTooltipPosition="right"
+        matTooltipShowDelay="500"
+      >
+        <mat-icon
+          mat-list-icon
+          routerLinkActive="highlighted"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="menu-button"
+          >home</mat-icon
         >
       </mat-list-item>
 
@@ -25,7 +41,6 @@
         matTooltip="Conciertos"
         matTooltipPosition="right"
         matTooltipShowDelay="500"
-        [matTooltipDisabled]="opened"
       >
         <mat-icon
           mat-list-icon
@@ -43,7 +58,6 @@
         matTooltip="Festivales"
         matTooltipPosition="right"
         matTooltipShowDelay="500"
-        [matTooltipDisabled]="opened"
       >
         <mat-icon
           mat-list-icon
@@ -61,7 +75,6 @@
         matTooltip="Eventos"
         matTooltipPosition="right"
         matTooltipShowDelay="500"
-        [matTooltipDisabled]="opened"
       >
         <mat-icon
           mat-list-icon
@@ -79,7 +92,6 @@
         matTooltip="Artistas"
         matTooltipPosition="right"
         matTooltipShowDelay="500"
-        [matTooltipDisabled]="opened"
       >
         <mat-icon
           mat-list-icon
@@ -97,7 +109,6 @@
         matTooltip="Canciones"
         matTooltipPosition="right"
         matTooltipShowDelay="500"
-        [matTooltipDisabled]="opened"
       >
         <mat-icon
           mat-list-icon
@@ -115,7 +126,6 @@
         matTooltip="Albumes"
         matTooltipPosition="right"
         matTooltipShowDelay="500"
-        [matTooltipDisabled]="opened"
       >
         <mat-icon
           mat-list-icon
@@ -133,7 +143,6 @@
         matTooltip="Usuarios"
         matTooltipPosition="right"
         matTooltipShowDelay="500"
-        [matTooltipDisabled]="opened"
       >
         <mat-icon
           mat-list-icon
@@ -152,7 +161,6 @@
         matTooltip="Imagenes de artistas"
         matTooltipPosition="right"
         matTooltipShowDelay="500"
-        [matTooltipDisabled]="opened"
       >
         <mat-icon
           mat-list-icon
@@ -169,7 +177,6 @@
         matTooltip="Dossier"
         matTooltipPosition="right"
         matTooltipShowDelay="500"
-        [matTooltipDisabled]="opened"
       >
         <mat-icon
           mat-list-icon
@@ -177,6 +184,38 @@
           [routerLinkActiveOptions]="{ exact: true }"
           class="menu-button"
           >image</mat-icon
+        >
+      </mat-list-item>
+      <mat-list-item
+        [routerLink]="'Records'"
+        [routerLinkActiveOptions]="{ exact: true }"
+        routerLinkActive="highlighted"
+        matTooltip="Sellos"
+        matTooltipPosition="right"
+        matTooltipShowDelay="500"
+      >
+        <mat-icon
+          mat-list-icon
+          routerLinkActive="highlighted"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="menu-button"
+          >question_answer</mat-icon
+        >
+      </mat-list-item>
+      <mat-list-item
+        [routerLink]="'Brands'"
+        [routerLinkActiveOptions]="{ exact: true }"
+        routerLinkActive="highlighted"
+        matTooltip="Marcas"
+        matTooltipPosition="right"
+        matTooltipShowDelay="500"
+      >
+        <mat-icon
+          mat-list-icon
+          routerLinkActive="highlighted"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="menu-button"
+          >question_answer</mat-icon
         >
       </mat-list-item>
     </mat-nav-list>

@@ -18,7 +18,6 @@ export class NavbarComponent {
 
   constructor(private _breakpointObserver: BreakpointObserver, private _authService : AuthService, private _usersService : UsersService) {}
 
-
   ngOnInit() {
     this._breakpointObserver
       .observe([Breakpoints.HandsetPortrait])
@@ -29,14 +28,12 @@ export class NavbarComponent {
       this.isLogin = this._authService.isLoggedIn();
   }
 
-
   toggleMenu() {
     this.showMenu = !this.showMenu;
   }
 
   logout() {
     this._authService.logout()
-    console.log("logout");
     this.isLogin = false;
   }
 

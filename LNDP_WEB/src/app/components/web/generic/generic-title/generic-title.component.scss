@@ -1,0 +1,12 @@
+@import '../../web-styles.scss';
+
+.container-comment {
+  padding: 5px 25%;
+}
+
+@media screen and (max-width: 767px) {
+.container-comment{
+  padding: 0px 15px;
+  text-align: start;
+}
+}

@@ -1,0 +1,39 @@
+<app-generic-window
+  [contentTemplate]="contentTemplate"
+  [windowTitle]="'Sellos'"
+></app-generic-window>
+<app-spinner *ngIf="this.spinner"></app-spinner>
+
+
+<ng-template #contentTemplate>
+  <button
+    [disabled]="newRowAdded || entryBeingEdited"
+    id="add-button"
+    class="add-container"
+    (click)="showFormDialog()"
+  >
+    <mat-icon class="add-buton">add_box</mat-icon>
+  </button>
+  <app-generic-table
+    [tableData]="records"
+    [tableColumns]="recordColumns"
+    [isPageable]="true"
+    [apiFailing]="apiFailing"
+    [isSortable]="true"
+    (filtered)="filterData($event)"
+    [hasActions]="true"
+    (modified)="updateElement($event)"
+    (rowAdded)="newRowAdded = $event"
+    (delete)="deleteElement($event)"
+    [paginationSizes]="[5, 10, 20]"
+    [pageSize]="pageSize"
+    [pageNumber]="pageNumber"
+    [totalRecords]="totalRecords"
+    (paginationChange)="onPaginationChange($event)"
+    [canManageColumns]="true"
+    [hasFilter]="true"
+    (edited)="entryBeingEdited = $event"
+    *ngIf="loaded"
+  >
+  </app-generic-table>
+</ng-template>

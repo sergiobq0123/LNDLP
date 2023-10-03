@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./artista-sellos-web.component.scss']
 })
 export class ArtistaSellosWebComponent {
+  title = "Artistas"
   artists: Array<any> = new Array<any>();
 
   constructor(private artistService : ArtistService, private router : Router) {}

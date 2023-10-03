@@ -73,9 +73,9 @@ namespace LNDP_API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Artist>> PostArtist([FromBody] ArtistDto artistDto)
+        public async Task<ActionResult<Artist>> PostArtist([FromBody] ArtistCreateDto artistCreateDto)
         {
-            var artist = await _artistService.CreateArtist(artistDto);
+            var artist = await _artistService.CreateArtist(artistCreateDto);
             _context.Artist.Add(artist);
             await _context.SaveChangesAsync();
             return Ok(new { Message = "Artista creado con éxito" });
