@@ -4,6 +4,8 @@ using LNDP_API.Data;
 using LNDP_API.Models;
 using System.Linq.Expressions;
 using TTTAPI.Utils;
+using LNDP_API.Dtos;
+using LNDP_API.Services;
 
 namespace LNDP_API.Controllers
 {
@@ -12,10 +14,12 @@ namespace LNDP_API.Controllers
     public class UserController : ControllerBase
     {
         private readonly APIContext _context;
+        private readonly IAuthService _authService;
 
-        public UserController(APIContext context)
+        public UserController(APIContext context, IAuthService authService)
         {
             _context = context;
+            _authService = authService;
         }
 
         [HttpGet]
@@ -26,6 +30,7 @@ namespace LNDP_API.Controllers
             }
             return await _context.User
             .Include(u => u.UserRole)
+            .Where(u => u.UserRoleId == 1)
             .ToListAsync();
 
         }
@@ -56,34 +61,19 @@ namespace LNDP_API.Controllers
 
         // Use Auth
         [HttpPost]
-        public async Task<ActionResult<User>> PostUsers(User user)
+        public async Task<ActionResult<User>> Register(UserRegistrerDto userDto) 
         {
-
-            if(_context.User == null){
-                return NotFound();
-            }
-            _context.User.Add(user);
-            await _context.SaveChangesAsync();
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
-        }
-
-        [HttpPut("{id}")]
-        public async Task<ActionResult> PutUsers(int id, User user)
-        {
-            if(id != user.Id){
-                return BadRequest();
-            }
-            try {
+            try
+            {
+                var user = await _authService.Register(userDto);
+                await _context.User.AddAsync(user);
                 await _context.SaveChangesAsync();
+                return Ok(new { Message = "Usuario creado con éxito" });
             }
-            catch (DbUpdateConcurrencyException){
-                if(!UserExists(id)){
-                    return NotFound();
-                }else{
-                    throw;
-                }
+            catch (Exception e)
+            {
+                return StatusCode(500, new { Message = e.Message });
             }
-            return NoContent();
         }
 
         [HttpDelete("{id}")]

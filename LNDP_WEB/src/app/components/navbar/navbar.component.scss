@@ -76,51 +76,18 @@
   margin-right: 4px; /* Espacio entre el ícono y el texto (si lo hubiera) */
 }
 
+.menuWithe{
+  color: white;
+}
+
 @media screen and (max-width: 767px) {
-  /* Estilos para dispositivos mÃ³viles */
-  /* Estilos para dispositivos mÃ³viles */
-  .mat-toolbar-menu-button {
-    display: flex; /* Muestra el botÃ³n en pantallas pequeÃ±as */
-    align-items: center;
-    flex-direction: column;
-    width: 3rem;
-    height: 2rem;
-    border: none;
-    background: transparent;
-    gap: 0.50rem;
-    margin-right: 35px;
-    background-color: black; /* Fondo negro */
-    border: none; /* Sin borde */
-    position: relative;
-  }
-
-  .mat-toolbar-menu-button div {
-    background-color: white;
-    height: 3px;
-    width: 100%;
-    margin: auto 0;
-    border-radius: 5px;
-    transition: all 0.5s;
-    transform-origin: left;
-    margin: auto 0;
-  }
-
-  .mat-toolbar-menu-button.active div:first-child{
-    transform: rotate(45deg) ;
-  }
-  .mat-toolbar-menu-button.active div:nth-child(2){
-    opacity: 0;
-  }
-  .mat-toolbar-menu-button.active div:last-child{
-    transform: rotate(-45deg) ;
-  }
 
   .dropdown-menu {
     position: fixed; /* Mantiene el menÃº en su lugar mientras se desplaza */
     top: 60px; /* Ajusta la posiciÃ³n segÃºn la altura de la barra de navegaciÃ³n */
     left: 0;
     width: 100%; /* Ocupa todo el ancho de la pantalla */
-    height: 100%; /* Ocupa toda la altura de la pantalla */
+    max-height: 100%; /* Ocupa toda la altura de la pantalla */
     background-color: black; /* Ajusta el color de fondo del menÃº desplegable */
     z-index: 1000; /* Asegura que estÃ© por encima de otros elementos */
     display: flex;
@@ -131,5 +98,9 @@
   .dropdown-menu a {
     text-decoration: none;
     color: white; /* Ajusta el color de texto */
+  }
+
+  .logo{
+    margin-left: 0;
   }
 }

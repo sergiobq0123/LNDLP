@@ -72,13 +72,19 @@ namespace LNDP_API.Controllers
             return artist;
         }
 
-        [HttpPost]
         public async Task<ActionResult<Artist>> PostArtist([FromBody] ArtistCreateDto artistCreateDto)
         {
-            var artist = await _artistService.CreateArtist(artistCreateDto);
-            _context.Artist.Add(artist);
-            await _context.SaveChangesAsync();
-            return Ok(new { Message = "Artista creado con éxito" });
+            try
+            {
+                var artist = await _artistService.CreateArtist(artistCreateDto);
+                _context.Artist.Add(artist);
+                await _context.SaveChangesAsync();
+                return Ok(new { Message = "Artista creado con éxito" });
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, new { Message = e.Message });
+            }
         }
 
         [HttpPost("postImage/{id}")]

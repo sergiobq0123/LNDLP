@@ -6,11 +6,11 @@ import { SongService } from 'src/app/services/intranet/song.service';
 import {
   GenericForm,
   ContentType,
-} from '../generic-form-dialog/generic-content';
-import { GenericFormDialogComponent } from '../generic-form-dialog/generic-form-dialog.component';
-import { Filter } from '../generic-table/Filter';
-import { Column } from '../generic-table/column';
-import { GenericTableComponent } from '../generic-table/generic-table.component';
+} from '../general/generic-form-dialog/generic-content';
+import { GenericFormDialogComponent } from '../general/generic-form-dialog/generic-form-dialog.component';
+import { Filter } from '../general/generic-table/Filter';
+import { Column } from '../general/generic-table/column';
+import { GenericTableComponent } from '../general/generic-table/generic-table.component';
 import { AlbumService } from 'src/app/services/intranet/album.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { PageEvent } from '@angular/material/paginator';

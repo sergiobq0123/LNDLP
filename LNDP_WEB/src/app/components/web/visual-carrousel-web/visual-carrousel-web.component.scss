@@ -54,6 +54,11 @@ img {
 
 /* Media query para pantallas pequeñas */
 @media (max-width: 768px) {
+
+  .container-carrousel{
+    margin: 0px;
+    padding: 10px;
+  }
   .container-imagenes-item {
     width: 100px;
     height: 100px;

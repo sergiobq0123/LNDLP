@@ -1,16 +1,16 @@
 import { Component, ViewChild } from '@angular/core';
-import { Column } from '../generic-table/column';
-import { GenericTableComponent } from '../generic-table/generic-table.component';
+import { Column } from '../general/generic-table/column';
+import { GenericTableComponent } from '../general/generic-table/generic-table.component';
 import { EventService } from 'src/app/services/intranet/event.service';
 import { MatDialog } from '@angular/material/dialog';
 import { NotificationService } from 'src/app/services/notification.service';
-import { ContentType, GenericForm } from '../generic-form-dialog/generic-content';
+import { ContentType, GenericForm } from '../general/generic-form-dialog/generic-content';
 import { Validators } from '@angular/forms';
-import { GenericFormDialogComponent } from '../generic-form-dialog/generic-form-dialog.component';
+import { GenericFormDialogComponent } from '../general/generic-form-dialog/generic-form-dialog.component';
 import { Sort } from '@angular/material/sort';
 import { notifications } from 'src/app/common/notifications';
 import { EventTypeService } from 'src/app/services/intranet/event-type.service';
-import { Filter } from '../generic-table/Filter';
+import { Filter } from '../general/generic-table/Filter';
 import { ArtistService } from '../../../services/intranet/artist.service';
 import { PageEvent } from '@angular/material/paginator';
 

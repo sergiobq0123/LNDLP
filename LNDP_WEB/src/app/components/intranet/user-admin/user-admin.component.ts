@@ -3,15 +3,15 @@ import { Sort } from '@angular/material/sort';
 import {
   ContentType,
   GenericForm,
-} from '../generic-form-dialog/generic-content';
+} from '../general/generic-form-dialog/generic-content';
 import { NotificationService } from 'src/app/services/notification.service';
 import { MatDialog } from '@angular/material/dialog';
-import { Column } from '../generic-table/column';
+import { Column } from '../general/generic-table/column';
 import { UsersService } from 'src/app/services/intranet/users.service';
-import { GenericTableComponent } from '../generic-table/generic-table.component';
+import { GenericTableComponent } from '../general/generic-table/generic-table.component';
 import { Validators } from '@angular/forms';
-import { GenericFormDialogComponent } from '../generic-form-dialog/generic-form-dialog.component';
-import { Filter } from '../generic-table/Filter';
+import { GenericFormDialogComponent } from '../general/generic-form-dialog/generic-form-dialog.component';
+import { Filter } from '../general/generic-table/Filter';
 import { UserRoleService } from 'src/app/services/intranet/user-role.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { ArtistService } from 'src/app/services/intranet/artist.service';
@@ -46,9 +46,7 @@ export class UserAdminComponent {
   @ViewChild(GenericTableComponent) table: GenericTableComponent;
 
   constructor(
-    private userService: UsersService,
-    private _authService : AuthService,
-    private _artistService : ArtistService,
+    private _userService: UsersService,
     public dialog: MatDialog,
     private notificationService: NotificationService
   ) {}
@@ -58,7 +56,7 @@ export class UserAdminComponent {
   }
 
   getUsers() {
-    this.userService.get().subscribe((res) => {
+    this._userService.get().subscribe((res) => {
       let users = new Array();
       res.forEach((val) => {
         users.push(val);
@@ -69,18 +67,8 @@ export class UserAdminComponent {
     });
   }
 
-  getArtistWithoutUser(): any[] {
-    var artisWithoutU : any [] = []
-    this._artistService.getArtistWithoutU().subscribe((res) => {
-      res.forEach((val) => {
-        artisWithoutU.push(val);
-      });
-    });
-    return artisWithoutU
-  }
-
   filterData(filters : Filter[]){
-    this.userService.getFiltered(filters).subscribe(res =>{
+    this._userService.getFiltered(filters).subscribe(res =>{
       this.users = res
     })
   }
@@ -98,13 +86,6 @@ export class UserAdminComponent {
         hidden: true
       },
       {
-        name: 'Artista',
-        dataKey: 'artist.name',
-        position: 'left',
-        isSortable: true,
-        type: ContentType.plainText,
-      },
-      {
         name: 'Nombre de usuario',
         dataKey: 'username',
         position: 'left',
@@ -115,13 +96,6 @@ export class UserAdminComponent {
       {
         name: 'Email',
         dataKey: 'email',
-        position: 'left',
-        isSortable: false,
-        type: ContentType.editableTextFields,
-      },
-      {
-        name: 'New Password',
-        dataKey: 'password',
         position: 'left',
         isSortable: false,
         type: ContentType.editableTextFields,
@@ -142,20 +116,18 @@ export class UserAdminComponent {
         hidden : true,
       },
       {
+        name: 'Correo',
+        dataKey: 'email',
+        position: { row: 1, col: 0, rowSpan: 1, colSpan: 1 },
+        type: ContentType.editableTextFields,
+        validators: [Validators.required],
+      },
+      {
         name: 'Nombre de usuario',
         dataKey: 'username',
         position: { row: 0, col: 0, rowSpan: 1, colSpan: 1 },
         type: ContentType.editableTextFields,
         validators: [Validators.required],
-      },
-      {
-        name: 'Artista',
-        dataKey: 'artistId',
-        position: { row: 0, col: 0, rowSpan: 1, colSpan: 1 },
-        type: ContentType.dropdownFields,
-        dropdown: this.getArtistWithoutUser(),
-        dropdownKeyToShow : 'name',
-        dropdownKeyValue : 'id'
       },
       {
         name: 'Contraseña',
@@ -164,13 +136,6 @@ export class UserAdminComponent {
         type: ContentType.editableTextFields,
         validators: [Validators.required],
       },
-      {
-        name: 'Correo',
-        dataKey: 'email',
-        position: { row: 1, col: 0, rowSpan: 1, colSpan: 1 },
-        type: ContentType.editableTextFields,
-        validators: [Validators.required],
-      }
     ];
   }
 
@@ -210,76 +175,24 @@ export class UserAdminComponent {
     }
   }
 
-  deleteElement(event: any) {
-    this.userService.delete(event.id).subscribe(
-      (res) => {
-        this.getUsers();
-        this.notificationService.showMessageOnSnackbar(
-          res.message,
-          'OK!',
-          3500,
-          'succes-button'
-        );
-        this.apiFailing = false;
-        if (this.table.tableDataSource.data.length === 1) {
-          this.table.setTableDataSource();
-        }
-      },
-      (err) => {
-        this.notificationService.showMessageOnSnackbar(
-          err.error.message,
-          'KO!',
-          3500,
-          'err-button'
-        );
-        this.apiFailing = true;
-      }
-    );
-  }
-
   createElement(event: any) {
     event.id = 0;
-    console.log(event);
-
-    this._authService.registrer(event).subscribe(
+    event.userRoleId = 1
+    this._userService.create(event).subscribe(
       (res) => {
         this.getUsers();
         this.notificationService.showMessageOnSnackbar(
           res.message,
           'OK!',
           3500,
-          'succes-button'
+          'success-button'
         );
         this.apiFailing = false;
       },
       (err) => {
         this.notificationService.showMessageOnSnackbar(
           err.error.message,
-          'KO!',
-          3500,
-          'err-button'
-        );
-        this.apiFailing = true;
-      }
-    );
-  }
-
-  updateElement(event: any) {
-    this._authService.update(event.id, event).subscribe(
-      (res) => {
-        this.getUsers();
-        this.notificationService.showMessageOnSnackbar(
-          res.message,
-          'OK!',
-          3500,
-          'succes-button'
-        );
-        this.apiFailing = false;
-      },
-      (err) => {
-        this.notificationService.showMessageOnSnackbar(
-          err.error.message,
-          'KO!',
+          'ERROR!',
           3500,
           'err-button'
         );

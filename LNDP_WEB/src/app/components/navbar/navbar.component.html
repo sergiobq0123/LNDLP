@@ -7,17 +7,16 @@
   </div>
 
   <div class="botonList" *ngIf="isMobile">
-    <button mat-icon-button (click)="toggleMenu()" [class.active]="showMenu">
+    <button mat-icon-button class="menuWithe" (click)="toggleMenu()" [class.active]="showMenu">
       <mat-icon>apps</mat-icon>
     </button>
   </div>
 
   <div *ngIf="isMobile && showMenu" class="dropdown-menu">
-    <a mat-button routerLink="/Marketing">PR&MKTNG</a>
-    <a mat-button routerLink="/Agency">Agency</a>
-    <a mat-button routerLink="/Visual">Visual</a>
-    <a mat-button routerLink="/Tourmanager">Tour Manager</a>
-    <a mat-button routerLink="/ArtistasSellos">Artistas</a>
+    <a mat-button routerLink="/Marketing" (click)="toggleMenu()">PR&MKTNG</a>
+    <a mat-button routerLink="/Agency" (click)="toggleMenu()">Agency</a>
+    <a mat-button routerLink="/Visual" (click)="toggleMenu()">Visual</a>
+    <a mat-button routerLink="/Tourmanager" (click)="toggleMenu()">Tour Manager</a>
   </div>
 
   <!-- Secciones a la derecha -->
@@ -26,7 +25,6 @@
     <a mat-button routerLink="/Agency">Agency</a>
     <a mat-button routerLink="/Visual">Visual</a>
     <a mat-button routerLink="/Tourmanager">Tour Manager</a>
-    <a mat-button routerLink="/ArtistasSellos">Artistas y sellos</a>
   </div>
 
   <!-- Si el usuario NO está iniciado sesión -->

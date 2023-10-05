@@ -1,1 +1,10 @@
 LNDP_API/LNDP_API/obj/Debug/net6.0/LNDP_API.pdb
+
+.vs/
+Playground/
+#!.vs/LNDP/config
+
+[Bb]in/
+[Oo]/
+
+*.log

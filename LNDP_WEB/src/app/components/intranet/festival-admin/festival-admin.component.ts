@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { Column } from '../generic-table/column';
-import { ContentType } from '../generic-form-dialog/generic-content';
+import { Column } from '../general/generic-table/column';
+import { ContentType } from '../general/generic-form-dialog/generic-content';
 import { Sort } from '@angular/material/sort';
 import { FestivalService } from 'src/app/services/intranet/festival.service';
-import { Filter } from '../generic-table/Filter';
+import { Filter } from '../general/generic-table/Filter';
 import { NotificationService } from 'src/app/services/notification.service';
 import { notifications } from 'src/app/common/notifications';
 import { PageEvent } from '@angular/material/paginator';

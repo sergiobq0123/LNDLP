@@ -8,6 +8,7 @@ using TTTAPI.Utils;
 using LNDP_API.Dtos;
 using AutoMapper;
 using Microsoft.DotNet.Scaffolding.Shared.Messaging;
+using LNDP_API.Services;
 
 namespace LNDP_API.Controllers
 {   
@@ -16,12 +17,12 @@ namespace LNDP_API.Controllers
     public class SongController : ControllerBase
     {
         private readonly APIContext _context;
-        private readonly IMapper _mapper;
+        private readonly IUrlEmbedService _urlEmbedService;
 
-        public SongController(APIContext context, IMapper mapper)
+        public SongController(APIContext context, IUrlEmbedService urlEmbedService)
         {
             _context = context;
-            _mapper = mapper;
+            _urlEmbedService = urlEmbedService;
         }
 
         [HttpGet]
@@ -50,18 +51,20 @@ namespace LNDP_API.Controllers
         [HttpPost]
         public async Task<ActionResult<Song>> PostSong(Song song)
         {
+            song.Url = _urlEmbedService.GetEmbedUrlYoutube(song.Url);
             _context.Song.Add(song);
             await _context.SaveChangesAsync();
             return Ok(new { Message = "Canción añadida con éxito"});
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> PutSong(int id, Song Song)
+        public async Task<ActionResult> PutSong(int id, Song song)
         {
-            if(id != Song.Id){
+            if(id != song.Id){
                 return BadRequest(new { Message = "La cancion no se ha encontrado"});
             }
-            _context.Entry(Song).State = EntityState.Modified;
+            song.Url = _urlEmbedService.GetEmbedUrlYoutube(song.Url);
+            _context.Entry(song).State = EntityState.Modified;
             await _context.SaveChangesAsync();
             return Ok(new { Message = "Canción actualizada con éxito"});
         }
