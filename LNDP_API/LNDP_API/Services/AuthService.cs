@@ -22,13 +22,20 @@ namespace LNDP_API.Services{
 
         public async Task<User> Register(UserRegistrerDto userDto) 
         {
-            bool userExists = await ExistUser(userDto.Email);
-
-            if (userExists)
+        
+            if (await ExistUserEmail(userDto.Email))
             {
-                throw new Exception("User with this email is registered");
+                throw new Exception("El usuario con este correo ya existe");
             }
-
+            if(await ExistUserUsername(userDto.Username)){
+                throw new Exception("El usuario con este nombre ya existe");
+            }
+            var userNew = _mapper.Map<User>(userDto);
+            var user = await RegisterPassword(userNew, userDto.Password);
+            return user;
+        }
+        public async Task<User> Update(UserRegistrerDto userDto) 
+        {
             var userNew = _mapper.Map<User>(userDto);
             var user = await RegisterPassword(userNew, userDto.Password);
             return user;
@@ -67,12 +74,15 @@ namespace LNDP_API.Services{
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
             return user;
-            
         }
 
-        private async Task<bool> ExistUser(string email)
+        private async Task<bool> ExistUserEmail(string email)
         {
             return await _context.User.AnyAsync( x=> x.Email == email);
+        }
+        private async Task<bool> ExistUserUsername(string username)
+        {
+            return await _context.User.AnyAsync( x=> x.Username == username);
         }
         
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt){

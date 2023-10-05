@@ -5,14 +5,14 @@ import { NotificationService } from 'src/app/services/notification.service';
 import {
   ContentType,
   GenericForm,
-} from '../generic-form-dialog/generic-content';
-import { Column } from '../generic-table/column';
+} from '../general/generic-form-dialog/generic-content';
+import { Column } from '../general/generic-table/column';
 import { ArtistService } from 'src/app/services/intranet/artist.service';
 import { Validators } from '@angular/forms';
-import { GenericFormDialogComponent } from '../generic-form-dialog/generic-form-dialog.component';
+import { GenericFormDialogComponent } from '../general/generic-form-dialog/generic-form-dialog.component';
 import { MatTableDataSource } from '@angular/material/table';
-import { GenericTableComponent } from '../generic-table/generic-table.component';
-import { Filter } from '../generic-table/Filter';
+import { GenericTableComponent } from '../general/generic-table/generic-table.component';
+import { Filter } from '../general/generic-table/Filter';
 import { SocialNetworkService } from 'src/app/services/intranet/social-network.service';
 import { CrewService } from 'src/app/services/intranet/crew.service';
 import { notifications } from 'src/app/common/notifications';
@@ -171,30 +171,51 @@ export class ArtistAdminComponent {
         validators: [Validators.required],
       },
       {
+        name: 'Nombre de usuario',
+        dataKey: 'username',
+        position: { row: 0, col: 1, rowSpan: 1, colSpan: 1 },
+        type: ContentType.editableTextFields,
+        validators: [Validators.required],
+      },
+      {
+        name: 'Contraseña',
+        dataKey: 'password',
+        position: { row: 0, col: 2, rowSpan: 1, colSpan: 1 },
+        type: ContentType.editableTextFields,
+        validators: [Validators.required],
+      },
+      {
         name: 'Ciudad',
         dataKey: 'city',
-        position: { row: 1, col: 0, rowSpan: 1, colSpan: 1 },
+        position: { row: 0, col: 3, rowSpan: 1, colSpan: 1 },
+        type: ContentType.editableTextFields,
+        validators: [Validators.required],
+      },
+      {
+        name: 'Correo',
+        dataKey: 'email',
+        position: { row: 1, col: 1, rowSpan: 1, colSpan: 1 },
         type: ContentType.editableTextFields,
         validators: [Validators.required],
       },
       {
         name: 'Email Contratacion',
         dataKey: 'recruitmentemail',
-        position: { row: 2, col: 0, rowSpan: 1, colSpan: 1 },
+        position: { row: 1, col: 2, rowSpan: 1, colSpan: 1 },
         type: ContentType.editableTextFields,
         validators: [Validators.required],
       },
       {
         name: 'Email Comunicacion',
         dataKey: 'communicationemail',
-        position: { row: 2, col: 2, rowSpan: 1, colSpan: 1 },
+        position: { row: 2, col: 0, rowSpan: 1, colSpan: 1 },
         type: ContentType.editableTextFields,
         validators: [Validators.required],
       },
       {
         name: 'Telefono',
         dataKey: 'phone',
-        position: { row: 3, col: 1, rowSpan: 1, colSpan: 1 },
+        position: { row: 2, col: 1, rowSpan: 1, colSpan: 1 },
         type: ContentType.editableTextFields,
         validators: [Validators.required],
       },
@@ -206,61 +227,61 @@ export class ArtistAdminComponent {
       {
         name: 'Instagram',
         dataKey: 'instagram',
-        position: { row: 0, col: 0, rowSpan: 1, colSpan: 1 },
+        position: { row: 3, col: 0, rowSpan: 1, colSpan: 1 },
         type: ContentType.editableTextFields,
         validators: [Validators.required],
       },
       {
         name: 'Youtube',
         dataKey: 'youtube',
-        position: { row: 1, col: 0, rowSpan: 1, colSpan: 1 },
+        position: { row: 3, col: 1, rowSpan: 1, colSpan: 1 },
         type: ContentType.editableTextFields,
         validators: [Validators.required],
       },
       {
         name: 'Spotify',
         dataKey: 'spotify',
-        position: { row: 2, col: 0, rowSpan: 1, colSpan: 1 },
+        position: { row: 3, col: 2, rowSpan: 1, colSpan: 1 },
         type: ContentType.editableTextFields,
         validators: [Validators.required],
       },
       {
         name: 'TikTok',
         dataKey: 'tikTok',
-        position: { row: 2, col: 2, rowSpan: 1, colSpan: 1 },
+        position: { row: 4, col: 0, rowSpan: 1, colSpan: 1 },
         type: ContentType.editableTextFields,
         validators: [Validators.required],
       },
       {
         name: 'Twitter',
         dataKey: 'twitter',
-        position: { row: 3, col: 1, rowSpan: 1, colSpan: 1 },
+        position: { row: 4, col: 1, rowSpan: 1, colSpan: 1 },
         type: ContentType.editableTextFields,
         validators: [Validators.required],
       },
       {
         name: 'DJ',
         dataKey: 'dj',
-        position: { row: 0, col: 0, rowSpan: 1, colSpan: 1 },
+        position: { row: 5, col: 0, rowSpan: 1, colSpan: 1 },
         type: ContentType.editableTextFields,
       },
       {
         name: 'Road Manager',
         dataKey: 'roadManager',
-        position: { row: 1, col: 0, rowSpan: 1, colSpan: 1 },
+        position: { row: 5, col: 1, rowSpan: 1, colSpan: 1 },
         type: ContentType.editableTextFields,
       },
       {
         name: 'Tecnico de sonido',
         dataKey: 'soundTechnician',
-        position: { row: 2, col: 0, rowSpan: 1, colSpan: 1 },
+        position: { row: 5, col: 2, rowSpan: 1, colSpan: 1 },
         type: ContentType.editableTextFields,
         validators: [Validators.required],
       },
       {
         name: 'Tecnico de luces',
         dataKey: 'lightingTechnician',
-        position: { row: 2, col: 2, rowSpan: 1, colSpan: 1 },
+        position: { row: 5, col: 3, rowSpan: 1, colSpan: 1 },
         type: ContentType.editableTextFields,
         validators: [Validators.required],
       },
@@ -362,12 +383,12 @@ export class ArtistAdminComponent {
     let dialogData = {
       formData: this.artistData,
       formFields: this.artistForm,
-      formCols: 2,
+      formCols: 3,
       dialogTitle: 'Añade un nuevo artista',
     };
     const dialogRef = this._dialog.open(GenericFormDialogComponent, {
       data: dialogData,
-      minWidth: 600,
+      minWidth: 800,
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result !== undefined && result !== null && result !== '') {
@@ -508,7 +529,7 @@ export class ArtistAdminComponent {
       (err) => {
         this._notificationService.showMessageOnSnackbar(
           err.error.message,
-          'ERROr!',
+          'ERROR!',
           3500,
           'err-button'
         );

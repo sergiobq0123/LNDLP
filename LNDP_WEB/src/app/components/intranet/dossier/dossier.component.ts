@@ -5,9 +5,9 @@ import {
 } from '@angular/cdk/drag-drop';
 import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ContentType } from '../generic-form-dialog/generic-content';
+import { ContentType } from '../general/generic-form-dialog/generic-content';
 import { Validators } from '@angular/forms';
-import { GenericFormDialogComponent } from '../generic-form-dialog/generic-form-dialog.component';
+import { GenericFormDialogComponent } from '../general/generic-form-dialog/generic-form-dialog.component';
 import { DossierService } from '../../../services/intranet/dossier.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { notifications } from 'src/app/common/notifications';

@@ -40,6 +40,7 @@ builder.Services.AddCors(options => {
 //Add token service
 builder.Services.AddTransient<IJwtService, JwtService>();
 builder.Services.AddScoped<IArtistService, ArtistService>();
+builder.Services.AddScoped<IUrlEmbedService, UrlEmbedService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
 builder.Services.AddControllers().AddJsonOptions(x =>

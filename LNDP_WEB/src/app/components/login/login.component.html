@@ -1,5 +1,6 @@
+<div class="principal-page">
 <div class="container">
-  <img class="lndp-logo" src="../../../assets/logo-negro-login.png">
+  <img class="lndp-logo" src="../../../assets/intranet-welcome.png">
   <form [formGroup]="LoginForm">
     <mat-form-field class="input-field">
       <mat-label>Email</mat-label>
@@ -11,7 +12,8 @@
       <input matInput placeholder="Enter password" type="password" formControlName="password">
       <mat-error *ngIf="LoginForm.get('useremail').errors?.['required']">Password is requiered</mat-error>
     </mat-form-field>
-    <button mat-flat-button color="primary" (click)="SubmitLogin(LoginForm.get('useremail').value, LoginForm.get('password').value)"
+    <button class="button" (click)="SubmitLogin(LoginForm.get('useremail').value, LoginForm.get('password').value)"
     [disabled]="!LoginForm.valid">Login</button>
   </form>
+</div>
 </div>

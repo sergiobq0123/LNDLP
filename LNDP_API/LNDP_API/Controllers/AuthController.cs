@@ -23,21 +23,6 @@ namespace LNDP_API.Controllers{
             _context = context;
         }
 
-        [HttpPost("Register")]
-        public async Task<ActionResult<User>> Register(UserRegistrerDto userDto) 
-        {
-            try
-            {
-                var user = await _authService.Register(userDto);
-                await _context.User.AddAsync(user);
-                await _context.SaveChangesAsync();
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
         [AllowAnonymous]
         [HttpPost("Login")]
         public async Task<ActionResult<string>> Login(UserLoginDto userLoginDto)

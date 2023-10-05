@@ -17,7 +17,7 @@
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 150px; /* Espacio entre los iframes */
+  gap: 150px;
   padding-bottom: 5%;
 
   &-item {
@@ -35,8 +35,15 @@
     height: 275;
     padding: 0px 15px;
   }
-  .container-instagram-item {
-    width: 200px;
-    height: 410px;
+  .container-instagram {
+    padding-top: 20px;
+    gap: 40px;
+    &-item {
+      width: 200px;
+      height: 410px;
+    }
+  }
+  .carrousel {
+    padding: 0;
   }
 }

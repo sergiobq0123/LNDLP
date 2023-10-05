@@ -23,10 +23,8 @@
     [isSortable]="true"
     (filtered)="filterData($event)"
     (sort)="sortData($event)"
-    [hasActions]="true"
-    (modified)="updateElement($event)"
+    [hasActions]="false"
     (create)="createElement($event)"
-    (delete)="deleteElement($event)"
     [paginationSizes]="[5, 10, 20]"
     [pageSize]="pageSize"
     [pageNumber]="pageNumber"
@@ -34,7 +32,6 @@
     (paginationChange)="onPaginationChange($event)"
     [canManageColumns]="true"
     [hasFilter]="true"
-    (edited)="entryBeingEdited = $event"
     *ngIf="loaded"
   >
   </app-generic-table>

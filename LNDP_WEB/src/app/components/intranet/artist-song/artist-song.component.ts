@@ -1,14 +1,14 @@
 import { Component, ViewChild } from '@angular/core';
-import { Column } from '../generic-table/column';
+import { Column } from '../general/generic-table/column';
 import { SongService } from '../../../services/intranet/song.service';
 import {
   ContentType,
   GenericForm,
-} from '../generic-form-dialog/generic-content';
+} from '../general/generic-form-dialog/generic-content';
 import { notifications } from 'src/app/common/notifications';
-import { GenericTableComponent } from '../generic-table/generic-table.component';
-import { Filter } from '../generic-table/Filter';
-import { GenericFormDialogComponent } from '../generic-form-dialog/generic-form-dialog.component';
+import { GenericTableComponent } from '../general/generic-table/generic-table.component';
+import { Filter } from '../general/generic-table/Filter';
+import { GenericFormDialogComponent } from '../general/generic-form-dialog/generic-form-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ArtistService } from 'src/app/services/intranet/artist.service';
 import { NotificationService } from 'src/app/services/notification.service';

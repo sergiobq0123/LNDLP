@@ -31,6 +31,9 @@ export class NavbarComponent {
   toggleMenu() {
     this.showMenu = !this.showMenu;
   }
+  toggleMenuNot() {
+    this.showMenu = this.showMenu;
+  }
 
   logout() {
     this._authService.logout()

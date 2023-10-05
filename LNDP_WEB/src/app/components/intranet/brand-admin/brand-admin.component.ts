@@ -3,11 +3,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { notifications } from 'src/app/common/notifications';
 import { NotificationService } from 'src/app/services/notification.service';
-import { GenericForm, ContentType } from '../generic-form-dialog/generic-content';
-import { GenericFormDialogComponent } from '../generic-form-dialog/generic-form-dialog.component';
-import { Filter } from '../generic-table/Filter';
-import { Column } from '../generic-table/column';
-import { GenericTableComponent } from '../generic-table/generic-table.component';
+import { GenericForm, ContentType } from '../general/generic-form-dialog/generic-content';
+import { GenericFormDialogComponent } from '../general/generic-form-dialog/generic-form-dialog.component';
+import { Filter } from '../general/generic-table/Filter';
+import { Column } from '../general/generic-table/column';
+import { GenericTableComponent } from '../general/generic-table/generic-table.component';
 import { BrandService } from 'src/app/services/intranet/brand.service';
 
 @Component({

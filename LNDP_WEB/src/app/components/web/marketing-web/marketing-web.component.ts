@@ -8,7 +8,7 @@ import { RecordService } from 'src/app/services/intranet/record.service';
 })
 export class MarketingWebComponent {
   title = "PR&MKTNG"
-  description = "Aliqua non nulla ad non consequat deserunt dolore Lorem consequat ipsum aliqua. Nostrud irure dolore do ut in officia veniam incididunt culpa irure commodo consectetur tempor. Nisi ex consectetur deserunt culpa magna est nostrud ut do nisi anim duis exercitation. Nulla dolor qui ullamco reprehenderit dolor minim ut ad do aute esse in laboris commodo. Tempor adipisicing laboris sunt dolore excepteur amet culpa veniam ex fugiat dolore irure. Eu eu ad adipisicing et sunt. Cupidatat nulla est veniam sunt amet duis."
+  description = "Planificación y estrategia de planes de comunicación personalizados. Realizamos notas de prensa, entrevistas, reacciones, podcast... Contamos con estrategias de marketing adaptadas al mundo urbano para conectar con tu público. Tenemos asesoría y endorsement. "
   records: Array<any> = new Array<any>();
   buttonTitle : string = "Ver web"
 
