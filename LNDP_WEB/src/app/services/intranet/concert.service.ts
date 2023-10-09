@@ -11,4 +11,8 @@ export class ConcertService extends ServiceBaseService {
   constructor(http: HttpClient) {
     super(http, Urls.CONCIERTO);
    }
+
+  getOrder(){
+    return this.getToSpecificURL(this.getUrl + '/Order')
+  }
 }

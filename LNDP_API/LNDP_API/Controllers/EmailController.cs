@@ -1,8 +1,8 @@
 using LNDP_API.Dtos;
 using Microsoft.AspNetCore.Mvc;
-using SendGrid;
-using SendGrid.Helpers.Mail;
-
+using System;
+using System.Net;
+using System.Net.Mail;
 namespace LNDP_API.Controllers{
 
     [Route("api/[controller]")]
@@ -11,30 +11,32 @@ namespace LNDP_API.Controllers{
         [HttpPost]
         public async Task<ActionResult> PostEmail(EmailDto emailDto)
         {
-            // var apiKey = "TU_API_KEY_DE_SENDGRID"; // Reemplaza con tu propia API Key de SendGrid
-            // var client = new SendGridClient(apiKey);
+            string correoUsuario = emailDto.Email;
+            string asunto = emailDto.Nombre;
+            string mensaje = emailDto.Mensaje;
 
-            // var fromEmail = new EmailAddress(emailDto.email, emailDto.nombre);
-            // var toEmail = new EmailAddress("lndp@gmail.com", "Nombre del destinatario");
-            // var subject = "Asunto del correo"; // Puedes personalizar el asunto
-            // var plainTextContent = emailDto.mensaje;
-
-            // var msg = MailHelper.CreateSingleEmail(fromEmail, toEmail, subject, plainTextContent, "");
-            
-            // try
-            // {
-            //     var response = await client.SendEmailAsync(msg);
-            //     Console.WriteLine(response.StatusCode);
-
-            //     return Ok("Correo electrónico enviado con éxito.");
-            // }
-            // catch (Exception ex)
-            // {
-            //     Console.WriteLine(ex.Message);
-            //     return StatusCode(500, "Error al enviar el correo electrónico.");
-            // }
-            return Ok();
+             MailMessage mensajeCorreo = new MailMessage
+            {
+                From = new MailAddress(correoUsuario), 
+                Subject = asunto,
+                Body = mensaje
+            };
+            mensajeCorreo.To.Add("ssanchezp9@gmail.com ");
+            SmtpClient smtpClient = new SmtpClient("smtp.gmail.com"); 
+            try
+            {
+                smtpClient.Send(mensajeCorreo);
+                return Ok(new { Message = "Enviado con exito"});
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Message = "No se ha podido enviar" + ex.Message });
+            }
+            finally
+            {
+                mensajeCorreo.Dispose();
+                smtpClient.Dispose();
+            }
         }
-
     }
 }

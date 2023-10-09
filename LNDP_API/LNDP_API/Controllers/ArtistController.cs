@@ -72,6 +72,7 @@ namespace LNDP_API.Controllers
             return artist;
         }
 
+        [HttpPost]
         public async Task<ActionResult<Artist>> PostArtist([FromBody] ArtistCreateDto artistCreateDto)
         {
             try

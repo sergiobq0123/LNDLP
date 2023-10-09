@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using TTTAPI.Utils;
 using System.Linq.Expressions;
 using LNDP_API.Services;
+using LNDP_API.Dtos;
 
 namespace LNDP_API.Controllers
 {   
@@ -54,7 +55,31 @@ namespace LNDP_API.Controllers
             .Include( e => e.EventType)
             .Include( e => e.Artist)
             .ToListAsync();
+        }
+        [HttpGet("type/{type}/order")]
+       public async Task<ActionResult<IEnumerable<TourManagerDto>>> GetEventOrder(string type)
+        {
+            if (_context.Event == null)
+            {
+                return NotFound();
+            }
 
+            var events = await _context.Event
+                .Include(e => e.EventType)
+                .Include(e => e.Artist)
+                .Where(e => e.EventType.EventName == type)
+                .OrderBy(e => e.Date)
+                .Select(e => new TourManagerDto
+                {
+                    Photo = e.Artist.Photo,
+                    Name = e.Name,
+                    Date = e.Date.ToString(),
+                    Description = e.City + e.Location, 
+                    Url = e.Tickets 
+                })
+                .ToListAsync();
+
+            return events;
         }
 
         [HttpPost]
