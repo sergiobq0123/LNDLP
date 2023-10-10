@@ -4,7 +4,12 @@ LNDP_API/LNDP_API/obj/*
 Playground/
 #!.vs/LNDP/config
 
-[Bb]in/
-[Oo]bj/
+Bin/
+bin/
+
+obj/
+Obj/
+
 
 *.log
+*.dll
