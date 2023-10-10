@@ -1,5 +1,9 @@
 @import './../../web-styles.scss';
 
+h5{
+  color: $grey1;
+}
+
 .container {
   display: flex;
   flex-wrap: wrap;

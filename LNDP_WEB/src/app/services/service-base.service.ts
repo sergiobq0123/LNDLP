@@ -38,6 +38,10 @@ export class ServiceBaseService {
     return this.http.post(url, {params});
   }
 
+  public getCards():Observable<any>{
+    return this.http.get(this.getUrl + '/Cards');
+  }
+
   public getToSpecificURL(url?: string):Observable<any>{
     return this.http.get(url);
   }

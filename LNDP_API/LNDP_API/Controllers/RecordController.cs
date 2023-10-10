@@ -31,9 +31,24 @@ namespace LNDP_API.Controllers
             .AsNoTracking()
             .Select(a => _mapper.Map<RecordDto>(a))
             .ToListAsync();
-
         }
 
+        [HttpGet("Cards")]
+        public async Task<ActionResult<IEnumerable<GenericCardDto>>> GetRecordsCards()
+        {
+            if(_context.Record == null){
+                return NotFound();
+            }
+            return await _context.Record
+            .AsNoTracking()
+            .Select(a => new GenericCardDto {
+                PhotoUrl = a.Photo,
+                Name = a.Name,
+                Description = a.Description,
+                BotonUrl = a.Url
+            })
+            .ToListAsync();
+        }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Record>> GetRecord(int id)

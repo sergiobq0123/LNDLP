@@ -19,6 +19,7 @@
 }
 
 .formulario {
+  padding-top: 70px;
   text-align: center;
   background-color: #000000;
   border-radius: 5px;
@@ -116,5 +117,9 @@ button[type="submit"] {
 
   textarea.mat-input-element {
     height: auto; /* Reestablece la altura automática para el textarea */
+  }
+
+  button{
+    background-color: white;
   }
 }

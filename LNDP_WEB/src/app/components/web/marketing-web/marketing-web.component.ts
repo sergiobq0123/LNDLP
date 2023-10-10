@@ -20,7 +20,7 @@ export class MarketingWebComponent {
   }
 
   getRecords() {
-    this._recordService.get().subscribe((res) => {
+    this._recordService.getCards().subscribe((res) => {
       let records = new Array();
       res.forEach((val) => {
         records.push(val);

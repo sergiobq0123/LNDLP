@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "0cPPgjgCIrJmgO9K+GI+nDvNC3ka2S/Op53JBKO9xAw=",
+  "Hash": "zBVcmxutW0nbeUu0ZCeWxu+mCf/027gsUQGA3Et64AE=",
   "Source": "LNDP_API",
   "BasePath": "_content/LNDP_API",
   "Mode": "Default",
@@ -16,6 +16,23 @@
     }
   ],
   "Assets": [
+    {
+      "Identity": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\_37A4452.JPG",
+      "SourceId": "LNDP_API",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\",
+      "BasePath": "_content/LNDP_API",
+      "RelativePath": "assets/_37A4452.JPG",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\assets\\_37A4452.JPG"
+    },
     {
       "Identity": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\_37A4487.JPG",
       "SourceId": "LNDP_API",
@@ -304,6 +321,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\assets\\Captura de pantalla 2023-09-27 201038.png"
+    },
+    {
+      "Identity": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Collaborations\\image_1696951954072.jpg",
+      "SourceId": "LNDP_API",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\",
+      "BasePath": "_content/LNDP_API",
+      "RelativePath": "assets/Collaborations/image_1696951954072.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\assets\\Collaborations\\image_1696951954072.jpg"
     },
     {
       "Identity": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\d1f7b233-642a-4635-b7df-87e28894109d.jpg",

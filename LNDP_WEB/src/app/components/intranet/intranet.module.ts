@@ -22,6 +22,7 @@ import { GenericFilterComponent } from './general/generic-filter/generic-filter.
 import { IntranetComponent } from './intranet.component';
 import { RecordAdminComponent } from './record-admin/record-admin.component';
 import { BrandAdminComponent } from './brand-admin/brand-admin.component';
+import { CollaborationAdminComponent } from './collaboration-admin/collaboration-admin.component';
 
 
 
@@ -45,7 +46,8 @@ import { BrandAdminComponent } from './brand-admin/brand-admin.component';
     GenericFilterComponent,
     IntranetComponent,
     RecordAdminComponent,
-    BrandAdminComponent
+    BrandAdminComponent,
+    CollaborationAdminComponent
   ],
   imports: [
     IntranetRoutingModule,

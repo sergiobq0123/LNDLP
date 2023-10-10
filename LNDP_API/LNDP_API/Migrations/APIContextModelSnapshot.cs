@@ -116,6 +116,31 @@ namespace LNDP_API.Migrations
                     b.ToTable("Brand");
                 });
 
+            modelBuilder.Entity("LNDP_API.Models.Collaboration", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Photo")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Collaboration");
+                });
+
             modelBuilder.Entity("LNDP_API.Models.Crew", b =>
                 {
                     b.Property<int>("Id")
@@ -314,6 +339,7 @@ namespace LNDP_API.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Url")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");

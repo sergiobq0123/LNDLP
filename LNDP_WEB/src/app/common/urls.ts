@@ -21,5 +21,6 @@ export class Urls {
   static ALBUM = '/api/Album'
   static RECORD = '/api/Record'
   static BRAND = '/api/Brand'
+  static COLLABORATION = '/api/Collaboration'
   static IMAGE = '/postImage'
 }
