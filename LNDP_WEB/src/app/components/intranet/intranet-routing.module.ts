@@ -13,6 +13,7 @@ import { ArtistAlbumComponent } from './artist-album/artist-album.component';
 import { IntranetComponent } from './intranet.component';
 import { RecordAdminComponent } from './record-admin/record-admin.component';
 import { BrandAdminComponent } from './brand-admin/brand-admin.component';
+import { CollaborationAdminComponent } from './collaboration-admin/collaboration-admin.component';
 
 const routes: Routes = [
   {path : '',
@@ -65,6 +66,10 @@ const routes: Routes = [
       {
         path : 'Brands',
         component : BrandAdminComponent,
+      },
+      {
+        path : 'Collaborations',
+        component : CollaborationAdminComponent,
       },
     ]}
 ];

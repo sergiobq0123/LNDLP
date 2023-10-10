@@ -9,7 +9,7 @@
   </div>
 </div>
 
-<div *ngIf="this.artist.albums != null">
+<div *ngIf="this.artist.albums.length > 0">
   <h3>Albumes</h3>
   <app-generic-card
     [buttonText]="'Escuchar'"
@@ -20,7 +20,7 @@
 <h3>Canciones</h3>
 <app-generic-youtube [array]="this.artist.songs"></app-generic-youtube>
 
-<div *ngIf="this.artist.events != null">
+<div *ngIf="this.artist.events.length > 0">
   <h3>Eventos</h3>
   <app-artist-detail-table-web
     [array]="this.artist.events"

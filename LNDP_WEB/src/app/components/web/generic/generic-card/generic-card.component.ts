@@ -8,10 +8,4 @@ import { Component, Input } from '@angular/core';
 export class GenericCardComponent {
   @Input() buttonText : string;
   @Input() array : Array<any>;
-
-  ngOnInit(){
-    console.log(this.buttonText);
-
-  }
-
 }

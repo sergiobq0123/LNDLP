@@ -33,6 +33,22 @@ namespace LNDP_API.Controllers
             .ToListAsync();
 
         }
+        [HttpGet("Cards")]
+        public async Task<ActionResult<IEnumerable<GenericCardDto>>> GetBrandCards()
+        {
+            if(_context.Brand == null){
+                return NotFound();
+            }
+            return await _context.Brand
+            .AsNoTracking()
+            .Select(a => new GenericCardDto {
+                PhotoUrl = a.Photo,
+                Name = a.Name,
+                Description = a.Description,
+                BotonUrl = a.Url
+            })
+            .ToListAsync();
+        }
 
 
         [HttpGet("{id}")]
