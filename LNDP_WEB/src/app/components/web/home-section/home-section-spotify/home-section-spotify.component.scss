@@ -1,0 +1,12 @@
+@import './../../web-styles.scss';
+
+.container-playlist{
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  iframe{
+    width: 300px;
+    height: 450px;
+  }
+}

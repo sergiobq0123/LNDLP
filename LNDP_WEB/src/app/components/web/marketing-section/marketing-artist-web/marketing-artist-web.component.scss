@@ -1,0 +1,118 @@
+@import './../../web-styles.scss';
+
+.container {
+  padding: 30px 30px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 50px; /* Separación más grande entre las tarjetas de artistas */
+  text-align: center;
+  justify-content: center;
+}
+
+.card {
+  position: relative;
+  width: 550px;
+  min-height: 300px;
+  background: #fff;
+  margin: 10px;
+  box-sizing: border-box;
+  border: 1px solid white
+}
+.card .imgBx {
+  position: absolute;
+  width: 50%;
+  height: 100%;
+}
+.card .imgBx img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.card .details {
+  position: absolute;
+  right: 0;
+  width: 50%;
+  height: 100%;
+  background-color: #777;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  -webkit-box-shadow: inset 0px 0px 27px 2px rgba(255,247,196,0.45);
+-moz-box-shadow: inset 0px 0px 27px 2px rgba(255,247,196,0.45);
+box-shadow: inset 0px 0px 27px 2px rgba(255,247,196,0.45);
+}
+.card .details .content {
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: transparent;
+  justify-content: center;
+  text-align: center;
+}
+.card .details .content h5 {
+  margin: 0;
+  padding-bottom: 20px;
+  font-size: 24px;
+  line-height: 0.85em;
+  font-weight: 600;
+  background-color: transparent;
+}
+
+.card .details .content ul {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  background-color: transparent;
+}
+.card .details .content ul li {
+  list-style: none;
+  margin-left: 2px;
+  background-color: transparent;
+}
+.card .details .content ul li a {
+  border: none;
+  background-color: transparent;
+}
+
+.card .details .content ul li button {
+  @include custom-button;
+}
+
+.button-read-more{
+  @include custom-button-2;
+}
+
+@media (max-width: 768px) {
+  .container{
+    padding: 0;
+    width: 100%;
+  }
+  .card {
+    width: calc(70% - 20px);
+    padding: 10px auto;
+  }
+  .card .imgBx {
+    position: relative;
+    width: 100%;
+    height: 200px;
+  }
+  .card .details {
+    position: relative;
+    width: 100%;
+    height: 150px;
+  }
+
+  .card .details .content ul li button {
+    //@include custom-button;
+    width: 32px;
+    height: 32px;
+  }
+  .card .details .content ul li button img {
+    width: 24px;
+    height: 24px;
+  }
+}
+

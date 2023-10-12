@@ -2,6 +2,18 @@
 
 h5{
   color: $grey1;
+  font-size: 20px;
+  font-family: "Akira";
+  text-align: center;
+  padding: 1%;
+  margin: 0px;
+}
+
+@media (max-width: 768px) {
+  h5 {
+    padding: 10px;
+    line-height: 1;
+  }
 }
 
 .container {

@@ -1,14 +1,22 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { AuthGuard } from './guards/auth.guard';
+import { WebComponent } from './components/web/web.component';
+import { LoginModule } from './components/login/login.module';
 
 
 const routes: Routes = [
   {
-    path : 'Login',
+    path: 'Login',
     component : LoginComponent,
+    children: [
+      {
+        path: '',
+        loadChildren: () =>
+          import('./components/login/login.module').then((m) => m.LoginModule),
+      },
+    ],
   },
   {
     path: 'Intranet',
@@ -17,7 +25,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    component : HomeComponent,
+    component : WebComponent,
     children: [
       {
         path: '',

@@ -1,0 +1,10 @@
+<app-generic-section
+  [contentTemplate]="contentTemplate"
+  [sectionTitle]="'Marcas'"
+></app-generic-section>
+<ng-template #contentTemplate>
+  <app-generic-card
+    [array]="this.brands"
+    [buttonText]="this.buttonTitle"
+  ></app-generic-card>
+</ng-template>

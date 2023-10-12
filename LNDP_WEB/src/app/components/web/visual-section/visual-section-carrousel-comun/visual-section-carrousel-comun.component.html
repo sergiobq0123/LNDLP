@@ -1,0 +1,25 @@
+<app-generic-section
+  [contentTemplate]="contentTemplate"
+  [sectionTitle]="'Fotos de festivales'"
+></app-generic-section>
+
+<ng-template #contentTemplate>
+  <div class="carrousel">
+    <app-viusal-section-carrousel
+      [nombreCarrousel]="carrouselName1"
+      [carrouselImages]="carrouselImages1"
+    ></app-viusal-section-carrousel>
+  </div>
+  <div class="carrousel">
+    <app-viusal-section-carrousel
+      [nombreCarrousel]="carrouselName2"
+      [carrouselImages]="carrouselImages2"
+    ></app-viusal-section-carrousel>
+  </div>
+  <div class="carrousel">
+    <app-viusal-section-carrousel
+      [nombreCarrousel]="carrouselName3"
+      [carrouselImages]="carrouselImages3"
+    ></app-viusal-section-carrousel>
+  </div>
+</ng-template>

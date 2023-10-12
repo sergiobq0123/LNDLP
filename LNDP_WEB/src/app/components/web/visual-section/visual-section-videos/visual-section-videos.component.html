@@ -1,0 +1,10 @@
+<app-generic-section [contentTemplate]="contentTemplate" [sectionTitle]="'Videos de youtube'"
+></app-generic-section>
+
+<ng-template #contentTemplate>
+  <app-generic-youtube [array]="this.youtubeVideo"></app-generic-youtube>
+  <div class="container-button">
+    <a href="https://www.youtube.com/playlist?list=PLSx0s1NOm742LJsSYoOXrh0DN1fJrmBbJ" target="_blank" class="button-ver-videos">Ver más videos</a>
+  </div>
+
+</ng-template>

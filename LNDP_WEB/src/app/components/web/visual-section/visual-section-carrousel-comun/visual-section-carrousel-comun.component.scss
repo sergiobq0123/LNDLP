@@ -1,0 +1,10 @@
+.carrousel {
+  padding-top: 50px;
+  padding-bottom: 30px;
+}
+
+@media (max-width: 768px) {
+  .carrousel {
+    padding: 0;
+  }
+}
