@@ -1,0 +1,49 @@
+<app-generic-title [title]="this.title" [description]="this.description"></app-generic-title>
+
+<h3>Videos de YouTube</h3>
+<app-generic-youtube [array]="this.youtubeVideo"></app-generic-youtube>
+
+<div class="container-button">
+  <a href="https://www.youtube.com/playlist?list=PLSx0s1NOm742LJsSYoOXrh0DN1fJrmBbJ" target="_blank" class="button-ver-videos">Ver más videos</a>
+</div>
+
+
+<h3>Fotos de festivales</h3>
+<div class="carrousel">
+  <app-viusal-section-carrousel
+    [nombreCarrousel]="carrouselName1"
+    [carrouselImages]="carrouselImages1"
+  ></app-viusal-section-carrousel>
+</div>
+<div class="carrousel">
+  <app-viusal-section-carrousel
+    [nombreCarrousel]="carrouselName2"
+    [carrouselImages]="carrouselImages2"
+  ></app-viusal-section-carrousel>
+</div>
+<div class="carrousel">
+  <app-viusal-section-carrousel
+    [nombreCarrousel]="carrouselName3"
+    [carrouselImages]="carrouselImages3"
+  ></app-viusal-section-carrousel>
+</div>
+
+<h3>Instagram</h3>
+<div class="container-instagram">
+  <div class="container-instagram-item">
+    <iframe
+      src="https://www.instagram.com/reel/Cw5QgxdICmw/embed/"
+      frameborder="0"
+      scrolling="no"
+      class="container-instagram-item"
+    ></iframe>
+  </div>
+  <div class="container-instagram-item">
+    <iframe
+      src="https://www.instagram.com/reel/CvK7KdbIqWx/embed/"
+      frameborder="0"
+      scrolling="no"
+      class="container-instagram-item"
+    ></iframe>
+  </div>
+</div>

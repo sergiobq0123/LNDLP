@@ -1,0 +1,108 @@
+@import './../../web-styles.scss';
+
+/* Estilo para el footer */
+.footer {
+
+  background-color: black;
+  color: white;
+  padding: 20px;
+  padding-top: 40px;
+  text-align: center;
+}
+
+/* Estilo para el contenedor principal */
+.container-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Estilo para los enlaces */
+.container-enlaces {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+}
+p{
+  font-family: "MyriadproBold";
+  margin: 0px;
+}
+
+.container-enlaces a {
+  text-decoration: none;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Estilo para el texto de copyright y privacidad */
+.container-footer p,
+.container-footer a:last-child {
+  text-align: center;
+  flex: 1; /* Hace que ocupen el espacio disponible en el medio */
+}
+
+@media (max-width: 768px) {
+  .container-footer {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* Estilo para el footer */
+  .footer {
+    background-color: black;
+    color: white;
+    padding: 20px;
+    text-align: center;
+  }
+
+  /* Estilo para el contenedor principal */
+  .container-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  /* Estilo para los enlaces */
+  .container-enlaces {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .container-enlaces a {
+    text-decoration: none;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* Estilo para el texto de copyright y privacidad */
+  .container-footer p,
+  .container-footer a:last-child {
+    text-align: center;
+    flex: 1; /* Hace que ocupen el espacio disponible en el medio */
+  }
+
+  @media (max-width: 768px) {
+    .container-footer {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container-last{
+      margin-top: 12px;
+    }
+
+    .container-footer p,
+    .container-footer a {
+      flex: auto; /* Restaura el comportamiento por defecto para ocupar espacio igualmente */
+      padding-top: 12px;
+    }
+  }
+}

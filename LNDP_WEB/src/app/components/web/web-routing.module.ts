@@ -1,51 +1,100 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { MarketingWebComponent } from './marketing-web/marketing-web.component';
-import { AgencyWebComponent } from './agency-web/agency-web.component';
-import { VisualWebComponent } from './visual-web/visual-web.component';
-import { TourManagerWebComponent } from './tour-manager-web/tour-manager-web.component';
-import { ArtistaSellosWebComponent } from './artista-sellos-web/artista-sellos-web.component';
-import { ArtistDetailWebComponent } from './artist-detail-web/artist-detail-web.component';
-import { HomePageWebComponent } from './home-page-web/home-page-web.component';
-;
-
+import { MarketingSectionWebComponent } from './marketing-section/marketing-section-web/marketing-section-web.component';
+import { AgencySectionWebComponent } from './agency-section/agency-section-web/agency-section-web.component';
+import { VisualSectionWebComponent } from './visual-section/visual-section-web/visual-section-web.component';
+import { TourManagerSectionWebComponent } from './tour-manager-section/tour-manager-section-web/tour-manager-section-web.component';
+import { ArtistDetailSectionWebComponent } from './artist-detail-section/artist-detail-section-web/artist-detail-section-web.component';
+import { HomeSectionWebComponent } from './home-section/home-section-web/home-section-web.component';
 
 const routes: Routes = [
-  {path : '',
-    children :[
+  {
+    path: '',
+    children: [
       {
-        path : '',
-        component : HomePageWebComponent,
+        path: '',
+        component: HomeSectionWebComponent,
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('./home-section/home-section.module').then(
+                (m) => m.HomeSectionModule
+              ),
+          },
+        ],
       },
       {
-        path : 'Marketing',
-        component : MarketingWebComponent,
+        path: 'Marketing',
+        component: MarketingSectionWebComponent,
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('./marketing-section/marketing-section.module').then(
+                (m) => m.MarketingSectionModule
+              ),
+          },
+        ],
       },
       {
-        path : 'Agency',
-        component : AgencyWebComponent,
+        path: 'Agency',
+        component: AgencySectionWebComponent,
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('./agency-section/agency-section.module').then(
+                (m) => m.AgencySectionModule
+              ),
+          },
+        ],
       },
       {
-        path : 'Visual',
-        component : VisualWebComponent,
+        path: 'Visual',
+        component: VisualSectionWebComponent,
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('./visual-section/visual-section.module').then(
+                (m) => m.VisualSectionModule
+              ),
+          },
+        ],
       },
       {
-        path : 'Tourmanager',
-        component : TourManagerWebComponent,
+        path: 'Tourmanager',
+        component: TourManagerSectionWebComponent,
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('./tour-manager-section/tour-manager-section.module').then(
+                (m) => m.TourManagerSectionModule
+              ),
+          },
+        ],
       },
       {
-        path : 'ArtistasSellos',
-        component : ArtistaSellosWebComponent,
+        path: 'Artist/:id',
+        component: ArtistDetailSectionWebComponent,
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import(
+                './artist-detail-section/artist-detail-section.module'
+              ).then((m) => m.ArtistDetailSectionModule),
+          },
+        ],
       },
-      {
-        path : 'Artist/:id',
-        component : ArtistDetailWebComponent,
-      },
-    ]}
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class WebRoutingModule { }
+export class WebRoutingModule {}

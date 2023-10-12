@@ -1,0 +1,41 @@
+@import '../../web-styles.scss';
+
+.container{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.tarjeta {
+  width: 300px;
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid white;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.imagen {
+  max-width: 100%;
+}
+
+.nombre {
+  font-size: 20px;
+  margin-top: 10px;
+}
+
+.fecha {
+  margin-top: 10px;
+}
+
+.ubicacion {
+  margin-top: 10px;
+}
+
+.comprar {
+  margin-top: 10px;
+}
+
+.boton-comprar{
+  @include custom-button-2
+}
