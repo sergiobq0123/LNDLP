@@ -1,13 +1,22 @@
-<h3>{{nombreCarrousel}}</h3>
+<app-generic-section
+  [contentTemplate]="contentTemplate"
+  [sectionTitle]="nombreCarrousel"
+></app-generic-section>
 
-<div class="container-carrousel">
-  <button class="carousel-button prev" (click)="scrollImages(-1)">&#10094;</button>
-  <div #carouselContainer class="container-imagenes">
-    <ng-container *ngFor="let image of carrouselImages">
-      <div class="container-imagenes-item">
-        <img [src]="image.url" alt="Image"/>
-      </div>
-    </ng-container>
+<ng-template #contentTemplate>
+  <div class="container-carrousel">
+    <button class="carousel-button prev" (click)="scrollImages(-1)">
+      &#10094;
+    </button>
+    <div #carouselContainer class="container-imagenes">
+      <ng-container *ngFor="let image of carrouselImages">
+        <div class="container-imagenes-item">
+          <img [src]="image.url" alt="Image" />
+        </div>
+      </ng-container>
+    </div>
+    <button class="carousel-button next" (click)="scrollImages(1)">
+      &#10095;
+    </button>
   </div>
-  <button class="carousel-button next" (click)="scrollImages(1)">&#10095;</button>
-</div>
+</ng-template>

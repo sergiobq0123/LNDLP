@@ -1,0 +1,8 @@
+<app-generic-section
+[contentTemplate]="contentTemplate"
+[sectionTitle]="'Sellos'"
+></app-generic-section>
+
+<ng-template #contentTemplate>
+  <app-generic-card [array]="this.records" [buttonText]="this.buttonTitle"></app-generic-card>
+</ng-template>

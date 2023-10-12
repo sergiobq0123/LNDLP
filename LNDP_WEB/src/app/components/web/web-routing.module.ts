@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { MarketingSectionWebComponent } from './marketing-section/marketing-section-web/marketing-section-web.component';
-import { AgencySectionWebComponent } from './agency-section/agency-section-web/agency-section-web.component';
-import { VisualSectionWebComponent } from './visual-section/visual-section-web/visual-section-web.component';
-import { TourManagerSectionWebComponent } from './tour-manager-section/tour-manager-section-web/tour-manager-section-web.component';
-import { ArtistDetailSectionWebComponent } from './artist-detail-section/artist-detail-section-web/artist-detail-section-web.component';
-import { HomeSectionWebComponent } from './home-section/home-section-web/home-section-web.component';
+import { HomeSectionComponent } from './home-section/home-section.component';
+import { AgencySectionComponent } from './agency-section/agency-section.component';
+import { MarketingSectionComponent } from './marketing-section/marketing-section.component';
+import { TourManagerSectionComponent } from './tour-manager-section/tour-manager-section.component';
+import { VisualSectionComponent } from './visual-section/visual-section.component';
+import { ArtistDetailAlbumsComponent } from './artist-detail-section/artist-detail-albums/artist-detail-albums.component';
+import { ArtistDetailSectionComponent } from './artist-detail-section/artist-detail-section.component';
 
 const routes: Routes = [
   {
@@ -13,7 +14,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: HomeSectionWebComponent,
+        component: HomeSectionComponent,
         children: [
           {
             path: '',
@@ -26,7 +27,7 @@ const routes: Routes = [
       },
       {
         path: 'Marketing',
-        component: MarketingSectionWebComponent,
+        component: MarketingSectionComponent,
         children: [
           {
             path: '',
@@ -39,7 +40,7 @@ const routes: Routes = [
       },
       {
         path: 'Agency',
-        component: AgencySectionWebComponent,
+        component: AgencySectionComponent,
         children: [
           {
             path: '',
@@ -52,7 +53,7 @@ const routes: Routes = [
       },
       {
         path: 'Visual',
-        component: VisualSectionWebComponent,
+        component: VisualSectionComponent,
         children: [
           {
             path: '',
@@ -65,7 +66,7 @@ const routes: Routes = [
       },
       {
         path: 'Tourmanager',
-        component: TourManagerSectionWebComponent,
+        component: TourManagerSectionComponent,
         children: [
           {
             path: '',
@@ -78,7 +79,7 @@ const routes: Routes = [
       },
       {
         path: 'Artist/:id',
-        component: ArtistDetailSectionWebComponent,
+        component: ArtistDetailSectionComponent,
         children: [
           {
             path: '',

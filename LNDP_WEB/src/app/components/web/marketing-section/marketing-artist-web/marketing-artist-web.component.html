@@ -1,3 +1,9 @@
+<app-generic-section
+[contentTemplate]="contentTemplate"
+[sectionTitle]="'Artistas'"
+></app-generic-section>
+
+<ng-template #contentTemplate>
 <div class="container">
   <div class="card" *ngFor="let artist of artists">
     <div class="imgBx">
@@ -64,3 +70,4 @@
     </div>
   </div>
 </div>
+</ng-template>

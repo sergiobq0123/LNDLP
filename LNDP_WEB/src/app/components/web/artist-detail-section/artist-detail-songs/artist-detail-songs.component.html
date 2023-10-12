@@ -1,0 +1,8 @@
+<app-generic-section
+[contentTemplate]="contentTemplate"
+[sectionTitle]="'Canciones'"
+></app-generic-section>
+
+<ng-template #contentTemplate>
+  <app-generic-youtube [array]="this.songs"></app-generic-youtube>
+</ng-template>

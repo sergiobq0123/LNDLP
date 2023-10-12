@@ -11,7 +11,6 @@ namespace LNDP_API.Data
         public DbSet<LNDP_API.Models.User> User {get ; set ; }
         public DbSet<LNDP_API.Models.Artist> Artist {get ; set ; }
         public DbSet<LNDP_API.Models.Crew> Crew {get ; set ; }
-        public DbSet<LNDP_API.Models.Dossier> Dossier {get ; set ; }
         public DbSet<LNDP_API.Models.SocialNetwork> SocialNetwork {get ; set ; }
         public DbSet<LNDP_API.Models.Event> Event {get ; set ; }
         public DbSet<LNDP_API.Models.EventType> EventType {get ; set ; }

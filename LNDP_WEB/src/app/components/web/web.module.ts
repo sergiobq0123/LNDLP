@@ -1,18 +1,17 @@
 import { NgModule } from '@angular/core';
 import { WebRoutingModule } from './web-routing.module';
 import { WebComponent } from './web.component';
-import { GenericModule } from './generic/generic.module';
+import { CommonSectionModule } from './common-section/common-section.module';
 
 
 
 @NgModule({
   declarations: [
-
-    WebComponent
+    WebComponent,
   ],
   imports: [
     WebRoutingModule,
-    GenericModule
+    CommonSectionModule
   ]
 })
 export class WebModule { }

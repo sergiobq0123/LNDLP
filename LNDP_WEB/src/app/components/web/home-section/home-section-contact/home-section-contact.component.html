@@ -1,10 +1,15 @@
+<app-generic-section
+[contentTemplate]="contentTemplate"
+[sectionTitle]="'Formulario'"
+></app-generic-section>
+
+<ng-template #contentTemplate>
 <form [formGroup]="email" (submit)="enviarFormulario()">
   <div class="formulario-container">
     <div class="imagen-izquierda">
       <img src="../../../../assets/PaginaInicio/logo-izq-form.jpg" />
     </div>
     <div class="formulario">
-      <h2 class="titulo-formulario">Formulario de Contacto</h2>
       <div class="formulario-data">
         <div class="formulario-izquierda">
           <mat-form-field class="nombre">
@@ -36,4 +41,4 @@
     </div>
   </div>
 </form>
-
+</ng-template>

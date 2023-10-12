@@ -1,15 +1,21 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ArtistDetailSectionWebComponent } from './artist-detail-section-web/artist-detail-section-web.component';
 import { GenericModule } from '../generic/generic.module';
-import { ArtistDetailTableComponent } from './artist-detail-table/artist-detail-table.component';
+import { ArtistDetailIntroComponent } from './artist-detail-intro/artist-detail-intro.component';
+import { ArtistDetailSectionComponent } from './artist-detail-section.component';
+import { ArtistDetailSongsComponent } from './artist-detail-songs/artist-detail-songs.component';
+import { ArtistDetailAlbumsComponent } from './artist-detail-albums/artist-detail-albums.component';
+import { ArtistDetailConciertosComponent } from './artist-detail-conciertos/artist-detail-conciertos.component';
 
 
 
 @NgModule({
   declarations: [
-    ArtistDetailSectionWebComponent,
-    ArtistDetailTableComponent,
+    ArtistDetailSectionComponent,
+    ArtistDetailIntroComponent,
+    ArtistDetailSongsComponent,
+    ArtistDetailAlbumsComponent,
+    ArtistDetailConciertosComponent,
   ],
   imports: [
     CommonModule,

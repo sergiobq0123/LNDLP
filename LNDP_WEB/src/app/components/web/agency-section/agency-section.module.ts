@@ -1,13 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GenericModule } from '../generic/generic.module';
-import { AgencySectionWebComponent } from './agency-section-web/agency-section-web.component';
+import { AgencySectionComponent } from './agency-section.component';
+import { AgencySectionMarcasComponent } from './agency-section-marcas/agency-section-marcas.component';
+import { AgencySectionPartnersComponent } from './agency-section-partners/agency-section-partners.component';
 
 
 
 @NgModule({
   declarations: [
-    AgencySectionWebComponent
+    AgencySectionComponent,
+    AgencySectionMarcasComponent,
+    AgencySectionPartnersComponent
   ],
   imports: [
     CommonModule,

@@ -1,17 +1,21 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HomeSectionWebComponent } from './home-section-web/home-section-web.component';
 import { HomeSectionContactComponent } from './home-section-contact/home-section-contact.component';
 import { GenericModule } from '../generic/generic.module';
 import { MaterialModule } from 'src/app/material/material/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HomeSectionServiciosComponent } from './home-section-servicios/home-section-servicios.component';
+import { HomeSectionSpotifyComponent } from './home-section-spotify/home-section-spotify.component';
+import { HomeSectionComponent } from './home-section.component';
 
 
 
 @NgModule({
   declarations: [
-    HomeSectionWebComponent,
-    HomeSectionContactComponent
+    HomeSectionContactComponent,
+    HomeSectionServiciosComponent,
+    HomeSectionSpotifyComponent,
+    HomeSectionComponent
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,37 @@
+<app-generic-section
+  [contentTemplate]="contentTemplate"
+  [sectionTitle]="'Servicios'"
+></app-generic-section>
+
+<ng-template #contentTemplate>
+  <section class="servicios">
+    <div class="tarjeta">
+        <a (routerLink)="'Marketing'">
+            <img src="../../../../assets/Visual/dudi.jpg" alt="PR&MKTNG" >
+            <h3>PR&MKTNG</h3>
+            <p>Planificación y estrategia de planes de comunicación personalizados.</p>
+        </a>
+    </div>
+    <div class="tarjeta">
+        <a (routerLink)="'Agency'">
+            <img src="../../../../assets/Visual/dudi.jpg" alt="Servicio 2">
+            <h3>Agency</h3>
+            <p>Conectamos con tu público objetivo y hacemos crecer tu proyecto mejorando el posicionamiento</p>
+        </a>
+    </div>
+    <div class="tarjeta">
+        <a (routerLink)="'Visual'">
+            <img src="../../../../assets/Visual/dudi.jpg" alt="Servicio 3">
+            <h3>Visual</h3>
+            <p>Nos encargamos de cubrir los eventos y actuaciones con fotografía y vídeo, a gusto del cliente</p>
+        </a>
+    </div>
+    <div class="tarjeta">
+        <a (routerLink)="'Tourmanager'">
+            <img src="../../../../assets/Visual/dudi.jpg" alt="Servicio 3">
+            <h3>Tour Manager</h3>
+            <p>Descripción del Servicio 3.</p>
+        </a>
+    </div>
+  </section>
+</ng-template>

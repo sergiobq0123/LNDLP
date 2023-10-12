@@ -1,13 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GenericModule } from '../generic/generic.module';
-import { TourManagerSectionWebComponent } from './tour-manager-section-web/tour-manager-section-web.component';
+import { TourManagerSectionConciertosComponent } from './tour-manager-section-conciertos/tour-manager-section-conciertos.component';
+import { TourManagerSectionComponent } from './tour-manager-section.component';
 
 
 
 @NgModule({
   declarations: [
-    TourManagerSectionWebComponent
+    TourManagerSectionComponent,
+    TourManagerSectionConciertosComponent
   ],
   imports: [
     CommonModule,
