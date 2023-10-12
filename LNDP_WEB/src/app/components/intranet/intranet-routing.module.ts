@@ -11,9 +11,7 @@ import { DossierComponent } from './dossier/dossier.component';
 import { ArtistSongComponent } from './artist-song/artist-song.component';
 import { ArtistAlbumComponent } from './artist-album/artist-album.component';
 import { IntranetComponent } from './intranet.component';
-import { RecordAdminComponent } from './record-admin/record-admin.component';
-import { BrandAdminComponent } from './brand-admin/brand-admin.component';
-import { CollaborationAdminComponent } from './collaboration-admin/collaboration-admin.component';
+import { CompanyAdminComponent } from './company-admin/company-admin.component';
 
 const routes: Routes = [
   {path : '',
@@ -60,16 +58,8 @@ const routes: Routes = [
         component : ArtistAlbumComponent,
       },
       {
-        path : 'Records',
-        component : RecordAdminComponent,
-      },
-      {
-        path : 'Brands',
-        component : BrandAdminComponent,
-      },
-      {
-        path : 'Collaborations',
-        component : CollaborationAdminComponent,
+        path : 'Companies',
+        component : CompanyAdminComponent,
       },
     ]}
 ];

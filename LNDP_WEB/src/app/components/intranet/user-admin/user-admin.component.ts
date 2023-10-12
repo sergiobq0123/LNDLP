@@ -12,9 +12,6 @@ import { GenericTableComponent } from '../general/generic-table/generic-table.co
 import { Validators } from '@angular/forms';
 import { GenericFormDialogComponent } from '../general/generic-form-dialog/generic-form-dialog.component';
 import { Filter } from '../general/generic-table/Filter';
-import { UserRoleService } from 'src/app/services/intranet/user-role.service';
-import { AuthService } from 'src/app/services/auth.service';
-import { ArtistService } from 'src/app/services/intranet/artist.service';
 import { PageEvent } from '@angular/material/paginator';
 
 

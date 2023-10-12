@@ -8,8 +8,6 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 })
 export class GenericYoutubeComponent {
   @Input() array : Array<any>;
-  @Input() width : number= 450;
-  @Input() widthSmall : Array<any>;
 
   constructor(private sanitizer: DomSanitizer) {}
 

@@ -18,12 +18,8 @@ export class TourManagerWebComponent {
   ){}
 
   ngOnInit(){
-    this._concertService.getCards().subscribe(res => {
-      let concert = new Array();
-      res.forEach((val) => {
-        concert.push(val);
-      });
-      this.concerts = [...concert];
+    this._concertService.get().subscribe(res => {
+      this.concerts = res;
     })
   }
 }
