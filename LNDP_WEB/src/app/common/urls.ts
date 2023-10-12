@@ -22,5 +22,7 @@ export class Urls {
   static RECORD = '/api/Record'
   static BRAND = '/api/Brand'
   static COLLABORATION = '/api/Collaboration'
+  static COMPANY = '/api/Company'
+  static COMPANYTYPE = '/api/CompanyType'
   static IMAGE = '/postImage'
 }

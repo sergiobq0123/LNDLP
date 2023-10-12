@@ -13,6 +13,7 @@ export class ArtistService extends ServiceBaseService {
    }
 
 
+
    getArtistWithoutU(){
     return this.getToSpecificURL(this.getUrl + "/withoutUser")
    }

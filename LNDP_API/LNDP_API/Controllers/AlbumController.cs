@@ -36,7 +36,6 @@ namespace LNDP_API.Controllers
             .AsNoTracking()
             .Select(a => _mapper.Map<AlbumDto>(a))
             .ToListAsync();
-
         }
 
 
@@ -71,7 +70,7 @@ namespace LNDP_API.Controllers
                 var albumNew = new Album
                 {
                     Name = albumData?.Name,
-                    Photo = "https://localhost:7032/assets/albumes/" + fileName,
+                    PhotoUrl = "https://localhost:7032/assets/albumes/" + fileName,
                     ArtistId = albumData?.ArtistId,
                 };
                 _context.Album.Add(albumNew);

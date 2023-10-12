@@ -20,9 +20,7 @@ import { ArtistAlbumComponent } from './artist-album/artist-album.component';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { GenericFilterComponent } from './general/generic-filter/generic-filter.component';
 import { IntranetComponent } from './intranet.component';
-import { RecordAdminComponent } from './record-admin/record-admin.component';
-import { BrandAdminComponent } from './brand-admin/brand-admin.component';
-import { CollaborationAdminComponent } from './collaboration-admin/collaboration-admin.component';
+import { CompanyAdminComponent } from './company-admin/company-admin.component';
 
 
 
@@ -45,9 +43,7 @@ import { CollaborationAdminComponent } from './collaboration-admin/collaboration
     SpinnerComponent,
     GenericFilterComponent,
     IntranetComponent,
-    RecordAdminComponent,
-    BrandAdminComponent,
-    CollaborationAdminComponent
+    CompanyAdminComponent
   ],
   imports: [
     IntranetRoutingModule,

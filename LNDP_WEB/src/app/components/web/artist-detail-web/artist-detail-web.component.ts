@@ -9,7 +9,6 @@ import { ArtistService } from '../../../services/intranet/artist.service';
 })
 export class ArtistDetailWebComponent {
   @Input() artistDetail : any ;
-
   artist: any;
 
   constructor(private route: ActivatedRoute, private artistService : ArtistService) {}

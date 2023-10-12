@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { BrandService } from 'src/app/services/intranet/brand.service';
-import { CollaborationService } from 'src/app/services/intranet/collaboration.service';
+import { CompanyService } from 'src/app/services/intranet/company.service';
 
 @Component({
   selector: 'app-agency-web',
@@ -15,31 +14,23 @@ export class AgencyWebComponent {
   buttonTitle : string = "Ver web"
 
   constructor(
-    private _brandService : BrandService,
-    private _collaborationService : CollaborationService
+    private _companyService : CompanyService,
   ){}
   ngOnInit(){
     this.getBrands()
-    this.getCollabs()
+    this.getPartner()
 
   }
 
   getBrands() {
-    this._brandService.getCards().subscribe((res) => {
-      let brand = new Array();
-      res.forEach((val) => {
-        brand.push(val);
-      });
-      this.brands = [...brand];
+    this._companyService.getBrands().subscribe((res) => {
+      this.brands = res;
     });
   }
-  getCollabs() {
-    this._collaborationService.getCards().subscribe((res) => {
-      let collab = new Array();
-      res.forEach((val) => {
-        collab.push(val);
-      });
-      this.collabs = [...collab];
+
+  getPartner() {
+    this._companyService.getPartner().subscribe((res) => {
+      this.collabs = res;
     });
   }
 }

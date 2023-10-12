@@ -29,16 +29,11 @@ namespace LNDP_API.Controllers
 
  
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Artist>>> GetArtist()
+        public async Task<ActionResult<IEnumerable<ArtistWebGenericDto>>> GetArtist()
         {
-            if(_context.Artist == null){
-                return NotFound();
-            }
             return await _context.Artist
-            .Include(u => u.Crew)
-            .Include(u => u.SocialNetwork)
-            .Include(u => u.Songs)
-            .Include(u => u.Albums)
+            .Include(a => a.SocialNetwork)
+            .Select(a => _mapper.Map<ArtistWebGenericDto>(a))
             .ToListAsync();
         }
 
@@ -55,21 +50,16 @@ namespace LNDP_API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Artist>> GetArtist(int id)
+        public async Task<ActionResult<ArtistWebDetailDto>> GetArtist(int id)
         {         
             var artist = await _context.Artist
-                .Include(a => a.SocialNetwork)   
-                .Include(a => a.Crew)   
                 .Include(a => a.Songs)   
                 .Include(a => a.Albums)
                 .Include(a => a.Events)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(a => a.Id == id);
 
-            if(artist == null){
-                return NotFound(new { Message = "El artista no se ha encontrado" });
-            }
-            return artist;
+            return _mapper.Map<ArtistWebDetailDto>(artist);
         }
 
         [HttpPost]

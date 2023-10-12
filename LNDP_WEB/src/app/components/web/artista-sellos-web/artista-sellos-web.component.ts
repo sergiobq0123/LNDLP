@@ -19,15 +19,13 @@ export class ArtistaSellosWebComponent {
 
   getArtist() {
     this.artistService.get().subscribe((res) => {
-      let artists = new Array();
-      res.forEach((val) => {
-        artists.push(val);
-      });
-      this.artists = [...artists];
+      this.artists = [...res];
     });
   }
 
   openArtistDetail(artist: any) {
+    console.log("si");
+
     this.router.navigate(['/Artist', artist.id]);
   }
 }

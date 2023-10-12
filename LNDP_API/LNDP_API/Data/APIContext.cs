@@ -18,9 +18,8 @@ namespace LNDP_API.Data
         public DbSet<LNDP_API.Models.UserRole> UserRole {get ; set ; }
         public DbSet<LNDP_API.Models.Album> Album {get ; set ; }
         public DbSet<LNDP_API.Models.Song> Song {get ; set ; }
-        public DbSet<LNDP_API.Models.Record> Record {get ; set ; }
-        public DbSet<LNDP_API.Models.Brand> Brand {get ; set ; }
-        public DbSet<LNDP_API.Models.Collaboration> Collaboration {get ; set ; }
+        public DbSet<LNDP_API.Models.Company> Company {get ; set ; }
+        public DbSet<LNDP_API.Models.CompanyType> CompanyType {get ; set ; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {   
@@ -52,6 +51,25 @@ namespace LNDP_API.Data
                 }
                 
             );
+            modelBuilder.Entity<LNDP_API.Models.CompanyType>().HasData
+            (
+                new LNDP_API.Models.CompanyType
+                {
+                    Id = 1,
+                    CompanyTypeName = "Brand"
+                },
+                new LNDP_API.Models.CompanyType
+                {
+                    Id = 2,
+                    CompanyTypeName = "Partner"
+                },
+                new LNDP_API.Models.CompanyType
+                {
+                    Id = 3,
+                    CompanyTypeName = "Record"
+                }
+                
+            );
             modelBuilder.Entity<Artist>()
                 .HasMany(a => a.Events)
                 .WithOne(e => e.Artist)
@@ -73,8 +91,8 @@ namespace LNDP_API.Data
                 .HasOne(a => a.Crew)
                 .WithOne(sm => sm.Artist)
                 .HasForeignKey<Crew>(sm => sm.ArtistId)
-                .OnDelete(DeleteBehavior.Cascade); 
-    
+                .OnDelete(DeleteBehavior.Cascade);
+   
         }
     }
 }

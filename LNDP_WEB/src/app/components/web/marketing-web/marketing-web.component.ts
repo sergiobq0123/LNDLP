@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RecordService } from 'src/app/services/intranet/record.service';
+import { CompanyService } from 'src/app/services/intranet/company.service';
 
 @Component({
   selector: 'app-marketing-web',
@@ -13,19 +13,15 @@ export class MarketingWebComponent {
   buttonTitle : string = "Ver web"
 
   constructor(
-    private _recordService : RecordService
+    private _companyService : CompanyService
   ){}
   ngOnInit(){
     this.getRecords()
   }
 
   getRecords() {
-    this._recordService.getCards().subscribe((res) => {
-      let records = new Array();
-      res.forEach((val) => {
-        records.push(val);
-      });
-      this.records = [...records];
+    this._companyService.getRecords().subscribe((res) => {
+      this.records = res;
     });
   }
 }

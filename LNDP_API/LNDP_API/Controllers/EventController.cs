@@ -7,6 +7,7 @@ using TTTAPI.Utils;
 using System.Linq.Expressions;
 using LNDP_API.Services;
 using LNDP_API.Dtos;
+using AutoMapper;
 
 namespace LNDP_API.Controllers
 {   
@@ -15,34 +16,24 @@ namespace LNDP_API.Controllers
     public class EventController : ControllerBase
     {
         private readonly APIContext _context;
+        private readonly IMapper _mapper;
 
-        public EventController(APIContext context)
+        public EventController(APIContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         [HttpGet("type/{tipo}")]
-        public async Task<ActionResult<IEnumerable<Event>>> GetEvent(string tipo)
+        public async Task<ActionResult<IEnumerable<GenericCardDto>>> GetEvent(string tipo)
         {
-            if(_context.Event == null){
-                    return NotFound();
-            }
-            var token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", string.Empty);
-            // var tipoUsuario = _tokenService.ObtenerTipoDeUsuarioDesdeToken(token);
-            // switch (tipoUsuario)
-            // {
-            //     case "Admin":
-            //         return await GetEventsForAdmin(tipo);
-            //     // case "Crew":
-            //     //     return await GetEventsForCrew(tipo, token);
-            //     case "TokenInválido":
-            //         return BadRequest("El token proporcionado no es válido");
-            //     case "UsuarioDesconocido":
-            //         return BadRequest("El usuario no es conocido");
-            //     default:
-            //         return await GetEventsForDefaultUser(tipo);
-            // }
-            return Ok();
+            return await _context.Event
+            .Include( e => e.EventType)
+            .Include( e => e.Artist)
+            .AsNoTracking()
+            .Where(e => e.EventType.EventName == tipo)
+            .Select(e => _mapper.Map<GenericCardDto>(e))
+            .ToListAsync();
         }
         
         [HttpGet]
@@ -55,28 +46,6 @@ namespace LNDP_API.Controllers
             .Include( e => e.EventType)
             .Include( e => e.Artist)
             .ToListAsync();
-        }
-        [HttpGet("type/{type}/Cards")]
-       public async Task<ActionResult<IEnumerable<GenericCardDto>>> GetEventOrder(string type)
-        {
-            if (_context.Event == null)
-            {
-                return NotFound();
-            }
-            return await _context.Event
-                .Include(e => e.EventType)
-                .Include(e => e.Artist)
-                .Where(e => e.EventType.EventName == type)
-                .OrderBy(e => e.Date)
-                .Select(e => new GenericCardDto
-                {
-                    PhotoUrl = e.Artist.Photo,
-                    Name = e.Name,
-                    Date = e.Date.ToString(),
-                    Description = e.City + e.Location, 
-                    BotonUrl = e.Tickets 
-                })
-                .ToListAsync();
         }
 
         [HttpPost]

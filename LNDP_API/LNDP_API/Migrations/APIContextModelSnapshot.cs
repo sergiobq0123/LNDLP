@@ -39,10 +39,10 @@ namespace LNDP_API.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
-                    b.Property<string>("Photo")
+                    b.Property<string>("PhotoUrl")
                         .HasColumnType("text");
 
-                    b.Property<string>("Url")
+                    b.Property<string>("WebUrl")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -105,10 +105,10 @@ namespace LNDP_API.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
-                    b.Property<string>("Photo")
+                    b.Property<string>("PhotoUrl")
                         .HasColumnType("text");
 
-                    b.Property<string>("Url")
+                    b.Property<string>("WebUrl")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -130,15 +130,78 @@ namespace LNDP_API.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
-                    b.Property<string>("Photo")
+                    b.Property<string>("PhotoUrl")
                         .HasColumnType("text");
 
-                    b.Property<string>("Url")
+                    b.Property<string>("WebUrl")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
                     b.ToTable("Collaboration");
+                });
+
+            modelBuilder.Entity("LNDP_API.Models.Company", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("CompanyTypeId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PhotoUrl")
+                        .HasColumnType("text");
+
+                    b.Property<string>("WebUrl")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyTypeId");
+
+                    b.ToTable("Company");
+                });
+
+            modelBuilder.Entity("LNDP_API.Models.CompanyType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CompanyTypeName")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CompanyType");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CompanyTypeName = "Brand"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CompanyTypeName = "Partner"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CompanyTypeName = "Record"
+                        });
                 });
 
             modelBuilder.Entity("LNDP_API.Models.Crew", b =>
@@ -279,10 +342,10 @@ namespace LNDP_API.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
-                    b.Property<string>("Photo")
+                    b.Property<string>("PhotoUrl")
                         .HasColumnType("text");
 
-                    b.Property<string>("Url")
+                    b.Property<string>("WebUrl")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -339,7 +402,6 @@ namespace LNDP_API.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Url")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -424,6 +486,15 @@ namespace LNDP_API.Migrations
                         .HasForeignKey("UserId");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("LNDP_API.Models.Company", b =>
+                {
+                    b.HasOne("LNDP_API.Models.CompanyType", "CompanyType")
+                        .WithMany()
+                        .HasForeignKey("CompanyTypeId");
+
+                    b.Navigation("CompanyType");
                 });
 
             modelBuilder.Entity("LNDP_API.Models.Crew", b =>
