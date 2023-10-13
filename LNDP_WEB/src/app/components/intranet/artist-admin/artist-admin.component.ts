@@ -436,6 +436,25 @@ export class ArtistAdminComponent {
       }
     });
   }
+  showFormDialogImage(dataShow: any) {
+    console.log(dataShow);
+    let dialogData = {
+      formData: dataShow,
+      formFields: this.crewForm,
+      formCols: 2,
+      dialogTitle: 'Equipo',
+    };
+    const dialogRef = this._dialog.open(GenericFormDialogComponent, {
+      data: dialogData,
+      minWidth: 600,
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result !== undefined && result !== null && result !== '') {
+        console.log(result);
+        this.updateElement(this._crewService,result);
+      }
+    });
+  }
   showFormDialogUser(dataShow: any) {
     console.log(dataShow);
     let dialogData = {

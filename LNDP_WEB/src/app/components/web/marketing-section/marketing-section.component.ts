@@ -8,6 +8,6 @@ import { Component } from '@angular/core';
 export class MarketingSectionComponent {
 
   title = "PR&MKTNG"
-  description = "Planificación y estrategia de planes de comunicación personalizados. Realizamos notas de prensa, entrevistas, reacciones, podcast... Contamos con estrategias de marketing adaptadas al mundo urbano para conectar con tu público. Tenemos asesoría y endorsement. "
+  description = "Planificación y estrategia de planes de comunicación personalizados. Realizamos Notas de Prensa, Estrategia de Medios a través de entrevistas, reacciones, podcast... Contamos con estrategias de Marketing adaptadas a la Industria Musical para conectar con tu público. También realizamos servicios de Asesoría y Endorsement. "
 
 }

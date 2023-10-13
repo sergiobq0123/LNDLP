@@ -75,3 +75,21 @@
 .mdc-text-field--focused:not(.mdc-text-field--disabled) .mdc-floating-label {
   color: $light-color;
 }
+
+
+//Sergio
+.custom-file-upload {
+  background-color: $power-color;
+  color: #fff;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.custom-file-upload:hover {
+  background-color: #0056b3;
+}
+
+:host ::ng-deep .mat-mdc-select-value-text {
+  color: $light-color;
+}

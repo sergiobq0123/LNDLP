@@ -41,8 +41,16 @@
       "PackagePath": "staticwebassets\\assets\\Companys\\Vibra.jpg"
     },
     {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Companys\\a.jpg",
+      "PackagePath": "staticwebassets\\assets\\Companys\\a.jpg"
+    },
+    {
       "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Companys\\hookurb.jpg",
       "PackagePath": "staticwebassets\\assets\\Companys\\hookurb.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Companys\\s.jpg",
+      "PackagePath": "staticwebassets\\assets\\Companys\\s.jpg"
     },
     {
       "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\PNG-de-personas.webp",
@@ -89,8 +97,20 @@
       "PackagePath": "staticwebassets\\assets\\d1f7b233-642a-4635-b7df-87e28894109d.jpg"
     },
     {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\final.jpg",
+      "PackagePath": "staticwebassets\\assets\\final.jpg"
+    },
+    {
       "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\png-transparent-foto-media-photo-picture-image-galery-photography-userinterface-icon.png",
       "PackagePath": "staticwebassets\\assets\\png-transparent-foto-media-photo-picture-image-galery-photography-userinterface-icon.png"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\r.jpg",
+      "PackagePath": "staticwebassets\\assets\\r.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\s",
+      "PackagePath": "staticwebassets\\assets"
     },
     {
       "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\section\\image_1695317182112.jpg",
@@ -219,6 +239,10 @@
     {
       "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\section\\image_1695995398052.jpg",
       "PackagePath": "staticwebassets\\assets\\section\\image_1695995398052.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\sss.jpg",
+      "PackagePath": "staticwebassets\\assets\\sss.jpg"
     },
     {
       "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.LNDP_API.Microsoft.AspNetCore.StaticWebAssets.props",

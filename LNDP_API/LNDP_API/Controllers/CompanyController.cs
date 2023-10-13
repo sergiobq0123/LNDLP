@@ -5,6 +5,7 @@ using LNDP_API.Models;
 using LNDP_API.Dtos;
 using AutoMapper;
 using Newtonsoft.Json;
+using LNDP_API.Services;
 
 namespace LNDP_API.Controllers
 {   
@@ -14,11 +15,13 @@ namespace LNDP_API.Controllers
     {
         private readonly APIContext _context;
         private readonly IMapper _mapper;
+        private readonly IImageService _imageService;
 
-        public CompanyController(APIContext context, IMapper mapper)
+        public CompanyController(APIContext context, IMapper mapper, IImageService imageService)
         {
             _context = context;
             _mapper = mapper;
+            _imageService = imageService;
         }
 
         [HttpGet]
@@ -58,49 +61,29 @@ namespace LNDP_API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Company>> PostCompany([FromForm] IFormFile? image, [FromForm] string companyIntranetDto)
+        public async Task<ActionResult<Company>> PostCompany(CompanyIntranetDto companyIntranetDto)
         {
-            CompanyIntranetDto CompanyData = JsonConvert.DeserializeObject<CompanyIntranetDto>(companyIntranetDto);
-            if (image != null && image.Length > 0)
+            try
             {
-                var assetsFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/assets/Companys");
-                if (!Directory.Exists(assetsFolderPath))
-                {
-                    Directory.CreateDirectory(assetsFolderPath);
-                }
-                var fileName = Path.GetFileName(image.FileName);
-                var filePath = Path.Combine(assetsFolderPath, fileName);
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    await image.CopyToAsync(fileStream);
-                }
-
-                var CompanyNew = new Company
-                {
-                    Name = CompanyData?.Name,
-                    PhotoUrl = "https://localhost:7032/assets/Companys/" + fileName,
-                    Description = CompanyData?.Description,
-                    WebUrl = CompanyData?.WebUrl,
-                    CompanyTypeId = CompanyData?.CompanyTypeId
-                };
-                _context.Company.Add(CompanyNew);
+                companyIntranetDto.PhotoUrl = await _imageService.ConvertBase64ToUrl(companyIntranetDto.PhotoUrl, companyIntranetDto.Name);
+                _context.Company.Add(_mapper.Map<Company>(companyIntranetDto));
                 await _context.SaveChangesAsync();
+                return Ok(new { Message = "Empresa creada" });
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest(new { Message = "La imagen no se ha podido cargar" });
+                return StatusCode(500, new { Message = "Error al crear la empresa", Error = ex.Message });
             }
-            await _context.SaveChangesAsync();
-             return Ok(new { Message = "Empresa añadida con éxito" });
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> PutCompany(int id, Company Company)
+        public async Task<ActionResult> PutCompany(int id, CompanyIntranetDto companyIntranetDto)
         {
-            if(id != Company.Id){
+            if(id != companyIntranetDto.Id){
                 return BadRequest(new { Message = "La empresa no se ha encontrado"});
             }
-            _context.Entry(Company).State = EntityState.Modified;
+            
+            _context.Entry(_mapper.Map<Company>(companyIntranetDto)).State = EntityState.Modified;
             await _context.SaveChangesAsync();
             return Ok(new { Message = "Empresa actualizada con exito"});
         }

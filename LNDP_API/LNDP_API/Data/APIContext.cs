@@ -66,6 +66,11 @@ namespace LNDP_API.Data
                 {
                     Id = 3,
                     CompanyTypeName = "Record"
+                },
+                new LNDP_API.Models.CompanyType
+                {
+                    Id = 4,
+                    CompanyTypeName = "Project"
                 }
                 
             );

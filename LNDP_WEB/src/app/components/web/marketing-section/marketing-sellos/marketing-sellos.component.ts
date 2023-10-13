@@ -8,7 +8,7 @@ import { CompanyService } from 'src/app/services/intranet/company.service';
 })
 export class MarketingSellosComponent {
   records: Array<any> = new Array<any>();
-  buttonTitle : string = "Ver web"
+  buttonTitle : string = "Ver más"
 
   constructor(
     private _companyService : CompanyService

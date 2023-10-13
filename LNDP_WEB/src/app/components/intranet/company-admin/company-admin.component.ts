@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { notifications } from 'src/app/common/notifications';
 import { NotificationService } from 'src/app/services/notification.service';
@@ -23,6 +23,7 @@ export class CompanyAdminComponent {
   companiesType: Array<any> = new Array<any>();
   companiesColumns: Column[];
   companyForm: GenericForm[];
+  imageForm: GenericForm[];
   apiFailing: boolean = false;
   loaded: boolean = false;
   newRowAdded: boolean = false;
@@ -34,6 +35,7 @@ export class CompanyAdminComponent {
   totalCompanies = 50
 
   @ViewChild(GenericTableComponent) table: GenericTableComponent;
+  @ViewChild('imageTemplate') imageTemplate: TemplateRef<any>;
 
   constructor(
     public _companyService: CompanyService,
@@ -115,17 +117,10 @@ export class CompanyAdminComponent {
         type: ContentType.editableTextFields,
       },
       {
-        name: 'URL',
-        dataKey: 'webUrl',
-        position: 'left',
-        isSortable: true,
-        hidden: false,
-        type: ContentType.editableTextFields,
-      },
-      {
         name: 'Photo',
         dataKey: 'photoUrl',
-        type: ContentType.imageFile
+        type: ContentType.specialContent,
+        template: this.imageTemplate,
       },
     ];
   }
@@ -145,7 +140,7 @@ export class CompanyAdminComponent {
       },
       {
         name: 'Tipo',
-        dataKey: 'companyType',
+        dataKey: 'companyTypeId',
         position: { row: 0, col: 0, rowSpan: 1, colSpan: 1 },
         type: ContentType.dropdownFields,
         dropdown: this.companiesType,
@@ -166,7 +161,43 @@ export class CompanyAdminComponent {
       },
       {
         name: 'Imagen',
-        dataKey: 'photo',
+        dataKey: 'photoUrl',
+        position: { row: 1, col: 1, rowSpan: 1, colSpan: 2 },
+        type: ContentType.imageFile,
+      },
+    ];
+  }
+
+  setImageForm(): any[] {
+    return [
+      {
+        name: 'Id',
+        dataKey: 'id',
+        hidden : true
+      },
+      {
+        name: 'Nombre',
+        dataKey: 'name',
+        hidden : true
+      },
+      {
+        name: 'Tipo',
+        dataKey: 'companyTypeId',
+        hidden : true
+      },
+      {
+        name: 'Descripcion',
+        dataKey: 'description',
+        hidden : true
+      },
+      {
+        name: 'Pagina web',
+        dataKey: 'webUrl',
+        hidden : true
+      },
+      {
+        name: 'Imagen',
+        dataKey: 'photoUrl',
         position: { row: 1, col: 1, rowSpan: 1, colSpan: 2 },
         type: ContentType.imageFile,
       },
@@ -187,13 +218,15 @@ export class CompanyAdminComponent {
     dialogRef.afterClosed().subscribe((result) => {
       if (result !== undefined && result !== null && result !== '') {
         console.log(result);
-        this.convertImage(result.photo, result.name);
-        this.createElement(this.photo,result);
+
+        this.createElement(result);
       }
     });
   }
 
   updateElement(event: any) {
+    console.log(event);
+
     this._companyService.update(event.id, event).subscribe(
       (res) => {
         this.getCompanies();
@@ -250,9 +283,11 @@ export class CompanyAdminComponent {
     });
   }
 
-  createElement(photo: any, event: any) {
-    event.id = 0;
-    this._companyService.postImage(event, photo).subscribe(
+  createElement(event: any) {
+    event.id = 0
+    console.log(event);
+
+    this._companyService.create(event).subscribe(
       (res) => {
         console.log(res);
         this.getCompanies();
@@ -296,6 +331,24 @@ export class CompanyAdminComponent {
     const blob = new Blob([byteArray], { type: mimeType });
     const originalFileName = name + '.jpg';
     this.photo = new File([blob], originalFileName, { type: mimeType });
+  }
+
+  showFormDialogImage(dataShow: any) {
+    let dialogData = {
+      formData: dataShow ,
+      formFields: this.setImageForm(),
+      formCols: 2,
+      dialogTitle: 'Imagen',
+    };
+    const dialogRef = this._dialog.open(GenericFormDialogComponent, {
+      data: dialogData,
+      minWidth: 600,
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result !== undefined && result !== null && result !== '') {
+        this.updateElement(result)
+      }
+    });
   }
 
   onPaginationChange(PageEvent: PageEvent){

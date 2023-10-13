@@ -23,7 +23,8 @@ export class GenericFormDialogComponent {
   loaded: boolean = false;
   rowHeight: string;
   gutterSize: string;
-  selectedImage: string | null = null;
+  selectedImage: string ;
+  selectedImageBase64: string ;
 
   ngOnInit(): void {
     this.buildForm();
@@ -51,6 +52,7 @@ export class GenericFormDialogComponent {
       let value;
       let dataKeys = c.dataKey.split('.');
       if (dataKeys.length > 1) {
+
         let mainKey = dataKeys.shift();
         let vl = Object.keys(this.data.formData).find(k => mainKey == k);
         value = dataKeys.reduce(
@@ -62,6 +64,9 @@ export class GenericFormDialogComponent {
       } else {
         value = this.data.formData[c.dataKey];
       }
+      if(c.dataKey === "photoUrl"){
+        this.selectedImage = this.data.formData[c.dataKey]
+      }
       this.VOForm.controls[c.dataKey].patchValue(value);
     });
   }
@@ -72,27 +77,21 @@ export class GenericFormDialogComponent {
       const file: File = fileList[0];
       const reader = new FileReader();
       reader.onload = (e) => {
-        this.selectedImage = e.target?.result as string;
+        const dataURL = e.target?.result as string;
+        this.selectedImage = dataURL
+        const base64Data = dataURL.split(',')[1]; // Extraer la parte Base64
+        this.selectedImageBase64 = base64Data; // Almacena la cadena Base64
       };
       reader.readAsDataURL(file);
-    }
-  }
-
-  removeSelectedImage() {
-    this.selectedImage = null;
-    const inputElement = document.querySelector(
-      'input[type="file"]'
-    ) as HTMLInputElement;
-    if (inputElement) {
-      inputElement.value = '';
     }
   }
 
   onSave() {
     let data = {};
     Object.keys(this.VOForm.controls).forEach((key) => {
-      if (key == 'photo') {
-        data[key] = this.selectedImage;
+      if (key == 'photoUrl') {
+        console.log(data[key]);
+        data[key] = this.selectedImageBase64;
       } else {
         data[key] = this.VOForm.get(key).value;
       }

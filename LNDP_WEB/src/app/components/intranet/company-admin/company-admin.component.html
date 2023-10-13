@@ -36,3 +36,10 @@
   >
   </app-generic-table>
 </ng-template>
+
+<ng-template #imageTemplate let-rowData="rowData">
+  <button mat-icon-button malToolTipe="Ver la imagen" matTooltipShowDelay="1000" aria-label="Ver la imagen"
+    (click)="showFormDialogImage( rowData)">
+    <mat-icon>supervisor_account</mat-icon>
+  </button>
+</ng-template>

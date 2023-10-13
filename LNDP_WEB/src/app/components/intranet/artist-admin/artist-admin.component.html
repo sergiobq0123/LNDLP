@@ -39,7 +39,7 @@
 </ng-template>
 
 <ng-template #socialNetworkTemplate let-rowData="rowData">
-  <button mat-icon-button malToolTipe="Ver la crew" matTooltipShowDelay="1000" aria-label="Ver la crew"
+  <button mat-icon-button malToolTipe="Ver las redes" matTooltipShowDelay="1000" aria-label="Ver las redes"
     (click)="showFormDialogSocialNetwork(rowData.socialNetwork)">
     <mat-icon>supervisor_account</mat-icon>
   </button>
@@ -48,6 +48,13 @@
 <ng-template #crewTemplate let-rowData="rowData">
   <button mat-icon-button malToolTipe="Ver la crew" matTooltipShowDelay="1000" aria-label="Ver la crew"
     (click)="showFormDialogCrew( rowData.crew)">
+    <mat-icon>supervisor_account</mat-icon>
+  </button>
+</ng-template>
+
+<ng-template #imageTemplate let-rowData="rowData">
+  <button mat-icon-button malToolTipe="Ver la imagen" matTooltipShowDelay="1000" aria-label="Ver la imagen"
+    (click)="showFormDialogImage( rowData.photo)">
     <mat-icon>supervisor_account</mat-icon>
   </button>
 </ng-template>

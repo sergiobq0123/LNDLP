@@ -7,6 +7,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeSectionServiciosComponent } from './home-section-servicios/home-section-servicios.component';
 import { HomeSectionSpotifyComponent } from './home-section-spotify/home-section-spotify.component';
 import { HomeSectionComponent } from './home-section.component';
+import { HomeSectionPresentacionComponent } from './home-section-presentacion/home-section-presentacion.component';
+import { RouterLink } from '@angular/router';
 
 
 
@@ -15,13 +17,15 @@ import { HomeSectionComponent } from './home-section.component';
     HomeSectionContactComponent,
     HomeSectionServiciosComponent,
     HomeSectionSpotifyComponent,
-    HomeSectionComponent
+    HomeSectionComponent,
+    HomeSectionPresentacionComponent
   ],
   imports: [
     CommonModule,
     GenericModule,
     MaterialModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterLink
   ]
 })
 export class HomeSectionModule { }

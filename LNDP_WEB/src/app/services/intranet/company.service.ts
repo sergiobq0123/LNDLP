@@ -40,4 +40,7 @@ export class CompanyService extends ServiceBaseService{
   getRecords(){
     return this.getToSpecificURL(this.getUrl + '/type/Record')
   }
+  getProjects(){
+    return this.getToSpecificURL(this.getUrl + '/type/Project')
+  }
 }

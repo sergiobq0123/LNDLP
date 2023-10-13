@@ -68,14 +68,15 @@
                 </mat-form-field>
               </ng-container>
               <ng-container *ngSwitchCase="'imageFile'">
-                <input type="file" (change)="onImageInputChange($event)" accept="image/*" formControlName="{{item.dataKey}}">
+                <label for="imageInput" class="custom-file-upload">
+                  <mat-label>Seleccionar imagen</mat-label>
+                </label>
+                <input type="file" id="imageInput" (change)="onImageInputChange($event)" accept="image/*" formControlName="{{item.dataKey}}" style="display: none;">
                 <div *ngIf="selectedImage">
-                  <img [src]="selectedImage" alt="Preview" style="max-width: 100%; max-height: 190px;">
+                  <img [src]="selectedImage" alt="Preview" style="max-width: 100px; height: auto; padding: 20px">
                 </div>
-                <button mat-button (click)="removeSelectedImage()" *ngIf="selectedImage">
-                  <mat-icon class="delete-button">delete</mat-icon>
-                </button>
               </ng-container>
+
               <ng-container *ngSwitchCase="'specialContent'">
                 <ng-container
                   [ngTemplateOutlet]="item.template"

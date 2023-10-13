@@ -8,7 +8,7 @@ import { CompanyService } from 'src/app/services/intranet/company.service';
 })
 export class AgencySectionPartnersComponent {
   collabs: Array<any> = new Array<any>();
-  buttonTitle : "Ver más"
+  buttonTitle : string = "Ver más"
 
   constructor(
     private _companyService : CompanyService,
