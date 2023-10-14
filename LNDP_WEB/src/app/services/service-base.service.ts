@@ -81,5 +81,11 @@ export class ServiceBaseService {
     return this.http.post(this.getUrl + "/filter", params)
   }
 
+  public getIntranet(): Observable<any>{
+    return this.getToSpecificURL(this.getUrl + Urls.INTRANET)
+  };
+  public getKeys(): Observable<any>{
+    return this.getToSpecificURL(this.getUrl + Urls.KEYS)
+  };
 
 }

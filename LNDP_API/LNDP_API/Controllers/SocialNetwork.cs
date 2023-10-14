@@ -45,13 +45,13 @@ namespace LNDP_API.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult<SocialNetwork>> PostSocialNetwork(SocialNetworkDto socialNetworkDto)
+        public async Task<ActionResult<SocialNetwork>> PostSocialNetwork(SocialNetworkIntranetDto socialNetworkIntranetDto)
         {   
-            var artist = await _context.Artist.FindAsync(socialNetworkDto.ArtistId);
+            var artist = await _context.Artist.FindAsync(socialNetworkIntranetDto.ArtistId);
             if(artist == null){
                 return BadRequest(new { Message = "Artista no encontrado" });
             }
-            var socialNetwork = _mapper.Map<SocialNetwork>(socialNetworkDto);
+            var socialNetwork = _mapper.Map<SocialNetwork>(socialNetworkIntranetDto);
             socialNetwork.Artist = artist;
             _context.SocialNetwork.Add(socialNetwork);
             await _context.SaveChangesAsync();

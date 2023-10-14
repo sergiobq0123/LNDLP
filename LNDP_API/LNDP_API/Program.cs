@@ -46,7 +46,6 @@ builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
 builder.Services.AddControllers().AddJsonOptions(x =>
                 x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

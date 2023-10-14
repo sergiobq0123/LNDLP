@@ -1,4 +1,5 @@
 using System;
+using System.Reflection.Metadata;
 using System.Text.RegularExpressions;
 using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 
@@ -6,17 +7,16 @@ namespace LNDP_API.Services{
 
     public class ImageService : IImageService
     {
-        
+        private readonly string assetsFolderPath;
+        private readonly string hostServer;
+
+        public ImageService()
+        {
+            hostServer = "https://localhost:7032";
+            assetsFolderPath = "wwwroot/assets";
+        }
         public async Task<string> ConvertBase64ToUrl(string base64Data, string fileName)
         {
-            try
-            {
-                var assetsFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/assets");
-                if (!Directory.Exists(assetsFolderPath))
-                {
-                    Directory.CreateDirectory(assetsFolderPath);
-                }
-
                 if (string.IsNullOrWhiteSpace(Path.GetExtension(fileName)))
                 {
                     fileName += ".jpg";
@@ -30,43 +30,11 @@ namespace LNDP_API.Services{
                 {
                     await fileStream.WriteAsync(imageBytes, 0, imageBytes.Length);
                 }
-
-                string urlPath = filePath.Replace("\\", "/");
-
-                string baseUrl = "https://localhost:7032"; 
-                string imageUrl = Path.Combine(baseUrl, "assets", fileName).Replace("\\", "/");
+                string uniqueQueryParam = DateTime.Now.Ticks.ToString();
+                string imageUrl = $"{Path.Combine(hostServer, "assets", fileName).Replace("\\", "/")}?v={uniqueQueryParam}";
                 return imageUrl;
-            }
-            catch (Exception ex)
-            {
-                return "Ocurrió un error al procesar la imagen" + ex.Message;
-            }
-        }
-
-        public async Task<string> DeleteImageFromServer(string filePath)
-    {
-        try
-        {
-            // Verifica si la ruta del archivo no es nula o vacía
-            if (string.IsNullOrWhiteSpace(filePath))
-            {
-                return "La ruta de la imagen no es válida.";
-            }
-
-            if (File.Exists(filePath))
-            {
-                File.Delete(filePath);
-                return "La imagen ha sido eliminada.";
-            }
-            else
-            {
-                return "La imagen no existe en la ubicación especificada.";
-            }
-        }
-        catch (Exception ex)
-        {
-            return "Error al eliminar la imagen: " + ex.Message;
         }
     }
-    }
+
 }
+

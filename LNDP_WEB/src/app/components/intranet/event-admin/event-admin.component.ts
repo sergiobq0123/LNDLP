@@ -225,12 +225,10 @@ export class EventAdminComponent {
       formCols: 2,
       dialogTitle: 'Añade un nuevo evento'
     }
-    console.log(dialogData.formFields);
 
     const dialogRef = this._dialog.open(GenericFormDialogComponent, {data: dialogData, minWidth : 600});
     dialogRef.afterClosed().subscribe(result => {
       if(result !== undefined && result !== null && result !== ''){
-        console.log(result);
         this.createElement(result)
       }
     })

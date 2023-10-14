@@ -146,7 +146,6 @@ export class UserAdminComponent {
     const dialogRef = this.dialog.open(GenericFormDialogComponent, {data: dialogData, minWidth : 600});
     dialogRef.afterClosed().subscribe(result => {
       if(result !== undefined && result !== null && result !== ''){
-        console.log(result);
         result["userRoleId"] = 2
         this.createElement(result)
       }

@@ -6,6 +6,7 @@ using LNDP_API.Dtos;
 using AutoMapper;
 using Newtonsoft.Json;
 using LNDP_API.Services;
+using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 
 namespace LNDP_API.Controllers
 {   
@@ -76,30 +77,41 @@ namespace LNDP_API.Controllers
             }
         }
 
+        
         [HttpPut("{id}")]
         public async Task<ActionResult> PutCompany(int id, CompanyIntranetDto companyIntranetDto)
         {
-            if(id != companyIntranetDto.Id){
-                return BadRequest(new { Message = "La empresa no se ha encontrado"});
+            try
+            {
+                Company company = await _context.Company.Where(c => c.Id == id).FirstOrDefaultAsync();
+                if(company.PhotoUrl != companyIntranetDto.PhotoUrl){
+                    companyIntranetDto.PhotoUrl = await _imageService.ConvertBase64ToUrl(companyIntranetDto.PhotoUrl, companyIntranetDto.Name);
+                }
+                _context.Entry(company).CurrentValues.SetValues(companyIntranetDto);
+                
+                await _context.SaveChangesAsync();
+                return Ok(new { Message = "Empresa actualizada con éxito" });
             }
-            
-            _context.Entry(_mapper.Map<Company>(companyIntranetDto)).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-            return Ok(new { Message = "Empresa actualizada con exito"});
+            catch (Exception ex)
+            {
+                return BadRequest(new { Message = "Error al actualizar la empresa: " + ex.Message });
+            }
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteCompany(int id)
         {
-            var Company = await _context.Company.FindAsync(id);
-            if(Company == null){
-                return NotFound(new { Message = "La empresa no se ha encontrado"});
+            try
+            {
+                var company = await _context.Company.FindAsync(id);
+                _context.Company.Remove(company);
+                await _context.SaveChangesAsync();
+                return Ok(new { Message = "Empresa borrada con éxito" });
             }
-            
-            _context.Company.Remove(Company);
-            await _context.SaveChangesAsync();
-
-            return Ok(new { Message = "Empresa borrada con exito"});
+            catch (Exception ex)
+            {
+                return BadRequest(new { Message = "Error al eliminar la empresa: " + ex.Message });
+            }
         }
     }
 }

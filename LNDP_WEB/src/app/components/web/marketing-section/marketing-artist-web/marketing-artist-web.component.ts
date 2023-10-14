@@ -24,8 +24,6 @@ export class MarketingArtistWebComponent {
   }
 
   openArtistDetail(artist: any) {
-    console.log("si");
-
     this.router.navigate(['/Artist', artist.id]);
   }
 }

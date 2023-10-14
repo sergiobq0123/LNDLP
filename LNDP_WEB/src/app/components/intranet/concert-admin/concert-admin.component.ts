@@ -38,12 +38,7 @@ export class ConcertAdminComponent {
     this.spinner = true;
     this._concertService.get().subscribe({
       next : res => {
-        let conciertos = new Array();
-        res.forEach(val => {
-          conciertos.push(val)
-        });
-        this.conciertos = [... conciertos];
-        console.log(this.conciertos);
+        this.conciertos = res;
         this.setColumns();
         this.loaded = true;
         this.spinner = false;

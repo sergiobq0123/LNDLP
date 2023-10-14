@@ -90,7 +90,6 @@ export class GenericFormDialogComponent {
     let data = {};
     Object.keys(this.VOForm.controls).forEach((key) => {
       if (key == 'photoUrl') {
-        console.log(data[key]);
         data[key] = this.selectedImageBase64;
       } else {
         data[key] = this.VOForm.get(key).value;

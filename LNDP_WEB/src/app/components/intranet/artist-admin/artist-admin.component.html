@@ -40,21 +40,21 @@
 
 <ng-template #socialNetworkTemplate let-rowData="rowData">
   <button mat-icon-button malToolTipe="Ver las redes" matTooltipShowDelay="1000" aria-label="Ver las redes"
-    (click)="showFormDialogSocialNetwork(rowData.socialNetwork)">
+    (click)="showFormDialogSocialNetwork(rowData.socialNetworkIntranetDto)">
     <mat-icon>supervisor_account</mat-icon>
   </button>
 </ng-template>
 
 <ng-template #crewTemplate let-rowData="rowData">
   <button mat-icon-button malToolTipe="Ver la crew" matTooltipShowDelay="1000" aria-label="Ver la crew"
-    (click)="showFormDialogCrew( rowData.crew)">
+    (click)="showFormDialogCrew( rowData.crewIntranetDto)">
     <mat-icon>supervisor_account</mat-icon>
   </button>
 </ng-template>
 
 <ng-template #imageTemplate let-rowData="rowData">
   <button mat-icon-button malToolTipe="Ver la imagen" matTooltipShowDelay="1000" aria-label="Ver la imagen"
-    (click)="showFormDialogImage( rowData.photo)">
-    <mat-icon>supervisor_account</mat-icon>
+    (click)="showFormDialogImage( rowData)">
+    <mat-icon>image</mat-icon>
   </button>
 </ng-template>

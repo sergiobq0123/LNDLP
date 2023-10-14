@@ -7,7 +7,7 @@ namespace LNDP_API.Models {
         public string? Name {get ; set ; }
         public string? Description {get ; set ; }
         public string? City {get ; set ; }
-        public string ? Photo {get ; set ; }
+        public string ? PhotoUrl {get ; set ; }
         public string? RecruitmentEmail {get ; set ; }
         public string? CommunicationEmail {get ; set ; }
         public  string? Phone {get ; set ; }

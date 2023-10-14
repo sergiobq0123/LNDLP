@@ -13,6 +13,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { ArtistService } from 'src/app/services/intranet/artist.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { PageEvent } from '@angular/material/paginator';
+import { Artist } from './../../../models/artist.model';
+import { Validators } from '@angular/forms';
 
 
 @Component({
@@ -22,6 +24,7 @@ import { PageEvent } from '@angular/material/paginator';
 })
 export class ArtistSongComponent {
   songs: Array<any> = new Array<any>();
+  artists: Array<any> = new Array<any>();
   songColumns: Column[];
   songForm: GenericForm[];
   apiFailing: boolean = false;
@@ -44,24 +47,18 @@ export class ArtistSongComponent {
 
   ngOnInit() {
     this.getSongs();
-    this.setSongForm();
+    this.getArtist();
   }
 
-  getArtist(): any[] {
-    var artist: any[] = [];
-    this._artistService.get().subscribe((res) => {
-      res.forEach((val) => {
-        artist.push(val);
-      });
+  getArtist() {
+    this._artistService.getKeys().subscribe((res) => {
+       this.artists = res
     });
-    console.log(artist);
-
-    return artist;
   }
 
   getSongs() {
     this.spinner = true;
-    this._songService.get().subscribe({
+    this._songService.getIntranet().subscribe({
       next : res => {
         let songs = new Array();
         res.forEach((val) => {
@@ -94,7 +91,7 @@ export class ArtistSongComponent {
       },
       {
         name: 'Artista',
-        dataKey: 'artist.name',
+        dataKey: 'artistName',
         position: 'left',
         isSortable: true,
         hidden: false,
@@ -107,6 +104,7 @@ export class ArtistSongComponent {
         isSortable: true,
         hidden: false,
         type: ContentType.editableTextFields,
+        validators: [Validators.required]
       },
       {
         name: 'Url',
@@ -114,12 +112,13 @@ export class ArtistSongComponent {
         position: 'left',
         isSortable: false,
         type: ContentType.editableTextFields,
+        validators: [Validators.required]
       },
     ];
   }
 
-  setSongForm() {
-    this.songForm = [
+  setSongForm(): any[] {
+    return [
       {
         name: 'Id',
         dataKey: 'id',
@@ -130,12 +129,14 @@ export class ArtistSongComponent {
         dataKey: 'name',
         position: { row: 0, col: 0, rowSpan: 1, colSpan: 1 },
         type: ContentType.editableTextFields,
+        validators: [Validators.required]
       },
       {
         name: 'URL',
         dataKey: 'url',
         position: { row: 1, col: 0, rowSpan: 1, colSpan: 1 },
         type: ContentType.editableTextFields,
+        validators: [Validators.required]
       },
       {
         name: 'Artista',
@@ -143,9 +144,10 @@ export class ArtistSongComponent {
         position: { row: 0, col: 0, rowSpan: 1, colSpan: 1 },
         hidden: false,
         type: ContentType.dropdownFields,
-        dropdown: this.getArtist(),
+        dropdown: this.artists,
         dropdownKeyToShow: 'name',
         dropdownKeyValue: 'id',
+        validators: [Validators.required]
       },
     ];
   }
@@ -153,7 +155,7 @@ export class ArtistSongComponent {
   showFormDialog() {
     let dialogData = {
       formData: undefined,
-      formFields: this.songForm,
+      formFields: this.setSongForm(),
       formCols: 2,
       dialogTitle: 'Añade una nueva canción',
     };
@@ -163,7 +165,6 @@ export class ArtistSongComponent {
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result !== undefined && result !== null && result !== '') {
-        console.log(result);
         this.createElement(result);
       }
     });

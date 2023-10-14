@@ -34,8 +34,6 @@ export class LoginComponent {
           this._router.navigateByUrl('')
         },
         error : error => {
-          console.log(error);
-
           this._notificationService.showErrorOnSnackbar(error.error, 'Close', 3500)
           this.LoginForm.get('password').setValue('')
         }

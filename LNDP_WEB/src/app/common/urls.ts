@@ -25,4 +25,6 @@ export class Urls {
   static COMPANY = '/api/Company'
   static COMPANYTYPE = '/api/CompanyType'
   static IMAGE = '/postImage'
+  static INTRANET = '/intranet'
+  static KEYS = '/keys'
 }

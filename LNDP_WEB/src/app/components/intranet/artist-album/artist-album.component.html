@@ -20,7 +20,6 @@
     [isPageable]="true"
     [apiFailing]="apiFailing"
     [isSortable]="true"
-    (filtered)="filterData($event)"
     [hasActions]="true"
     (modified)="updateElement($event)"
     (rowAdded)="newRowAdded = $event"
@@ -36,4 +35,11 @@
     *ngIf="loaded"
   >
   </app-generic-table>
+</ng-template>
+
+<ng-template #imageTemplate let-rowData="rowData">
+  <button mat-icon-button malToolTipe="Ver la imagen" matTooltipShowDelay="1000" aria-label="Ver la imagen"
+    (click)="showFormDialogImage(rowData)">
+    <mat-icon>image</mat-icon>
+  </button>
 </ng-template>

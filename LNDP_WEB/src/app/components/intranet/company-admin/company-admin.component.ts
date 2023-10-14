@@ -11,6 +11,7 @@ import { PageEvent } from '@angular/material/paginator';
 
 import { CompanyService } from 'src/app/services/intranet/company.service';
 import { CompanyTypeService } from 'src/app/services/intranet/company-type.service';
+import { Validators } from '@angular/forms';
 
 
 @Component({
@@ -70,7 +71,6 @@ export class CompanyAdminComponent {
     this._companyTypeService.get().subscribe({
       next : res => {
         this.companiesType = res;
-        console.log(this.companiesType);
         this.loaded = true;
         this.spinner = false
         this.setColumns();
@@ -97,6 +97,7 @@ export class CompanyAdminComponent {
         isSortable: true,
         hidden: false,
         type: ContentType.editableTextFields,
+        validators: [Validators.required]
       },
       {
         name: 'Tipo',
@@ -106,11 +107,20 @@ export class CompanyAdminComponent {
         type: ContentType.dropdownFields,
         dropdown: this.companiesType,
         dropdownKeyToShow: 'companyTypeName',
-        dropdownKeyValue: 'id'
+        dropdownKeyValue: 'id',
+        validators: [Validators.required]
       },
       {
         name: 'Descripcion',
         dataKey: 'description',
+        position: 'left',
+        isSortable: true,
+        hidden: false,
+        type: ContentType.editableTextFields,
+      },
+      {
+        name: 'Enlace',
+        dataKey: 'webUrl',
         position: 'left',
         isSortable: true,
         hidden: false,
@@ -137,6 +147,7 @@ export class CompanyAdminComponent {
         dataKey: 'name',
         position: { row: 0, col: 0, rowSpan: 1, colSpan: 1 },
         type: ContentType.editableTextFields,
+        validators: [Validators.required]
       },
       {
         name: 'Tipo',
@@ -145,7 +156,8 @@ export class CompanyAdminComponent {
         type: ContentType.dropdownFields,
         dropdown: this.companiesType,
         dropdownKeyToShow: 'companyTypeName',
-        dropdownKeyValue: 'id'
+        dropdownKeyValue: 'id',
+        validators: [Validators.required]
       },
       {
         name: 'Descripcion',
@@ -164,6 +176,7 @@ export class CompanyAdminComponent {
         dataKey: 'photoUrl',
         position: { row: 1, col: 1, rowSpan: 1, colSpan: 2 },
         type: ContentType.imageFile,
+        validators: [Validators.required]
       },
     ];
   }
@@ -217,17 +230,13 @@ export class CompanyAdminComponent {
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result !== undefined && result !== null && result !== '') {
-        console.log(result);
-
         this.createElement(result);
       }
     });
   }
 
   updateElement(event: any) {
-    console.log(event);
-
-    this._companyService.update(event.id, event).subscribe(
+      this._companyService.update(event.id, event).subscribe(
       (res) => {
         this.getCompanies();
         this._notificationService.showMessageOnSnackbar(
@@ -285,11 +294,8 @@ export class CompanyAdminComponent {
 
   createElement(event: any) {
     event.id = 0
-    console.log(event);
-
     this._companyService.create(event).subscribe(
       (res) => {
-        console.log(res);
         this.getCompanies();
         this._notificationService.showMessageOnSnackbar(
           res.message,
@@ -313,24 +319,6 @@ export class CompanyAdminComponent {
 
   updatePageNumber(pageNum: number) {
     this.pageNumber = pageNum;
-  }
-
-  convertImage(urlImage, name) {
-    const matches = urlImage.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
-    if (!matches || matches.length !== 3) {
-      throw new Error('La representación en base64 es incorrecta.');
-    }
-    const mimeType = matches[1];
-    const base64Data = matches[2];
-    const byteCharacters = atob(base64Data);
-    const byteNumbers = new Array(byteCharacters.length);
-    for (let i = 0; i < byteCharacters.length; i++) {
-      byteNumbers[i] = byteCharacters.charCodeAt(i);
-    }
-    const byteArray = new Uint8Array(byteNumbers);
-    const blob = new Blob([byteArray], { type: mimeType });
-    const originalFileName = name + '.jpg';
-    this.photo = new File([blob], originalFileName, { type: mimeType });
   }
 
   showFormDialogImage(dataShow: any) {

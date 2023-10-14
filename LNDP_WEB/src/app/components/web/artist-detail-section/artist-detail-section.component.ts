@@ -20,6 +20,5 @@ export class ArtistDetailSectionComponent {
         this.artist = res
       })
     });
-    console.log(this.artist);
   }
 }

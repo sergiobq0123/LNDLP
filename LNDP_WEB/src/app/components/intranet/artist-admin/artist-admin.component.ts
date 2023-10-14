@@ -47,6 +47,7 @@ export class ArtistAdminComponent {
   @ViewChild(GenericTableComponent) table: GenericTableComponent;
   @ViewChild('crewTemplate') crewTemplate: TemplateRef<any>;
   @ViewChild('socialNetworkTemplate') socialNetworkTemplate: TemplateRef<any>;
+  @ViewChild('imageTemplate') imageTemplate: TemplateRef<any>;
 
   constructor(
     public _artistService: ArtistService,
@@ -65,7 +66,7 @@ export class ArtistAdminComponent {
 
   getArtist() {
     this.spinner = true;
-    this._artistService.get().subscribe({
+    this._artistService.getIntranet().subscribe({
       next: res => {
         let artists = new Array();
         res.forEach((val) => {
@@ -139,7 +140,7 @@ export class ArtistAdminComponent {
       },
       {
         name: 'Equipo',
-        dataKey: 'crew',
+        dataKey: 'crewIntranetDto',
         position: 'left',
         isSortable: false,
         type: ContentType.specialContent,
@@ -147,11 +148,19 @@ export class ArtistAdminComponent {
       },
       {
         name: 'Redes',
-        dataKey: 'socialNetwork',
+        dataKey: 'socialNetworkIntranetDto',
         position: 'left',
         isSortable: false,
         type: ContentType.specialContent,
         template: this.socialNetworkTemplate,
+      },
+      {
+        name: 'Imagen',
+        dataKey: 'photoUrl',
+        position: 'left',
+        isSortable: false,
+        type: ContentType.specialContent,
+        template: this.imageTemplate,
       },
     ];
   }
@@ -166,6 +175,13 @@ export class ArtistAdminComponent {
       {
         name: 'Nombre',
         dataKey: 'name',
+        position: { row: 0, col: 0, rowSpan: 1, colSpan: 1 },
+        type: ContentType.editableTextFields,
+        validators: [Validators.required],
+      },
+      {
+        name: 'Descripcion',
+        dataKey: 'description',
         position: { row: 0, col: 0, rowSpan: 1, colSpan: 1 },
         type: ContentType.editableTextFields,
         validators: [Validators.required],
@@ -285,6 +301,13 @@ export class ArtistAdminComponent {
         type: ContentType.editableTextFields,
         validators: [Validators.required],
       },
+      {
+        name: 'Imagen',
+        dataKey: 'photoUrl',
+        position: { row: 6, col: 1, rowSpan: 1, colSpan: 1 },
+        type: ContentType.imageFile,
+        validators: [Validators.required],
+      },
     ];
   }
 
@@ -379,6 +402,47 @@ export class ArtistAdminComponent {
     ];
   }
 
+  setImageForm(): any[] {
+    return [
+      {
+        name: 'Id',
+        dataKey: 'id',
+        hidden : true
+      },
+      {
+        name: 'Nombre',
+        dataKey: 'name',
+        hidden : true
+      },
+      {
+        name: 'City',
+        dataKey: 'city',
+        hidden : true
+      },
+      {
+        name: 'RecruitmentEmail',
+        dataKey: 'recruitmentEmail',
+        hidden : true
+      },
+      {
+        name: 'CommunicationEmail',
+        dataKey: 'communicationEmail',
+        hidden : true
+      },
+      {
+        name: 'Phone',
+        dataKey: 'phone',
+        hidden : true
+      },
+      {
+        name: 'Imagen',
+        dataKey: 'photoUrl',
+        position: { row: 1, col: 1, rowSpan: 1, colSpan: 2 },
+        type: ContentType.imageFile,
+      },
+    ];
+  }
+
   showFormDialog() {
     let dialogData = {
       formData: this.artistData,
@@ -392,7 +456,6 @@ export class ArtistAdminComponent {
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result !== undefined && result !== null && result !== '') {
-        console.log(result);
         this.createElement(result);
       }
     });
@@ -411,14 +474,12 @@ export class ArtistAdminComponent {
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result !== undefined && result !== null && result !== '') {
-        console.log(result);
         this.updateElement(this._socialNetworkService, result);
       }
     });
   }
 
   showFormDialogCrew(dataShow: any) {
-    console.log(dataShow);
     let dialogData = {
       formData: dataShow,
       formFields: this.crewForm,
@@ -431,18 +492,17 @@ export class ArtistAdminComponent {
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result !== undefined && result !== null && result !== '') {
-        console.log(result);
         this.updateElement(this._crewService,result);
       }
     });
   }
+
   showFormDialogImage(dataShow: any) {
-    console.log(dataShow);
     let dialogData = {
-      formData: dataShow,
-      formFields: this.crewForm,
+      formData: dataShow ,
+      formFields: this.setImageForm(),
       formCols: 2,
-      dialogTitle: 'Equipo',
+      dialogTitle: 'Imagen',
     };
     const dialogRef = this._dialog.open(GenericFormDialogComponent, {
       data: dialogData,
@@ -450,13 +510,12 @@ export class ArtistAdminComponent {
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result !== undefined && result !== null && result !== '') {
-        console.log(result);
-        this.updateElement(this._crewService,result);
+        this.updateElement(this._artistService, result)
       }
     });
   }
+
   showFormDialogUser(dataShow: any) {
-    console.log(dataShow);
     let dialogData = {
       formData: dataShow,
       formFields: this.crewForm,
@@ -469,7 +528,6 @@ export class ArtistAdminComponent {
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result !== undefined && result !== null && result !== '') {
-        console.log(result);
         this.updateElement(this._crewService,result);
       }
     });

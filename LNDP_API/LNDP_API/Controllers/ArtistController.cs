@@ -19,12 +19,14 @@ namespace LNDP_API.Controllers
         private readonly APIContext _context;
         private readonly IMapper _mapper;
         private readonly IArtistService _artistService;
+        private readonly IImageService _imageService;
 
-        public ArtistController(APIContext context, IMapper mapper, IArtistService artistService)
+        public ArtistController(APIContext context, IMapper mapper, IArtistService artistService, IImageService imageService)
         {
             _context = context;
             _mapper = mapper;
             _artistService = artistService;
+            _imageService = imageService;
         }
 
  
@@ -37,16 +39,25 @@ namespace LNDP_API.Controllers
             .ToListAsync();
         }
 
-        [HttpPost("filter")]
-        public async Task<ActionResult<IEnumerable<Artist>>> GetFilteredArtist([FromBody] List<Filter> filters)
+        [HttpGet("intranet")]
+        public async Task<ActionResult<IEnumerable<ArtistGetDto>>> GetArtistIntranet()
         {
-            if (_context.Artist == null)
-            {
-                return NotFound();
-            }
+            var artists = await _context.Artist
+            .Include(a => a.SocialNetwork)
+            .Include(a => a.Crew)
+            .AsNoTracking()
+            .ToListAsync();
 
-            Expression<Func<Artist, bool>> predicate = FilterUtils.GetPredicate<Artist>(filters);
-            return await _context.Artist.Where(predicate).ToListAsync();
+            return Ok(_mapper.Map<ICollection<ArtistGetDto>>(artists));
+        }
+        [HttpGet("keys")]
+        public async Task<ActionResult<IEnumerable<ArtistIntranetNameDto>>> GetArtistKeys()
+        {
+            var artists = await _context.Artist
+            .AsNoTracking()
+            .ToListAsync();
+
+            return Ok(_mapper.Map<ICollection<ArtistIntranetNameDto>>(artists));
         }
 
         [HttpGet("{id}")]
@@ -61,6 +72,19 @@ namespace LNDP_API.Controllers
 
             return _mapper.Map<ArtistWebDetailDto>(artist);
         }
+        
+        [HttpPost("filter")]
+        public async Task<ActionResult<IEnumerable<Artist>>> GetFilteredArtist([FromBody] List<Filter> filters)
+        {
+            if (_context.Artist == null)
+            {
+                return NotFound();
+            }
+
+            Expression<Func<Artist, bool>> predicate = FilterUtils.GetPredicate<Artist>(filters);
+            return await _context.Artist.Where(predicate).ToListAsync();
+        }
+
 
         [HttpPost]
         public async Task<ActionResult<Artist>> PostArtist([FromBody] ArtistCreateDto artistCreateDto)
@@ -74,52 +98,27 @@ namespace LNDP_API.Controllers
             }
             catch (Exception e)
             {
-                return StatusCode(500, new { Message = e.Message });
+                return StatusCode(500, new { e.Message });
             }
         }
-
-        [HttpPost("postImage/{id}")]
-        public async Task<ActionResult> PostArtistImage(int id, [FromForm] IFormFile? image)
-        {
-            var artist = await _context.Artist.FindAsync(id);
-            if (artist == null)
-            {
-                return BadRequest(new { Message = "No se encuentra el artista" });
-            }
-            if (image != null && image.Length > 0)
-            {
-                var assetsFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/assets");
-                if (!Directory.Exists(assetsFolderPath))
-                {
-                    Directory.CreateDirectory(assetsFolderPath);
-                }
-                var fileName = Path.GetFileName(image.FileName);
-                var filePath = Path.Combine(assetsFolderPath, fileName);
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    await image.CopyToAsync(fileStream);
-                }
-                artist.Photo = "https://localhost:7032/assets/" + image.FileName;  
-            }
-            else
-            {
-                artist.Photo = null;
-            }
-            await _context.SaveChangesAsync();
-            return Ok(new { Message = "Imagen eliminada para " + artist.Name });
-        }
-
-        
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> PutArtist(int id, Artist Artist)
+        public async Task<ActionResult> PutArtist(int id, ArtistCreateDto artistCreateDto)
         {
-            if(id != Artist.Id){
-                return BadRequest(new { Message = "El artista no se ha encontrado" });
+            try
+            {
+                Artist artist = await _context.Artist.Where(c => c.Id == id).FirstOrDefaultAsync();
+                if(artist.PhotoUrl != artistCreateDto.PhotoUrl){
+                    artistCreateDto.PhotoUrl = await _imageService.ConvertBase64ToUrl(artistCreateDto.PhotoUrl, artistCreateDto.Name);
+                }
+                _context.Entry(artist).CurrentValues.SetValues(artistCreateDto);
+                await _context.SaveChangesAsync();
+                return Ok(new { Message = "Artista actualizado con éxito" });
             }
-            _context.Entry(Artist).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-            return Ok(new { Message = "Artista actualizado con exito"});
+            catch (Exception ex)
+            {
+                return BadRequest(new { Message = "Error al actualizar el artista: " + ex.Message });
+            }
         }
 
         [HttpDelete("{id}")]
@@ -138,5 +137,5 @@ namespace LNDP_API.Controllers
         private bool ArtistExists(int id){
             return (_context.Artist?.Any(u => u.Id == id)).GetValueOrDefault();
         }
-    }
+        }
 }

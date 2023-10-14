@@ -6,7 +6,6 @@ import { FestivalAdminComponent } from './festival-admin/festival-admin.componen
 import { UserAdminComponent } from './user-admin/user-admin.component';
 import { HomeAdminComponent } from './home-admin/home-admin.component';
 import { EventAdminComponent } from './event-admin/event-admin.component';
-import { ArtistImageComponent } from './artist-image/artist-image.component';
 import { ArtistSongComponent } from './artist-song/artist-song.component';
 import { ArtistAlbumComponent } from './artist-album/artist-album.component';
 import { IntranetComponent } from './intranet.component';
@@ -40,10 +39,6 @@ const routes: Routes = [
       {
         path : 'Eventos',
         component : EventAdminComponent,
-      },
-      {
-        path : 'ImagenesArtistas',
-        component : ArtistImageComponent,
       },
       {
         path : 'Song',

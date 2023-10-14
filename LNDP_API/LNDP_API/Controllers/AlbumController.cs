@@ -9,6 +9,7 @@ using LNDP_API.Dtos;
 using AutoMapper;
 using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using Newtonsoft.Json;
+using LNDP_API.Services;
 
 namespace LNDP_API.Controllers
 {   
@@ -18,11 +19,13 @@ namespace LNDP_API.Controllers
     {
         private readonly APIContext _context;
         private readonly IMapper _mapper;
+        private readonly IImageService _imageService;
 
-        public AlbumController(APIContext context, IMapper mapper)
+        public AlbumController(APIContext context, IMapper mapper, IImageService imageService)
         {
             _context = context;
             _mapper = mapper;
+            _imageService = imageService;
         }
 
         [HttpGet]
@@ -38,6 +41,16 @@ namespace LNDP_API.Controllers
             .ToListAsync();
         }
 
+        [HttpGet("intranet")]
+        public async Task<ActionResult<IEnumerable<AlbumIntranetDto>>> GetAlbumIntranet()
+        {
+            return await _context.Album
+            .Include( a => a.Artist)
+            .AsNoTracking()
+            .Select(a => _mapper.Map<AlbumIntranetDto>(a))
+            .ToListAsync();
+        }
+
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Album>> GetAlbum(int id)
@@ -49,50 +62,42 @@ namespace LNDP_API.Controllers
             return Album;
         }
 
-        [HttpPost]
-        public async Task<ActionResult<Album>> PostAlbum([FromForm] IFormFile? image, [FromForm] string album)
+        [HttpPost] 
+        public async Task<ActionResult<Company>> PostCompany(AlbumIntranetDto albumIntranetDto)
         {
-            Album albumData = JsonConvert.DeserializeObject<Album>(album);
-            if (image != null && image.Length > 0)
+            try
             {
-                var assetsFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/assets/albumes");
-                if (!Directory.Exists(assetsFolderPath))
-                {
-                    Directory.CreateDirectory(assetsFolderPath);
-                }
-                var fileName = Path.GetFileName(image.FileName);
-                var filePath = Path.Combine(assetsFolderPath, fileName);
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    await image.CopyToAsync(fileStream);
-                }
-
-                var albumNew = new Album
-                {
-                    Name = albumData?.Name,
-                    PhotoUrl = "https://localhost:7032/assets/albumes/" + fileName,
-                    ArtistId = albumData?.ArtistId,
-                };
-                _context.Album.Add(albumNew);
+                albumIntranetDto.PhotoUrl = await _imageService.ConvertBase64ToUrl(albumIntranetDto.PhotoUrl, albumIntranetDto.Name);
+                Album album = _mapper.Map<Album>(albumIntranetDto);
+                album.Artist = _context.Artist.Find(albumIntranetDto.ArtistId);
+                _context.Album.Add(album);
                 await _context.SaveChangesAsync();
+                return Ok(new { Message = "Album creado" });
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest(new { Message = "La imagen no se ha podido cargar" });
+                return StatusCode(500, new { Message = "Error al crear la album", Error = ex.Message });
             }
-            await _context.SaveChangesAsync();
-             return Ok(new { Message = "Álbum añadido con éxito" });
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> PutAlbum(int id, Album Album)
+        public async Task<ActionResult> PutAlbum(int id, AlbumIntranetDto albumIntranetDto)
         {
-            if(id != Album.Id){
-                return BadRequest(new { Message = "El álbum no se ha encontrado"});
+            try
+            {
+                Album album = await _context.Album.Where(c => c.Id == id).FirstOrDefaultAsync();
+                if(album.PhotoUrl != albumIntranetDto.PhotoUrl){
+                    albumIntranetDto.PhotoUrl = await _imageService.ConvertBase64ToUrl(albumIntranetDto.PhotoUrl, albumIntranetDto.Name);
+                }
+                _context.Entry(album).CurrentValues.SetValues(albumIntranetDto);
+                
+                await _context.SaveChangesAsync();
+                return Ok(new { Message = "Album actualizado con éxito" });
             }
-            _context.Entry(Album).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-            return Ok(new { Message = "Álbum actualizado con exito"});
+            catch (Exception ex)
+            {
+                return BadRequest(new { Message = "Error al actualizar el álbum: " + ex.Message });
+            }
         }
 
         [HttpDelete("{id}")]

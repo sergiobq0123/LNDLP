@@ -10,7 +10,5 @@ export class GenericSectionComponent {
   @Input() contentTemplate : TemplateRef<any>
 
   ngOnInit(){
-    console.log(this.contentTemplate);
-
   }
 }

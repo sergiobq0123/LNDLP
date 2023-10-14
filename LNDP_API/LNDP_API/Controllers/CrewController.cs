@@ -48,13 +48,13 @@ namespace LNDP_API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Crew>> PostCrew(CrewDto crewDto)
+        public async Task<ActionResult<Crew>> PostCrew(CrewIntranetDto crewIntranetDto)
         {
-            var artist = await _context.Artist.FindAsync(crewDto.ArtistId);
+            var artist = await _context.Artist.FindAsync(crewIntranetDto.ArtistId);
             if(artist == null){
                 return BadRequest(new { Message = "Artista no encontrado" });
             }
-            var crew = _mapper.Map<Crew>(crewDto);
+            var crew = _mapper.Map<Crew>(crewIntranetDto);
             crew.Artist = artist;
             _context.Crew.Add(crew);
             await _context.SaveChangesAsync();

@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { notifications } from 'src/app/common/notifications';
 import { ArtistService } from 'src/app/services/intranet/artist.service';
@@ -14,6 +14,7 @@ import { GenericTableComponent } from '../general/generic-table/generic-table.co
 import { AlbumService } from 'src/app/services/intranet/album.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { PageEvent } from '@angular/material/paginator';
+import { Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-artist-album',
@@ -22,6 +23,7 @@ import { PageEvent } from '@angular/material/paginator';
 })
 export class ArtistAlbumComponent {
   albums: Array<any> = new Array<any>();
+  artists: Array<any> = new Array<any>();
   albumColumns: Column[];
   albumForm: GenericForm[];
   apiFailing: boolean = false;
@@ -35,6 +37,7 @@ export class ArtistAlbumComponent {
   totalAlbums = 50
 
   @ViewChild(GenericTableComponent) table: GenericTableComponent;
+  @ViewChild('imageTemplate') imageTemplate: TemplateRef<any>;
 
   constructor(
     public _albumService: AlbumService,
@@ -45,28 +48,20 @@ export class ArtistAlbumComponent {
 
   ngOnInit() {
     this.getAlbums();
-    this.setAlbumForm();
+    this.getArtist();
   }
 
-  getArtist(): any[] {
-    var artist: any[] = [];
-    this._artistService.get().subscribe((res) => {
-      res.forEach((val) => {
-        artist.push(val);
-      });
+  getArtist() {
+    this._artistService.getKeys().subscribe((res) => {
+       this.artists = res
     });
-    return artist;
   }
 
   getAlbums() {
     this.spinner = true;
-    this._albumService.get().subscribe({
+    this._albumService.getIntranet().subscribe({
       next : res => {
-        let songs = new Array();
-        res.forEach((val) => {
-          songs.push(val);
-        });
-        this.albums = [...songs];
+        this.albums = res;
         this.setColumns();
         this.loaded = true;
         this.spinner = false
@@ -93,7 +88,7 @@ export class ArtistAlbumComponent {
       },
       {
         name: 'Artista',
-        dataKey: 'artist.name',
+        dataKey: 'artistName',
         position: 'left',
         isSortable: true,
         hidden: false,
@@ -106,14 +101,16 @@ export class ArtistAlbumComponent {
         isSortable: true,
         hidden: false,
         type: ContentType.editableTextFields,
+        validators: [Validators.required]
       },
       {
         name: 'URL',
-        dataKey: 'url',
+        dataKey: 'webUrl',
         position: 'left',
         isSortable: true,
         hidden: false,
         type: ContentType.editableTextFields,
+        validators: [Validators.required]
       },
       {
         name: 'Fecha',
@@ -122,16 +119,20 @@ export class ArtistAlbumComponent {
         isSortable: true,
         hidden: false,
         type: ContentType.datePicker,
+        validators: [Validators.required]
       },
       {
         name: 'Photo',
-        dataKey: 'photo',
-        type: ContentType.imageFile
+        dataKey: 'photoUrl',
+        type: ContentType.specialContent,
+        template: this.imageTemplate,
+        validators: [Validators.required]
       },
     ];
   }
-  setAlbumForm() {
-    this.albumForm = [
+
+  setAlbumForm(): any[] {
+    return [
       {
         name: 'Id',
         dataKey: 'id',
@@ -142,6 +143,7 @@ export class ArtistAlbumComponent {
         dataKey: 'name',
         position: { row: 0, col: 0, rowSpan: 1, colSpan: 1 },
         type: ContentType.editableTextFields,
+        validators: [Validators.required]
       },
       {
         name: 'Artista',
@@ -149,27 +151,68 @@ export class ArtistAlbumComponent {
         position: { row: 0, col: 0, rowSpan: 1, colSpan: 1 },
         hidden: false,
         type: ContentType.dropdownFields,
-        dropdown: this.getArtist(),
+        dropdown: this.artists,
         dropdownKeyToShow: 'name',
         dropdownKeyValue: 'id',
+        validators: [Validators.required]
       },
       {
         name: 'Date',
         dataKey: 'date',
         position: { row: 1, col: 1, rowSpan: 1, colSpan: 1 },
         type: ContentType.datePicker,
+        validators: [Validators.required]
       },
       {
         name: 'URL',
-        dataKey: 'url',
+        dataKey: 'webUrl',
         position: { row: 1, col: 1, rowSpan: 1, colSpan: 1 },
         type: ContentType.editableTextFields,
+        validators: [Validators.required]
       },
       {
         name: 'Imagen',
-        dataKey: 'photo',
+        dataKey: 'photoUrl',
         position: { row: 1, col: 1, rowSpan: 1, colSpan: 2 },
         type: ContentType.imageFile,
+        validators: [Validators.required]
+      },
+    ];
+  }
+
+  setImageForm(): any[] {
+    return [
+      {
+        name: 'Id',
+        dataKey: 'id',
+        hidden : true
+      },
+      {
+        name: 'Nombre',
+        dataKey: 'name',
+        hidden : true
+      },
+      {
+        name: 'Artista',
+        dataKey: 'artistId',
+        hidden : true
+      },
+      {
+        name: 'Date',
+        dataKey: 'date',
+        hidden : true
+      },
+      {
+        name: 'URL',
+        dataKey: 'webUrl',
+        hidden : true,
+      },
+      {
+        name: 'Imagen',
+        dataKey: 'photoUrl',
+        position: { row: 1, col: 1, rowSpan: 1, colSpan: 2 },
+        type: ContentType.imageFile,
+        validators: [Validators.required]
       },
     ];
   }
@@ -177,9 +220,9 @@ export class ArtistAlbumComponent {
   showFormDialog() {
     let dialogData = {
       formData: undefined,
-      formFields: this.albumForm,
+      formFields: this.setAlbumForm(),
       formCols: 2,
-      dialogTitle: 'Añade un nuevo artista',
+      dialogTitle: 'Añade un nuevo álbum',
     };
     const dialogRef = this._dialog.open(GenericFormDialogComponent, {
       data: dialogData,
@@ -187,8 +230,25 @@ export class ArtistAlbumComponent {
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result !== undefined && result !== null && result !== '') {
-        this.convertImage(result.photo);
-        this.createElement(this.photo,result);
+        this.createElement(result);
+      }
+    });
+  }
+
+  showFormDialogImage(dataShow: any) {
+    let dialogData = {
+      formData: dataShow ,
+      formFields: this.setImageForm(),
+      formCols: 2,
+      dialogTitle: 'Imagen',
+    };
+    const dialogRef = this._dialog.open(GenericFormDialogComponent, {
+      data: dialogData,
+      minWidth: 600,
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result !== undefined && result !== null && result !== '') {
+        this.updateElement(result)
       }
     });
   }
@@ -244,18 +304,11 @@ export class ArtistAlbumComponent {
     );
   }
 
-  filterData(filters: Filter[]) {
-    this._albumService.getFiltered(filters).subscribe((res) => {
-      this.albums = res;
-    });
-  }
 
-  createElement(photo: any, event: any) {
+  createElement(event: any) {
     event.id = 0;
-    this._albumService.postImage(event, photo).subscribe(
+    this._albumService.create(event).subscribe(
       (res) => {
-        console.log(res);
-
         this.getAlbums();
         this._notificationService.showMessageOnSnackbar(
           res.message,
@@ -279,33 +332,6 @@ export class ArtistAlbumComponent {
 
   updatePageNumber(pageNum: number) {
     this.pageNumber = pageNum;
-  }
-
-  convertImage(urlImage) {
-    const matches = urlImage.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
-    if (!matches || matches.length !== 3) {
-      throw new Error('La representación en base64 es incorrecta.');
-    }
-    const mimeType = matches[1];
-    const base64Data = matches[2];
-    const byteCharacters = atob(base64Data);
-    const byteNumbers = new Array(byteCharacters.length);
-    for (let i = 0; i < byteCharacters.length; i++) {
-      byteNumbers[i] = byteCharacters.charCodeAt(i);
-    }
-    const byteArray = new Uint8Array(byteNumbers);
-    const blob = new Blob([byteArray], { type: mimeType });
-    const originalFileName = this.generarNombreUnico('image');
-    this.photo = new File([blob], originalFileName, { type: mimeType });
-  }
-
-  generarNombreUnico(nombreOriginal: string): string {
-    const fechaActual = new Date();
-    const timestamp = fechaActual.getTime();
-    const nombreSinExtension = nombreOriginal.replace(/\.[^/.]+$/, '');
-    const extension = nombreOriginal.split('.').pop();
-    const nombreUnico = `${nombreSinExtension}_${timestamp}.jpg`;
-    return nombreUnico;
   }
 
   onPaginationChange(PageEvent: PageEvent){
