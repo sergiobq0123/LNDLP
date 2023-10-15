@@ -27,14 +27,7 @@ export class AuthService extends ServiceBaseService {
   }
 
   registrer(event: any) {
-    const data = {
-      email: event.email,
-      password: event.password,
-      username: event.username,
-      userRoleId: event.userRoleId,
-      artistId: event.artistId,
-    };
-    return this.post(this.getUrl + Urls.REGISTER, data);
+    return this.post(this.getUrl + Urls.REGISTER , event);
   }
 
   logout() {

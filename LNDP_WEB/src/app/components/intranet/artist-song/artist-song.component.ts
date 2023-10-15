@@ -50,31 +50,24 @@ export class ArtistSongComponent {
     this.getArtist();
   }
 
-  getArtist() {
-    this._artistService.getKeys().subscribe((res) => {
-       this.artists = res
-    });
-  }
-
   getSongs() {
     this.spinner = true;
-    this._songService.getIntranet().subscribe({
-      next : res => {
-        let songs = new Array();
-        res.forEach((val) => {
-          songs.push(val);
-        });
-        this.songs = [...songs];
-        this.setColumns();
-        this.loaded = true;
-        this.spinner = false;
+    this._songService.getIntranet().subscribe(
+      (res) => {
+        this.handleGetResponse(res);
       },
-      error : err => {
-        this._notificationService.showMessageOnSnackbar(notifications.LOADING_DATA_FAIL, 'X', 3500, 'err-button');
-        this.apiFailing = false;
-        this.spinner = false;
+      (error) => {
+        this.handleGetErrorResponse();
       }
-    });
+    );
+  }
+
+  getArtist() {
+    this._artistService.getKeys().subscribe(
+      (res) => {
+       this.artists = res
+      }
+    );
   }
 
   setColumns(): void {
@@ -170,86 +163,59 @@ export class ArtistSongComponent {
     });
   }
 
+  createElement(event: any) {
+    event.id = 0;
+    this._songService.create(event).subscribe(
+      (res) => {this.handleResponse(res.message)},
+      (err) => {this.handleErrorResponse(err.error.message)}
+    );
+  }
+
   updateElement(event: any) {
     this._songService.update(event.id, event).subscribe(
-      (res) => {
-        this.getSongs();
-        this._notificationService.showMessageOnSnackbar(
-          res.message,
-          'OK!',
-          3500,
-          'success-button'
-        );
-        this.apiFailing = false;
-      },
-      (err) => {
-        this._notificationService.showMessageOnSnackbar(
-          err.error.message,
-          'KO!',
-          3500,
-          'err-button'
-        );
-        this.apiFailing = true;
-      }
+      (res) => {this.handleResponse(res.message)},
+      (err) => {this.handleErrorResponse(err.error.message)}
     );
   }
 
   deleteElement(event: any) {
     this._songService.delete(event.id).subscribe(
-      (res) => {
-        this.getSongs();
-        this._notificationService.showMessageOnSnackbar(
-          res.message,
-          'OK!',
-          350000,
-          'success-button'
-        );
-        this.apiFailing = false;
-        if (this.table.tableDataSource.data.length === 1) {
-          this.table.setTableDataSource();
-        }
-      },
-      (err) => {
-        this._notificationService.showMessageOnSnackbar(
-          err.error.message,
-          'KO!',
-          3500,
-          'err-button'
-        );
-        this.apiFailing = true;
-      }
+      (res) => {this.handleResponse(res.message)},
+      (err) => {this.handleErrorResponse(err.error.message)}
     );
+  }
+
+  private handleGetResponse(res: any) {
+    this.songs = res;
+    this.setColumns();
+    this.loaded = true;
+    this.spinner = false;
+  }
+
+  private handleGetErrorResponse() {
+    this._notificationService.showOkMessage(notifications.LOADING_DATA_FAIL);
+    this.apiFailing = false;
+    this.spinner = false;
+  }
+
+  private handleResponse(message: string) {
+    this.getSongs();
+    this._notificationService.showOkMessage(message);
+    this.apiFailing = false;
+    if (this.table.tableDataSource.data.length === 1) {
+      this.table.setTableDataSource();
+    }
+  }
+
+  private handleErrorResponse(message: string) {
+    this._notificationService.showErrorMessage(message);
+    this.apiFailing = true;
   }
 
   filterData(filters: Filter[]) {
     this._songService.getFiltered(filters).subscribe((res) => {
       this.songs = res;
     });
-  }
-
-  createElement(event: any) {
-    event.id = 0;
-    this._songService.create(event).subscribe(
-      (res) => {
-        this.getSongs();
-        this._notificationService.showMessageOnSnackbar(
-          res.message,
-          'OK!',
-          3500,
-          'success-button'
-        );
-        this.apiFailing = false;
-      },
-      (err) => {
-        this._notificationService.showMessageOnSnackbar(
-          err.error.message,
-          'ERROr!',
-          3500,
-          'err-button'
-        );
-        this.apiFailing = true;
-      }
-    );
   }
 
   onPaginationChange(PageEvent: PageEvent){

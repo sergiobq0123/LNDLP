@@ -34,7 +34,21 @@ namespace LNDP_API.Controllers{
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new { ex.Message});
+            }
+        }
+
+        [HttpPost("Register")]
+        public async Task<ActionResult<string>> Register(UserRegistrerDto userRegistrerDto)
+        {
+            try
+            {
+                await _authService.Register(userRegistrerDto);
+                return Ok(new { Message = "Usuario registrado con éxito" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { ex.Message });
             }
         }
     }

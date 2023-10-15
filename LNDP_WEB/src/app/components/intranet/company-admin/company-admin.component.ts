@@ -21,7 +21,7 @@ import { Validators } from '@angular/forms';
 })
 export class CompanyAdminComponent {
   companies: Array<any> = new Array<any>();
-  companiesType: Array<any> = new Array<any>();
+  companiesKeys: Array<any> = new Array<any>();
   companiesColumns: Column[];
   companyForm: GenericForm[];
   imageForm: GenericForm[];
@@ -52,35 +52,22 @@ export class CompanyAdminComponent {
 
   getCompanies() {
     this.spinner = true;
-    this._companyService.get().subscribe({
-      next : res => {
-        this.companies = res;
-        this.loaded = true;
-        this.spinner = false
+    this._companyService.get().subscribe(
+      (res) => {
+        this.handleGetResponse(res);
       },
-      error : err => {
-        this._notificationService.showMessageOnSnackbar(notifications.LOADING_DATA_FAIL, 'X', 3500, 'err-button');
-        this.apiFailing = false;
-        this.spinner = false;
+      (error) => {
+        this.handleGetErrorResponse();
       }
-    });
+    );
   }
 
   getCompaniesType() {
-    this.spinner = true;
-    this._companyTypeService.get().subscribe({
-      next : res => {
-        this.companiesType = res;
-        this.loaded = true;
-        this.spinner = false
-        this.setColumns();
+    this._companyTypeService.get().subscribe(
+      (res) => {
+        this.companiesKeys = res;
       },
-      error : err => {
-        this._notificationService.showMessageOnSnackbar(notifications.LOADING_DATA_FAIL, 'X', 3500, 'err-button');
-        this.apiFailing = false;
-        this.spinner = false;
-      }
-    });
+    );
   }
 
   setColumns(): void {
@@ -105,7 +92,7 @@ export class CompanyAdminComponent {
         position: 'left',
         hidden: false,
         type: ContentType.dropdownFields,
-        dropdown: this.companiesType,
+        dropdown: this.companiesKeys,
         dropdownKeyToShow: 'companyTypeName',
         dropdownKeyValue: 'id',
         validators: [Validators.required]
@@ -154,7 +141,7 @@ export class CompanyAdminComponent {
         dataKey: 'companyTypeId',
         position: { row: 0, col: 0, rowSpan: 1, colSpan: 1 },
         type: ContentType.dropdownFields,
-        dropdown: this.companiesType,
+        dropdown: this.companiesKeys,
         dropdownKeyToShow: 'companyTypeName',
         dropdownKeyValue: 'id',
         validators: [Validators.required]
@@ -235,92 +222,6 @@ export class CompanyAdminComponent {
     });
   }
 
-  updateElement(event: any) {
-      this._companyService.update(event.id, event).subscribe(
-      (res) => {
-        this.getCompanies();
-        this._notificationService.showMessageOnSnackbar(
-          res.message,
-          'OK!',
-          3500,
-          'success-button'
-        );
-        this.apiFailing = false;
-      },
-      (err) => {
-        this._notificationService.showMessageOnSnackbar(
-          err.error.message,
-          'KO!',
-          3500,
-          'err-button'
-        );
-        this.apiFailing = true;
-      }
-    );
-  }
-
-  deleteElement(event: any) {
-    this._companyService.delete(event.id).subscribe(
-      (res) => {
-        this.getCompanies();
-        this._notificationService.showMessageOnSnackbar(
-          res.message,
-          'OK!',
-          3500,
-          'success-button'
-        );
-        this.apiFailing = false;
-        if (this.table.tableDataSource.data.length === 1) {
-          this.table.setTableDataSource();
-        }
-      },
-      (err) => {
-        this._notificationService.showMessageOnSnackbar(
-          err.message,
-          'KO!',
-          3500,
-          'err-button'
-        );
-        this.apiFailing = true;
-      }
-    );
-  }
-
-  filterData(filters: Filter[]) {
-    this._companyService.getFiltered(filters).subscribe((res) => {
-      this.companies = res;
-    });
-  }
-
-  createElement(event: any) {
-    event.id = 0
-    this._companyService.create(event).subscribe(
-      (res) => {
-        this.getCompanies();
-        this._notificationService.showMessageOnSnackbar(
-          res.message,
-          'OK!',
-          3500,
-          'success-button'
-        );
-        this.apiFailing = false;
-      },
-      (err) => {
-        this._notificationService.showMessageOnSnackbar(
-          err.error.message,
-          'ERROr!',
-          3500,
-          'err-button'
-        );
-        this.apiFailing = true;
-      }
-    );
-  }
-
-  updatePageNumber(pageNum: number) {
-    this.pageNumber = pageNum;
-  }
-
   showFormDialogImage(dataShow: any) {
     let dialogData = {
       formData: dataShow ,
@@ -339,9 +240,80 @@ export class CompanyAdminComponent {
     });
   }
 
+  createElement(event: any) {
+    event.id = 0;
+    this._companyService.create(event).subscribe(
+      (res) => {
+        this.handleResponse(res.message);
+      },
+      (err) => {
+        this.handleErrorResponse(err.error.message);
+      }
+    );
+  }
+
+  updateElement(event: any) {
+    this._companyService.update(event.id, event).subscribe(
+      (res) => {
+        this.handleResponse(res.message);
+      },
+      (err) => {
+        this.handleErrorResponse(err.error.message);
+      }
+    );
+  }
+
+  deleteElement(event: any) {
+    this._companyService.delete(event.id).subscribe(
+      (res) => {
+        this.handleResponse(res.message);
+      },
+      (err) => {
+        this.handleErrorResponse(err.error.message);
+      }
+    );
+  }
+
+  private handleGetResponse(res: any) {
+    this.companies = res;
+    this.setColumns();
+    this.loaded = true;
+    this.spinner = false;
+  }
+
+  private handleGetErrorResponse() {
+    this._notificationService.showOkMessage(notifications.LOADING_DATA_FAIL);
+    this.apiFailing = false;
+    this.spinner = false;
+  }
+
+  private handleResponse(message: string) {
+    this.getCompanies();
+    this._notificationService.showOkMessage(message);
+    this.apiFailing = false;
+    if (this.table.tableDataSource.data.length === 1) {
+      this.table.setTableDataSource();
+    }
+  }
+
+  private handleErrorResponse(message: string) {
+    this._notificationService.showErrorMessage(message);
+    this.apiFailing = true;
+  }
+
   onPaginationChange(PageEvent: PageEvent){
     this.pageNumber = PageEvent.pageIndex + 1;
     this.pageSize = PageEvent.pageSize;
     this.getCompanies();
+  }
+
+  filterData(filters: Filter[]) {
+    this._companyService.getFiltered(filters).subscribe((res) => {
+      this.companies = res;
+    });
+  }
+
+  updatePageNumber(pageNum: number) {
+    this.pageNumber = pageNum;
   }
 }

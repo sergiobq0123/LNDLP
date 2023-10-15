@@ -17,4 +17,12 @@ export class NotificationService {
   showMessageOnSnackbar(message: string, actionText : string, duration: number, panelClass?: string){
     this._snackBar.open(message , actionText, {duration : duration, panelClass : panelClass})
   }
+
+  showOkMessage(message: string){
+    this.showMessageOnSnackbar(message, 'OK' , 3500 , 'succes-button');
+  }
+
+  showErrorMessage(message: string){
+    this.showMessageOnSnackbar(message, 'ERROR' , 3500 , 'error-button');
+  }
 }

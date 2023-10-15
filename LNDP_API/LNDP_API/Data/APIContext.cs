@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using LNDP_API.Models;
+using LNDP_API.Utils.PasswordHasher;
 
 
 namespace LNDP_API.Data
@@ -10,7 +11,6 @@ namespace LNDP_API.Data
 
         public DbSet<LNDP_API.Models.User> User {get ; set ; }
         public DbSet<LNDP_API.Models.Artist> Artist {get ; set ; }
-        public DbSet<LNDP_API.Models.Crew> Crew {get ; set ; }
         public DbSet<LNDP_API.Models.SocialNetwork> SocialNetwork {get ; set ; }
         public DbSet<LNDP_API.Models.Event> Event {get ; set ; }
         public DbSet<LNDP_API.Models.EventType> EventType {get ; set ; }
@@ -46,10 +46,55 @@ namespace LNDP_API.Data
                 new LNDP_API.Models.UserRole
                 {
                     Id = 2,
+                    Role = "Visual"
+                },
+                new LNDP_API.Models.UserRole
+                {
+                    Id = 3,
                     Role = "Crew"
                 }
-                
             );
+            var passwordSalt = PasswordHasher.GenerateSalt();
+            modelBuilder.Entity<LNDP_API.Models.User>()
+            .HasData(
+                new LNDP_API.Models.User
+                {
+                    Id = 1,
+                    Username = "Sanchez",
+                    Email = "Sanchez",
+                    UserRoleId = 1,
+                    PasswordSalt = passwordSalt,
+                    PasswordHash = PasswordHasher.ComputeHash("sanchez", passwordSalt, "pepper", 3)
+                },
+                new LNDP_API.Models.User
+                {
+                    Id = 2,
+                    Username = "Torres",
+                    Email = "Torres",
+                    UserRoleId = 1,
+                    PasswordSalt = passwordSalt,
+                    PasswordHash = PasswordHasher.ComputeHash("torres", passwordSalt, "pepper", 3)
+                },
+                new LNDP_API.Models.User
+                {
+                    Id = 3,
+                    Username = "Tomas",
+                    Email = "Tomas",
+                    UserRoleId = 1,
+                    PasswordSalt = passwordSalt,
+                    PasswordHash = PasswordHasher.ComputeHash("tomas", passwordSalt, "pepper", 3)
+                },
+                new LNDP_API.Models.User
+                {
+                    Id = 4,
+                    Username = "Iglesias",
+                    Email = "Iglesias",
+                    UserRoleId = 2,
+                    PasswordSalt = passwordSalt,
+                    PasswordHash = PasswordHasher.ComputeHash("iglesias", passwordSalt, "pepper", 3)
+                }
+            );
+            
             modelBuilder.Entity<LNDP_API.Models.CompanyType>().HasData
             (
                 new LNDP_API.Models.CompanyType
@@ -91,12 +136,7 @@ namespace LNDP_API.Data
                 .WithOne(sm => sm.Artist)
                 .HasForeignKey<SocialNetwork>(sm => sm.ArtistId)
                 .OnDelete(DeleteBehavior.Cascade); 
-            modelBuilder.Entity<Artist>()
-                .HasOne(a => a.Crew)
-                .WithOne(sm => sm.Artist)
-                .HasForeignKey<Crew>(sm => sm.ArtistId)
-                .OnDelete(DeleteBehavior.Cascade);
-   
+
         }
     }
 }

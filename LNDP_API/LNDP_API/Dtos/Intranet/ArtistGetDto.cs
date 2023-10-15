@@ -8,7 +8,7 @@ namespace LNDP_API.Dtos {
         public string? RecruitmentEmail {get ; set ; }
         public string? CommunicationEmail {get ; set ; }
         public  string? Phone {get ; set ; }
+        public  string? Description {get ; set ; }
         public SocialNetworkIntranetDto socialNetworkIntranetDto {get; set;}
-        public CrewIntranetDto crewIntranetDto {get; set;}
     }
 }

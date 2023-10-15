@@ -51,26 +51,21 @@ export class ArtistAlbumComponent {
     this.getArtist();
   }
 
+  getAlbums() {
+    this.spinner = true;
+    this._albumService.getIntranet().subscribe(
+      (res) => {
+        this.handleGetResponse(res);
+      },
+      (error) => {
+        this.handleGetErrorResponse();
+      }
+    );
+  }
+
   getArtist() {
     this._artistService.getKeys().subscribe((res) => {
        this.artists = res
-    });
-  }
-
-  getAlbums() {
-    this.spinner = true;
-    this._albumService.getIntranet().subscribe({
-      next : res => {
-        this.albums = res;
-        this.setColumns();
-        this.loaded = true;
-        this.spinner = false
-      },
-      error : err => {
-        this._notificationService.showMessageOnSnackbar(notifications.LOADING_DATA_FAIL, 'X', 3500, 'err-button');
-        this.apiFailing = false;
-        this.spinner = false;
-      }
     });
   }
 
@@ -253,26 +248,25 @@ export class ArtistAlbumComponent {
     });
   }
 
+  createElement(event: any) {
+    event.id = 0;
+    this._albumService.create(event).subscribe(
+      (res) => {
+        this.handleResponse(res.message);
+      },
+      (err) => {
+        this.handleErrorResponse(err.error.message);
+      }
+    );
+  }
+
   updateElement(event: any) {
     this._albumService.update(event.id, event).subscribe(
       (res) => {
-        this.getAlbums();
-        this._notificationService.showMessageOnSnackbar(
-          res.message,
-          'OK!',
-          3500,
-          'success-button'
-        );
-        this.apiFailing = false;
+        this.handleResponse(res.message);
       },
       (err) => {
-        this._notificationService.showMessageOnSnackbar(
-          err.error.message,
-          'KO!',
-          3500,
-          'err-button'
-        );
-        this.apiFailing = true;
+        this.handleErrorResponse(err.error.message);
       }
     );
   }
@@ -280,54 +274,39 @@ export class ArtistAlbumComponent {
   deleteElement(event: any) {
     this._albumService.delete(event.id).subscribe(
       (res) => {
-        this.getAlbums();
-        this._notificationService.showMessageOnSnackbar(
-          res.message,
-          'OK!',
-          3500,
-          'success-button'
-        );
-        this.apiFailing = false;
-        if (this.table.tableDataSource.data.length === 1) {
-          this.table.setTableDataSource();
-        }
+        this.handleResponse(res.message);
       },
       (err) => {
-        this._notificationService.showMessageOnSnackbar(
-          err.message,
-          'KO!',
-          3500,
-          'err-button'
-        );
-        this.apiFailing = true;
+        this.handleErrorResponse(err.error.message);
       }
     );
   }
 
+  private handleGetResponse(res: any) {
+    this.albums = res;
+    this.setColumns();
+    this.loaded = true;
+    this.spinner = false;
+  }
 
-  createElement(event: any) {
-    event.id = 0;
-    this._albumService.create(event).subscribe(
-      (res) => {
-        this.getAlbums();
-        this._notificationService.showMessageOnSnackbar(
-          res.message,
-          'OK!',
-          3500,
-          'success-button'
-        );
-        this.apiFailing = false;
-      },
-      (err) => {
-        this._notificationService.showMessageOnSnackbar(
-          err.error.message,
-          'ERROr!',
-          3500,
-          'err-button'
-        );
-        this.apiFailing = true;
-      }
-    );
+  private handleGetErrorResponse() {
+    this._notificationService.showOkMessage(notifications.LOADING_DATA_FAIL);
+    this.apiFailing = false;
+    this.spinner = false;
+  }
+
+  private handleResponse(message: string) {
+    this.getAlbums();
+    this._notificationService.showOkMessage(message);
+    this.apiFailing = false;
+    if (this.table.tableDataSource.data.length === 1) {
+      this.table.setTableDataSource();
+    }
+  }
+
+  private handleErrorResponse(message: string) {
+    this._notificationService.showErrorMessage(message);
+    this.apiFailing = true;
   }
 
   updatePageNumber(pageNum: number) {

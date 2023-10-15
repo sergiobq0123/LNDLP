@@ -5,24 +5,40 @@
       "PackagePath": "staticwebassets\\assets\\a.jpg"
     },
     {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\aa.jpg",
+      "PackagePath": "staticwebassets\\assets\\aa.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\asa.jpg",
+      "PackagePath": "staticwebassets\\assets\\asa.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\asdas.jpg",
+      "PackagePath": "staticwebassets\\assets\\asdas.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\dasdasd.jpg",
+      "PackagePath": "staticwebassets\\assets\\dasdasd.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\dfsdf.jpg",
+      "PackagePath": "staticwebassets\\assets\\dfsdf.jpg"
+    },
+    {
       "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\dudi.jpg",
       "PackagePath": "staticwebassets\\assets\\dudi.jpg"
     },
     {
-      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\empresa1.jpg",
-      "PackagePath": "staticwebassets\\assets\\empresa1.jpg"
-    },
-    {
-      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\j.jpg",
-      "PackagePath": "staticwebassets\\assets\\j.jpg"
-    },
-    {
-      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\jj.jpg",
-      "PackagePath": "staticwebassets\\assets\\jj.jpg"
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\g.jpg",
+      "PackagePath": "staticwebassets\\assets\\g.jpg"
     },
     {
       "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\s.jpg",
       "PackagePath": "staticwebassets\\assets\\s.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\ss.jpg",
+      "PackagePath": "staticwebassets\\assets\\ss.jpg"
     },
     {
       "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.LNDP_API.Microsoft.AspNetCore.StaticWebAssets.props",

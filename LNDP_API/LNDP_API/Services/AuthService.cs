@@ -6,6 +6,7 @@ using LNDP_API.Models;
 using TTTAPI.JWT.Models;
 using System.Security.Claims;
 using TTTAPI.JWT.Managers;
+using LNDP_API.Utils.PasswordHasher;
 
 namespace LNDP_API.Services{
 
@@ -13,6 +14,8 @@ namespace LNDP_API.Services{
         private readonly APIContext _context;
         private readonly IMapper _mapper; 
         private readonly IJwtService _jwtService; 
+        private readonly string _pepper = "pepper";
+        private readonly int _iteration = 3;
         public AuthService(APIContext context, IMapper mapper, IJwtService jwtService)
         {
             _context = context;
@@ -20,25 +23,23 @@ namespace LNDP_API.Services{
             _jwtService = jwtService;
         }
 
-        public async Task<User> Register(UserRegistrerDto userDto) 
+        public async Task<User> Register(UserRegistrerDto userDto)
         {
-        
             if (await ExistUserEmail(userDto.Email))
             {
                 throw new Exception("El usuario con este correo ya existe");
             }
-            if(await ExistUserUsername(userDto.Username)){
+            if (await ExistUserUsername(userDto.Username))
+            {
                 throw new Exception("El usuario con este nombre ya existe");
             }
             var userNew = _mapper.Map<User>(userDto);
-            var user = await RegisterPassword(userNew, userDto.Password);
-            return user;
-        }
-        public async Task<User> Update(UserRegistrerDto userDto) 
-        {
-            var userNew = _mapper.Map<User>(userDto);
-            var user = await RegisterPassword(userNew, userDto.Password);
-            return user;
+            userNew.UserRole = _context.UserRole.Find(userDto.UserRoleId);
+            userNew.PasswordSalt = PasswordHasher.GenerateSalt();
+            userNew.PasswordHash = PasswordHasher.ComputeHash(userDto.Password, userNew.PasswordSalt, _pepper, _iteration);
+            await _context.User.AddAsync(userNew);
+            await _context.SaveChangesAsync();
+            return userNew;
         }
 
         public async Task<string> Login(string email, string password)
@@ -46,14 +47,14 @@ namespace LNDP_API.Services{
             var user = await _context.User
                 .Include(user => user.UserRole)
                 .FirstOrDefaultAsync(x => x.Email == email);
-            if (user == null)
-            {
-                throw new Exception("User not found");
+            if(user == null){
+                throw new Exception("Usuario no registrado");
             }
-            if (!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
-            {
-                throw new Exception("Password is incorrect");
+            var passwordHash = PasswordHasher.ComputeHash(password, user.PasswordSalt, _pepper, _iteration);
+            if(user.PasswordHash != passwordHash){
+                throw new Exception("La contraseña es incorrecta");
             }
+
             IJwtContainer model = new JwtContainer()
             {
                 Claims = new Claim[]
@@ -66,14 +67,35 @@ namespace LNDP_API.Services{
             return token;
         }
 
-        private async Task<User> RegisterPassword(User user, string password)
+        public async Task<User> UpdateUser(UserRegistrerDto userRegistrerDto)
         {
-            byte[] passwordHash;
-            byte[] passwordSalt;
-            CreatePasswordHash(password, out passwordHash, out passwordSalt);
-            user.PasswordHash = passwordHash;
-            user.PasswordSalt = passwordSalt;
-            return user;
+            User newUser = _mapper.Map<User>(userRegistrerDto);
+            if (userRegistrerDto.Password == null){
+                User user = await _context.User.AsNoTracking().FirstAsync(u => u.Id == userRegistrerDto.Id);
+                newUser.PasswordHash = user.PasswordHash;
+                newUser.PasswordSalt = user.PasswordSalt;
+            }else{
+                newUser.PasswordSalt = PasswordHasher.GenerateSalt();
+                newUser.PasswordHash = PasswordHasher.ComputeHash(userRegistrerDto.Password, newUser.PasswordSalt, _pepper, _iteration);
+            }
+            return newUser;
+        }
+        
+        public async Task DeleteUser(int userId)
+        {
+            var user = await _context.User.FindAsync(userId);
+            if (user == null)
+            {
+                throw new Exception("Usuario no encontrado");
+            }
+            var artist = await _context.Artist
+                .Include(a => a.User) 
+                .FirstOrDefaultAsync(a => a.User.Id == user.Id);
+            if (artist != null){
+                _context.Artist.Remove(artist);
+            }
+            _context.User.Remove(user);
+            await _context.SaveChangesAsync();
         }
 
         private async Task<bool> ExistUserEmail(string email)
@@ -85,18 +107,5 @@ namespace LNDP_API.Services{
             return await _context.User.AnyAsync( x=> x.Username == username);
         }
         
-        private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt){
-            using(var hmac = new System.Security.Cryptography.HMACSHA512()){
-                passwordSalt = hmac.Key;
-                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-            }
-        }
-
-        private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt){
-            using (var hmac = new System.Security.Cryptography.HMACSHA512(passwordSalt)){
-                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-                return computedHash.SequenceEqual(passwordHash);
-            }
-        }
     }
 }

@@ -130,26 +130,6 @@ namespace LNDP_API.Controllers
                 .ToListAsync();
         }
 
-        // private async Task<ActionResult<IEnumerable<Event>>> GetEventsForCrew(string tipo, string token)
-        // {
-        //     var userId = _tokenService.ObtenerIdArtistaDesdeToken(token);
-        //     var artist = await _context.Artist.FirstOrDefaultAsync(a => a.User.Id == userId);
-        //     if (artist != null)
-        //     {
-        //         return await _context.Event
-        //             .Where(e => e.EventType.EventName == tipo)
-        //             .Where(e => e.ArtistId == artist.Id)
-        //             .ToListAsync();
-        //     }
-        //     else
-        //     {
-        //         return await _context.Event
-        //             .Where(e => e.EventType.EventName == tipo)
-        //             .Where(e => e.ArtistId == artist.Id)
-        //             .ToListAsync();
-        //     }
-        // }
-
         private async Task<ActionResult<IEnumerable<Event>>> GetEventsForDefaultUser(string tipo)
         {
             return await _context.Event

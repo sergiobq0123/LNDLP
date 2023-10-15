@@ -15,10 +15,10 @@ import { HomeAdminComponent } from './home-admin/home-admin.component';
 import { EventAdminComponent } from './event-admin/event-admin.component';
 import { ArtistSongComponent } from './artist-song/artist-song.component';
 import { ArtistAlbumComponent } from './artist-album/artist-album.component';
-import { SpinnerComponent } from './spinner/spinner.component';
 import { GenericFilterComponent } from './general/generic-filter/generic-filter.component';
 import { IntranetComponent } from './intranet.component';
 import { CompanyAdminComponent } from './company-admin/company-admin.component';
+import { SpinnerComponent } from './general/spinner/spinner.component';
 
 
 
