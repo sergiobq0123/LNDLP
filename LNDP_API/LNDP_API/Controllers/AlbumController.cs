@@ -72,7 +72,7 @@ namespace LNDP_API.Controllers
                 album.Artist = _context.Artist.Find(albumIntranetDto.ArtistId);
                 _context.Album.Add(album);
                 await _context.SaveChangesAsync();
-                return Ok(new { Message = "Album creado" });
+                return Ok(new { Message = "Album creado con éxito"});
             }
             catch (Exception ex)
             {
@@ -90,7 +90,6 @@ namespace LNDP_API.Controllers
                     albumIntranetDto.PhotoUrl = await _imageService.ConvertBase64ToUrl(albumIntranetDto.PhotoUrl, albumIntranetDto.Name);
                 }
                 _context.Entry(album).CurrentValues.SetValues(albumIntranetDto);
-                
                 await _context.SaveChangesAsync();
                 return Ok(new { Message = "Album actualizado con éxito" });
             }

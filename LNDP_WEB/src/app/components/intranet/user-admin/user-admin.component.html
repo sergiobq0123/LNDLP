@@ -2,7 +2,7 @@
   [contentTemplate]="contentTemplate"
   [windowTitle]="'Usuarios'"
 ></app-generic-window>
-
+<app-spinner *ngIf="this.spinner"></app-spinner>
 <ng-template #contentTemplate>
   <button
     [disabled]="newRowAdded || entryBeingEdited"
@@ -23,8 +23,10 @@
     [isSortable]="true"
     (filtered)="filterData($event)"
     (sort)="sortData($event)"
-    [hasActions]="false"
+    [hasActions]="true"
     (create)="createElement($event)"
+    (delete)="deleteElement($event)"
+    (modified)="updateElement($event)"
     [paginationSizes]="[5, 10, 20]"
     [pageSize]="pageSize"
     [pageNumber]="pageNumber"
@@ -35,4 +37,11 @@
     *ngIf="loaded"
   >
   </app-generic-table>
+</ng-template>
+
+<ng-template #passwordTemplate let-rowData="rowData">
+  <button mat-icon-button malToolTipe="Ver la contraseña" matTooltipShowDelay="1000" aria-label="Ver la contraseña"
+    (click)="showFormDialogPassword(rowData)">
+    <mat-icon>visibility</mat-icon>
+  </button>
 </ng-template>

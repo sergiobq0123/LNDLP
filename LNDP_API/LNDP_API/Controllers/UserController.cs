@@ -6,6 +6,8 @@ using System.Linq.Expressions;
 using TTTAPI.Utils;
 using LNDP_API.Dtos;
 using LNDP_API.Services;
+using AutoMapper;
+using LNDP_API.Utils.PasswordHasher;
 
 namespace LNDP_API.Controllers
 {
@@ -15,22 +17,24 @@ namespace LNDP_API.Controllers
     {
         private readonly APIContext _context;
         private readonly IAuthService _authService;
+        private readonly IMapper _mapper;
 
-        public UserController(APIContext context, IAuthService authService)
+        public UserController(APIContext context, IAuthService authService, IMapper mapper)
         {
             _context = context;
             _authService = authService;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<UserRegistrerDto>>> GetUsers()
         {
             if(_context.User == null){
                 return NotFound();
             }
             return await _context.User
             .Include(u => u.UserRole)
-            .Where(u => u.UserRoleId == 1)
+            .Select( u => _mapper.Map<UserRegistrerDto>(u))
             .ToListAsync();
 
         }
@@ -47,6 +51,7 @@ namespace LNDP_API.Controllers
 
             return user;
         }
+        
         [HttpPost("filter")]
         public async Task<ActionResult<IEnumerable<User>>> GetFilteredUser([FromBody] List<Filter> filters)
         {
@@ -72,28 +77,35 @@ namespace LNDP_API.Controllers
             }
             catch (Exception e)
             {
-                return StatusCode(500, new { Message = e.Message });
+                return BadRequest(new { e.Message });
             }
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult> PutUser(int id, UserRegistrerDto userRegistrerDto)
+        {
+            try{
+                User user = await _authService.UpdateUser(userRegistrerDto);
+                _context.Entry(user).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+                return Ok(new { Message = "Usuario actializado con éxito"});
+            }
+            catch(Exception ex){
+                return BadRequest(new {ex.Message});
+            }
+            
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteUsers(int id)
+        public async Task<ActionResult> DeleteUser(int id)
         {
-            if(_context.User == null){
-                return NotFound();
+            try{
+                await _authService.DeleteUser(id);
+                return Ok(new { Message = "Usuario borrado con éxito" });
             }
-            var User = await _context.User.FindAsync(id);
-            if (User == null){
-                return NotFound();
+            catch(Exception ex){
+                return BadRequest(new {ex.Message});
             }
-            _context.User.Remove(User);
-            await _context.SaveChangesAsync();
-
-            return Ok();
-        }
-
-        private bool UserExists(int id){
-            return (_context.User?.Any(u => u.Id == id)).GetValueOrDefault();
         }
     }
 }

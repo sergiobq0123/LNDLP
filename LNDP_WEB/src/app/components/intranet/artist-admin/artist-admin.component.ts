@@ -14,7 +14,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { GenericTableComponent } from '../general/generic-table/generic-table.component';
 import { Filter } from '../general/generic-table/Filter';
 import { SocialNetworkService } from 'src/app/services/intranet/social-network.service';
-import { CrewService } from 'src/app/services/intranet/crew.service';
 import { notifications } from 'src/app/common/notifications';
 import { PageEvent } from '@angular/material/paginator';
 
@@ -30,7 +29,6 @@ export class ArtistAdminComponent {
   artistForm: GenericForm[];
   artistData: GenericForm[];
   socialNetworkForm: GenericForm[];
-  crewForm: GenericForm[];
   pageNumber: number = 1;
   loaded: boolean = false;
   newRowAdded: boolean = false;
@@ -45,7 +43,6 @@ export class ArtistAdminComponent {
   totalArtist = 50
 
   @ViewChild(GenericTableComponent) table: GenericTableComponent;
-  @ViewChild('crewTemplate') crewTemplate: TemplateRef<any>;
   @ViewChild('socialNetworkTemplate') socialNetworkTemplate: TemplateRef<any>;
   @ViewChild('imageTemplate') imageTemplate: TemplateRef<any>;
 
@@ -53,36 +50,23 @@ export class ArtistAdminComponent {
     public _artistService: ArtistService,
     public _dialog: MatDialog,
     private _notificationService: NotificationService,
-    private _socialNetworkService : SocialNetworkService,
-    private _crewService : CrewService,
+    private _socialNetworkService : SocialNetworkService
   ) {}
 
   ngOnInit() {
     this.getArtist();
-    this.setArtistForm();
-    this.setSocialNetworkForm();
-    this.setCrewForm();
   }
 
   getArtist() {
     this.spinner = true;
-    this._artistService.getIntranet().subscribe({
-      next: res => {
-        let artists = new Array();
-        res.forEach((val) => {
-          artists.push(val);
-        });
-        this.artists = [...artists];
-        this.setColumns();
-        this.spinner = false
-        this.loaded = true;
+    this._artistService.getIntranet().subscribe(
+      (res) => {
+        this.handleGetResponse(res);
       },
-      error : err => {
-        this._notificationService.showMessageOnSnackbar(notifications.LOADING_DATA_FAIL, 'X', 3500, 'err-button');
-        this.apiFailing = false;
-        this.spinner = false;
+      (error) => {
+        this.handleGetErrorResponse();
       }
-    });
+    );
   }
 
   setColumns(): void {
@@ -94,7 +78,7 @@ export class ArtistAdminComponent {
       },
       {
         name: '_photo',
-        dataKey: 'photo',
+        dataKey: 'photoUrl',
         hidden: true,
       },
       {
@@ -139,12 +123,11 @@ export class ArtistAdminComponent {
         type: ContentType.editableTextFields,
       },
       {
-        name: 'Equipo',
-        dataKey: 'crewIntranetDto',
+        name: 'Descripcion',
+        dataKey: 'description',
         position: 'left',
         isSortable: false,
-        type: ContentType.specialContent,
-        template: this.crewTemplate,
+        type: ContentType.editableTextFields
       },
       {
         name: 'Redes',
@@ -166,7 +149,7 @@ export class ArtistAdminComponent {
   }
 
   setArtistForm() {
-    this.artistForm = [
+    return [
       {
         name: 'Id',
         dataKey: 'id',
@@ -312,7 +295,7 @@ export class ArtistAdminComponent {
   }
 
   setSocialNetworkForm() {
-    this.socialNetworkForm = [
+    return [
       {
         name: 'Id',
         dataKey: 'id',
@@ -355,47 +338,6 @@ export class ArtistAdminComponent {
         name: 'Twitter',
         dataKey: 'twitter',
         position: { row: 3, col: 1, rowSpan: 1, colSpan: 1 },
-        type: ContentType.editableTextFields,
-        validators: [Validators.required],
-      },
-    ];
-  }
-
-  setCrewForm() {
-    this.crewForm =  [
-      {
-        name: 'Id',
-        dataKey: 'id',
-        hidden: true,
-      },
-      {
-        name: 'artistId',
-        dataKey: 'artistId',
-        hidden: true,
-      },
-      {
-        name: 'DJ',
-        dataKey: 'dj',
-        position: { row: 0, col: 0, rowSpan: 1, colSpan: 1 },
-        type: ContentType.editableTextFields,
-      },
-      {
-        name: 'Road Manager',
-        dataKey: 'roadManager',
-        position: { row: 1, col: 0, rowSpan: 1, colSpan: 1 },
-        type: ContentType.editableTextFields,
-      },
-      {
-        name: 'Tecnico de sonido',
-        dataKey: 'soundTechnician',
-        position: { row: 2, col: 0, rowSpan: 1, colSpan: 1 },
-        type: ContentType.editableTextFields,
-        validators: [Validators.required],
-      },
-      {
-        name: 'Tecnico de luces',
-        dataKey: 'lightingTechnician',
-        position: { row: 2, col: 2, rowSpan: 1, colSpan: 1 },
         type: ContentType.editableTextFields,
         validators: [Validators.required],
       },
@@ -445,8 +387,8 @@ export class ArtistAdminComponent {
 
   showFormDialog() {
     let dialogData = {
-      formData: this.artistData,
-      formFields: this.artistForm,
+      formData: undefined,
+      formFields: this.setArtistForm(),
       formCols: 3,
       dialogTitle: 'Añade un nuevo artista',
     };
@@ -464,7 +406,7 @@ export class ArtistAdminComponent {
   showFormDialogSocialNetwork(dataShow: any) {
     let dialogData = {
       formData: dataShow,
-      formFields: this.socialNetworkForm,
+      formFields: this.setSocialNetworkForm(),
       formCols: 2,
       dialogTitle: 'Red Social',
     };
@@ -475,24 +417,6 @@ export class ArtistAdminComponent {
     dialogRef.afterClosed().subscribe((result) => {
       if (result !== undefined && result !== null && result !== '') {
         this.updateElement(this._socialNetworkService, result);
-      }
-    });
-  }
-
-  showFormDialogCrew(dataShow: any) {
-    let dialogData = {
-      formData: dataShow,
-      formFields: this.crewForm,
-      formCols: 2,
-      dialogTitle: 'Equipo',
-    };
-    const dialogRef = this._dialog.open(GenericFormDialogComponent, {
-      data: dialogData,
-      minWidth: 600,
-    });
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result !== undefined && result !== null && result !== '') {
-        this.updateElement(this._crewService,result);
       }
     });
   }
@@ -515,22 +439,59 @@ export class ArtistAdminComponent {
     });
   }
 
-  showFormDialogUser(dataShow: any) {
-    let dialogData = {
-      formData: dataShow,
-      formFields: this.crewForm,
-      formCols: 2,
-      dialogTitle: 'Equipo',
-    };
-    const dialogRef = this._dialog.open(GenericFormDialogComponent, {
-      data: dialogData,
-      minWidth: 600,
-    });
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result !== undefined && result !== null && result !== '') {
-        this.updateElement(this._crewService,result);
-      }
-    });
+  createElement(event: any) {
+    event.id = 0;
+    this._artistService.create(event).subscribe(
+      (res) => {this.handleResponse(res.message)},
+      (err) => {this.handleErrorResponse(err.error.message)}
+    );
+  }
+
+  updateElement(service: any, event: any) {
+    service.update(event.id, event).subscribe(
+      (res) => {this.handleResponse(res.message)},
+      (err) => {this.handleErrorResponse(err.error.message)}
+    );
+  }
+
+  deleteElement(event: any) {
+    this._artistService.delete(event.id).subscribe(
+      (res) => {this.handleResponse(res.message)},
+      (err) => {this.handleErrorResponse(err.error.message)}
+    );
+  }
+
+  private handleGetResponse(res: any) {
+    this.artists = res;
+    this.setColumns();
+    this.loaded = true;
+    this.spinner = false;
+  }
+
+  private handleGetErrorResponse() {
+    this._notificationService.showOkMessage(notifications.LOADING_DATA_FAIL);
+    this.apiFailing = false;
+    this.spinner = false;
+  }
+
+  private handleResponse(message: string) {
+    this.getArtist();
+    this._notificationService.showOkMessage(message);
+    this.apiFailing = false;
+    if (this.table.tableDataSource.data.length === 1) {
+      this.table.setTableDataSource();
+    }
+  }
+
+  private handleErrorResponse(message: string) {
+    this._notificationService.showErrorMessage(message);
+    this.apiFailing = true;
+  }
+
+  onPaginationChange(PageEvent: PageEvent){
+    this.pageNumber = PageEvent.pageIndex + 1;
+    this.pageSize = PageEvent.pageSize;
+    this.getArtist();
   }
 
   sortData(sortParameters: Sort) {
@@ -552,91 +513,9 @@ export class ArtistAdminComponent {
     }
   }
 
-  updateElement(service : any ,event: any) {
-    service.update(event.id, event).subscribe(
-      (res) => {
-        this.getArtist();
-        this._notificationService.showMessageOnSnackbar(
-          res.message,
-          'OK!',
-          3500,
-          'success-button'
-        );
-        this.apiFailing = false;
-      },
-      (err) => {
-        this._notificationService.showMessageOnSnackbar(
-          err.error.message,
-          'KO!',
-          3500,
-          'err-button'
-        );
-        this.apiFailing = true;
-      }
-    );
-  }
-
-  deleteElement(event: any) {
-    this._artistService.delete(event.id).subscribe(
-      (res) => {
-        this.getArtist();
-        this._notificationService.showMessageOnSnackbar(
-          res.message,
-          'OK!',
-          350000,
-          'success-button'
-        );
-        this.apiFailing = false;
-        if (this.table.tableDataSource.data.length === 1) {
-          this.table.setTableDataSource();
-        }
-      },
-      (err) => {
-        this._notificationService.showMessageOnSnackbar(
-          err.error.message,
-          'KO!',
-          3500,
-          'err-button'
-        );
-        this.apiFailing = true;
-      }
-    );
-  }
-
   filterData(filters: Filter[]) {
     this._artistService.getFiltered(filters).subscribe((res) => {
       this.artists = res;
     });
-  }
-
-  createElement(event: any) {
-    event.id = 0;
-    this._artistService.create(event).subscribe(
-      (res) => {
-        this.getArtist();
-        this._notificationService.showMessageOnSnackbar(
-          res.message,
-          'OK!',
-          3500,
-          'success-button'
-        );
-        this.apiFailing = false;
-      },
-      (err) => {
-        this._notificationService.showMessageOnSnackbar(
-          err.error.message,
-          'ERROR!',
-          3500,
-          'err-button'
-        );
-        this.apiFailing = true;
-      }
-    );
-  }
-
-  onPaginationChange(PageEvent: PageEvent){
-    this.pageNumber = PageEvent.pageIndex + 1;
-    this.pageSize = PageEvent.pageSize;
-    this.getArtist();
   }
 }

@@ -43,22 +43,6 @@ namespace LNDP_API.Controllers
             return SocialNetwork;
         }
 
-
-        [HttpPost]
-        public async Task<ActionResult<SocialNetwork>> PostSocialNetwork(SocialNetworkIntranetDto socialNetworkIntranetDto)
-        {   
-            var artist = await _context.Artist.FindAsync(socialNetworkIntranetDto.ArtistId);
-            if(artist == null){
-                return BadRequest(new { Message = "Artista no encontrado" });
-            }
-            var socialNetwork = _mapper.Map<SocialNetwork>(socialNetworkIntranetDto);
-            socialNetwork.Artist = artist;
-            _context.SocialNetwork.Add(socialNetwork);
-            await _context.SaveChangesAsync();
-            return Ok(new { Message = "Redes sociales creadas para " + artist.Name });
-
-        }
-
         [HttpPut("{id}")]
         public async Task<ActionResult> PutSocialNetwork(int id, SocialNetwork SocialNetwork)
         {
@@ -67,32 +51,8 @@ namespace LNDP_API.Controllers
             }
             _context.Entry(SocialNetwork).State = EntityState.Modified;
             await _context.SaveChangesAsync();
-            return Ok( new { Message = "Red social actualiza con exito"});
+            return Ok( new { Message = "Red social actualizada con exito"});
         }
 
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteSocialNetwork(int id)
-        {
-            // var artist = _context.Artist.Include(a => a.SocialNetwork).FirstOrDefault(a => a.SocialNetworkId == id);
-            // var socialNetwork = artist?.SocialNetwork;
-            // if(artist == null || socialNetwork == null){
-            //     return BadRequest(new { Message = "Error al eliminar Red Social" });
-            // }
-            // artist.SocialNetworkId = null;
-            // _context.SocialNetwork.Remove(socialNetwork);
-            // await _context.SaveChangesAsync();
-            return Ok(new { Message = "Red Social eliminada para "  });
-        }
-
-        [HttpPost("filter")]
-        public async Task<ActionResult<IEnumerable<SocialNetwork>>> GetFilteredSN([FromBody] List<Filter> filters)
-        {
-            if (_context.SocialNetwork == null)
-            {
-                return NotFound();
-            }
-            Expression<Func<SocialNetwork, bool>> predicate = FilterUtils.GetPredicate<SocialNetwork>(filters);
-            return await _context.SocialNetwork.Where(predicate).ToListAsync();
-        }
     }
 }

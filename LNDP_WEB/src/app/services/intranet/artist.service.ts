@@ -11,7 +11,4 @@ export class ArtistService extends ServiceBaseService {
   constructor(http: HttpClient) {
     super(http, Urls.ARTIST);
    }
-    getArtistWithoutU(){
-    return this.getToSpecificURL(this.getUrl + "/withoutUser")
-   }
 }

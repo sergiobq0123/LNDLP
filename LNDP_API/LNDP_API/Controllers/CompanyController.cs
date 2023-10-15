@@ -69,7 +69,7 @@ namespace LNDP_API.Controllers
                 companyIntranetDto.PhotoUrl = await _imageService.ConvertBase64ToUrl(companyIntranetDto.PhotoUrl, companyIntranetDto.Name);
                 _context.Company.Add(_mapper.Map<Company>(companyIntranetDto));
                 await _context.SaveChangesAsync();
-                return Ok(new { Message = "Empresa creada" });
+                return Ok(new { Message = "Empresa creada con éxito" });
             }
             catch (Exception ex)
             {

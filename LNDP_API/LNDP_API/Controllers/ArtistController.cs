@@ -44,7 +44,6 @@ namespace LNDP_API.Controllers
         {
             var artists = await _context.Artist
             .Include(a => a.SocialNetwork)
-            .Include(a => a.Crew)
             .AsNoTracking()
             .ToListAsync();
 
@@ -103,15 +102,15 @@ namespace LNDP_API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> PutArtist(int id, ArtistCreateDto artistCreateDto)
+        public async Task<ActionResult> PutArtist(int id, ArtistGetDto artistGetDto)
         {
             try
             {
                 Artist artist = await _context.Artist.Where(c => c.Id == id).FirstOrDefaultAsync();
-                if(artist.PhotoUrl != artistCreateDto.PhotoUrl){
-                    artistCreateDto.PhotoUrl = await _imageService.ConvertBase64ToUrl(artistCreateDto.PhotoUrl, artistCreateDto.Name);
+                if(artist.PhotoUrl != artistGetDto.PhotoUrl){
+                    artistGetDto.PhotoUrl = await _imageService.ConvertBase64ToUrl(artistGetDto.PhotoUrl, artistGetDto.Name);
                 }
-                _context.Entry(artist).CurrentValues.SetValues(artistCreateDto);
+                _context.Entry(artist).CurrentValues.SetValues(artistGetDto);
                 await _context.SaveChangesAsync();
                 return Ok(new { Message = "Artista actualizado con éxito" });
             }
