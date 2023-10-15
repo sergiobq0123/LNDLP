@@ -1,9 +1,11 @@
 <app-generic-section
-[contentTemplate]="contentTemplate"
-[sectionTitle]="'Albumes'"
+  [contentTemplate]="contentTemplate"
+  [sectionTitle]="'Albumes'"
 ></app-generic-section>
 
 <ng-template #contentTemplate>
-    <app-generic-card [buttonText]="'Escuchar'" [array]="this.albums"
-    ></app-generic-card>
+  <app-generic-card
+    [buttonText]="this.buttonText"
+    [array]="this.genericCard"
+  ></app-generic-card>
 </ng-template>

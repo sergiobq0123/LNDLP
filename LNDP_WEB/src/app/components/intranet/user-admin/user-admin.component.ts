@@ -275,7 +275,7 @@ export class UserAdminComponent {
   }
 
   private handleGetErrorResponse() {
-    this._notificationService.showOkMessage(notifications.LOADING_DATA_FAIL);
+    this._notificationService.showErrorMessage(notifications.LOADING_DATA_FAIL);
     this.apiFailing = false;
     this.spinner = false;
   }

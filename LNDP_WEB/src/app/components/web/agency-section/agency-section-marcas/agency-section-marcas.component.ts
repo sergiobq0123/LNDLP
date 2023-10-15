@@ -8,10 +8,13 @@ import { CompanyService } from 'src/app/services/intranet/company.service';
 })
 export class AgencySectionMarcasComponent {
   brands: Array<any> = new Array<any>();
+  genericCard: Array<any> = new Array<any>();
   buttonTitle : string = "Ver web"
+
   constructor(
     private _companyService : CompanyService,
   ){}
+
   ngOnInit(){
     this.getBrands()
   }
@@ -19,6 +22,16 @@ export class AgencySectionMarcasComponent {
   getBrands() {
     this._companyService.getBrands().subscribe((res) => {
       this.brands = res;
+      this.setGenericCard();
     });
+  }
+
+  setGenericCard(){
+    this.genericCard = this.brands.map(item => ({
+        imagen: item.photoUrl,
+        titulo : item.name,
+        descripcion : item.description,
+        url : item.webUrl
+    }));
   }
 }

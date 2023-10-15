@@ -26,7 +26,7 @@ namespace LNDP_API.Mapping{
             CreateMap<Artist, ArtistWebDetailDto>();
             CreateMap<Song, SongWebDto>();
             CreateMap<Event, EventWebDto>();
-            CreateMap<Album, GenericCardDto>();
+            CreateMap<Album, AlbumWebDto>();
 
             // Para el generic artist
             CreateMap<Artist, ArtistWebGenericDto>();
@@ -38,8 +38,8 @@ namespace LNDP_API.Mapping{
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
                 .ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.Date.ToString()))
                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.City + src.Location))
-                .ForMember(dest => dest.WebUrl, opt => opt.MapFrom(src => src.Tickets)); 
-
+                .ForMember(dest => dest.WebUrl, opt => opt.MapFrom(src => src.Tickets));
+                
             CreateMap<Company, CompanyIntranetDto>().ReverseMap();           
             CreateMap<CompanyType, CompanyTypeIntranetDto>().ReverseMap();
 
@@ -56,6 +56,10 @@ namespace LNDP_API.Mapping{
             .ReverseMap();
 
             CreateMap<Album, AlbumIntranetDto>()
+            .ForMember(dest => dest.ArtistName, opt => opt.MapFrom(src => src.Artist.Name))
+            .ReverseMap();
+
+            CreateMap<Concert, ConcertIntranetDto>()
             .ForMember(dest => dest.ArtistName, opt => opt.MapFrom(src => src.Artist.Name))
             .ReverseMap();
 

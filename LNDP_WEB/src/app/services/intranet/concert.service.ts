@@ -15,4 +15,8 @@ export class ConcertService extends ServiceBaseService {
   getOrder(){
     return this.getToSpecificURL(this.getUrl + '/Order')
   }
+
+  getProximosConciertos(){
+    return this.getToSpecificURL(this.getUrl + '/proximos-conciertos')
+  }
 }

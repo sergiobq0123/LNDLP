@@ -8,15 +8,25 @@ import { ConcertService } from 'src/app/services/intranet/concert.service';
 })
 export class TourManagerSectionConciertosComponent {
   concerts: Array<any> = new Array<any>();
-  buttonTitle= "Entradas"
+  genericCard: Array<any> = new Array<any>();
+  buttonTitle: string = "Entradas"
 
   constructor(
     private _concertService :  ConcertService,
   ){}
 
   ngOnInit(){
-    this._concertService.get().subscribe(res => {
+    this._concertService.getProximosConciertos().subscribe(res => {
       this.concerts = res;
+      this.setGenericCard()
     })
+  }
+  setGenericCard(){
+    this.genericCard = this.concerts.map(concert => ({
+        imagen: concert.photoUrl,
+        titulo : concert.name,
+        descripcion : `${concert.city}, ${concert.date}`,
+        url : concert.tickets
+    }));
   }
 }

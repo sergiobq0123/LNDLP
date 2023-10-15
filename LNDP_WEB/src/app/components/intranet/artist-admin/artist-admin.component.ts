@@ -259,35 +259,9 @@ export class ArtistAdminComponent {
         validators: [Validators.required],
       },
       {
-        name: 'DJ',
-        dataKey: 'dj',
-        position: { row: 5, col: 0, rowSpan: 1, colSpan: 1 },
-        type: ContentType.editableTextFields,
-      },
-      {
-        name: 'Road Manager',
-        dataKey: 'roadManager',
-        position: { row: 5, col: 1, rowSpan: 1, colSpan: 1 },
-        type: ContentType.editableTextFields,
-      },
-      {
-        name: 'Tecnico de sonido',
-        dataKey: 'soundTechnician',
-        position: { row: 5, col: 2, rowSpan: 1, colSpan: 1 },
-        type: ContentType.editableTextFields,
-        validators: [Validators.required],
-      },
-      {
-        name: 'Tecnico de luces',
-        dataKey: 'lightingTechnician',
-        position: { row: 5, col: 3, rowSpan: 1, colSpan: 1 },
-        type: ContentType.editableTextFields,
-        validators: [Validators.required],
-      },
-      {
         name: 'Imagen',
         dataKey: 'photoUrl',
-        position: { row: 6, col: 1, rowSpan: 1, colSpan: 1 },
+        position: { row: 6, col: 1, rowSpan: 1, colSpan: 2 },
         type: ContentType.imageFile,
         validators: [Validators.required],
       },
@@ -469,7 +443,7 @@ export class ArtistAdminComponent {
   }
 
   private handleGetErrorResponse() {
-    this._notificationService.showOkMessage(notifications.LOADING_DATA_FAIL);
+    this._notificationService.showErrorMessage(notifications.LOADING_DATA_FAIL);
     this.apiFailing = false;
     this.spinner = false;
   }

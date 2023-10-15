@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "m1eBi+IHRxo1OoWOMcQofIvUfZc4e1WKHkCvQGxIQ7c=",
+  "Hash": "5d8msNAGR0KLNUy4y4vww6/OU+q3mmN4BAVVoPMH6nk=",
   "Source": "LNDP_API",
   "BasePath": "_content/LNDP_API",
   "Mode": "Default",
@@ -153,6 +153,40 @@
       "OriginalItemSpec": "wwwroot\\assets\\g.jpg"
     },
     {
+      "Identity": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\marca1.jpg",
+      "SourceId": "LNDP_API",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\",
+      "BasePath": "_content/LNDP_API",
+      "RelativePath": "assets/marca1.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\assets\\marca1.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\pro1.jpg",
+      "SourceId": "LNDP_API",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\",
+      "BasePath": "_content/LNDP_API",
+      "RelativePath": "assets/pro1.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\assets\\pro1.jpg"
+    },
+    {
       "Identity": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\s.jpg",
       "SourceId": "LNDP_API",
       "SourceType": "Discovered",
@@ -168,6 +202,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\assets\\s.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\sello1.jpg",
+      "SourceId": "LNDP_API",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\",
+      "BasePath": "_content/LNDP_API",
+      "RelativePath": "assets/sello1.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\assets\\sello1.jpg"
     },
     {
       "Identity": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\ss.jpg",

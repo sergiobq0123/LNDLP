@@ -9,18 +9,32 @@ import { CompanyService } from 'src/app/services/intranet/company.service';
 export class AgencySectionProjectosComponent {
   projects: Array<any> = new Array<any>();
   buttonTitle : string = "Ver más"
+  genericCard: Array<any> = new Array<any>();
+
 
   constructor(
     private _companyService : CompanyService,
   ){}
-  ngOnInit(){
-    this.getPartner()
 
+  ngOnInit(){
+    this.getProjects()
   }
 
-  getPartner() {
+  getProjects() {
     this._companyService.getProjects().subscribe((res) => {
       this.projects = res;
+      this.setGenericCard();
+      console.log(res);
+
     });
+  }
+
+  setGenericCard(){
+    this.genericCard = this.projects.map(project => ({
+        imagen: project.photoUrl,
+        titulo : project.name,
+        descripcion : project.description,
+        url : project.webUrl
+    }));
   }
 }
