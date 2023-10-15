@@ -33,8 +33,20 @@
       "PackagePath": "staticwebassets\\assets\\g.jpg"
     },
     {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\marca1.jpg",
+      "PackagePath": "staticwebassets\\assets\\marca1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\pro1.jpg",
+      "PackagePath": "staticwebassets\\assets\\pro1.jpg"
+    },
+    {
       "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\s.jpg",
       "PackagePath": "staticwebassets\\assets\\s.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\sello1.jpg",
+      "PackagePath": "staticwebassets\\assets\\sello1.jpg"
     },
     {
       "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\ss.jpg",

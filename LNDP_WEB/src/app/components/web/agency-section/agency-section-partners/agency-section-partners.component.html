@@ -1,9 +1,12 @@
 <app-generic-section
-[contentTemplate]="contentTemplate"
-[sectionTitle]="'Partners'"
+  [contentTemplate]="contentTemplate"
+  [sectionTitle]="'Partners'"
 >
 </app-generic-section>
 
 <ng-template #contentTemplate>
-<app-generic-card [array]="this.collabs" [buttonText]="this.buttonTitle"></app-generic-card>
+  <app-generic-card
+    [array]="this.genericCard"
+    [buttonText]="this.buttonTitle"
+  ></app-generic-card>
 </ng-template>

@@ -7,4 +7,19 @@ import { Component, Input } from '@angular/core';
 })
 export class ArtistDetailAlbumsComponent {
   @Input() albums : Array<any>
+  genericCard: Array<any> = new Array<any>();
+  buttonText: string = "Escuchar"
+
+  ngOnInit(){
+    this.setGenericCard();
+  }
+
+  setGenericCard(){
+    this.genericCard = this.albums.map(concert => ({
+        imagen: concert.photoUrl,
+        titulo : concert.name,
+        descripcion : concert.date,
+        url : concert.webUrl
+    }));
+  }
 }

@@ -7,8 +7,9 @@ import { CompanyService } from 'src/app/services/intranet/company.service';
   styleUrls: ['./agency-section-partners.component.scss']
 })
 export class AgencySectionPartnersComponent {
-  collabs: Array<any> = new Array<any>();
+  partners: Array<any> = new Array<any>();
   buttonTitle : string = "Ver más"
+  genericCard: Array<any> = new Array<any>();
 
   constructor(
     private _companyService : CompanyService,
@@ -20,7 +21,17 @@ export class AgencySectionPartnersComponent {
 
   getPartner() {
     this._companyService.getPartner().subscribe((res) => {
-      this.collabs = res;
+      this.partners = res;
+      this.setGenericCard();
     });
+  }
+
+  setGenericCard(){
+    this.genericCard = this.partners.map(partner => ({
+        imagen: partner.photoUrl,
+        titulo : partner.name,
+        descripcion : partner.description,
+        url : partner.webUrl
+    }));
   }
 }

@@ -160,8 +160,6 @@ export class EventAdminComponent {
     ];
   }
 
-
-
   setEventsForm() : any[]{
     return [
       {

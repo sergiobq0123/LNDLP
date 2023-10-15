@@ -19,7 +19,7 @@ export class NotificationService {
   }
 
   showOkMessage(message: string){
-    this.showMessageOnSnackbar(message, 'OK' , 3500 , 'succes-button');
+    this.showMessageOnSnackbar(message, 'OK' , 3500 , 'success-button');
   }
 
   showErrorMessage(message: string){

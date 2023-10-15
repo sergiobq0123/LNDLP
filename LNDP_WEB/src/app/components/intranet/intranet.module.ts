@@ -19,15 +19,13 @@ import { GenericFilterComponent } from './general/generic-filter/generic-filter.
 import { IntranetComponent } from './intranet.component';
 import { CompanyAdminComponent } from './company-admin/company-admin.component';
 import { SpinnerComponent } from './general/spinner/spinner.component';
+import { GeneralModule } from './general/general.module';
 
 
 
 @NgModule({
   declarations: [
-    GenericWindowComponent,
     ArtistAdminComponent,
-    GenericTableComponent,
-    GenericFormDialogComponent,
     DeleteWindowComponent,
     FestivalAdminComponent,
     ConcertAdminComponent,
@@ -36,8 +34,6 @@ import { SpinnerComponent } from './general/spinner/spinner.component';
     EventAdminComponent,
     ArtistSongComponent,
     ArtistAlbumComponent,
-    SpinnerComponent,
-    GenericFilterComponent,
     IntranetComponent,
     CompanyAdminComponent
   ],
@@ -46,6 +42,7 @@ import { SpinnerComponent } from './general/spinner/spinner.component';
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
+    GeneralModule
   ]
 })
 export class IntranetModule { }

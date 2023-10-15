@@ -9,6 +9,7 @@ import { CompanyService } from 'src/app/services/intranet/company.service';
 export class MarketingSellosComponent {
   records: Array<any> = new Array<any>();
   buttonTitle : string = "Ver más"
+  genericCard: Array<any> = new Array<any>();
 
   constructor(
     private _companyService : CompanyService
@@ -20,6 +21,16 @@ export class MarketingSellosComponent {
   getRecords() {
     this._companyService.getRecords().subscribe((res) => {
       this.records = res;
+      this.setGenericCard();
     });
+  }
+
+  setGenericCard(){
+    this.genericCard = this.records.map(record => ({
+        imagen: record.photoUrl,
+        titulo : record.name,
+        descripcion : record.description,
+        url : record.webUrl
+    }));
   }
 }

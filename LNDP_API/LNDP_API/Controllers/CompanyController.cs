@@ -37,18 +37,26 @@ namespace LNDP_API.Controllers
             .Select(c => _mapper.Map<CompanyIntranetDto>(c))
             .ToListAsync();
         }
+
         [HttpGet("type/{type}")]
-        public async Task<ActionResult<IEnumerable<CompanyIntranetDto>>> GetCompany(string type)
+        public async Task<ActionResult<IEnumerable<Company>>> GetCompany(string type)
         {
             if(_context.Company == null){
                 return NotFound();
             }
-            return await _context.Company
+            var companies =  await _context.Company
             .Include(c => c.CompanyType)
             .AsNoTracking()
             .Where(c => c.CompanyType.CompanyTypeName == type)
-            .Select(c => _mapper.Map<CompanyIntranetDto>(c))
+            .Select(c => new {
+                c.PhotoUrl,
+                c.Name,
+                c.Description,
+                c.WebUrl
+            })
             .ToListAsync();
+
+            return Ok(companies);
         }
 
         [HttpGet("{id}")]

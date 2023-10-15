@@ -4,6 +4,14 @@
 ></app-generic-window>
 <app-spinner *ngIf="this.spinner"></app-spinner>
 <ng-template #contentTemplate>
+  <button
+    [disabled]="newRowAdded || entryBeingEdited"
+    id="add-button"
+    class="add-container"
+    (click)="showFormDialog()"
+  >
+    <mat-icon class="add-buton">add_box</mat-icon>
+  </button>
   <app-generic-table
     [tableData]="conciertos"
     [tableColumns]="conciertosColumns"
@@ -11,12 +19,16 @@
     [isSortable]="true"
     [apiFailing]="apiFailing"
     (filtered)="filterData($event)"
-    [hasActions]="false"
+    [hasActions]="true"
     [paginationSizes]="[5, 10, 20]"
     [pageSize]="pageSize"
     [pageNumber]="pageNumber"
-    [totalRecords]="totalConcerts"
+    [totalRecords]="totalConciertos"
     (paginationChange)="onPaginationChange($event)"
+    (modified)="updateElement($event)"
+    (rowAdded)="newRowAdded = $event"
+    (create)="createElement($event)"
+    (delete)="deleteElement($event)"
     [canManageColumns]="true"
     [hasFilter]="true"
     *ngIf="loaded"
