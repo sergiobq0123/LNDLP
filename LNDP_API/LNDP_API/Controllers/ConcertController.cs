@@ -5,6 +5,7 @@ using LNDP_API.Models;
 using LNDP_API.Dtos;
 using AutoMapper;
 using LNDP_API.Services;
+using TTTAPI.JWT.Managers;
 
 namespace LNDP_API.Controllers
 {   
@@ -14,11 +15,15 @@ namespace LNDP_API.Controllers
     {
         private readonly APIContext _context;
         private readonly IMapper _mapper;
+        private readonly IHttpContextAccessor _httpContext;
+        private readonly IJwtService _jwtService;
 
-        public ConcertController(APIContext context, IMapper mapper)
+        public ConcertController(APIContext context, IMapper mapper, IHttpContextAccessor httpContext, IJwtService jwtService)
         {
             _context = context;
             _mapper = mapper;
+            _httpContext = httpContext;
+            _jwtService = jwtService;
         }
  
         [HttpGet]
@@ -58,6 +63,30 @@ namespace LNDP_API.Controllers
                     c.Artist.PhotoUrl
                 })
                 .ToListAsync();
+            return Ok(conciertosProximos);
+        }
+
+        [HttpGet("artist-id")]
+        public async Task<ActionResult<IEnumerable<Concert>>> GetConcertArtistId(int userId)
+        {
+            Artist artist = await _context.Artist.FirstOrDefaultAsync(a => a.User.Id == userId);
+
+            DateTime fechaActualUtc = DateTime.UtcNow.Date;
+            var conciertosProximos = await _context.Concert
+                .Include(c => c.Artist)
+                .AsNoTracking()
+                .Where(c => c.Artist.Id == artist.Id && c.Date >= fechaActualUtc)
+                .OrderBy(c => c.Date)
+                .Select(c => new
+                {
+                    c.Name,
+                    c.City,
+                    c.Location,
+                    c.UrlLocation,
+                    c.Date,
+                })
+                .ToListAsync();
+
             return Ok(conciertosProximos);
         }
 

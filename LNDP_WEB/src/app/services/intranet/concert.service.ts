@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Urls } from '../../common/urls';
 import { ServiceBaseService } from '../service-base.service';
@@ -18,5 +18,10 @@ export class ConcertService extends ServiceBaseService {
 
   getProximosConciertos(){
     return this.getToSpecificURL(this.getUrl + '/proximos-conciertos')
+  }
+
+  getConcertForArtist(userId: number){
+    const params = new HttpParams().append('userId', userId)
+    return this.getWithParams(this.getUrl + '/artist-id', params)
   }
 }

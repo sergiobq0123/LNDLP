@@ -7,6 +7,7 @@ import { GenericWindowComponent } from './generic-window/generic-window.componen
 import { SpinnerComponent } from './spinner/spinner.component';
 import { MaterialModule } from 'src/app/material/material/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DeleteWindowComponent } from './delete-window/delete-window.component';
 
 
 
@@ -16,7 +17,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     GenericFormDialogComponent,
     GenericWindowComponent,
     GenericFilterComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    DeleteWindowComponent
   ],
   imports: [
     CommonModule,
@@ -30,7 +32,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     GenericWindowComponent,
     GenericFilterComponent,
     GenericTableComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    DeleteWindowComponent
   ]
 })
 export class GeneralModule { }

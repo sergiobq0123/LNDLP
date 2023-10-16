@@ -15,7 +15,7 @@ import { ValidatorService } from 'src/app/services/validator.service';
 import { Filter } from '../generic-filter/filter';
 import { ContentType } from '../generic-form-dialog/generic-content';
 import { Column } from './column';
-import { DeleteWindowComponent } from '../../delete-window/delete-window.component';
+import { DeleteWindowComponent } from '../delete-window/delete-window.component';
 
 @Component({
   selector: 'app-generic-table',

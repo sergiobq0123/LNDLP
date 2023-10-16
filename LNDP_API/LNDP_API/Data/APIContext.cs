@@ -20,6 +20,7 @@ namespace LNDP_API.Data
         public DbSet<LNDP_API.Models.Company> Company {get ; set ; }
         public DbSet<LNDP_API.Models.CompanyType> CompanyType {get ; set ; }
         public DbSet<LNDP_API.Models.Concert> Concert {get ; set ; }
+        public DbSet<LNDP_API.Models.YoutubeVideo> YoutubeVideo {get ; set ; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {   

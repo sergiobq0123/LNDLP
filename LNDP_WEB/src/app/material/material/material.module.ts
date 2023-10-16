@@ -48,7 +48,9 @@ import {MatCardModule} from '@angular/material/card';
     MatPaginatorModule,
     MatDialogModule,
     MatNativeDateModule,
-    MatCardModule
+    MatCardModule,
+
+
   ]
 })
 export class MaterialModule { }

@@ -170,6 +170,40 @@
           >business</mat-icon
         >
       </mat-list-item>
+
+      <mat-list-item
+        [routerLink]="'YoutubeVideos'"
+        [routerLinkActiveOptions]="{ exact: true }"
+        routerLinkActive="highlighted"
+        matTooltip="Empresas"
+        matTooltipPosition="right"
+        matTooltipShowDelay="500"
+      >
+        <mat-icon
+          mat-list-icon
+          routerLinkActive="highlighted"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="menu-button"
+          >movie</mat-icon
+        >
+      </mat-list-item>
+
+      <mat-list-item
+        [routerLink]="'ConcertCrew'"
+        [routerLinkActiveOptions]="{ exact: true }"
+        routerLinkActive="highlighted"
+        matTooltip="Conciertos"
+        matTooltipPosition="right"
+        matTooltipShowDelay="500"
+      >
+        <mat-icon
+          mat-list-icon
+          routerLinkActive="highlighted"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="menu-button"
+          >music_note</mat-icon
+        >
+      </mat-list-item>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>

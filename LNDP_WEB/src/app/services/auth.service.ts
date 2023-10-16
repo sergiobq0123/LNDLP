@@ -55,4 +55,8 @@ export class AuthService extends ServiceBaseService {
   getLoginEvent() {
     return this.loginChangedEvent.asObservable();
   }
+
+  getUserId(): number {
+    return JSON.parse(atob(this.getToken().split('.')[1])).userId;
+  }
 }

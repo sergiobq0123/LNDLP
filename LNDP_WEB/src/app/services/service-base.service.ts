@@ -35,7 +35,7 @@ export class ServiceBaseService {
   }
 
   public getWithParams(url: string, params: HttpParams): Observable<any>{
-    return this.http.post(url, {params});
+    return this.http.get(url, {params});
   }
 
   public getCards():Observable<any>{

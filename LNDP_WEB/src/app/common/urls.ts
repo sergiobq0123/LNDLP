@@ -21,6 +21,7 @@ export class Urls {
   static BRAND = '/api/Brand'
   static COLLABORATION = '/api/Collaboration'
   static COMPANY = '/api/Company'
+  static YOUTUBEVIDEO = '/api/YoutubeVideo'
   static COMPANYTYPE = '/api/CompanyType'
   static IMAGE = '/postImage'
   static INTRANET = '/intranet'

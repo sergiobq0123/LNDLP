@@ -27,6 +27,7 @@ namespace LNDP_API.Mapping{
             CreateMap<Song, SongWebDto>();
             CreateMap<Event, EventWebDto>();
             CreateMap<Album, AlbumWebDto>();
+            CreateMap<Concert, ConcertWebDto>();
 
             // Para el generic artist
             CreateMap<Artist, ArtistWebGenericDto>();
