@@ -34,11 +34,28 @@ namespace LNDP_API.Controllers
         }
 
         [HttpGet("intranet")]
-        public async Task<ActionResult<IEnumerable<Festival>>> GetFestivalIntranet()
+        public async Task<ActionResult<IEnumerable<object>>> GetFestivalIntranet()
         {
-            return await _context.Festival
+            var festivals = await _context.Festival
+            .Include(f => f.ArtistFestivalAsoc) 
+                .ThenInclude(afa => afa.Artist) 
             .AsNoTracking()
             .ToListAsync();
+
+            var result = festivals.Select(festival => new
+            {
+                festival.Id,
+                festival.Name,
+                festival.Location,
+                festival.Date,
+                Artists = festival.ArtistFestivalAsoc.Select(afa => new
+                {
+                    afa.Artist.Id,
+                    afa.Artist.Name
+                })
+            });
+
+        return Ok(result);
         }
 
         [HttpGet("proximos-conciertos")]
@@ -59,17 +76,19 @@ namespace LNDP_API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> PostFestival(Festival Festival)
+        public async Task<ActionResult> PostFestival(Festival festival)
         {
-            return Ok(new { Message = "Concierto añadido con éxito" });
+            _context.Festival.Add(festival);
+            await _context.SaveChangesAsync();
+            return Ok(new { Message = "Festival añadido con éxito" });
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> PutFestival(int id, Festival Festival)
+        public async Task<ActionResult> PutFestival(int id, Festival festival)
         {
-            _context.Entry(_mapper.Map<Festival>(Festival)).State = EntityState.Modified;
+            _context.Entry(festival).State = EntityState.Modified;
             await _context.SaveChangesAsync();
-            return Ok(new { Message = "Concierto actualizado con éxito"});
+            return Ok(new { Message = "Festival actualizado con éxito"});
         }
 
         [HttpDelete("{id}")]

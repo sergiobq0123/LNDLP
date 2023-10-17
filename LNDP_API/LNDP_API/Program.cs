@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using LNDP_API.Mapping;
 using System.Text.Json.Serialization;
 using TTTAPI.JWT.Managers;
+using LNDP_API.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,6 +44,7 @@ builder.Services.AddScoped<IArtistService, ArtistService>();
 builder.Services.AddScoped<IUrlEmbedService, UrlEmbedService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IImageService, ImageService>();
+builder.Services.AddScoped<IFestivalArtistAsocService, FestivalArtistAsocService>();
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
 builder.Services.AddControllers().AddJsonOptions(x =>
                 x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);

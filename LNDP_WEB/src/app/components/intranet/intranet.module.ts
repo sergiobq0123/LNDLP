@@ -15,6 +15,7 @@ import { SongAdminComponent } from './song-admin/song-admin.component';
 import { YoutubeVideoVisualComponent } from './youtube-video-visual/youtube-video-visual.component';
 import { ConcertCrewComponent } from './concert-crew/concert-crew.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { FestivalArtistDialogComponent } from './Asoc/festival-artist-dialog/festival-artist-dialog.component';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     AlbumAdminComponent,
     SongAdminComponent,
     YoutubeVideoVisualComponent,
-    ConcertCrewComponent
+    ConcertCrewComponent,
+    FestivalArtistDialogComponent
   ],
   imports: [
     IntranetRoutingModule,

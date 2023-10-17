@@ -409,14 +409,7 @@ export class GenericTableComponent {
     this.sort.emit(sortParameters);
   }
 
-  copyText(data: any): any {
-    const elementTextArea = document.createElement('textarea');
-    elementTextArea.value = data;
-    document.body.appendChild(elementTextArea);
-    elementTextArea.select();
-    document.execCommand('copy');
-    document.body.removeChild(elementTextArea);
-  }
+
   divideButtons() {
     this.leftButtons = this.iconButtons.filter(b => b.isLeft);
     this.rightButtons = this.iconButtons.filter(b => !b.isLeft);

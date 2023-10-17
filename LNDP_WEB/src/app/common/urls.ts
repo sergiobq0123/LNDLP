@@ -14,6 +14,7 @@ export class Urls {
   static CONCIERTO = '/api/Concert'
   static SOCIALNETWORK = '/api/SocialNetwork'
   static EVENT = '/api/Event'
+  static FESTIVALARTISTASOC = '/api/FestivalArtistAsoc'
   static EVENTTYPE = '/api/EventType'
   static SONG = '/api/Song'
   static ALBUM = '/api/Album'

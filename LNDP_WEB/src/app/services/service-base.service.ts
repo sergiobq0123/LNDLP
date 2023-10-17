@@ -50,6 +50,10 @@ export class ServiceBaseService {
     return this.http.post(url, data);
   }
 
+  public deleteSpecificUrl(url: string, data :any):Observable<any>{
+    return this.http.delete(url, data);
+  }
+
   public create(data: any): Observable<any>{
     return this.http.post(this.getUrl, data)
   }

@@ -44,3 +44,16 @@
   >
   </app-generic-table>
 </ng-template>
+
+<ng-template #artistTemplate let-rowData="rowData">
+  <button
+  class="button"
+  matTooltip="Ver artistas"
+  matTooltipPosition="right"
+  matTooltipShowDelay="500"
+  aria-label="Ver artistas"
+  (click)="showArtistFestival(rowData)"
+  >
+    <mat-icon>card_travel</mat-icon>
+  </button>
+</ng-template>

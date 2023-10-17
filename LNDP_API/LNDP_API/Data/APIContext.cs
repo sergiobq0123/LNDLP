@@ -124,7 +124,18 @@ namespace LNDP_API.Data
                 .HasMany(a => a.Concerts)
                 .WithOne(e => e.Artist)
                 .OnDelete(DeleteBehavior.Cascade); 
+            modelBuilder.Entity<ArtistFestivalAsoc>()
+                .HasKey(afa => new { afa.FestivalId, afa.ArtistId });
 
+            modelBuilder.Entity<ArtistFestivalAsoc>()
+                .HasOne(afa => afa.Festival)
+                .WithMany(f => f.ArtistFestivalAsoc)
+                .HasForeignKey(afa => afa.FestivalId);
+
+            modelBuilder.Entity<ArtistFestivalAsoc>()
+                .HasOne(afa => afa.Artist)
+                .WithMany(a => a.ArtistFestivalAsoc)
+                .HasForeignKey(afa => afa.ArtistId);
         }
     }
 }

@@ -154,20 +154,6 @@
                       {{ getValidatorErrorMessage(element.controls[tableColumn.dataKey].errors) }}
                     </mat-error>
                   </mat-form-field>
-                  <div style="width: 30px">
-                    <fa-icon
-                      [icon]="faCopy"
-                      (click)="copyText(inputField.value)"
-                      matTooltip="Copy {{ tableColumn.name }}"
-                      matTooltipPosition="below"
-                      matTooltipShowDelay="500"
-                      class="copy-icon"
-                      *ngIf="
-                        iconsVisibles.column === tableColumn.dataKey &&
-                        iconsVisibles.row === inputField.value &&
-                        inputField.value !== ''
-                      "></fa-icon>
-                  </div>
                 </div>
               </ng-container>
               <ng-container *ngSwitchCase="'dropdownFields'">

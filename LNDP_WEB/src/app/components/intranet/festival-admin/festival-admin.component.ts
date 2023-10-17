@@ -13,6 +13,12 @@ import { Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { GenericFormDialogComponent } from '../general/generic-form-dialog/generic-form-dialog.component';
 import { GenericTableComponent } from '../general/generic-table/generic-table.component';
+import { FestivalArtistDialogComponent } from '../Asoc/festival-artist-dialog/festival-artist-dialog.component';
+import { FestivalArtistDialogData } from '../Asoc/festival-artist-dialog/festival-artist-data';
+import { Festival } from 'src/app/models/festival.model';
+import { ArtistService } from 'src/app/services/intranet/artist.service';
+import { FestivalArtistAsocService } from 'src/app/services/intranet/festival-artist-asoc.service';
+import { Artist } from 'src/app/models/artist.model';
 
 
 @Component({
@@ -21,7 +27,8 @@ import { GenericTableComponent } from '../general/generic-table/generic-table.co
   styleUrls: ['./festival-admin.component.scss']
 })
 export class FestivalAdminComponent {
-  festivales: Array<any> = new Array<any>();
+  festivales: Array<Festival> = new Array<Festival>();
+  artistas: Array<any> = new Array<any>();
   festivalColumns: Column[];
   pageNumber: number = 1;
   loaded: boolean = false;
@@ -36,17 +43,21 @@ export class FestivalAdminComponent {
 
   @ViewChild(GenericTableComponent) table: GenericTableComponent;
   @ViewChild('addTemplate') addTemplate: TemplateRef<any>;
+  @ViewChild('artistTemplate') artistTemplate: TemplateRef<any>;
 
   faPlus = faPlus;
 
   constructor(
     private _festivalService: FestivalService,
+    private _artistService: ArtistService,
+    private _festivalArtistAsocService: FestivalArtistAsocService,
     private _notificationService : NotificationService,
     public _dialog: MatDialog,
   ){}
 
   ngOnInit(){
     this.getFestivales()
+    this.getArtist();
   }
 
   ngAfterViewInit(){
@@ -60,6 +71,14 @@ export class FestivalAdminComponent {
         isLeft: true,
       }
     ];
+  }
+
+  getArtist() {
+    this._artistService.getKeys().subscribe(
+      (res) => {
+       this.artistas = res
+      }
+    );
   }
 
   getFestivales() {
@@ -82,32 +101,45 @@ export class FestivalAdminComponent {
         hidden: true
       },
       {
+        name: '_artists',
+        dataKey: 'artists',
+        hidden: true
+      },
+      {
         name: 'Nombre',
         dataKey: 'name',
         position: 'left',
         isSortable: false,
-        type: ContentType.plainText,
+        type: ContentType.editableTextFields,
       },
       {
         name: 'Ciudad',
         dataKey: 'city',
         position: 'left',
         isSortable: false,
-        type: ContentType.plainText,
+        type: ContentType.editableTextFields,
       },
       {
         name: 'Localizacion',
         dataKey: 'location',
         position: 'left',
         isSortable: false,
-        type: ContentType.plainText,
+        type: ContentType.editableTextFields,
       },
       {
         name: 'Fecha',
         dataKey: 'date',
         position: 'left',
         isSortable: false,
-        type: ContentType.plainText,
+        type: ContentType.datePicker,
+      },
+      {
+        name: 'Artistas',
+        dataKey: 'artist',
+        position: 'left',
+        isSortable: false,
+        type: ContentType.specialContent,
+        template: this.artistTemplate
       }
     ];
   }
@@ -155,7 +187,7 @@ export class FestivalAdminComponent {
       formData: undefined,
       formFields: this.setFestivalesForm(),
       formCols: 2,
-      dialogTitle: 'Añade un nuevo concierto',
+      dialogTitle: 'Añade un nuevo festival',
     };
     const dialogRef = this._dialog.open(GenericFormDialogComponent, {
       data: dialogData,
@@ -166,6 +198,33 @@ export class FestivalAdminComponent {
         this.createElement(result);
       }
     });
+  }
+
+  showArtistFestival(festival: Festival){
+    let data: FestivalArtistDialogData = {
+      festival: festival,
+      artistas: this.artistas,
+      artistasAsociados: festival.artists
+    };
+    const dialogRef = this._dialog.open(FestivalArtistDialogComponent, {
+      data: data,
+      minWidth: 600,
+      maxWidth: 600,
+      autoFocus: false
+    })
+    dialogRef.afterClosed().subscribe(result =>{
+      if (!result.isCancel) {
+        this.updateFestivalArtistAsoc({festivalId : festival.id, nuevosArtistas : result.nuevosArtistas, artistasEliminados : result.artistasEliminados})
+      }
+    })
+  }
+
+  updateFestivalArtistAsoc(data: any) {
+    data.id = 0;
+    this._festivalArtistAsocService.updateAsoc(data).subscribe(
+      (res) => {this.handleResponse(res.message)},
+      (err) => {this.handleErrorResponse(err.error.message)}
+    );
   }
 
   createElement(event: any) {

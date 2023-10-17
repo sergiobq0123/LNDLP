@@ -9,3 +9,13 @@
     background-color: $extra-color;
   }
 }
+
+.button{
+  @include custom-iconbutton;
+  background-color: $power-color;
+  color: $light-color;
+  font-size: 20px;
+  &:hover {
+    background-color: $extra-color;
+  }
+}
