@@ -10,6 +10,9 @@ import { GenericFormDialogComponent } from '../general/generic-form-dialog/gener
 import { Column } from '../general/generic-table/column';
 import { GenericTableComponent } from '../general/generic-table/generic-table.component';
 import { PageEvent } from '@angular/material/paginator';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { IconButton } from '../general/generic-table/icon-button';
+
 
 @Component({
   selector: 'app-album-admin',
@@ -31,9 +34,13 @@ export class AlbumAdminComponent {
     spinner: boolean = false;
     pageSize : number = 10;
     totalAlbums = 50
+    iconButtons : IconButton[] = []
 
     @ViewChild(GenericTableComponent) table: GenericTableComponent;
     @ViewChild('imageTemplate') imageTemplate: TemplateRef<any>;
+    @ViewChild('addTemplate') addTemplate: TemplateRef<any>;
+
+    faPlus = faPlus;
 
     constructor(
       public _albumService: AlbumService,
@@ -45,6 +52,19 @@ export class AlbumAdminComponent {
     ngOnInit() {
       this.getAlbums();
       this.getArtist();
+    }
+
+    ngAfterViewInit(){
+      this.setIconsButtons()
+    }
+
+    setIconsButtons() {
+      this.iconButtons = [
+        {
+          template: this.addTemplate,
+          isLeft: true,
+        }
+      ];
     }
 
     getAlbums() {

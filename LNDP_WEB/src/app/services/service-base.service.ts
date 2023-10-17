@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 import { Urls } from '../common/urls';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Filter } from '../components/intranet/general/generic-table/Filter';
+import { Filter } from '../components/intranet/general/generic-filter/filter';
 
 @Injectable({
   providedIn: 'root'

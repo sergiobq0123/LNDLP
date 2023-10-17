@@ -11,11 +11,14 @@ import { UsersService } from 'src/app/services/intranet/users.service';
 import { GenericTableComponent } from '../general/generic-table/generic-table.component';
 import { Validators } from '@angular/forms';
 import { GenericFormDialogComponent } from '../general/generic-form-dialog/generic-form-dialog.component';
-import { Filter } from '../general/generic-table/Filter';
 import { PageEvent } from '@angular/material/paginator';
 import { UserRoleService } from 'src/app/services/intranet/user-role.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { notifications } from 'src/app/common/notifications';
+import { Filter } from '../general/generic-filter/filter';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { IconButton } from '../general/generic-table/icon-button';
+
 
 @Component({
   selector: 'app-user-admin',
@@ -41,9 +44,13 @@ export class UserAdminComponent {
   spinner: boolean = false;
   pageSize: number = 10;
   totalUsers = 50;
+  iconButtons : IconButton[] = []
 
   @ViewChild(GenericTableComponent) table: GenericTableComponent;
   @ViewChild('passwordTemplate') passwordTemplate: TemplateRef<any>;
+  @ViewChild('addTemplate') addTemplate: TemplateRef<any>;
+
+  faPlus = faPlus;
 
   constructor(
     private _userService: UsersService,
@@ -56,6 +63,19 @@ export class UserAdminComponent {
   ngOnInit() {
     this.getUsers();
     this.getUserKeys();
+  }
+
+  ngAfterViewInit(){
+    this.setIconsButtons()
+  }
+
+  setIconsButtons() {
+    this.iconButtons = [
+      {
+        template: this.addTemplate,
+        isLeft: true,
+      }
+    ];
   }
 
   getUsers() {

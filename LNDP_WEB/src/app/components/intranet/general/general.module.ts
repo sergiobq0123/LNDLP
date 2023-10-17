@@ -8,6 +8,7 @@ import { SpinnerComponent } from './spinner/spinner.component';
 import { MaterialModule } from 'src/app/material/material/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DeleteWindowComponent } from './delete-window/delete-window.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 
 
@@ -25,6 +26,7 @@ import { DeleteWindowComponent } from './delete-window/delete-window.component';
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
+    FontAwesomeModule
   ],
   exports: [
     GenericTableComponent,

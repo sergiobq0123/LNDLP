@@ -25,21 +25,13 @@ namespace LNDP_API.Mapping{
             // Para el artist/id de la pagina web
             CreateMap<Artist, ArtistWebDetailDto>();
             CreateMap<Song, SongWebDto>();
-            CreateMap<Event, EventWebDto>();
             CreateMap<Album, AlbumWebDto>();
             CreateMap<Concert, ConcertWebDto>();
 
             // Para el generic artist
             CreateMap<Artist, ArtistWebGenericDto>();
             CreateMap<SocialNetwork, SocialNetworkWebDto>();
-            
-
-            CreateMap<Event, GenericCardDto>()
-                .ForMember(dest => dest.PhotoUrl, opt => opt.MapFrom(src => src.Artist.PhotoUrl))
-                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
-                .ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.Date.ToString()))
-                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.City + src.Location))
-                .ForMember(dest => dest.WebUrl, opt => opt.MapFrom(src => src.Tickets));
+        
                 
             CreateMap<Company, CompanyIntranetDto>().ReverseMap();           
             CreateMap<CompanyType, CompanyTypeIntranetDto>().ReverseMap();

@@ -2,16 +2,23 @@
   [contentTemplate]="contentTemplate"
   [windowTitle]="'Youtube videos'"
 ></app-generic-window>
+
 <app-spinner *ngIf="this.spinner"></app-spinner>
-<ng-template #contentTemplate>
+
+<ng-template #addTemplate>
   <button
     [disabled]="newRowAdded || entryBeingEdited"
     id="add-button"
-    class="add-container"
+    class="add-button"
     (click)="showFormDialog()"
-  >
-    <mat-icon class="add-buton">add_box</mat-icon>
+    matTooltip="Add User"
+    matTooltipPosition="below"
+    matTooltipShowDelay="500">
+    <fa-icon [icon]="faPlus"></fa-icon>
   </button>
+</ng-template>
+
+<ng-template #contentTemplate>
   <app-generic-table
     [tableData]="videos"
     [tableColumns]="videoColumns"
@@ -32,6 +39,7 @@
     [canManageColumns]="true"
     [hasFilter]="true"
     (edited)="entryBeingEdited = $event"
+    [iconButtons]="iconButtons"
     *ngIf="loaded"
   >
   </app-generic-table>

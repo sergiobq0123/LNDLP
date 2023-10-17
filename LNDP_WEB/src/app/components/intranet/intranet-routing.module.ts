@@ -5,7 +5,6 @@ import { ConcertAdminComponent } from './concert-admin/concert-admin.component';
 import { FestivalAdminComponent } from './festival-admin/festival-admin.component';
 import { UserAdminComponent } from './user-admin/user-admin.component';
 import { HomeAdminComponent } from './home-admin/home-admin.component';
-import { EventAdminComponent } from './event-admin/event-admin.component';
 import { IntranetComponent } from './intranet.component';
 import { CompanyAdminComponent } from './company-admin/company-admin.component';
 import { AlbumAdminComponent } from './album-admin/album-admin.component';
@@ -37,10 +36,6 @@ const routes: Routes = [
       {
         path : 'Usuarios',
         component : UserAdminComponent,
-      },
-      {
-        path : 'Eventos',
-        component : EventAdminComponent,
       },
       {
         path : 'Song',

@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { Column } from '../general/generic-table/column';
 import { SongService } from '../../../services/intranet/song.service';
 import {
@@ -7,13 +7,16 @@ import {
 } from '../general/generic-form-dialog/generic-content';
 import { notifications } from 'src/app/common/notifications';
 import { GenericTableComponent } from '../general/generic-table/generic-table.component';
-import { Filter } from '../general/generic-table/Filter';
 import { GenericFormDialogComponent } from '../general/generic-form-dialog/generic-form-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ArtistService } from 'src/app/services/intranet/artist.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { PageEvent } from '@angular/material/paginator';
 import { Validators } from '@angular/forms';
+import { Filter } from '../general/generic-filter/filter';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { IconButton } from '../general/generic-table/icon-button';
+
 
 
 @Component({
@@ -35,8 +38,12 @@ export class SongAdminComponent {
   spinner: boolean = false;
   pageSize : number = 10;
   totalSongs = 50
+  iconButtons : IconButton[] = []
 
   @ViewChild(GenericTableComponent) table: GenericTableComponent;
+  @ViewChild('addTemplate') addTemplate: TemplateRef<any>;
+
+  faPlus = faPlus;
 
   constructor(
     public _songService: SongService,
@@ -48,6 +55,19 @@ export class SongAdminComponent {
   ngOnInit() {
     this.getSongs();
     this.getArtist();
+  }
+
+  ngAfterViewInit(){
+    this.setIconsButtons()
+  }
+
+  setIconsButtons() {
+    this.iconButtons = [
+      {
+        template: this.addTemplate,
+        isLeft: true,
+      }
+    ];
   }
 
   getSongs() {

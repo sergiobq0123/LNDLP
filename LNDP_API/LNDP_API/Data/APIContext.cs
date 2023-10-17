@@ -12,32 +12,18 @@ namespace LNDP_API.Data
         public DbSet<LNDP_API.Models.User> User {get ; set ; }
         public DbSet<LNDP_API.Models.Artist> Artist {get ; set ; }
         public DbSet<LNDP_API.Models.SocialNetwork> SocialNetwork {get ; set ; }
-        public DbSet<LNDP_API.Models.Event> Event {get ; set ; }
-        public DbSet<LNDP_API.Models.EventType> EventType {get ; set ; }
         public DbSet<LNDP_API.Models.UserRole> UserRole {get ; set ; }
         public DbSet<LNDP_API.Models.Album> Album {get ; set ; }
         public DbSet<LNDP_API.Models.Song> Song {get ; set ; }
         public DbSet<LNDP_API.Models.Company> Company {get ; set ; }
         public DbSet<LNDP_API.Models.CompanyType> CompanyType {get ; set ; }
         public DbSet<LNDP_API.Models.Concert> Concert {get ; set ; }
+        public DbSet<LNDP_API.Models.Festival> Festival {get ; set ; }
+        public DbSet<LNDP_API.Models.ArtistFestivalAsoc> ArtistFestivalAsoc {get ; set ; }
         public DbSet<LNDP_API.Models.YoutubeVideo> YoutubeVideo {get ; set ; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {   
-            modelBuilder.Entity<LNDP_API.Models.EventType>().HasData
-            (
-                new LNDP_API.Models.EventType
-                {
-                    Id = 1,
-                    EventName = "Festival"
-                },
-                new LNDP_API.Models.EventType
-                {
-                    Id = 2,
-                    EventName = "Concierto"
-                }
-                
-            );
             modelBuilder.Entity<LNDP_API.Models.UserRole>().HasData
             (
                 new LNDP_API.Models.UserRole
@@ -122,10 +108,6 @@ namespace LNDP_API.Data
                 
             );
             modelBuilder.Entity<Artist>()
-                .HasMany(a => a.Events)
-                .WithOne(e => e.Artist)
-                .OnDelete(DeleteBehavior.Cascade);
-            modelBuilder.Entity<Artist>()
                 .HasMany(a => a.Albums)
                 .WithOne(e => e.Artist)
                 .OnDelete(DeleteBehavior.Cascade);
@@ -137,6 +119,10 @@ namespace LNDP_API.Data
                 .HasOne(a => a.SocialNetwork)
                 .WithOne(sm => sm.Artist)
                 .HasForeignKey<SocialNetwork>(sm => sm.ArtistId)
+                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Artist>()
+                .HasMany(a => a.Concerts)
+                .WithOne(e => e.Artist)
                 .OnDelete(DeleteBehavior.Cascade); 
 
         }

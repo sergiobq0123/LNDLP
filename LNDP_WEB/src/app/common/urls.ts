@@ -10,7 +10,7 @@ export class Urls {
   static USERROLE = '/api/UserRole'
   static ARTIST = '/api/Artist'
   static EMAIL = '/api/Email'
-  static FESTIVAL = '/api/Event/type/Festival'
+  static FESTIVAL = '/api/Festival'
   static CONCIERTO = '/api/Concert'
   static SOCIALNETWORK = '/api/SocialNetwork'
   static EVENT = '/api/Event'

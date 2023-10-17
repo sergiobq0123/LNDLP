@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { notifications } from 'src/app/common/notifications';
@@ -6,10 +6,12 @@ import { YoutubeVideoService } from 'src/app/services/intranet/youtube-video.ser
 import { NotificationService } from 'src/app/services/notification.service';
 import { GenericForm, ContentType } from '../general/generic-form-dialog/generic-content';
 import { GenericFormDialogComponent } from '../general/generic-form-dialog/generic-form-dialog.component';
-import { Filter } from '../general/generic-table/Filter';
-import { Column } from '../general/generic-table/column';
 import { GenericTableComponent } from '../general/generic-table/generic-table.component';
 import { PageEvent } from '@angular/material/paginator';
+import { Filter } from '../general/generic-filter/filter';
+import { Column } from '../general/generic-table/column';
+import { IconButton } from '../general/generic-table/icon-button';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-youtube-video-visual',
@@ -28,8 +30,12 @@ export class YoutubeVideoVisualComponent {
   spinner: boolean = false;
   pageSize : number = 10;
   totalVideos = 50
+  iconButtons : IconButton[] = []
 
   @ViewChild(GenericTableComponent) table: GenericTableComponent;
+  @ViewChild('addTemplate') addTemplate: TemplateRef<any>;
+
+  faPlus = faPlus;
 
   constructor(
     public _youtubeVideoService : YoutubeVideoService,
@@ -39,6 +45,19 @@ export class YoutubeVideoVisualComponent {
 
   ngOnInit() {
     this.getvideos();
+  }
+
+  ngAfterViewInit(){
+    this.setIconsButtons()
+  }
+
+  setIconsButtons() {
+    this.iconButtons = [
+      {
+        template: this.addTemplate,
+        isLeft: true,
+      }
+    ];
   }
 
   getvideos() {
@@ -52,6 +71,7 @@ export class YoutubeVideoVisualComponent {
       }
     );
   }
+
 
   setColumns(): void {
     this.videoColumns = [

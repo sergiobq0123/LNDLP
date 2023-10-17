@@ -2,19 +2,23 @@
   [contentTemplate]="contentTemplate"
   [windowTitle]="'Usuarios'"
 ></app-generic-window>
+
 <app-spinner *ngIf="this.spinner"></app-spinner>
-<ng-template #contentTemplate>
+
+<ng-template #addTemplate>
   <button
     [disabled]="newRowAdded || entryBeingEdited"
     id="add-button"
     class="add-button"
     (click)="showFormDialog()"
-    matTooltip="Añadir usuario"
+    matTooltip="Add User"
     matTooltipPosition="below"
-    matTooltipShowDelay="500"
-  >
-    <mat-icon>add_box</mat-icon>
+    matTooltipShowDelay="500">
+    <fa-icon [icon]="faPlus"></fa-icon>
   </button>
+</ng-template>
+
+<ng-template #contentTemplate>
   <app-generic-table
     [tableData]="users"
     [tableColumns]="usersColumns"
@@ -34,6 +38,7 @@
     (paginationChange)="onPaginationChange($event)"
     [canManageColumns]="true"
     [hasFilter]="true"
+    [iconButtons]="iconButtons"
     *ngIf="loaded"
   >
   </app-generic-table>

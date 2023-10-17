@@ -3,6 +3,7 @@ using System;
 using LNDP_API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace LNDP_API.Migrations
 {
     [DbContext(typeof(APIContext))]
-    partial class APIContextModelSnapshot : ModelSnapshot
+    [Migration("20231017160719_addPro24")]
+    partial class addPro24
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -225,6 +228,75 @@ namespace LNDP_API.Migrations
                     b.ToTable("Concert");
                 });
 
+            modelBuilder.Entity("LNDP_API.Models.Event", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("ArtistId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("City")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("Date")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int?>("EventTypeId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Location")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Tickets")
+                        .HasColumnType("text");
+
+                    b.Property<string>("UrlLocation")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ArtistId");
+
+                    b.HasIndex("EventTypeId");
+
+                    b.ToTable("Event");
+                });
+
+            modelBuilder.Entity("LNDP_API.Models.EventType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("EventName")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EventType");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            EventName = "Festival"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            EventName = "Concierto"
+                        });
+                });
+
             modelBuilder.Entity("LNDP_API.Models.Festival", b =>
                 {
                     b.Property<int>("Id")
@@ -354,8 +426,8 @@ namespace LNDP_API.Migrations
                         {
                             Id = 1,
                             Email = "Sanchez",
-                            PasswordHash = "8SNhv8VJALdfU2YzXwNFB1v+OpJwHIGeL7BH2fxPWGE=",
-                            PasswordSalt = "5QZqcihkiqHLQr7iyJ1+Xw==",
+                            PasswordHash = "5Uxrhfcd8wUuJGa70KVOZrmsncyv6kkZXVgidolfpBg=",
+                            PasswordSalt = "2uksmPJ5URgLlkZZkQ/Qqw==",
                             UserRoleId = 1,
                             Username = "Sanchez"
                         },
@@ -363,8 +435,8 @@ namespace LNDP_API.Migrations
                         {
                             Id = 2,
                             Email = "Torres",
-                            PasswordHash = "rSdeNcfP6EnSbucAJgu6Lw1sJmMH+uSeOZzRhYQV9BM=",
-                            PasswordSalt = "5QZqcihkiqHLQr7iyJ1+Xw==",
+                            PasswordHash = "9kixWYEse+bTy5ObDuCHZG+o8rcfiNq8XQxBh9tWx1Q=",
+                            PasswordSalt = "2uksmPJ5URgLlkZZkQ/Qqw==",
                             UserRoleId = 1,
                             Username = "Torres"
                         },
@@ -372,8 +444,8 @@ namespace LNDP_API.Migrations
                         {
                             Id = 3,
                             Email = "Tomas",
-                            PasswordHash = "fsg8U6naMO0fl95ALGmxVpkxYqJQk4nEXWcYfFJtdZ8=",
-                            PasswordSalt = "5QZqcihkiqHLQr7iyJ1+Xw==",
+                            PasswordHash = "MBfy7s3lfh0ccgxH2JIliwG8UcIIus62pbMblR36nHM=",
+                            PasswordSalt = "2uksmPJ5URgLlkZZkQ/Qqw==",
                             UserRoleId = 1,
                             Username = "Tomas"
                         },
@@ -381,8 +453,8 @@ namespace LNDP_API.Migrations
                         {
                             Id = 4,
                             Email = "Iglesias",
-                            PasswordHash = "x8ryE2Xz13VLDqrnNQmmMM5XduSVsn9a76//6q442iY=",
-                            PasswordSalt = "5QZqcihkiqHLQr7iyJ1+Xw==",
+                            PasswordHash = "g8DaJx0XFoHtBNVIK3uePDo6Mi4eF083s2vj1UWh5ec=",
+                            PasswordSalt = "2uksmPJ5URgLlkZZkQ/Qqw==",
                             UserRoleId = 2,
                             Username = "Iglesias"
                         });
@@ -502,6 +574,22 @@ namespace LNDP_API.Migrations
                     b.Navigation("Artist");
                 });
 
+            modelBuilder.Entity("LNDP_API.Models.Event", b =>
+                {
+                    b.HasOne("LNDP_API.Models.Artist", "Artist")
+                        .WithMany("Events")
+                        .HasForeignKey("ArtistId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("LNDP_API.Models.EventType", "EventType")
+                        .WithMany()
+                        .HasForeignKey("EventTypeId");
+
+                    b.Navigation("Artist");
+
+                    b.Navigation("EventType");
+                });
+
             modelBuilder.Entity("LNDP_API.Models.SocialNetwork", b =>
                 {
                     b.HasOne("LNDP_API.Models.Artist", "Artist")
@@ -541,6 +629,8 @@ namespace LNDP_API.Migrations
                     b.Navigation("ArtistFestivalAsoc");
 
                     b.Navigation("Concerts");
+
+                    b.Navigation("Events");
 
                     b.Navigation("SocialNetwork");
 

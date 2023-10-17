@@ -7,7 +7,6 @@ import { FestivalAdminComponent } from './festival-admin/festival-admin.componen
 import { ConcertAdminComponent } from './concert-admin/concert-admin.component';
 import { UserAdminComponent } from './user-admin/user-admin.component';
 import { HomeAdminComponent } from './home-admin/home-admin.component';
-import { EventAdminComponent } from './event-admin/event-admin.component';
 import { IntranetComponent } from './intranet.component';
 import { CompanyAdminComponent } from './company-admin/company-admin.component';
 import { GeneralModule } from './general/general.module';
@@ -15,7 +14,7 @@ import { AlbumAdminComponent } from './album-admin/album-admin.component';
 import { SongAdminComponent } from './song-admin/song-admin.component';
 import { YoutubeVideoVisualComponent } from './youtube-video-visual/youtube-video-visual.component';
 import { ConcertCrewComponent } from './concert-crew/concert-crew.component';
-
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 
 @NgModule({
@@ -25,7 +24,6 @@ import { ConcertCrewComponent } from './concert-crew/concert-crew.component';
     ConcertAdminComponent,
     UserAdminComponent,
     HomeAdminComponent,
-    EventAdminComponent,
     IntranetComponent,
     CompanyAdminComponent,
     AlbumAdminComponent,
@@ -38,7 +36,8 @@ import { ConcertCrewComponent } from './concert-crew/concert-crew.component';
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
-    GeneralModule
+    GeneralModule,
+    FontAwesomeModule
   ]
 })
 export class IntranetModule { }

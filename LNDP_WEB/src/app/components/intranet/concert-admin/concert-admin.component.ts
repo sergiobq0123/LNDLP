@@ -1,9 +1,8 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { Column } from '../general/generic-table/column';
 import { ContentType } from '../general/generic-form-dialog/generic-content';
 import { ConcertService } from 'src/app/services/intranet/concert.service';
 import { GenericTableComponent } from '../general/generic-table/generic-table.component';
-import { Filter } from '../general/generic-table/Filter';
 import { NotificationService } from 'src/app/services/notification.service';
 import { notifications } from 'src/app/common/notifications';
 import { PageEvent } from '@angular/material/paginator';
@@ -11,6 +10,10 @@ import { ArtistService } from 'src/app/services/intranet/artist.service';
 import { Validators } from '@angular/forms';
 import { GenericFormDialogComponent } from '../general/generic-form-dialog/generic-form-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { Filter } from '../general/generic-filter/filter';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { IconButton } from '../general/generic-table/icon-button';
+
 
 
 @Component({
@@ -30,8 +33,12 @@ export class ConcertAdminComponent {
   spinner: boolean = false;
   pageSize : number = 10;
   totalConciertos = 50
+  iconButtons : IconButton[] = []
 
   @ViewChild(GenericTableComponent) table: GenericTableComponent;
+  @ViewChild('addTemplate') addTemplate: TemplateRef<any>;
+
+  faPlus = faPlus;
 
   constructor(
     private _concertService: ConcertService,
@@ -43,6 +50,19 @@ export class ConcertAdminComponent {
   ngOnInit(){
     this.getConciertos();
     this.getArtist();
+  }
+
+  ngAfterViewInit(){
+    this.setIconsButtons()
+  }
+
+  setIconsButtons() {
+    this.iconButtons = [
+      {
+        template: this.addTemplate,
+        isLeft: true,
+      }
+    ];
   }
 
   getConciertos() {
@@ -127,7 +147,7 @@ export class ConcertAdminComponent {
     ];
   }
 
-  setEventsForm() : any[]{
+  setConciertosForm() : any[]{
     return [
       {
         name: 'Id',
@@ -177,7 +197,7 @@ export class ConcertAdminComponent {
   showFormDialog() {
     let dialogData = {
       formData: undefined,
-      formFields: this.setEventsForm(),
+      formFields: this.setConciertosForm(),
       formCols: 2,
       dialogTitle: 'Añade un nuevo concierto',
     };
