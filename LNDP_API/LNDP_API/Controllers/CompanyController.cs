@@ -1,12 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using LNDP_API.Data;
 using LNDP_API.Models;
 using LNDP_API.Dtos;
-using AutoMapper;
-using Newtonsoft.Json;
 using LNDP_API.Services;
-using Microsoft.DotNet.Scaffolding.Shared.Messaging;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LNDP_API.Controllers
 {   
@@ -14,111 +10,78 @@ namespace LNDP_API.Controllers
     [ApiController]
     public class CompanyController : ControllerBase
     {
-        private readonly APIContext _context;
-        private readonly IMapper _mapper;
-        private readonly IImageService _imageService;
+        private readonly ICompanyService _companyService;
 
-        public CompanyController(APIContext context, IMapper mapper, IImageService imageService)
+        public CompanyController(ICompanyService companyService)
         {
-            _context = context;
-            _mapper = mapper;
-            _imageService = imageService;
+            _companyService = companyService;
         }
-
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<CompanyIntranetDto>>> GetCompany()
-        {
-            if(_context.Company == null){
-                return NotFound();
-            }
-            return await _context.Company
-            .AsNoTracking()
-            .Include(c => c.CompanyType)
-            .Select(c => _mapper.Map<CompanyIntranetDto>(c))
-            .ToListAsync();
-        }
-
+ 
+        [AllowAnonymous]
         [HttpGet("type/{type}")]
-        public async Task<ActionResult<IEnumerable<Company>>> GetCompany(string type)
+        public async Task<ActionResult<IEnumerable<CompanyWebDto>>> GetCompany(string type)
         {
-            if(_context.Company == null){
-                return NotFound();
-            }
-            var companies =  await _context.Company
-            .Include(c => c.CompanyType)
-            .AsNoTracking()
-            .Where(c => c.CompanyType.CompanyTypeName == type)
-            .Select(c => new {
-                c.PhotoUrl,
-                c.Name,
-                c.Description,
-                c.WebUrl
-            })
-            .ToListAsync();
-
-            return Ok(companies);
+            var CompanyDtos = await _companyService.GetCompanyType(type);
+            return Ok(CompanyDtos);
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Company>> GetCompany(int id)
-        {         
-            var Company = await _context.Company.FindAsync(id);
-            if(Company == null){
-                return NotFound();
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Company>>> GetCompanyIntranet()
+        {
+            try{
+                var company = await _companyService.GetCompany();
+                return Ok(await _companyService.GetCompany());
             }
-            return Company;
+            catch(Exception ex){
+                return BadRequest(new {ex.Message});
+            }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<ActionResult<Company>> PostCompany(CompanyIntranetDto companyIntranetDto)
+        public async Task<ActionResult> PostCompany(Company company)
         {
-            try
-            {
-                companyIntranetDto.PhotoUrl = await _imageService.ConvertBase64ToUrl(companyIntranetDto.PhotoUrl, companyIntranetDto.Name);
-                _context.Company.Add(_mapper.Map<Company>(companyIntranetDto));
-                await _context.SaveChangesAsync();
-                return Ok(new { Message = "Empresa creada con éxito" });
+            try{
+                Company c = await _companyService.CreateCompany(company);
+                return Ok(new { Message = "Empresa creada con éxito", c});
             }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { Message = "Error al crear la empresa", Error = ex.Message });
+            catch(Exception ex){
+                return BadRequest(new {ex.Message});
             }
         }
 
-        
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
-        public async Task<ActionResult> PutCompany(int id, CompanyIntranetDto companyIntranetDto)
+        public async Task<ActionResult> PutCompany(int id, Company company)
         {
-            try
+            if (!await _companyService.ExistCompany(id))
             {
-                Company company = await _context.Company.Where(c => c.Id == id).FirstOrDefaultAsync();
-                if(company.PhotoUrl != companyIntranetDto.PhotoUrl){
-                    companyIntranetDto.PhotoUrl = await _imageService.ConvertBase64ToUrl(companyIntranetDto.PhotoUrl, companyIntranetDto.Name);
-                }
-                _context.Entry(company).CurrentValues.SetValues(companyIntranetDto);
-                
-                await _context.SaveChangesAsync();
-                return Ok(new { Message = "Empresa actualizada con éxito" });
+                return BadRequest(new { Message = "La empresa especificada no existe."});
             }
-            catch (Exception ex)
-            {
-                return BadRequest(new { Message = "Error al actualizar la empresa: " + ex.Message });
+            try{
+                Company c = await _companyService.UpdateCompany(company);
+                return Ok(new { Message = "Empresa actualizada con éxito.", c});
+            }
+            catch(Exception ex){
+                return BadRequest(new {ex.Message});
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteCompany(int id)
         {
-            try
+            if (!await _companyService.ExistCompany(id))
             {
-                var company = await _context.Company.FindAsync(id);
-                _context.Company.Remove(company);
-                await _context.SaveChangesAsync();
-                return Ok(new { Message = "Empresa borrada con éxito" });
+                return BadRequest(new { Message = "La empresa especificada no existe." });
             }
-            catch (Exception ex)
-            {
-                return BadRequest(new { Message = "Error al eliminar la empresa: " + ex.Message });
+            try{
+                await _companyService.DeleteCompany(id);
+                return Ok(new { Message = "Empresa eliminada con éxito."});
+            }
+            catch(Exception ex){
+                return BadRequest(new {ex.Message});
             }
         }
     }

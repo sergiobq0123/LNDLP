@@ -19,24 +19,19 @@ namespace LNDP_API.Controllers
         private readonly APIContext _context;
         private readonly IMapper _mapper;
         private readonly IArtistService _artistService;
-        private readonly IImageService _imageService;
 
-        public ArtistController(APIContext context, IMapper mapper, IArtistService artistService, IImageService imageService)
+        public ArtistController(APIContext context, IMapper mapper, IArtistService artistService)
         {
             _context = context;
             _mapper = mapper;
             _artistService = artistService;
-            _imageService = imageService;
         }
 
- 
+        [AllowAnonymous]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ArtistWebGenericDto>>> GetArtist()
+        public async Task<ActionResult<IEnumerable<ArtistWebGenericDto>>> GetArtist2()
         {
-            return await _context.Artist
-            .Include(a => a.SocialNetwork)
-            .Select(a => _mapper.Map<ArtistWebGenericDto>(a))
-            .ToListAsync();
+            return BadRequest();
         }
 
         [HttpGet("intranet")]
@@ -114,7 +109,6 @@ namespace LNDP_API.Controllers
             {
                 Artist artist = await _context.Artist.Where(c => c.Id == id).FirstOrDefaultAsync();
                 if(artist.PhotoUrl != artistGetDto.PhotoUrl){
-                    artistGetDto.PhotoUrl = await _imageService.ConvertBase64ToUrl(artistGetDto.PhotoUrl, artistGetDto.Name);
                 }
                 _context.Entry(artist).CurrentValues.SetValues(artistGetDto);
                 await _context.SaveChangesAsync();

@@ -8,8 +8,16 @@ export class HttpInterceptorService implements HttpInterceptor {
 
   constructor(private _authService : AuthService) { }
 
+
+  ngOnInit(){
+    console.log("hola");
+  }
+
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let userToken = this._authService.getToken();
+    console.log(this._authService.getToken());
+    console.log("hola");
+
     if(userToken != null){
       let clonedReq = req.clone({
         headers : req.headers.set('Authorization', `Bearer ${userToken}`)

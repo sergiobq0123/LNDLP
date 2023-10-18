@@ -10,5 +10,9 @@ export class YoutubeVideoService extends ServiceBaseService {
 
   constructor(http: HttpClient) {
     super(http, Urls.YOUTUBEVIDEO);
-   }
+  }
+
+  getWeb(){
+    return this.getToSpecificURL(this.getUrl + Urls.YOUTUBEVIDEOSWEB)
+  }
 }

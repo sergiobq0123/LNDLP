@@ -13,13 +13,11 @@ namespace LNDP_API.Controllers
     public class SongController : ControllerBase
     {
         private readonly APIContext _context;
-        private readonly IUrlEmbedService _urlEmbedService;
         private readonly IMapper _mapper;
 
-        public SongController(APIContext context, IUrlEmbedService urlEmbedService, IMapper mapper)
+        public SongController(APIContext context,IMapper mapper)
         {
             _context = context;
-            _urlEmbedService = urlEmbedService;
             _mapper = mapper;
         }
  
@@ -55,7 +53,6 @@ namespace LNDP_API.Controllers
         [HttpPost]
         public async Task<ActionResult> PostSong(SongIntranetDto songIntranetDto)
         {
-            songIntranetDto.Url = _urlEmbedService.GetEmbedUrlYoutube(songIntranetDto.Url);
             Song song = _mapper.Map<Song>(songIntranetDto);
             song.Artist = _context.Artist.Find(songIntranetDto.ArtistId);
             _context.Song.Add(song);
@@ -66,7 +63,6 @@ namespace LNDP_API.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> PutSong(int id, SongIntranetDto songIntranetDto)
         {
-            songIntranetDto.Url = _urlEmbedService.GetEmbedUrlYoutube(songIntranetDto.Url);
             _context.Entry(_mapper.Map<Song>(songIntranetDto)).State = EntityState.Modified;
             await _context.SaveChangesAsync();
             return Ok(new { Message = "Canción actualizada con éxito"});

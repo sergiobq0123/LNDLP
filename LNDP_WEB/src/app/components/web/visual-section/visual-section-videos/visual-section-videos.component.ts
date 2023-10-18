@@ -15,7 +15,7 @@ export class VisualSectionVideosComponent {
   }
 
   ngOnInit(){
-    this._youtubeService.get().subscribe(res => {
+    this._youtubeService.getWeb().subscribe(res => {
       this.youtubeVideo = res;
     })
   }

@@ -132,7 +132,6 @@ namespace LNDP_API.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("PhotoUrl")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("WebUrl")
@@ -349,8 +348,8 @@ namespace LNDP_API.Migrations
                         {
                             Id = 1,
                             Email = "Sanchez",
-                            PasswordHash = "9UozMMevOyJG3kcG4aQbFqHMh7Kx0aFq0hdJ+JviidU=",
-                            PasswordSalt = "w+4JBee9Gr1B4aUDmwLiTw==",
+                            PasswordHash = "cjLHPiVTQGiTcxUREaPDDsF86a1XFtxm8TNcC+SyPDE=",
+                            PasswordSalt = "K8Ec2j2/KDgbUc/XblXu0Q==",
                             UserRoleId = 1,
                             Username = "Sanchez"
                         },
@@ -358,8 +357,8 @@ namespace LNDP_API.Migrations
                         {
                             Id = 2,
                             Email = "Torres",
-                            PasswordHash = "w8tACNSZJuESyCaz9J971/gxqIkUZ2VzlnREhNZPDvM=",
-                            PasswordSalt = "w+4JBee9Gr1B4aUDmwLiTw==",
+                            PasswordHash = "5nclhORa4Cngy8zaXA630byOO13eWoMH/Cl7idlbJVc=",
+                            PasswordSalt = "K8Ec2j2/KDgbUc/XblXu0Q==",
                             UserRoleId = 1,
                             Username = "Torres"
                         },
@@ -367,8 +366,8 @@ namespace LNDP_API.Migrations
                         {
                             Id = 3,
                             Email = "Tomas",
-                            PasswordHash = "3r+wa8ndGOX47PwRbrP1tKQXyOLxcSg5+rtkBKYFw9A=",
-                            PasswordSalt = "w+4JBee9Gr1B4aUDmwLiTw==",
+                            PasswordHash = "57RFU5uj5VbWDfUfu6/ZFK7nvvTrp7mV4LWQ+pTukRo=",
+                            PasswordSalt = "K8Ec2j2/KDgbUc/XblXu0Q==",
                             UserRoleId = 1,
                             Username = "Tomas"
                         },
@@ -376,8 +375,8 @@ namespace LNDP_API.Migrations
                         {
                             Id = 4,
                             Email = "Iglesias",
-                            PasswordHash = "Rjr9DZHxurEKUYhpz5HZuwc3MLcX9q8Rt+c67RcZup4=",
-                            PasswordSalt = "w+4JBee9Gr1B4aUDmwLiTw==",
+                            PasswordHash = "iu4nziSpOfnntpS9+FpLFOFnvzuvNOBhjlwmWkgF1/A=",
+                            PasswordSalt = "K8Ec2j2/KDgbUc/XblXu0Q==",
                             UserRoleId = 2,
                             Username = "Iglesias"
                         });

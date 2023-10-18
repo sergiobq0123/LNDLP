@@ -62,8 +62,10 @@ export class YoutubeVideoVisualComponent {
 
   getvideos() {
     this.spinner = true;
-    this._youtubeVideoService.getIntranet().subscribe(
+    this._youtubeVideoService.get().subscribe(
       (res) => {
+        console.log(res);
+
         this.handleGetResponse(res);
       },
       (error) => {

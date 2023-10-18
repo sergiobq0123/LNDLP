@@ -9,13 +9,11 @@ namespace LNDP_API.Services{
     public class ArtistService : IArtistService{
         private readonly IMapper _mapper;
         private readonly IAuthService _authService;
-        private readonly IImageService _imageService;
 
-        public ArtistService(IMapper mapper, IAuthService authService, IImageService imageService)
+        public ArtistService(IMapper mapper, IAuthService authService)
         {
             _mapper = mapper;
             _authService = authService;
-                        _imageService = imageService;
 
         }
 
@@ -29,7 +27,6 @@ namespace LNDP_API.Services{
             try
             {
                 var newUser = await _authService.Register(userRegistrerDto);
-                artist.PhotoUrl = await _imageService.ConvertBase64ToUrl(artistCreateDto.PhotoUrl, artistCreateDto.Name);
                 artist.SocialNetwork = socialNetwork;
                 artist.User = newUser;
                 return artist;

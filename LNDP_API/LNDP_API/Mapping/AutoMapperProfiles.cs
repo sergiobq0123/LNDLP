@@ -20,7 +20,9 @@ namespace LNDP_API.Mapping{
             CreateMap<ArtistDto, Artist>().ReverseMap();
             CreateMap<AlbumDto, Album>().ReverseMap();
 
-
+            //web
+            CreateMap<YoutubeVideoWebDto, YoutubeVideo>().ReverseMap();
+            CreateMap<CompanyWebDto, Company>().ReverseMap();
 
             // Para el artist/id de la pagina web
             CreateMap<Artist, ArtistWebDetailDto>();

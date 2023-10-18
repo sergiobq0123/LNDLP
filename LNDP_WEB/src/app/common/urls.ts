@@ -27,4 +27,7 @@ export class Urls {
   static IMAGE = '/postImage'
   static INTRANET = '/intranet'
   static KEYS = '/keys'
+
+  // WEB
+  static YOUTUBEVIDEOSWEB = '/youtube-videos-web'
 }

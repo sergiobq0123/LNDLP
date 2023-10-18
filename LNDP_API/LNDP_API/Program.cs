@@ -8,6 +8,8 @@ using LNDP_API.Mapping;
 using System.Text.Json.Serialization;
 using TTTAPI.JWT.Managers;
 using LNDP_API.Models;
+using LNDP_API.Utils;
+using LNDP_API.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,14 +43,26 @@ builder.Services.AddCors(options => {
 //Add token service
 builder.Services.AddTransient<IJwtService, JwtService>();
 builder.Services.AddScoped<IArtistService, ArtistService>();
-builder.Services.AddScoped<IUrlEmbedService, UrlEmbedService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddScoped<IImageService, ImageService>();
-builder.Services.AddScoped<IFestivalArtistAsocService, FestivalArtistAsocService>();
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
 builder.Services.AddControllers().AddJsonOptions(x =>
                 x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 builder.Services.AddHttpContextAccessor();
+
+
+// UTILS
+builder.Services.AddTransient<IUrlEmbedUtils, UrlEmbedUtils>();
+builder.Services.AddTransient<IImageUtils, ImageUtils>();
+
+// REPOSITORY
+builder.Services.AddScoped<IYoutubeVideoRepository, YoutubeVideoRepository>();
+builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
+
+// SERVICES
+builder.Services.AddScoped<IYoutubeVideoService, YoutubeVideoService>();
+builder.Services.AddScoped<ICompanyService, CompanyService>();
+builder.Services.AddScoped<IFestivalArtistAsocService, FestivalArtistAsocService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
