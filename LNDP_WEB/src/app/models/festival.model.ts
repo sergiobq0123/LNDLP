@@ -1,4 +1,5 @@
 import { Artist } from "./artist.model";
+import { ArtistFestivalAsoc } from "./artistFestivalAsoc.model";
 import { ModelBase } from "./model-base.model";
 
 export interface Festival extends ModelBase {
@@ -8,4 +9,6 @@ export interface Festival extends ModelBase {
   urlLocation?: string,
   tickets?: string
   artists?: Artist[]
+  photoUrl?: string;
+  artistFestivalAsoc?: ArtistFestivalAsoc[]
 }

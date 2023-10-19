@@ -19,6 +19,7 @@ import { Festival } from 'src/app/models/festival.model';
 import { ArtistService } from 'src/app/services/intranet/artist.service';
 import { FestivalArtistAsocService } from 'src/app/services/intranet/festival-artist-asoc.service';
 import { Artist } from 'src/app/models/artist.model';
+import { ArtistFestivalAsoc } from '../../../models/artistFestivalAsoc.model';
 
 
 @Component({
@@ -43,6 +44,7 @@ export class FestivalAdminComponent {
 
   @ViewChild(GenericTableComponent) table: GenericTableComponent;
   @ViewChild('addTemplate') addTemplate: TemplateRef<any>;
+  @ViewChild('imageTemplate') imageTemplate: TemplateRef<any>;
   @ViewChild('artistTemplate') artistTemplate: TemplateRef<any>;
 
   faPlus = faPlus;
@@ -83,9 +85,11 @@ export class FestivalAdminComponent {
 
   getFestivales() {
     this.spinner = true;
-    this._festivalService.getIntranet().subscribe(
+    this._festivalService.get().subscribe(
       (res) => {
         this.handleGetResponse(res);
+        console.log(res);
+
       },
       (error) => {
         this.handleGetErrorResponse();
@@ -101,8 +105,8 @@ export class FestivalAdminComponent {
         hidden: true
       },
       {
-        name: '_artists',
-        dataKey: 'artists',
+        name: '_artistFestivalAsoc',
+        dataKey: 'artistFestivalAsoc',
         hidden: true
       },
       {
@@ -127,6 +131,13 @@ export class FestivalAdminComponent {
         type: ContentType.editableTextFields,
       },
       {
+        name: 'Entradas',
+        dataKey: 'tickets',
+        position: 'left',
+        isSortable: false,
+        type: ContentType.editableTextFields,
+      },
+      {
         name: 'Fecha',
         dataKey: 'date',
         position: 'left',
@@ -140,7 +151,14 @@ export class FestivalAdminComponent {
         isSortable: false,
         type: ContentType.specialContent,
         template: this.artistTemplate
-      }
+      },
+      {
+        name: 'Photo',
+        dataKey: 'photoUrl',
+        type: ContentType.specialContent,
+        template: this.imageTemplate,
+        validators: [Validators.required]
+      },
     ];
   }
 
@@ -173,13 +191,63 @@ export class FestivalAdminComponent {
         validators: [Validators.required]
       },
       {
+        name: 'Entradas',
+        dataKey : 'tickets',
+        position: {row: 2, col : 2, rowSpan: 1, colSpan: 1},
+        type : ContentType.editableTextFields,
+        validators: [Validators.required]
+      },
+      {
         name: 'Fecha',
         dataKey : 'date',
         position: {row: 2, col : 2, rowSpan: 1, colSpan: 1},
         type : ContentType.datePicker,
         validators: [Validators.required]
       },
+      {
+        name: 'Imagen',
+        dataKey: 'photoUrl',
+        position: { row: 1, col: 1, rowSpan: 1, colSpan: 2 },
+        type: ContentType.imageFile,
+        validators: [Validators.required]
+      },
     ]
+  }
+
+  setImageForm(): any[] {
+    return [
+      {
+        dataKey: 'id',
+        hidden : true
+      },
+      {
+        dataKey: 'name',
+        hidden : true
+      },
+      {
+        dataKey: 'ciudad',
+        hidden : true
+      },
+      {
+        dataKey: 'date',
+        hidden : true
+      },
+      {
+        dataKey: 'location',
+        hidden : true,
+      },
+      {
+        dataKey: 'tickets',
+        hidden : true,
+      },
+      {
+        name: 'Imagen',
+        dataKey: 'photoUrl',
+        position: { row: 1, col: 1, rowSpan: 1, colSpan: 2 },
+        type: ContentType.imageFile,
+        validators: [Validators.required]
+      },
+    ];
   }
 
   showFormDialog() {
@@ -204,7 +272,6 @@ export class FestivalAdminComponent {
     let data: FestivalArtistDialogData = {
       festival: festival,
       artistas: this.artistas,
-      artistasAsociados: festival.artists
     };
     const dialogRef = this._dialog.open(FestivalArtistDialogComponent, {
       data: data,
@@ -217,6 +284,24 @@ export class FestivalAdminComponent {
         this.updateFestivalArtistAsoc({festivalId : festival.id, nuevosArtistas : result.nuevosArtistas, artistasEliminados : result.artistasEliminados})
       }
     })
+  }
+
+  showFormDialogImage(dataShow: any) {
+    let dialogData = {
+      formData: dataShow ,
+      formFields: this.setImageForm(),
+      formCols: 2,
+      dialogTitle: 'Imagen',
+    };
+    const dialogRef = this._dialog.open(GenericFormDialogComponent, {
+      data: dialogData,
+      minWidth: 600,
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result !== undefined && result !== null && result !== '') {
+        this.updateElement(result)
+      }
+    });
   }
 
   updateFestivalArtistAsoc(data: any) {

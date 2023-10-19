@@ -57,3 +57,11 @@
     <mat-icon>card_travel</mat-icon>
   </button>
 </ng-template>
+
+<ng-template #imageTemplate let-rowData="rowData">
+  <button mat-icon-button malToolTipe="Ver la imagen" matTooltipShowDelay="1000" aria-label="Ver la imagen"
+    (click)="showFormDialogImage(rowData)">
+    <mat-icon>image</mat-icon>
+  </button>
+</ng-template>
+

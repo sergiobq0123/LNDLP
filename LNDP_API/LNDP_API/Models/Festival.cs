@@ -6,6 +6,7 @@ namespace LNDP_API.Models {
         public string? UrlLocation {get; set;}
         public string? Tickets {get; set;}
         public DateTime? Date {get; set;}
+        public string? PhotoUrl {get; set;}
         public ICollection<ArtistFestivalAsoc>? ArtistFestivalAsoc {get;set;}
     }
 }

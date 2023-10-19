@@ -13,7 +13,7 @@ namespace LNDP_API.Repositories
         }
         public async Task<IEnumerable<YoutubeVideo>> GetAsync()
         {
-            return await _context.YoutubeVideo.ToListAsync();
+            return await _context.YoutubeVideo.AsNoTracking().ToListAsync();
         }
         
         public async Task<bool> ExistYoutubeVideoAsync(int idYoutubeVideo)

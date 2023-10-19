@@ -21,14 +21,14 @@ namespace LNDP_API.Services{
         {
             var artist = _mapper.Map<Artist>(artistCreateDto);
             var socialNetwork = _mapper.Map<SocialNetwork>(artistCreateDto);
-            var userRegistrerDto = _mapper.Map<UserRegistrerDto>(artistCreateDto);
+            var userRegistrerDto = _mapper.Map<UserIntranetDto>(artistCreateDto);
             userRegistrerDto.UserRoleId = 3;
             
             try
             {
-                var newUser = await _authService.Register(userRegistrerDto);
+                //var newUser = await _authService.Register(userRegistrerDto);
                 artist.SocialNetwork = socialNetwork;
-                artist.User = newUser;
+                //artist.User = newUser;
                 return artist;
             }
             catch (Exception e)

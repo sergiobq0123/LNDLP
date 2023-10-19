@@ -16,15 +16,14 @@ export class FestivalArtistDialogComponent {
   ) {}
 
   VOForm: FormGroup;
-  controls = {};
 
   ngOnInit(): void {
     this.VOForm = this.fb.group({});
     this.data.artistas.forEach(artist => {
-      const isAssociated = this.data.artistasAsociados
-        ? this.data.artistasAsociados.find(associatedArtist => associatedArtist.name === artist.name)
-        : null;
-      const initialValue = isAssociated ? true : false;
+      let isAssociated = this.data.festival.artistFestivalAsoc.some(
+        artistFestival => artistFestival.artistId === artist.id
+      );
+      let initialValue = isAssociated;
       this.VOForm.addControl(artist.name, new FormControl(initialValue));
     });
   }
@@ -36,20 +35,14 @@ export class FestivalArtistDialogComponent {
     Object.keys(this.VOForm.controls).forEach(key => {
       let control = this.VOForm.get(key);
       const artist = this.data.artistas.find(x => x.name == key);
-      const isAssociated = this.data.artistasAsociados
-        ? this.data.artistasAsociados.find(artist => artist.name === key)
-        : null;
 
       if (control.value) {
-        if (!isAssociated) {
-          nuevosArtistas.push(artist);
-        }
+        nuevosArtistas.push(artist);
       } else {
-        if (isAssociated) {
-          artistasEliminados.push(artist);
-        }
+        artistasEliminados.push(artist);
       }
     });
+
     this.dialogRef.close({ nuevosArtistas, artistasEliminados });
   }
 }

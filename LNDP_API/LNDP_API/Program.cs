@@ -43,7 +43,7 @@ builder.Services.AddCors(options => {
 //Add token service
 builder.Services.AddTransient<IJwtService, JwtService>();
 builder.Services.AddScoped<IArtistService, ArtistService>();
-builder.Services.AddScoped<IAuthService, AuthService>();
+
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
 builder.Services.AddControllers().AddJsonOptions(x =>
                 x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
@@ -57,11 +57,23 @@ builder.Services.AddTransient<IImageUtils, ImageUtils>();
 // REPOSITORY
 builder.Services.AddScoped<IYoutubeVideoRepository, YoutubeVideoRepository>();
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+builder.Services.AddScoped<ISongRepository, SongRepository>();
+builder.Services.AddScoped<IConcertRepository, ConcertRepository>();       
+builder.Services.AddScoped<IFestivalRepository, FestivalRepository>();     
+
 
 // SERVICES
 builder.Services.AddScoped<IYoutubeVideoService, YoutubeVideoService>();
 builder.Services.AddScoped<ICompanyService, CompanyService>();
 builder.Services.AddScoped<IFestivalArtistAsocService, FestivalArtistAsocService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<ISongService, SongService>();
+builder.Services.AddScoped<IConcertService, ConcertService>();
+builder.Services.AddScoped<IFestivalService, FestivalService>();
+
 
 var app = builder.Build();
 

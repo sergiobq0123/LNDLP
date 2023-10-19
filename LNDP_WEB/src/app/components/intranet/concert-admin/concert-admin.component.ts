@@ -67,7 +67,7 @@ export class ConcertAdminComponent {
 
   getConciertos() {
     this.spinner = true;
-    this._concertService.getIntranet().subscribe(
+    this._concertService.get().subscribe(
       (res) => {
         this.handleGetResponse(res);
       },
@@ -104,7 +104,7 @@ export class ConcertAdminComponent {
       },
       {
         name: 'Artista',
-        dataKey: 'artistName',
+        dataKey: 'artist.name',
         position: 'left',
         isSortable: false,
         type: ContentType.plainText
@@ -180,6 +180,13 @@ export class ConcertAdminComponent {
       {
         name: 'Localizacion',
         dataKey : 'location',
+        position: {row: 2, col : 0, rowSpan: 1, colSpan: 1},
+        type : ContentType.editableTextFields,
+        validators: [Validators.required]
+      },
+      {
+        name: 'Entradas',
+        dataKey : 'tickets',
         position: {row: 2, col : 0, rowSpan: 1, colSpan: 1},
         type : ContentType.editableTextFields,
         validators: [Validators.required]

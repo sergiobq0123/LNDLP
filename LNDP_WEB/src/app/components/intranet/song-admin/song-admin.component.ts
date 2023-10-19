@@ -72,7 +72,7 @@ export class SongAdminComponent {
 
   getSongs() {
     this.spinner = true;
-    this._songService.getIntranet().subscribe(
+    this._songService.get().subscribe(
       (res) => {
         this.handleGetResponse(res);
       },
@@ -104,7 +104,7 @@ export class SongAdminComponent {
       },
       {
         name: 'Artista',
-        dataKey: 'artistName',
+        dataKey: 'artist.name',
         position: 'left',
         isSortable: true,
         hidden: false,

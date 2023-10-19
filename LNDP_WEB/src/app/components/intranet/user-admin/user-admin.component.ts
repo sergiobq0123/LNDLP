@@ -119,6 +119,20 @@ export class UserAdminComponent {
         type: ContentType.editableTextFields,
       },
       {
+        name: 'Nombre',
+        dataKey: 'name',
+        position: 'left',
+        isSortable: false,
+        type: ContentType.editableTextFields,
+      },
+      {
+        name: 'Apellido',
+        dataKey: 'surname',
+        position: 'left',
+        isSortable: false,
+        type: ContentType.editableTextFields,
+      },
+      {
         name: 'Email',
         dataKey: 'email',
         position: 'left',
@@ -146,11 +160,6 @@ export class UserAdminComponent {
   setUserForm(): any[] {
     return [
       {
-        name: '_id',
-        dataKey: 'id',
-        hidden: true,
-      },
-      {
         name: 'Tipo de usuario',
         dataKey: 'userRoleId',
         position: { row: 0, col: 0, rowSpan: 1, colSpan: 1 },
@@ -159,6 +168,20 @@ export class UserAdminComponent {
         dropdown: this.usersKeys,
         dropdownKeyToShow: 'role',
         dropdownKeyValue: 'id',
+        validators: [Validators.required],
+      },
+      {
+        name: 'Nombre',
+        dataKey: 'name',
+        position: { row: 1, col: 0, rowSpan: 1, colSpan: 1 },
+        type: ContentType.editableTextFields,
+        validators: [Validators.required],
+      },
+      {
+        name: 'Apellido',
+        dataKey: 'surname',
+        position: { row: 1, col: 0, rowSpan: 1, colSpan: 1 },
+        type: ContentType.editableTextFields,
         validators: [Validators.required],
       },
       {
@@ -217,6 +240,25 @@ export class UserAdminComponent {
     ];
   }
 
+  async createElement(event: any): Promise<number> {
+    try {
+      const res = await this._userService.create(event).toPromise();
+      return res.u.id;
+    } catch (err) {
+      this.handleErrorResponse(err.error.message);
+      throw err;
+    }
+  }
+
+  async createAcces(event: any) {
+    try {
+      const res = await this._authService.registrer(event).toPromise();
+      this.handleResponse(res.message);
+    } catch (err) {
+      this.handleErrorResponse(err.error.message + ". Tenga cuidado que el usuario se ha creado ya");
+    }
+  }
+
   showFormDialog() {
     let dialogData = {
       formData: undefined,
@@ -228,9 +270,25 @@ export class UserAdminComponent {
       data: dialogData,
       minWidth: 600,
     });
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().subscribe(async (result) => {
       if (result !== undefined && result !== null && result !== '') {
-        this.createElement(result);
+        var user = {
+          name: result.name,
+          surname: result.surname,
+          email: result.email,
+          userRoleId: result.userRoleId
+        };
+        try {
+          var userId = await this.createElement(user);
+          var acces = {
+            username: result.username,
+            password: result.password,
+            userId: userId
+          };
+          await this.createAcces(acces);
+        } catch (error) {
+          // Manejar errores generales aquí si es necesario
+        }
       }
     });
   }
@@ -251,18 +309,6 @@ export class UserAdminComponent {
         this.updateElement(result);
       }
     });
-  }
-
-  createElement(event: any) {
-    event.id = 0;
-    this._authService.registrer(event).subscribe(
-      (res) => {
-        this.handleResponse(res.message);
-      },
-      (err) => {
-        this.handleErrorResponse(err.error.message);
-      }
-    );
   }
 
   updateElement(event: any) {

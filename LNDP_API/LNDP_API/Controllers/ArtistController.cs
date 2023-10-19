@@ -31,7 +31,12 @@ namespace LNDP_API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ArtistWebGenericDto>>> GetArtist2()
         {
-            return BadRequest();
+            var artists = await _context.Artist
+            .Include(a => a.SocialNetwork)
+            .AsNoTracking()
+            .ToListAsync();
+
+            return Ok(_mapper.Map<ICollection<ArtistGetDto>>(artists));
         }
 
         [HttpGet("intranet")]

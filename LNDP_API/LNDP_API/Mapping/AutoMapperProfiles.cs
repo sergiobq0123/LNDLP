@@ -1,22 +1,22 @@
 using AutoMapper;
 using LNDP_API.Dtos;
 using LNDP_API.Models;
-using LNDP_API.Utils.PasswordHasher;
+using LNDP_API.Utils;
 
 namespace LNDP_API.Mapping{
     public class AutoMapperProfiles : Profile {
         public AutoMapperProfiles()
         {
             // Inicio de sesión
-            CreateMap<User, UserRegistrerDto>()
-            .ForMember(dest => dest.UserRoleName, opt => opt.MapFrom(src => src.UserRole.Role))
+            CreateMap<User, UserIntranetDto>()
             .ReverseMap();
             CreateMap<UserLoginDto, User>();
+            CreateMap<AccesDto, Acces>().ReverseMap();
 
             // postArtist
             CreateMap<ArtistCreateDto, SocialNetwork>();
             CreateMap<ArtistCreateDto, Artist>();
-            CreateMap<ArtistCreateDto, UserRegistrerDto>();
+            CreateMap<ArtistCreateDto, UserIntranetDto>();
             CreateMap<ArtistDto, Artist>().ReverseMap();
             CreateMap<AlbumDto, Album>().ReverseMap();
 

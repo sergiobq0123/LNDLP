@@ -22,6 +22,71 @@ namespace LNDP_API.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("LNDP_API.Models.Acces", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PasswordSalt")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Acces");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            PasswordHash = "hqGjeZaNY8WUfzecBOsVPtrDrd1hjsc3vvrCIIScp3I=",
+                            PasswordSalt = "c9hPd5GDg/9Nyw5B+56KwQ==",
+                            UserId = 1,
+                            UserName = "Sanchez"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            PasswordHash = "n0jMUt233KVWRfLVtNc+b+RRR1dc0x5hbwXaJbm63V0=",
+                            PasswordSalt = "c9hPd5GDg/9Nyw5B+56KwQ==",
+                            UserId = 2,
+                            UserName = "Torres"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            PasswordHash = "UFbaC+jgIiWdxY9JldURMAv/ESBconIQZesVlttbSrk=",
+                            PasswordSalt = "c9hPd5GDg/9Nyw5B+56KwQ==",
+                            UserId = 3,
+                            UserName = "Tomas"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            PasswordHash = "WE8nOmXCem8QCb3uB22HOgwbokc0QxSr00352XfRs5k=",
+                            PasswordSalt = "c9hPd5GDg/9Nyw5B+56KwQ==",
+                            UserId = 4,
+                            UserName = "Iglesias"
+                        });
+                });
+
             modelBuilder.Entity("LNDP_API.Models.Album", b =>
                 {
                     b.Property<int>("Id")
@@ -239,6 +304,9 @@ namespace LNDP_API.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
+                    b.Property<string>("PhotoUrl")
+                        .HasColumnType("text");
+
                     b.Property<string>("Tickets")
                         .HasColumnType("text");
 
@@ -322,20 +390,16 @@ namespace LNDP_API.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("PasswordHash")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("PasswordSalt")
+                    b.Property<string>("Surname")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("UserRoleId")
                         .HasColumnType("integer");
-
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -348,37 +412,33 @@ namespace LNDP_API.Migrations
                         {
                             Id = 1,
                             Email = "Sanchez",
-                            PasswordHash = "cjLHPiVTQGiTcxUREaPDDsF86a1XFtxm8TNcC+SyPDE=",
-                            PasswordSalt = "K8Ec2j2/KDgbUc/XblXu0Q==",
-                            UserRoleId = 1,
-                            Username = "Sanchez"
+                            Name = "Sergio",
+                            Surname = "Sanchez",
+                            UserRoleId = 1
                         },
                         new
                         {
                             Id = 2,
                             Email = "Torres",
-                            PasswordHash = "5nclhORa4Cngy8zaXA630byOO13eWoMH/Cl7idlbJVc=",
-                            PasswordSalt = "K8Ec2j2/KDgbUc/XblXu0Q==",
-                            UserRoleId = 1,
-                            Username = "Torres"
+                            Name = "Jorge",
+                            Surname = "Torres",
+                            UserRoleId = 1
                         },
                         new
                         {
                             Id = 3,
                             Email = "Tomas",
-                            PasswordHash = "57RFU5uj5VbWDfUfu6/ZFK7nvvTrp7mV4LWQ+pTukRo=",
-                            PasswordSalt = "K8Ec2j2/KDgbUc/XblXu0Q==",
-                            UserRoleId = 1,
-                            Username = "Tomas"
+                            Name = "Tomas",
+                            Surname = "De la Fuente",
+                            UserRoleId = 1
                         },
                         new
                         {
                             Id = 4,
                             Email = "Iglesias",
-                            PasswordHash = "iu4nziSpOfnntpS9+FpLFOFnvzuvNOBhjlwmWkgF1/A=",
-                            PasswordSalt = "K8Ec2j2/KDgbUc/XblXu0Q==",
-                            UserRoleId = 2,
-                            Username = "Iglesias"
+                            Name = "Alvaro",
+                            Surname = "Iglesias",
+                            UserRoleId = 2
                         });
                 });
 
@@ -434,6 +494,17 @@ namespace LNDP_API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("YoutubeVideo");
+                });
+
+            modelBuilder.Entity("LNDP_API.Models.Acces", b =>
+                {
+                    b.HasOne("LNDP_API.Models.User", "User")
+                        .WithOne("Acces")
+                        .HasForeignKey("LNDP_API.Models.Acces", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("LNDP_API.Models.Album", b =>
@@ -544,6 +615,11 @@ namespace LNDP_API.Migrations
             modelBuilder.Entity("LNDP_API.Models.Festival", b =>
                 {
                     b.Navigation("ArtistFestivalAsoc");
+                });
+
+            modelBuilder.Entity("LNDP_API.Models.User", b =>
+                {
+                    b.Navigation("Acces");
                 });
 #pragma warning restore 612, 618
         }

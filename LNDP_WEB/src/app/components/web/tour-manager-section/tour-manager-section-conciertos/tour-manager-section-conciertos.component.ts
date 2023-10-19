@@ -23,7 +23,7 @@ export class TourManagerSectionConciertosComponent {
   }
   setGenericCard(){
     this.genericCard = this.concerts.map(concert => ({
-        imagen: concert.photoUrl,
+        imagen: concert.artist.photoUrl,
         titulo : concert.name,
         descripcion : `${concert.city}, ${concert.date}`,
         url : concert.tickets

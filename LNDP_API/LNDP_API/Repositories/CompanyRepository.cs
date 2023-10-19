@@ -13,11 +13,11 @@ namespace LNDP_API.Repositories
         }
         public async Task<IEnumerable<Company>> GetAsync()
         {
-            return await _context.Company.Include(c => c.CompanyType).ToListAsync();
+            return await _context.Company.Include(c => c.CompanyType).AsNoTracking().ToListAsync();
         }
         public async Task<IEnumerable<Company>> GetByTypeAsync(string type)
         {
-            return await _context.Company.Where(c => c.CompanyType.CompanyTypeName == type).ToListAsync();
+            return await _context.Company.Where(c => c.CompanyType.CompanyTypeName == type).AsNoTracking().ToListAsync();
         }
         
         public async Task<bool> ExistCompanyAsync(int idCompany)

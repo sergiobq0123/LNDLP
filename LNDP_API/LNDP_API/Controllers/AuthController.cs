@@ -39,11 +39,14 @@ namespace LNDP_API.Controllers{
         }
 
         [HttpPost("Register")]
-        public async Task<ActionResult<string>> Register(UserRegistrerDto userRegistrerDto)
+        public async Task<ActionResult<string>> Register(AccesDto accesDto)
         {
+            if(await _authService.ExistUserName(accesDto.Username)){
+                return BadRequest(new { Message = "El usuario con este username ya existe" });
+            }
             try
             {
-                await _authService.Register(userRegistrerDto);
+                await _authService.Register(accesDto);
                 return Ok(new { Message = "Usuario registrado con éxito" });
             }
             catch (Exception ex)

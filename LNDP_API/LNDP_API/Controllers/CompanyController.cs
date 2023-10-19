@@ -30,7 +30,6 @@ namespace LNDP_API.Controllers
         public async Task<ActionResult<IEnumerable<Company>>> GetCompanyIntranet()
         {
             try{
-                var company = await _companyService.GetCompany();
                 return Ok(await _companyService.GetCompany());
             }
             catch(Exception ex){

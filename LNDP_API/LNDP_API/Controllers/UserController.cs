@@ -7,7 +7,7 @@ using TTTAPI.Utils;
 using LNDP_API.Dtos;
 using LNDP_API.Services;
 using AutoMapper;
-using LNDP_API.Utils.PasswordHasher;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LNDP_API.Controllers
 {
@@ -17,26 +17,25 @@ namespace LNDP_API.Controllers
     {
         private readonly APIContext _context;
         private readonly IAuthService _authService;
-        private readonly IMapper _mapper;
+        private readonly IUserService _userService;
 
-        public UserController(APIContext context, IAuthService authService, IMapper mapper)
+        public UserController(APIContext context, IAuthService authService, IUserService userService)
         {
             _context = context;
             _authService = authService;
-            _mapper = mapper;
+            _userService = userService;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserRegistrerDto>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<UserIntranetDto>>> GetUsers()
         {
-            if(_context.User == null){
-                return NotFound();
+            try{
+                return Ok(await _userService.GetUser());
             }
-            return await _context.User
-            .Include(u => u.UserRole)
-            .Select( u => _mapper.Map<UserRegistrerDto>(u))
-            .ToListAsync();
-
+            catch(Exception ex){
+                return BadRequest(new {ex.Message});
+            }
         }
 
         [HttpGet("{id}")]
@@ -51,29 +50,15 @@ namespace LNDP_API.Controllers
 
             return user;
         }
-        
-        [HttpPost("filter")]
-        public async Task<ActionResult<IEnumerable<User>>> GetFilteredUser([FromBody] List<Filter> filters)
-        {
-            if (_context.User == null)
-            {
-                return NotFound();
-            }
 
-            Expression<Func<User, bool>> predicate = FilterUtils.GetPredicate<User>(filters);
-            return await _context.User.Where(predicate).ToListAsync();
-        }
-
-        // Use Auth
+        [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<ActionResult<User>> Register(UserRegistrerDto userDto) 
+        public async Task<ActionResult<User>> PostUser(User user) 
         {
             try
             {
-                var user = await _authService.Register(userDto);
-                await _context.User.AddAsync(user);
-                await _context.SaveChangesAsync();
-                return Ok(new { Message = "Usuario creado con éxito" });
+                User u = await _userService.CreateUser(user);
+                return Ok(new { Message = "Usuario creado con éxito", u });
             }
             catch (Exception e)
             {
@@ -81,19 +66,21 @@ namespace LNDP_API.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
-        public async Task<ActionResult> PutUser(int id, UserRegistrerDto userRegistrerDto)
+        public async Task<ActionResult> PutUser(int id, User user)
         {
+            if (!await _userService.ExistUser(id))
+            {
+                return BadRequest(new { Message = "El usuario especificado no exise."});
+            }
             try{
-                User user = await _authService.UpdateUser(userRegistrerDto);
-                _context.Entry(user).State = EntityState.Modified;
-                await _context.SaveChangesAsync();
-                return Ok(new { Message = "Usuario actializado con éxito"});
+                User u = await _userService.UpdateUser(user);
+                return Ok(new { Message = "Usuario actualizado con éxito.", u});
             }
             catch(Exception ex){
                 return BadRequest(new {ex.Message});
             }
-            
         }
 
         [HttpDelete("{id}")]
