@@ -4,14 +4,16 @@ import { notifications } from 'src/app/common/notifications';
 import { NotificationService } from 'src/app/services/notification.service';
 import { GenericForm, ContentType } from '../general/generic-form-dialog/generic-content';
 import { GenericFormDialogComponent } from '../general/generic-form-dialog/generic-form-dialog.component';
-import { Filter } from '../general/generic-table/Filter';
 import { Column } from '../general/generic-table/column';
 import { GenericTableComponent } from '../general/generic-table/generic-table.component';
 import { PageEvent } from '@angular/material/paginator';
-
 import { CompanyService } from 'src/app/services/intranet/company.service';
 import { CompanyTypeService } from 'src/app/services/intranet/company-type.service';
 import { Validators } from '@angular/forms';
+import { Filter } from '../general/generic-filter/filter';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { IconButton } from '../general/generic-table/icon-button';
+
 
 
 @Component({
@@ -34,9 +36,13 @@ export class CompanyAdminComponent {
   spinner: boolean = false;
   pageSize : number = 10;
   totalCompanies = 50
+  iconButtons : IconButton[] = []
 
   @ViewChild(GenericTableComponent) table: GenericTableComponent;
   @ViewChild('imageTemplate') imageTemplate: TemplateRef<any>;
+  @ViewChild('addTemplate') addTemplate: TemplateRef<any>;
+
+  faPlus = faPlus;
 
   constructor(
     public _companyService: CompanyService,
@@ -48,6 +54,19 @@ export class CompanyAdminComponent {
   ngOnInit() {
     this.getCompaniesType();
     this.getCompanies();
+  }
+
+  ngAfterViewInit(){
+    this.setIconsButtons()
+  }
+
+  setIconsButtons() {
+    this.iconButtons = [
+      {
+        template: this.addTemplate,
+        isLeft: true,
+      }
+    ];
   }
 
   getCompanies() {

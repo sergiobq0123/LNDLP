@@ -6,7 +6,8 @@ using LNDP_API.Models;
 using TTTAPI.JWT.Models;
 using System.Security.Claims;
 using TTTAPI.JWT.Managers;
-using LNDP_API.Utils.PasswordHasher;
+using LNDP_API.Utils;
+using LNDP_API.Repositories;
 
 namespace LNDP_API.Services{
 
@@ -16,30 +17,29 @@ namespace LNDP_API.Services{
         private readonly IJwtService _jwtService; 
         private readonly string _pepper = "pepper";
         private readonly int _iteration = 3;
-        public AuthService(APIContext context, IMapper mapper, IJwtService jwtService)
+        private readonly IAuthRepository _authRepository;
+        private readonly IUserRepository _userRepository;
+        public AuthService(APIContext context, IMapper mapper, IJwtService jwtService, IAuthRepository authRepository, IUserRepository userRepository)
         {
             _context = context;
             _mapper = mapper;
             _jwtService = jwtService;
+            _authRepository = authRepository;
+            _userRepository = userRepository;
         }
 
-        public async Task<User> Register(UserRegistrerDto userDto)
+        public async Task<Acces> Register(AccesDto accesDto)
         {
-            if (await ExistUserEmail(userDto.Email))
-            {
-                throw new Exception("El usuario con este correo ya existe");
-            }
-            if (await ExistUserUsername(userDto.Username))
-            {
-                throw new Exception("El usuario con este nombre ya existe");
-            }
-            var userNew = _mapper.Map<User>(userDto);
-            userNew.UserRole = _context.UserRole.Find(userDto.UserRoleId);
-            userNew.PasswordSalt = PasswordHasher.GenerateSalt();
-            userNew.PasswordHash = PasswordHasher.ComputeHash(userDto.Password, userNew.PasswordSalt, _pepper, _iteration);
-            await _context.User.AddAsync(userNew);
-            await _context.SaveChangesAsync();
-            return userNew;
+            
+            Acces acces = _mapper.Map<Acces>(accesDto);
+            acces.PasswordSalt = PasswordHasher.GenerateSalt();
+            acces.PasswordHash = PasswordHasher.ComputeHash(accesDto.Password, acces.PasswordSalt, _pepper, _iteration);
+            return await _authRepository.CreateAsync(acces);
+        }
+
+        public async Task<bool> ExistUserName(string username)
+        {
+            return await _authRepository.UsernameExistAsync(username);
         }
 
         public async Task<string> Login(string email, string password)
@@ -50,10 +50,7 @@ namespace LNDP_API.Services{
             if(user == null){
                 throw new Exception("Usuario no registrado");
             }
-            var passwordHash = PasswordHasher.ComputeHash(password, user.PasswordSalt, _pepper, _iteration);
-            if(user.PasswordHash != passwordHash){
-                throw new Exception("La contraseña es incorrecta");
-            }
+
 
             IJwtContainer model = new JwtContainer()
             {
@@ -67,17 +64,10 @@ namespace LNDP_API.Services{
             return token;
         }
 
-        public async Task<User> UpdateUser(UserRegistrerDto userRegistrerDto)
+        public async Task<User> UpdateUser(UserIntranetDto userRegistrerDto)
         {
             User newUser = _mapper.Map<User>(userRegistrerDto);
-            if (userRegistrerDto.Password == null){
-                User user = await _context.User.AsNoTracking().FirstAsync(u => u.Id == userRegistrerDto.Id);
-                newUser.PasswordHash = user.PasswordHash;
-                newUser.PasswordSalt = user.PasswordSalt;
-            }else{
-                newUser.PasswordSalt = PasswordHasher.GenerateSalt();
-                newUser.PasswordHash = PasswordHasher.ComputeHash(userRegistrerDto.Password, newUser.PasswordSalt, _pepper, _iteration);
-            }
+
             return newUser;
         }
         
@@ -97,15 +87,5 @@ namespace LNDP_API.Services{
             _context.User.Remove(user);
             await _context.SaveChangesAsync();
         }
-
-        private async Task<bool> ExistUserEmail(string email)
-        {
-            return await _context.User.AnyAsync( x=> x.Email == email);
-        }
-        private async Task<bool> ExistUserUsername(string username)
-        {
-            return await _context.User.AnyAsync( x=> x.Username == username);
-        }
-        
     }
 }

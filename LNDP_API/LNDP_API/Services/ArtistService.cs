@@ -9,13 +9,11 @@ namespace LNDP_API.Services{
     public class ArtistService : IArtistService{
         private readonly IMapper _mapper;
         private readonly IAuthService _authService;
-        private readonly IImageService _imageService;
 
-        public ArtistService(IMapper mapper, IAuthService authService, IImageService imageService)
+        public ArtistService(IMapper mapper, IAuthService authService)
         {
             _mapper = mapper;
             _authService = authService;
-                        _imageService = imageService;
 
         }
 
@@ -23,15 +21,14 @@ namespace LNDP_API.Services{
         {
             var artist = _mapper.Map<Artist>(artistCreateDto);
             var socialNetwork = _mapper.Map<SocialNetwork>(artistCreateDto);
-            var userRegistrerDto = _mapper.Map<UserRegistrerDto>(artistCreateDto);
+            var userRegistrerDto = _mapper.Map<UserIntranetDto>(artistCreateDto);
             userRegistrerDto.UserRoleId = 3;
             
             try
             {
-                var newUser = await _authService.Register(userRegistrerDto);
-                artist.PhotoUrl = await _imageService.ConvertBase64ToUrl(artistCreateDto.PhotoUrl, artistCreateDto.Name);
+                //var newUser = await _authService.Register(userRegistrerDto);
                 artist.SocialNetwork = socialNetwork;
-                artist.User = newUser;
+                //artist.User = newUser;
                 return artist;
             }
             catch (Exception e)

@@ -9,13 +9,12 @@
         matTooltipPosition="right"
         matTooltipShowDelay="500"
       >
-        <mat-icon
-          mat-list-icon
-          routerLinkActive="highlighted"
-          [routerLinkActiveOptions]="{ exact: true }"
-          class="menu-button"
-          >web</mat-icon
-        >
+        <fa-icon
+        [icon]="faGlobe"
+        routerLinkActive="highlighted"
+        [routerLinkActiveOptions]="{ exact : true }"
+        class="menu-button"
+        ></fa-icon>
       </mat-list-item>
       <mat-list-item
         [routerLink]="'Home'"
@@ -25,13 +24,12 @@
         matTooltipPosition="right"
         matTooltipShowDelay="500"
       >
-        <mat-icon
-          mat-list-icon
-          routerLinkActive="highlighted"
-          [routerLinkActiveOptions]="{ exact: true }"
-          class="menu-button"
-          >home</mat-icon
-        >
+        <fa-icon
+        [icon]="faHouse"
+        routerLinkActive="highlighted"
+        [routerLinkActiveOptions]="{ exact : true }"
+        class="menu-button"
+        ></fa-icon>
       </mat-list-item>
 
       <mat-list-item
@@ -42,13 +40,12 @@
         matTooltipPosition="right"
         matTooltipShowDelay="500"
       >
-        <mat-icon
-          mat-list-icon
-          routerLinkActive="highlighted"
-          [routerLinkActiveOptions]="{ exact: true }"
-          class="menu-button"
-          >music_note</mat-icon
-        >
+        <fa-icon
+        [icon]="faMicrophoneLines"
+        routerLinkActive="highlighted"
+        [routerLinkActiveOptions]="{ exact : true }"
+        class="menu-button"
+        ></fa-icon>
       </mat-list-item>
 
       <mat-list-item
@@ -59,30 +56,12 @@
         matTooltipPosition="right"
         matTooltipShowDelay="500"
       >
-        <mat-icon
-          mat-list-icon
-          routerLinkActive="highlighted"
-          [routerLinkActiveOptions]="{ exact: true }"
-          class="menu-button"
-          >library_music</mat-icon
-        >
-      </mat-list-item>
-
-      <mat-list-item
-        [routerLink]="'Eventos'"
-        [routerLinkActiveOptions]="{ exact: true }"
+        <fa-icon
+        [icon]="faPodcast"
         routerLinkActive="highlighted"
-        matTooltip="Eventos"
-        matTooltipPosition="right"
-        matTooltipShowDelay="500"
-      >
-        <mat-icon
-          mat-list-icon
-          routerLinkActive="highlighted"
-          [routerLinkActiveOptions]="{ exact: true }"
-          class="menu-button"
-          >dashboard</mat-icon
-        >
+        [routerLinkActiveOptions]="{ exact : true }"
+        class="menu-button"
+        ></fa-icon>
       </mat-list-item>
 
       <mat-list-item
@@ -93,13 +72,12 @@
         matTooltipPosition="right"
         matTooltipShowDelay="500"
       >
-        <mat-icon
-          mat-list-icon
-          routerLinkActive="highlighted"
-          [routerLinkActiveOptions]="{ exact: true }"
-          class="menu-button"
-          >person_pin</mat-icon
-        >
+        <fa-icon
+        [icon]="faCircleUser"
+        routerLinkActive="highlighted"
+        [routerLinkActiveOptions]="{ exact : true }"
+        class="menu-button"
+        ></fa-icon>
       </mat-list-item>
 
       <mat-list-item
@@ -110,13 +88,12 @@
         matTooltipPosition="right"
         matTooltipShowDelay="500"
       >
-        <mat-icon
-          mat-list-icon
-          routerLinkActive="highlighted"
-          [routerLinkActiveOptions]="{ exact: true }"
-          class="menu-button"
-          >add</mat-icon
-        >
+        <fa-icon
+        [icon]="faPlay"
+        routerLinkActive="highlighted"
+        [routerLinkActiveOptions]="{ exact : true }"
+        class="menu-button"
+        ></fa-icon>
       </mat-list-item>
 
       <mat-list-item
@@ -127,13 +104,12 @@
         matTooltipPosition="right"
         matTooltipShowDelay="500"
       >
-        <mat-icon
-          mat-list-icon
-          routerLinkActive="highlighted"
-          [routerLinkActiveOptions]="{ exact: true }"
-          class="menu-button"
-          >delete</mat-icon
-        >
+        <fa-icon
+        [icon]="faCompactDisc"
+        routerLinkActive="highlighted"
+        [routerLinkActiveOptions]="{ exact : true }"
+        class="menu-button"
+        ></fa-icon>
       </mat-list-item>
 
       <mat-list-item
@@ -144,14 +120,12 @@
         matTooltipPosition="right"
         matTooltipShowDelay="500"
       >
-        <mat-icon
-          mat-list-icon
-          routerLinkActive="highlighted"
-          [routerLinkActiveOptions]="{ exact: true }"
-          class="menu-button"
-        >
-          settings</mat-icon
-        >
+        <fa-icon
+        [icon]="faGear"
+        routerLinkActive="highlighted"
+        [routerLinkActiveOptions]="{ exact : true }"
+        class="menu-button"
+        ></fa-icon>
       </mat-list-item>
 
       <mat-list-item
@@ -162,13 +136,44 @@
         matTooltipPosition="right"
         matTooltipShowDelay="500"
       >
-        <mat-icon
-          mat-list-icon
-          routerLinkActive="highlighted"
-          [routerLinkActiveOptions]="{ exact: true }"
-          class="menu-button"
-          >business</mat-icon
-        >
+        <fa-icon
+        [icon]="faBriefcase"
+        routerLinkActive="highlighted"
+        [routerLinkActiveOptions]="{ exact : true }"
+        class="menu-button"
+        ></fa-icon>
+      </mat-list-item>
+
+      <mat-list-item
+        [routerLink]="'YoutubeVideos'"
+        [routerLinkActiveOptions]="{ exact: true }"
+        routerLinkActive="highlighted"
+        matTooltip="Youtube videos"
+        matTooltipPosition="right"
+        matTooltipShowDelay="500"
+      >
+        <fa-icon
+        [icon]="faYoutube"
+        routerLinkActive="highlighted"
+        [routerLinkActiveOptions]="{ exact : true }"
+        class="menu-button"
+        ></fa-icon>
+      </mat-list-item>
+
+      <mat-list-item
+        [routerLink]="'ConcertCrew'"
+        [routerLinkActiveOptions]="{ exact: true }"
+        routerLinkActive="highlighted"
+        matTooltip="Conciertos"
+        matTooltipPosition="right"
+        matTooltipShowDelay="500"
+      >
+      <fa-icon
+      [icon]="faMicrophoneLines"
+      routerLinkActive="highlighted"
+      [routerLinkActiveOptions]="{ exact : true }"
+      class="menu-button"
+      ></fa-icon>
       </mat-list-item>
     </mat-nav-list>
   </mat-sidenav>

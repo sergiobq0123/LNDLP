@@ -3,13 +3,9 @@
 .add-button {
   @include custom-iconbutton;
   background-color: $power-color;
-  &:hover{
+  color: $light-color;
+  font-size: 20px;
+  &:hover {
     background-color: $extra-color;
   }
-  mat-icon{
-    color: $light-color
-  }
-}
-.add-button:hover mat-icon{
-  color: $light-color
 }

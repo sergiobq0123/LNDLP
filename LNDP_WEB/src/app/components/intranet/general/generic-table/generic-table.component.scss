@@ -1,4 +1,4 @@
-@import '../../intranet.component.scss';
+@import "global";
 
 tr.detail-row {
   height: 0;
@@ -28,7 +28,7 @@ tr {
 .plain-text {
   margin: 0;
   font-size: 1rem;
-  max-width: 220px;
+  max-width: 320px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -79,12 +79,6 @@ tr {
   margin-right: 30px;
   margin-top: 38px;
   margin-bottom: 20px;
-}
-
-/*Filter icon and Column titles icon size*/
-mat-icon.filter-column-icon,
-mat-icon.filter-title-icon {
-  font-size: 18px;
 }
 
 /*Filter buttons icon*/
@@ -175,8 +169,8 @@ h2.column-selection-title {
   border-radius: 4px;
   border-width: 1px;
   flex-direction: column;
-  margin-bottom: 10px;
-  margin-top: 50px;
+  margin-bottom: 20px;
+  height: 200px;
 }
 
 .table-container {
@@ -189,81 +183,78 @@ h2.column-selection-title {
   width: 120px;
 }
 
+.buttons-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: -20px;
+  margin-bottom: 10px;
+}
+
 .buttons {
   display: flex;
   gap: 10px;
-  justify-content: flex-end;
-  margin-top: -20px;
 }
+
 .managecolumns-button {
   @include custom-iconbutton;
   margin-bottom: 10px;
   background-color: $power-color;
+  color: $light-color;
   &:hover {
     background-color: $extra-color;
-  }
-  mat-icon {
     color: $light-color;
   }
-}
-.managecolumns-button:hover mat-icon {
-  color: $light-color;
 }
 
 .filter-button {
   @include custom-iconbutton;
   margin-bottom: 10px;
   background-color: $power-color;
+  color: $light-color;
   &:hover {
     background-color: $extra-color;
-  }
-  mat-icon {
     color: $light-color;
   }
 }
-.filter-button:hover mat-icon {
-  color: $light-color;
-}
+
 .info-button {
   @include custom-iconbutton;
   background-color: $light-color;
+  color: $power-color;
+  font-size: medium;
   &:hover {
     background-color: $extra-color;
+    color: $light-color;
   }
-  mat-icon {
-    color: $power-color;
+  &:disabled {
+    background-color: rgba($middle-dark-color, 0.8);
+    color: rgba($light-color, 0.8);
+    cursor: default;
   }
-}
-.info-button:hover mat-icon {
-  color: $power-color;
 }
 
 .edit-button {
   @include custom-iconbutton;
   background-color: $light-color;
+  color: $power-color;
+
   &:hover {
     background-color: $extra-color;
-  }
-  mat-icon {
-    color: $power-color;
-  }
-}
-.edit-button:hover mat-icon {
-  color: $light-color;
-}
-.post-button {
-  @include custom-iconbutton;
-  background-color: $dark-color;
-  &:hover {
-    background-color: $extra-color;
-  }
-  mat-icon {
     color: $light-color;
   }
 }
-.post-button:hover mat-icon {
+
+.post-button {
+  @include custom-iconbutton;
+  background-color: $dark-color;
   color: $light-color;
+
+  &:hover {
+    background-color: $extra-color;
+    color: $light-color;
+  }
 }
+
 .mat-header {
   color: $light-color;
 }
@@ -294,23 +285,16 @@ h2.column-selection-title {
 :host ::ng-deep .mat-mdc-paginator-icon {
   fill: $light-color;
 }
-.syncjira-button {
-  @include custom-iconbutton;
-  background-color: $power-color;
-  &:hover {
-    background-color: $extra-color;
-  }
-  mat-icon {
-    color: $light-color;
-  }
-}
-.syncjira-button:hover mat-icon {
-  color: $light-color;
-}
 
 td.mat-column-_action {
   display: flex;
   gap: 5px;
   margin-top: 20px;
 }
-
+.copy-icon {
+  color: $light-color;
+  font-size: 16px;
+  &:hover {
+    color: $extra-color;
+  }
+}

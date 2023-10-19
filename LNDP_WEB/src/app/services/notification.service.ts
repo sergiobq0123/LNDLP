@@ -23,6 +23,6 @@ export class NotificationService {
   }
 
   showErrorMessage(message: string){
-    this.showMessageOnSnackbar(message, 'ERROR' , 3500 , 'error-button');
+    this.showMessageOnSnackbar(message, 'ERROR' , 3500 , 'err-button');
   }
 }

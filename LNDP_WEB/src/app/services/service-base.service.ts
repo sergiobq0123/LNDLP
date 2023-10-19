@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 import { Urls } from '../common/urls';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Filter } from '../components/intranet/general/generic-table/Filter';
+import { Filter } from '../components/intranet/general/generic-filter/filter';
 
 @Injectable({
   providedIn: 'root'
@@ -35,7 +35,7 @@ export class ServiceBaseService {
   }
 
   public getWithParams(url: string, params: HttpParams): Observable<any>{
-    return this.http.post(url, {params});
+    return this.http.get(url, {params});
   }
 
   public getCards():Observable<any>{
@@ -48,6 +48,10 @@ export class ServiceBaseService {
 
   public postSpecificUrl(url: string, data :any):Observable<any>{
     return this.http.post(url, data);
+  }
+
+  public deleteSpecificUrl(url: string, data :any):Observable<any>{
+    return this.http.delete(url, data);
   }
 
   public create(data: any): Observable<any>{

@@ -12,10 +12,13 @@ import { Validators } from '@angular/forms';
 import { GenericFormDialogComponent } from '../general/generic-form-dialog/generic-form-dialog.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { GenericTableComponent } from '../general/generic-table/generic-table.component';
-import { Filter } from '../general/generic-table/Filter';
 import { SocialNetworkService } from 'src/app/services/intranet/social-network.service';
 import { notifications } from 'src/app/common/notifications';
 import { PageEvent } from '@angular/material/paginator';
+import { Filter } from '../general/generic-filter/filter';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { IconButton } from '../general/generic-table/icon-button';
+
 
 @Component({
   selector: 'app-artist-admin',
@@ -41,10 +44,14 @@ export class ArtistAdminComponent {
   spinner: boolean = false;
   pageSize : number = 10;
   totalArtist = 50
+  iconButtons : IconButton[] = []
 
   @ViewChild(GenericTableComponent) table: GenericTableComponent;
   @ViewChild('socialNetworkTemplate') socialNetworkTemplate: TemplateRef<any>;
   @ViewChild('imageTemplate') imageTemplate: TemplateRef<any>;
+  @ViewChild('addTemplate') addTemplate: TemplateRef<any>;
+
+  faPlus = faPlus;
 
   constructor(
     public _artistService: ArtistService,
@@ -55,6 +62,19 @@ export class ArtistAdminComponent {
 
   ngOnInit() {
     this.getArtist();
+  }
+
+  ngAfterViewInit(){
+    this.setIconsButtons()
+  }
+
+  setIconsButtons() {
+    this.iconButtons = [
+      {
+        template: this.addTemplate,
+        isLeft: true,
+      }
+    ];
   }
 
   getArtist() {

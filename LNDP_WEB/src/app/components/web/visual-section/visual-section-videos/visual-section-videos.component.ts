@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { YoutubeVideoService } from 'src/app/services/intranet/youtube-video.service';
 
 @Component({
   selector: 'app-visual-section-videos',
@@ -6,12 +7,16 @@ import { Component } from '@angular/core';
   styleUrls: ['./visual-section-videos.component.scss']
 })
 export class VisualSectionVideosComponent {
-  youtubeVideo : Array<any> = [
-    {url : 'https://www.youtube.com/embed/AUdz46rXKCM'},
-    {url : 'https://www.youtube.com/embed/AUdz46rXKCM'},
-    {url : 'https://www.youtube.com/embed/AUdz46rXKCM'},
-    {url : 'https://www.youtube.com/embed/AUdz46rXKCM'},
-    {url : 'https://www.youtube.com/embed/AUdz46rXKCM'},
-    {url : 'https://www.youtube.com/embed/AUdz46rXKCM'},
-  ]
+  youtubeVideo: Array<any> = new Array<any>();
+
+  constructor(
+    private _youtubeService : YoutubeVideoService
+  ) {
+  }
+
+  ngOnInit(){
+    this._youtubeService.getWeb().subscribe(res => {
+      this.youtubeVideo = res;
+    })
+  }
 }

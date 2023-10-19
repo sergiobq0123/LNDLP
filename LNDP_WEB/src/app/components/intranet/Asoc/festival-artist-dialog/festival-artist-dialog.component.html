@@ -1,0 +1,27 @@
+<div class="popupbox">
+  <div mat-dialog-title class="title">añadir artistas a {{ data.festival.name }}</div>
+  <div mat-dialog-content>
+    <ng-container *ngIf="data.artistas.length > 0">
+      <form [formGroup]="VOForm" autocomplete="off" class="content">
+        <mat-checkbox *ngFor="let artist of data.artistas" class="artist" formControlName="{{ artist.name }}">{{
+          artist.name
+        }}</mat-checkbox>
+      </form>
+    </ng-container>
+    <ng-container *ngIf="data.artistas.length <= 0">
+      <p class="no-data-msg">No hay artistas disponibles</p>
+    </ng-container>
+  </div>
+  <div mat-dialog-actions align="end" class="buttonsbox">
+    <button
+      mat-button
+      class="buttonsbox__savebtn"
+      (click)="save()"
+      *ngIf="data.artistas.length > 0">
+      Save
+    </button>
+    <button mat-button mat-dialog-close class="buttonsbox__cancelbtn" (click)="dialogRef.close({ isCancel: true })">
+      {{ data.artistas.length > 0 ? "Cancel" : "Ok" }}
+    </button>
+  </div>
+</div>

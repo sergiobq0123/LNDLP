@@ -1,0 +1,46 @@
+<app-generic-window
+  [contentTemplate]="contentTemplate"
+  [windowTitle]="'Youtube videos'"
+></app-generic-window>
+
+<app-spinner *ngIf="this.spinner"></app-spinner>
+
+<ng-template #addTemplate>
+  <button
+    [disabled]="newRowAdded || entryBeingEdited"
+    id="add-button"
+    class="add-button"
+    (click)="showFormDialog()"
+    matTooltip="Add User"
+    matTooltipPosition="below"
+    matTooltipShowDelay="500">
+    <fa-icon [icon]="faPlus"></fa-icon>
+  </button>
+</ng-template>
+
+<ng-template #contentTemplate>
+  <app-generic-table
+    [tableData]="videos"
+    [tableColumns]="videoColumns"
+    [isPageable]="true"
+    [apiFailing]="apiFailing"
+    [isSortable]="true"
+    (filtered)="filterData($event)"
+    [hasActions]="true"
+    (modified)="updateElement($event)"
+    (rowAdded)="newRowAdded = $event"
+    (create)="createElement($event)"
+    (delete)="deleteElement($event)"
+    [paginationSizes]="[5, 10, 20]"
+    [pageSize]="pageSize"
+    [pageNumber]="pageNumber"
+    [totalRecords]="totalVideos"
+    (paginationChange)="onPaginationChange($event)"
+    [canManageColumns]="true"
+    [hasFilter]="true"
+    (edited)="entryBeingEdited = $event"
+    [iconButtons]="iconButtons"
+    *ngIf="loaded"
+  >
+  </app-generic-table>
+</ng-template>

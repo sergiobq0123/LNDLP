@@ -33,10 +33,13 @@ mat- .mat-toolbar.mat-primary {
 
 .menu-button {
   color: $light-color;
-  vertical-align: bottom;
   margin-right: 5px;
   margin-left: 5px;
+  font-size: large;
+  text-align: center;
+  padding: 0px;
 }
+
 .highlighted {
   background-color: $light-color;
   color: $power-color;
@@ -61,3 +64,6 @@ table {
   color: blue;
 }
 
+.mdc-list-item.mdc-list-item--with-one-line {
+  text-align: center;
+}

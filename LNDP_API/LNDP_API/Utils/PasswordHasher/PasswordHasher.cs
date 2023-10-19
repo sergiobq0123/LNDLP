@@ -1,7 +1,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace LNDP_API.Utils.PasswordHasher{
+namespace LNDP_API.Utils{
     public class PasswordHasher {
         
         public static string ComputeHash(string password, string salt, string pepper, int iteration){

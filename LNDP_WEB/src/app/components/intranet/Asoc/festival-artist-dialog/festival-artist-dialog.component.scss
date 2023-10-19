@@ -1,0 +1,89 @@
+@import "global.scss";
+
+.content {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 10px;
+  padding: 25px;
+}
+
+.popupbox {
+  background-color: $dark-color;
+  font-family: $secondary-font;
+  padding: 12px 30px 5px 30px;
+}
+.title {
+  color: $light-color;
+  font-size: 1.8rem;
+}
+
+.artist {
+  color: $light-color;
+  font-size: 10px;
+}
+
+.buttonsbox {
+  display: flex;
+  margin-bottom: 10px;
+  gap: 10px;
+  &__cancelbtn {
+    @include custom-button;
+    color: $power-color;
+    background-color: $light-color;
+    &:hover {
+      background-color: $extra-color;
+      color: $light-color;
+    }
+  }
+  &__savebtn {
+    @include custom-button;
+    color: $light-color;
+    background-color: $power-color;
+    &:hover {
+      background-color: $extra-color;
+      color: $light-color;
+    }
+  }
+  &__savebtn:disabled {
+    background-color: $middle-dark-color;
+    color: rgba($light-color, 0.6);
+    &:hover {
+      background-color: $middle-dark-color;
+      color: rgba($light-color, 0.6);
+    }
+  }
+}
+
+.no-data-msg {
+  color: $light-color;
+  padding-top: 15px;
+  font-size: 1rem;
+}
+
+:host ::ng-deep .mdc-form-field {
+  color: $light-color;
+  font-size: 1rem;
+}
+
+:host
+  ::ng-deep
+  .mat-mdc-checkbox
+  .mdc-checkbox
+  .mdc-checkbox__native-control:enabled:not(:checked):not(:indeterminate):not([data-indeterminate="true"])
+  ~ .mdc-checkbox__background {
+  border-color: $power-color;
+}
+
+:host ::ng-deep .mat-mdc-checkbox.mat-accent {
+  --mdc-checkbox-selected-checkmark-color: $light-color;
+  --mdc-checkbox-selected-focus-icon-color: #185fa7 !important;
+  --mdc-checkbox-selected-hover-icon-color: #185fa7 !important;
+  --mdc-checkbox-selected-icon-color: #185fa7 !important;
+  --mdc-checkbox-selected-pressed-icon-color: #185fa7 !important;
+  --mdc-checkbox-unselected-focus-icon-color: #185fa7 !important;
+  --mdc-checkbox-unselected-hover-icon-color: #185fa7 !important;
+}
+
+:host ::ng-deep .mat-mdc-checkbox.mat-accent .mdc-checkbox--selected ~ .mdc-checkbox__ripple {
+  background: $extra-color;
+}

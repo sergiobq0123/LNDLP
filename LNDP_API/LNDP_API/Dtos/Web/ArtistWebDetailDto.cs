@@ -7,6 +7,6 @@ namespace LNDP_API.Dtos {
         public string? PhotoUrl {get;set;}
         public ICollection<AlbumWebDto>? Albums {get;set;}
         public ICollection<SongWebDto>? Songs {get;set;}
-        public ICollection<ConcertDto>? Concerts {get;set;}
+        public ICollection<ConcertWebDto>? Concerts {get;set;}
     }
 }

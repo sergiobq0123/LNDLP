@@ -10,10 +10,11 @@ export class Urls {
   static USERROLE = '/api/UserRole'
   static ARTIST = '/api/Artist'
   static EMAIL = '/api/Email'
-  static FESTIVAL = '/api/Event/type/Festival'
+  static FESTIVAL = '/api/Festival'
   static CONCIERTO = '/api/Concert'
   static SOCIALNETWORK = '/api/SocialNetwork'
   static EVENT = '/api/Event'
+  static FESTIVALARTISTASOC = '/api/FestivalArtistAsoc'
   static EVENTTYPE = '/api/EventType'
   static SONG = '/api/Song'
   static ALBUM = '/api/Album'
@@ -21,8 +22,12 @@ export class Urls {
   static BRAND = '/api/Brand'
   static COLLABORATION = '/api/Collaboration'
   static COMPANY = '/api/Company'
+  static YOUTUBEVIDEO = '/api/YoutubeVideo'
   static COMPANYTYPE = '/api/CompanyType'
   static IMAGE = '/postImage'
   static INTRANET = '/intranet'
   static KEYS = '/keys'
+
+  // WEB
+  static YOUTUBEVIDEOSWEB = '/youtube-videos-web'
 }

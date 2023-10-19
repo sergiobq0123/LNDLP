@@ -1,56 +1,44 @@
 {
   "Files": [
     {
-      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\a.jpg",
-      "PackagePath": "staticwebassets\\assets\\a.jpg"
-    },
-    {
       "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\aa.jpg",
       "PackagePath": "staticwebassets\\assets\\aa.jpg"
     },
     {
-      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\asa.jpg",
-      "PackagePath": "staticwebassets\\assets\\asa.jpg"
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\aaaaaaaaaaaaa.jpg",
+      "PackagePath": "staticwebassets\\assets\\aaaaaaaaaaaaa.jpg"
     },
     {
       "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\asdas.jpg",
       "PackagePath": "staticwebassets\\assets\\asdas.jpg"
     },
     {
-      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\dasdasd.jpg",
-      "PackagePath": "staticwebassets\\assets\\dasdasd.jpg"
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\assasas.jpg",
+      "PackagePath": "staticwebassets\\assets\\assasas.jpg"
     },
     {
-      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\dfsdf.jpg",
-      "PackagePath": "staticwebassets\\assets\\dfsdf.jpg"
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\b.jpg",
+      "PackagePath": "staticwebassets\\assets\\b.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\cddd.jpg",
+      "PackagePath": "staticwebassets\\assets\\cddd.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\dfdsf.jpg",
+      "PackagePath": "staticwebassets\\assets\\dfdsf.jpg"
     },
     {
       "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\dudi.jpg",
       "PackagePath": "staticwebassets\\assets\\dudi.jpg"
     },
     {
-      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\g.jpg",
-      "PackagePath": "staticwebassets\\assets\\g.jpg"
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\f.jpg",
+      "PackagePath": "staticwebassets\\assets\\f.jpg"
     },
     {
-      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\marca1.jpg",
-      "PackagePath": "staticwebassets\\assets\\marca1.jpg"
-    },
-    {
-      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\pro1.jpg",
-      "PackagePath": "staticwebassets\\assets\\pro1.jpg"
-    },
-    {
-      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\s.jpg",
-      "PackagePath": "staticwebassets\\assets\\s.jpg"
-    },
-    {
-      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\sello1.jpg",
-      "PackagePath": "staticwebassets\\assets\\sello1.jpg"
-    },
-    {
-      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\ss.jpg",
-      "PackagePath": "staticwebassets\\assets\\ss.jpg"
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\sss.jpg",
+      "PackagePath": "staticwebassets\\assets\\sss.jpg"
     },
     {
       "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.LNDP_API.Microsoft.AspNetCore.StaticWebAssets.props",

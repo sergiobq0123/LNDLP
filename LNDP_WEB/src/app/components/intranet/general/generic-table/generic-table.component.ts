@@ -1,5 +1,3 @@
-
-
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Component, EventEmitter, Input, Output, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
@@ -8,6 +6,24 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+
+import {
+  faAngleDown,
+  faAngleUp,
+  faBars,
+  faCheck,
+  faColumns,
+  faCopy,
+  faEye,
+  faEyeSlash,
+  faFilter,
+  faInfo,
+  faPen,
+  faPlus,
+  faSyncAlt,
+  faTimes,
+  faTrash,
+} from '@fortawesome/free-solid-svg-icons';
 import { ErrorCode, ErrorDTO, ErrorType } from 'src/app/common/errorDTO.model';
 import { notifications } from 'src/app/common/notifications';
 import { NotificationService } from 'src/app/services/notification.service';
@@ -15,7 +31,9 @@ import { ValidatorService } from 'src/app/services/validator.service';
 import { Filter } from '../generic-filter/filter';
 import { ContentType } from '../generic-form-dialog/generic-content';
 import { Column } from './column';
-import { DeleteWindowComponent } from '../../delete-window/delete-window.component';
+
+import { IconButton } from './icon-button';
+import { DeleteWindowComponent } from '../delete-window/delete-window.component';
 
 @Component({
   selector: 'app-generic-table',
@@ -40,9 +58,12 @@ export class GenericTableComponent {
   edittingRows = new Map();
   entryBeingEdited: boolean = false;
   isSaved: boolean = false;
+  isEdited: boolean = false;
   showColumnSelection: boolean = false;
   showFilterOptions: boolean = false;
-
+  leftButtons: IconButton[] = [];
+  rightButtons: IconButton[] = [];
+  iconsVisibles: { row: string; column: string } = { row: null, column: null };
   @ViewChild(MatPaginator) matPaginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) matSort: MatSort;
 
@@ -51,6 +72,7 @@ export class GenericTableComponent {
   @Input() isExpandable = false;
   @Input() isOrderable = false;
   @Input() hasActions = false;
+  @Input() hideDeleteButton = false;
   @Input() canAddRows = false;
   @Input() apiFailing = false;
   @Input() editingOutside = false;
@@ -68,6 +90,8 @@ export class GenericTableComponent {
   @Input() pageNumber = 1;
   @Input() totalRecords: number;
   @Input() isUsers: boolean = false;
+  @Input() iconButtons: IconButton[] = [];
+  @Input() actionButtons: IconButton[] = [];
 
   @Output() filtered: EventEmitter<Filter[]> = new EventEmitter();
   @Output() sort: EventEmitter<Sort> = new EventEmitter();
@@ -79,6 +103,22 @@ export class GenericTableComponent {
   @Output() paginationChange: EventEmitter<PageEvent> = new EventEmitter();
   @Output() edited: EventEmitter<boolean> = new EventEmitter<boolean>();
 
+  faCopy = faCopy;
+  faInfo = faInfo;
+  faFilter = faFilter;
+  faColumns = faColumns;
+  faTrash = faTrash;
+  faPen = faPen;
+  faSyncAlt = faSyncAlt;
+  faCheck = faCheck;
+  faTimes = faTimes;
+  faPlus = faPlus;
+  faEye = faEye;
+  faEyeSlash = faEyeSlash;
+  faAngleDown = faAngleDown;
+  faAngleUp = faAngleUp;
+  faBars = faBars;
+
   constructor(
     private fb: FormBuilder,
     private notificationService: NotificationService,
@@ -87,6 +127,9 @@ export class GenericTableComponent {
   ) {}
 
   ngOnInit(): void {
+    if (this.iconButtons.length > 0) {
+      this.divideButtons();
+    }
     this.setTableDataSource();
     this.displayedColumns = new Array<string>();
     for (var i = 0; i < this.tableColumns.length; i++) {
@@ -105,12 +148,25 @@ export class GenericTableComponent {
     }
   }
 
+  checkOverflow(element) {
+    return element.offsetHeight < element.scrollHeight || element.offsetWidth < element.scrollWidth;
+  }
+  onMouseOverInput(row: string, column: string) {
+    this.iconsVisibles.row = row;
+    this.iconsVisibles.column = column;
+  }
+
+  onMouseLeaveInput() {
+    this.iconsVisibles.row = null;
+    this.iconsVisibles.column = null;
+  }
+
   ngOnChanges(changes: SimpleChanges) {
     let mustRender: boolean =
-      changes['tableColumn'] !== undefined ||
-      changes['tableData'] !== undefined ||
-      changes['expandData'] !== undefined ||
-      changes['expandTemplate'] !== undefined;
+      changes["tableColumn"] !== undefined ||
+      changes["tableData"] !== undefined ||
+      changes["expandData"] !== undefined ||
+      changes["expandTemplate"] !== undefined;
     if (mustRender) {
       this.setTableDataSource();
     }
@@ -141,15 +197,20 @@ export class GenericTableComponent {
       }
     }
   }
-  defineTooltip(columnName: string): string {
-    if (columnName === 'SPs') {
-      return 'Estimated Story Points';
-    } else if (columnName === 'TL') {
-      return 'Time Logged';
+
+  getDataTooltip(column: Column, value: string): string {
+    if (!column.matTooltip) {
+      return '';
+    }
+    if (column.matTooltip instanceof Function) {
+      return column.matTooltip(value);
+    } else if (typeof column.matTooltip === 'string') {
+      return column.matTooltip;
     } else {
-      return null;
+      return '';
     }
   }
+
   getAvailableColumns() {
     return this.tableColumns
       .filter(c => !c.name.includes('_') && !this.displayedColumns.includes(c.name))
@@ -266,6 +327,7 @@ export class GenericTableComponent {
       row.get('isEditable').patchValue(false);
       this.entryBeingEdited = true;
       this.edited.emit(this.entryBeingEdited);
+      this.isEdited = true;
     } else {
       this.notificationService.showMessageOnSnackbar(notifications.ENTRY_BEING_EDITED, 'X', 3500, 'warn-button');
     }
@@ -347,26 +409,9 @@ export class GenericTableComponent {
     this.sort.emit(sortParameters);
   }
 
-  getValueToShow(column: Column, key: string): string {
-    switch (column.type) {
-      case ContentType.dropdownFields:
-        const dropdown = column.dropdown.find(element => element.id === key);
-        return dropdown ? dropdown[column.dropdownKeyToShow] : null;
-      case ContentType.radioButtons:
-        const radioButton = column.radioButtons.find(element => element.value === key);
-        return radioButton ? radioButton.shown : null;
-      case ContentType.datePicker:
-        return new Date(key).toLocaleString('en-GB', { timeZone: 'UTC' });
-      default:
-        return key;
-    }
-  }
 
-  openMaps(direccion: string) {
-    const url = `https://www.google.com/maps?q=${direccion}`;
-    window.open(url, '_blank');
+  divideButtons() {
+    this.leftButtons = this.iconButtons.filter(b => b.isLeft);
+    this.rightButtons = this.iconButtons.filter(b => !b.isLeft);
   }
 }
-
-
-

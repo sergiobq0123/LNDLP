@@ -5,6 +5,7 @@ using LNDP_API.Models;
 using LNDP_API.Dtos;
 using AutoMapper;
 using LNDP_API.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LNDP_API.Controllers
 {   
@@ -12,77 +13,70 @@ namespace LNDP_API.Controllers
     [ApiController]
     public class SongController : ControllerBase
     {
-        private readonly APIContext _context;
-        private readonly IUrlEmbedService _urlEmbedService;
-        private readonly IMapper _mapper;
+        private readonly ISongService _songService;
 
-        public SongController(APIContext context, IUrlEmbedService urlEmbedService, IMapper mapper)
+        public SongController(ISongService songService)
         {
-            _context = context;
-            _urlEmbedService = urlEmbedService;
-            _mapper = mapper;
+            _songService = songService;
         }
- 
+
+        [Authorize(Roles = "Admin")]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<SongIntranetDto>>> GetSong()
+        public async Task<ActionResult<IEnumerable<Song>>> GetSongIntranet()
         {
-            return await _context.Song
-            .Include( c => c.Artist)
-            .Select( s => _mapper.Map<SongIntranetDto>(s))
-            .ToListAsync();
-        }
-
-        [HttpGet("intranet")]
-        public async Task<ActionResult<IEnumerable<SongIntranetDto>>> GetSongIntranet()
-        {
-            return await _context.Song
-            .Include( c => c.Artist)
-            .AsNoTracking()
-            .Select( s => _mapper.Map<SongIntranetDto>(s))
-            .ToListAsync();
-        }
-
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Song>> GetSong(int id)
-        {         
-            var Song = await _context.Song.FindAsync(id);
-            if(Song == null){
-                return NotFound(new { Message = "La cancion no se ha encontrado"});
+            try{
+                return Ok(await _songService.GetSong());
             }
-            return Song;
+            catch(Exception ex){
+                return BadRequest(new {ex.Message});
+            }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<ActionResult> PostSong(SongIntranetDto songIntranetDto)
+        public async Task<ActionResult> PostSong(Song song)
         {
-            songIntranetDto.Url = _urlEmbedService.GetEmbedUrlYoutube(songIntranetDto.Url);
-            Song song = _mapper.Map<Song>(songIntranetDto);
-            song.Artist = _context.Artist.Find(songIntranetDto.ArtistId);
-            _context.Song.Add(song);
-            await _context.SaveChangesAsync();
-            return Ok(new { Message = "Canción añadida con éxito" });
+            try{
+                Song s = await _songService.CreateSong(song);
+                return Ok(new { Message = "Canción creada con éxito", s});
+            }
+            catch(Exception ex){
+                return BadRequest(new {ex.Message});
+            }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
-        public async Task<ActionResult> PutSong(int id, SongIntranetDto songIntranetDto)
+        public async Task<ActionResult> PutSong(int id, Song song)
         {
-            songIntranetDto.Url = _urlEmbedService.GetEmbedUrlYoutube(songIntranetDto.Url);
-            _context.Entry(_mapper.Map<Song>(songIntranetDto)).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-            return Ok(new { Message = "Canción actualizada con éxito"});
+            if (!await _songService.ExistSong(id))
+            {
+                return BadRequest(new { Message = "La canción especificada no existe."});
+            }
+            try{
+                Song s = await _songService.UpdateSong(song);
+                return Ok(new { Message = "Canción actualizada con éxito.", s});
+            }
+            catch(Exception ex){
+                return BadRequest(new {ex.Message});
+            }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteSong(int id)
         {
-            var song = await _context.Song.FindAsync(id);
-            if (song == null)
+            if (!await _songService.ExistSong(id))
             {
-                return NotFound();
+                return BadRequest(new { Message = "la canción especificada no existe." });
             }
-            _context.Song.Remove(song);
-            await _context.SaveChangesAsync();
-            return Ok(new { Message = "Canción borrada con éxito" });
+            try{
+                await _songService.DeleteSong(id);
+                return Ok(new { Message = "Canción eliminada con éxito."});
+            }
+            catch(Exception ex){
+                return BadRequest(new {ex.Message});
+            }
         }
     }
 }

@@ -3,11 +3,24 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
+import {
+  faMusic,
+  faCompactDisc,
+  faCircleUser,
+  faGear,
+  faBriefcase,
+  faPlay,
+  faPodcast,
+  faMicrophoneLines,
+  faHouse,
+  faGlobe
+} from '@fortawesome/free-solid-svg-icons';
+import { faYoutube } from '@fortawesome/free-brands-svg-icons';
 
 @Component({
   selector: 'app-intranet',
   templateUrl: './intranet.component.html',
-  styleUrls: ['./intranet.component.scss']
+  styleUrls: ['./intranet.component.scss'],
 })
 export class IntranetComponent {
   @ViewChild(MatSidenav) sidenav!: MatSidenav;
@@ -21,19 +34,32 @@ export class IntranetComponent {
 
   loginSubscription: Subscription;
 
-  constructor(
-    private router: Router,
-    private authService: AuthService,
-  ) {}
+  faYoutube = faYoutube;
+  faMusic = faMusic;
+  faCompactDisc = faCompactDisc;
+  faCircleUser = faCircleUser;
+  faGear = faGear;
+  faBriefcase = faBriefcase;
+  faPlay = faPlay;
+  faPodcast = faPodcast;
+  faMicrophoneLines = faMicrophoneLines;
+  faHouse = faHouse
+  faGlobe = faGlobe
+
+  constructor(private router: Router, private authService: AuthService) {}
 
   ngAfterViewInit() {
-    this.loginSubscription = this.authService.getLoginEvent().subscribe(loggedIn => {
-      if (!loggedIn) {
-        this.opened = false;
-      }
-      this.visible = !!loggedIn || this.opened;
-      this.toolbar_button.nativeElement.style.display = !!loggedIn ? '' : 'none';
-    });
+    this.loginSubscription = this.authService
+      .getLoginEvent()
+      .subscribe((loggedIn) => {
+        if (!loggedIn) {
+          this.opened = false;
+        }
+        this.visible = !!loggedIn || this.opened;
+        this.toolbar_button.nativeElement.style.display = !!loggedIn
+          ? ''
+          : 'none';
+      });
     this.authService.loginChangedEvent.next(this.authService.isLoggedIn());
   }
 
@@ -42,6 +68,6 @@ export class IntranetComponent {
   }
 
   logout() {
-    this.authService.logout()
+    this.authService.logout();
   }
 }

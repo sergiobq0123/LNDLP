@@ -5,6 +5,8 @@ using LNDP_API.Models;
 using LNDP_API.Dtos;
 using AutoMapper;
 using LNDP_API.Services;
+using TTTAPI.JWT.Managers;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LNDP_API.Controllers
 {   
@@ -14,53 +16,58 @@ namespace LNDP_API.Controllers
     {
         private readonly APIContext _context;
         private readonly IMapper _mapper;
+        private readonly IHttpContextAccessor _httpContext;
+        private readonly IJwtService _jwtService;
+        private readonly IConcertService _concertService;
 
-        public ConcertController(APIContext context, IMapper mapper)
+        public ConcertController(APIContext context, IMapper mapper, IHttpContextAccessor httpContext, IConcertService concertService)
         {
             _context = context;
             _mapper = mapper;
+            _httpContext = httpContext;
+            _concertService = concertService;
         }
  
+        [Authorize(Roles = "Admin")]
+        [AllowAnonymous]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ConcertIntranetDto>>> GetConcert()
+        public async Task<ActionResult<IEnumerable<Concert>>> GetConcert()
         {
-            return await _context.Concert
-            .Include( c => c.Artist)
-            .Select( s => _mapper.Map<ConcertIntranetDto>(s))
-            .ToListAsync();
+            try{
+                return Ok(await _concertService.GetConcert());
+            }
+            catch(Exception ex){
+                return BadRequest(new {ex.Message});
+            }
         }
 
-        [HttpGet("intranet")]
-        public async Task<ActionResult<IEnumerable<ConcertIntranetDto>>> GetConcertIntranet()
-        {
-            return await _context.Concert
-            .Include( c => c.Artist)
-            .AsNoTracking()
-            .Select( s => _mapper.Map<ConcertIntranetDto>(s))
-            .ToListAsync();
-        }
-
+        [AllowAnonymous]
         [HttpGet("proximos-conciertos")]
         public async Task<ActionResult<IEnumerable<Concert>>> GetConcertProximosConciertos()
         {
-            DateTime fechaActualUtc = DateTime.UtcNow;
-            var conciertosProximos = await _context.Concert
-                .Include(c => c.Artist)
-                .AsNoTracking()
-                .Where(c => c.Date >= fechaActualUtc)
-                .OrderBy(s => s.Date)
-                .Select(c => new
-                {
-                    c.Name,
-                    c.Date,
-                    c.City,
-                    c.Tickets,
-                    c.Artist.PhotoUrl
-                })
-                .ToListAsync();
-            return Ok(conciertosProximos);
+            try{
+                return Ok(await _concertService.GetFutureConcerts());
+            }
+            catch(Exception ex){
+                return BadRequest(new {ex.Message});
+            }
         }
 
+        // TODO change to role crew y probarlo
+        [Authorize(Roles = "Admin")]
+        [HttpGet("artist-id")]
+        public async Task<ActionResult<IEnumerable<Concert>>> GetConcertArtistId(int artistId)
+        {
+            try{
+                return Ok(await _concertService.GetConcertForArtist(artistId));
+            }
+            catch(Exception ex){
+                return BadRequest(new {ex.Message});
+            }
+
+        }
+
+        [Authorize(Roles = "Admin")]
         [HttpGet("{id}")]
         public async Task<ActionResult<Concert>> GetConcert(int id)
         {         
@@ -71,36 +78,52 @@ namespace LNDP_API.Controllers
             return Concert;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<ActionResult> PostConcert(ConcertIntranetDto ConcertIntranetDto)
+        public async Task<ActionResult> PostConcert(Concert concert)
         {
-            Concert Concert = _mapper.Map<Concert>(ConcertIntranetDto);
-            Concert.Artist = _context.Artist.Find(ConcertIntranetDto.ArtistId);
-            Concert.UrlLocation = Concert.Location;
-            _context.Concert.Add(Concert);
-            await _context.SaveChangesAsync();
-            return Ok(new { Message = "Concierto añadido con éxito" });
+            try{
+                Concert c = await _concertService.CreateConcert(concert);
+                return Ok(new { Message = "Concierto creado con éxito", c});
+            }
+            catch(Exception ex){
+                return BadRequest(new {ex.Message});
+            }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
-        public async Task<ActionResult> PutConcert(int id, ConcertIntranetDto ConcertIntranetDto)
+        public async Task<ActionResult> PutConcert(int id, Concert concert)
         {
-            _context.Entry(_mapper.Map<Concert>(ConcertIntranetDto)).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-            return Ok(new { Message = "Concierto actualizado con éxito"});
+            if (!await _concertService.ExistConcert(id))
+            {
+                return BadRequest(new { Message = "El concierto especificado no existe."});
+            }
+            try{
+                Concert s = await _concertService.UpdateConcert(concert);
+                return Ok(new { Message = "concierto actualizado con éxito.", s});
+            }
+            catch(Exception ex){
+                return BadRequest(new {ex.Message});
+            }
         }
 
+
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteConcert(int id)
         {
-            var Concert = await _context.Concert.FindAsync(id);
-            if (Concert == null)
+            if (!await _concertService.ExistConcert(id))
             {
-                return NotFound();
+                return BadRequest(new { Message = "la canción especificada no existe." });
             }
-            _context.Concert.Remove(Concert);
-            await _context.SaveChangesAsync();
-            return Ok(new { Message = "Concierto borrado con éxito" });
+            try{
+                await _concertService.DeleteConcert(id);
+                return Ok(new { Message = "Canción eliminada con éxito."});
+            }
+            catch(Exception ex){
+                return BadRequest(new {ex.Message});
+            }
         }
     }
 }

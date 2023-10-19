@@ -19,13 +19,11 @@ namespace LNDP_API.Controllers
     {
         private readonly APIContext _context;
         private readonly IMapper _mapper;
-        private readonly IImageService _imageService;
 
-        public AlbumController(APIContext context, IMapper mapper, IImageService imageService)
+        public AlbumController(APIContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
-            _imageService = imageService;
         }
 
         [HttpGet]
@@ -67,7 +65,6 @@ namespace LNDP_API.Controllers
         {
             try
             {
-                albumIntranetDto.PhotoUrl = await _imageService.ConvertBase64ToUrl(albumIntranetDto.PhotoUrl, albumIntranetDto.Name);
                 Album album = _mapper.Map<Album>(albumIntranetDto);
                 album.Artist = _context.Artist.Find(albumIntranetDto.ArtistId);
                 _context.Album.Add(album);
@@ -87,7 +84,6 @@ namespace LNDP_API.Controllers
             {
                 Album album = await _context.Album.Where(c => c.Id == id).FirstOrDefaultAsync();
                 if(album.PhotoUrl != albumIntranetDto.PhotoUrl){
-                    albumIntranetDto.PhotoUrl = await _imageService.ConvertBase64ToUrl(albumIntranetDto.PhotoUrl, albumIntranetDto.Name);
                 }
                 _context.Entry(album).CurrentValues.SetValues(albumIntranetDto);
                 await _context.SaveChangesAsync();
