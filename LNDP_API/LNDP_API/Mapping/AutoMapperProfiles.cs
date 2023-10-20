@@ -40,6 +40,8 @@ namespace LNDP_API.Mapping{
 
 
             //intranet
+            CreateMap<Artist, KeysIntranetDto>().ReverseMap();
+
             CreateMap<Artist, ArtistGetDto>()
             .ForMember(dest => dest.socialNetworkIntranetDto, opt => opt.MapFrom(src => src.SocialNetwork))
             .ReverseMap();

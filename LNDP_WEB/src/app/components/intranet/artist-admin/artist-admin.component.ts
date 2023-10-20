@@ -79,7 +79,7 @@ export class ArtistAdminComponent {
 
   getArtist() {
     this.spinner = true;
-    this._artistService.getIntranet().subscribe(
+    this._artistService.get().subscribe(
       (res) => {
         this.handleGetResponse(res);
       },
@@ -94,11 +94,6 @@ export class ArtistAdminComponent {
       {
         name: '_id',
         dataKey: 'id',
-        hidden: true,
-      },
-      {
-        name: '_photo',
-        dataKey: 'photoUrl',
         hidden: true,
       },
       {
@@ -151,7 +146,7 @@ export class ArtistAdminComponent {
       },
       {
         name: 'Redes',
-        dataKey: 'socialNetworkIntranetDto',
+        dataKey: 'socialNetwork',
         position: 'left',
         isSortable: false,
         type: ContentType.specialContent,
@@ -189,20 +184,20 @@ export class ArtistAdminComponent {
         type: ContentType.editableTextFields,
         validators: [Validators.required],
       },
-      {
-        name: 'Nombre de usuario',
-        dataKey: 'username',
-        position: { row: 0, col: 1, rowSpan: 1, colSpan: 1 },
-        type: ContentType.editableTextFields,
-        validators: [Validators.required],
-      },
-      {
-        name: 'Contraseña',
-        dataKey: 'password',
-        position: { row: 0, col: 2, rowSpan: 1, colSpan: 1 },
-        type: ContentType.editableTextFields,
-        validators: [Validators.required],
-      },
+      // {
+      //   name: 'Nombre de usuario',
+      //   dataKey: 'username',
+      //   position: { row: 0, col: 1, rowSpan: 1, colSpan: 1 },
+      //   type: ContentType.editableTextFields,
+      //   validators: [Validators.required],
+      // },
+      // {
+      //   name: 'Contraseña',
+      //   dataKey: 'password',
+      //   position: { row: 0, col: 2, rowSpan: 1, colSpan: 1 },
+      //   type: ContentType.editableTextFields,
+      //   validators: [Validators.required],
+      // },
       {
         name: 'Ciudad',
         dataKey: 'city',
@@ -235,46 +230,6 @@ export class ArtistAdminComponent {
         name: 'Telefono',
         dataKey: 'phone',
         position: { row: 2, col: 1, rowSpan: 1, colSpan: 1 },
-        type: ContentType.editableTextFields,
-        validators: [Validators.required],
-      },
-      {
-        name: 'artistId',
-        dataKey: 'artistId',
-        hidden: true,
-      },
-      {
-        name: 'Instagram',
-        dataKey: 'instagram',
-        position: { row: 3, col: 0, rowSpan: 1, colSpan: 1 },
-        type: ContentType.editableTextFields,
-        validators: [Validators.required],
-      },
-      {
-        name: 'Youtube',
-        dataKey: 'youtube',
-        position: { row: 3, col: 1, rowSpan: 1, colSpan: 1 },
-        type: ContentType.editableTextFields,
-        validators: [Validators.required],
-      },
-      {
-        name: 'Spotify',
-        dataKey: 'spotify',
-        position: { row: 3, col: 2, rowSpan: 1, colSpan: 1 },
-        type: ContentType.editableTextFields,
-        validators: [Validators.required],
-      },
-      {
-        name: 'TikTok',
-        dataKey: 'tikTok',
-        position: { row: 4, col: 0, rowSpan: 1, colSpan: 1 },
-        type: ContentType.editableTextFields,
-        validators: [Validators.required],
-      },
-      {
-        name: 'Twitter',
-        dataKey: 'twitter',
-        position: { row: 4, col: 1, rowSpan: 1, colSpan: 1 },
         type: ContentType.editableTextFields,
         validators: [Validators.required],
       },
@@ -341,36 +296,6 @@ export class ArtistAdminComponent {
   setImageForm(): any[] {
     return [
       {
-        name: 'Id',
-        dataKey: 'id',
-        hidden : true
-      },
-      {
-        name: 'Nombre',
-        dataKey: 'name',
-        hidden : true
-      },
-      {
-        name: 'City',
-        dataKey: 'city',
-        hidden : true
-      },
-      {
-        name: 'RecruitmentEmail',
-        dataKey: 'recruitmentEmail',
-        hidden : true
-      },
-      {
-        name: 'CommunicationEmail',
-        dataKey: 'communicationEmail',
-        hidden : true
-      },
-      {
-        name: 'Phone',
-        dataKey: 'phone',
-        hidden : true
-      },
-      {
         name: 'Imagen',
         dataKey: 'photoUrl',
         position: { row: 1, col: 1, rowSpan: 1, colSpan: 2 },
@@ -428,7 +353,8 @@ export class ArtistAdminComponent {
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result !== undefined && result !== null && result !== '') {
-        this.updateElement(this._artistService, result)
+        dataShow.photoUrl = result.photoUrl
+        this.updateElement(this._artistService, dataShow)
       }
     });
   }

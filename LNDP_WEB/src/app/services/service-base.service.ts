@@ -70,7 +70,6 @@ export class ServiceBaseService {
     return this.http.delete(`${this.getUrl}/${id}`)
   }
 
-
   public getFiltered(filters: Filter[]):Observable<any> {
     let params : any [] = filters.map( f => {
       return {

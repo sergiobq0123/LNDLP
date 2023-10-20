@@ -8,7 +8,6 @@ export interface Festival extends ModelBase {
   location?: string,
   urlLocation?: string,
   tickets?: string
-  artists?: Artist[]
   photoUrl?: string;
   artistFestivalAsoc?: ArtistFestivalAsoc[]
 }

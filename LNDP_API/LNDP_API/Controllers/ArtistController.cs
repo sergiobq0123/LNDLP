@@ -1,13 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using LNDP_API.Data;
 using LNDP_API.Models;
 using Microsoft.AspNetCore.Authorization;
-using System.Linq.Expressions;
-using TTTAPI.Utils;
 using LNDP_API.Dtos;
 using AutoMapper;
-using Microsoft.AspNetCore.SignalR.Protocol;
 using LNDP_API.Services;
 
 namespace LNDP_API.Controllers
@@ -27,119 +23,94 @@ namespace LNDP_API.Controllers
             _artistService = artistService;
         }
 
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin")]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ArtistWebGenericDto>>> GetArtist2()
+        public async Task<ActionResult<IEnumerable<Artist>>> GetArtistIntranet()
         {
-            var artists = await _context.Artist
-            .Include(a => a.SocialNetwork)
-            .AsNoTracking()
-            .ToListAsync();
-
-            return Ok(_mapper.Map<ICollection<ArtistGetDto>>(artists));
+            try{
+                return Ok(await _artistService.GetArtist());
+            }
+            catch(Exception ex){
+                return BadRequest(new {ex.Message});
+            }
         }
 
-        [HttpGet("intranet")]
-        public async Task<ActionResult<IEnumerable<ArtistGetDto>>> GetArtistIntranet()
-        {
-            var artists = await _context.Artist
-            .Include(a => a.SocialNetwork)
-            .AsNoTracking()
-            .ToListAsync();
-
-            return Ok(_mapper.Map<ICollection<ArtistGetDto>>(artists));
-        }
-
+        [Authorize(Roles = "Admin")]
         [HttpGet("keys")]
-        public async Task<ActionResult<IEnumerable<ArtistIntranetNameDto>>> GetArtistKeys()
+        public async Task<ActionResult<IEnumerable<KeysIntranetDto>>> GetArtistKeys()
         {
-            var artists = await _context.Artist
-            .AsNoTracking()
-            .ToListAsync();
-
-            return Ok(_mapper.Map<ICollection<ArtistIntranetNameDto>>(artists));
-        }
-
-        [HttpGet("{id}")]
-        public async Task<ActionResult<ArtistWebDetailDto>> GetArtist(int id)
-        {
-            var fechaActualUtc = DateTime.UtcNow; 
-
-            var artist = await _context.Artist
-                .Include(a => a.Songs)
-                .Include(a => a.Albums)
-                .Include(a => a.Concerts)
-                .AsNoTracking()
-                .FirstOrDefaultAsync(a => a.Id == id);
-
-            artist.Concerts = artist.Concerts.Where(c => c.Date >= fechaActualUtc).ToList();
-            artist.Concerts = artist.Concerts.OrderBy(c => c.Date).ToList();
-            artist.Songs = artist.Songs.OrderBy(s => s.Name).ToList();
-            return _mapper.Map<ArtistWebDetailDto>(artist);
-        }
-        
-        [HttpPost("filter")]
-        public async Task<ActionResult<IEnumerable<Artist>>> GetFilteredArtist([FromBody] List<Filter> filters)
-        {
-            if (_context.Artist == null)
-            {
-                return NotFound();
+            try{
+                return Ok(await _artistService.GetArtistKeys());
             }
-
-            Expression<Func<Artist, bool>> predicate = FilterUtils.GetPredicate<Artist>(filters);
-            return await _context.Artist.Where(predicate).ToListAsync();
+            catch(Exception ex){
+                return BadRequest(new {ex.Message});
+            }
         }
 
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<ActionResult<Artist>> PostArtist([FromBody] ArtistCreateDto artistCreateDto)
+        public async Task<ActionResult> PostArtist(Artist artist)
         {
-            try
-            {
-                var artist = await _artistService.CreateArtist(artistCreateDto);
-                _context.Artist.Add(artist);
-                await _context.SaveChangesAsync();
-                return Ok(new { Message = "Artista creado con éxito" });
+            try{
+                Artist a = await _artistService.CreateArtist(artist);
+                return Ok(new { Message = "Artista creado con éxito", a});
             }
-            catch (Exception e)
-            {
-                return StatusCode(500, new { e.Message });
+            catch(Exception ex){
+                return BadRequest(new {ex.Message});
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
-        public async Task<ActionResult> PutArtist(int id, ArtistGetDto artistGetDto)
+        public async Task<ActionResult> PutArtist(int id, Artist artist)
         {
-            try
+            if (!await _artistService.ExistArtist(id))
             {
-                Artist artist = await _context.Artist.Where(c => c.Id == id).FirstOrDefaultAsync();
-                if(artist.PhotoUrl != artistGetDto.PhotoUrl){
-                }
-                _context.Entry(artist).CurrentValues.SetValues(artistGetDto);
-                await _context.SaveChangesAsync();
-                return Ok(new { Message = "Artista actualizado con éxito" });
+                return BadRequest(new { Message = "El artista especificado no existe."});
             }
-            catch (Exception ex)
-            {
-                return BadRequest(new { Message = "Error al actualizar el artista: " + ex.Message });
+            try{
+                Artist a = await _artistService.UpdateArtist(artist);
+                return Ok(new { Message = "Artista actualizado con éxito.", a});
+            }
+            catch(Exception ex){
+                return BadRequest(new {ex.Message});
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteArtist(int id)
         {
-            var Artist = await _context.Artist.FindAsync(id);
-            if(Artist == null){
-                return NotFound(new { Message = "El artista no se ha encontrado" });
+            if (!await _artistService.ExistArtist(id))
+            {
+                return BadRequest(new { Message = "El artista especificado no existe." });
             }
-            _context.Artist.Remove(Artist);
-            await _context.SaveChangesAsync();
-
-            return Ok(new { Message = "Artista borrado con éxito"});
+            try{
+                await _artistService.DeleteArtist(id);
+                return Ok(new { Message = "Artista eliminado con éxito."});
+            }
+            catch(Exception ex){
+                return BadRequest(new {ex.Message});
+            }
         }
 
-        private bool ArtistExists(int id){
-            return (_context.Artist?.Any(u => u.Id == id)).GetValueOrDefault();
-        }
-        }
+        // [HttpGet("{id}")]
+        // public async Task<ActionResult<ArtistWebDetailDto>> GetArtist(int id)
+        // {
+        //     var fechaActualUtc = DateTime.UtcNow; 
+
+        //     var artist = await _context.Artist
+        //         .Include(a => a.Songs)
+        //         .Include(a => a.Albums)
+        //         .Include(a => a.Concerts)
+        //         .AsNoTracking()
+        //         .FirstOrDefaultAsync(a => a.Id == id);
+
+        //     artist.Concerts = artist.Concerts.Where(c => c.Date >= fechaActualUtc).ToList();
+        //     artist.Concerts = artist.Concerts.OrderBy(c => c.Date).ToList();
+        //     artist.Songs = artist.Songs.OrderBy(s => s.Name).ToList();
+        //     return _mapper.Map<ArtistWebDetailDto>(artist);
+        // }
+        
+    }
 }

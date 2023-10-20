@@ -1,15 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using LNDP_API.Data;
 using LNDP_API.Models;
 using LNDP_API.Dtos;
-using System.Linq.Expressions;
-using TTTAPI.Utils;
-using LNDP_API.Dtos;
-using AutoMapper;
-using Microsoft.DotNet.Scaffolding.Shared.Messaging;
-using Newtonsoft.Json;
 using LNDP_API.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LNDP_API.Controllers
 {   
@@ -17,96 +10,77 @@ namespace LNDP_API.Controllers
     [ApiController]
     public class AlbumController : ControllerBase
     {
-        private readonly APIContext _context;
-        private readonly IMapper _mapper;
+        private readonly IAlbumService _albumService;
 
-        public AlbumController(APIContext context, IMapper mapper)
+        public AlbumController(IAlbumService albumService)
         {
-            _context = context;
-            _mapper = mapper;
+            _albumService = albumService;
+        }
+ 
+        [AllowAnonymous]
+        [HttpGet("type/{type}")]
+        public async Task<ActionResult<IEnumerable<AlbumWebDto>>> GetAlbum(string type)
+        {
+            return Ok();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<AlbumDto>>> GetAlbum()
+        public async Task<ActionResult<IEnumerable<Album>>> GetAlbumIntranet()
         {
-            if(_context.Album == null){
-                return NotFound();
+            try{
+                return Ok(await _albumService.GetAlbum());
             }
-            return await _context.Album
-            .Include( c => c.Artist)
-            .AsNoTracking()
-            .Select(a => _mapper.Map<AlbumDto>(a))
-            .ToListAsync();
+            catch(Exception ex){
+                return BadRequest(new {ex.Message});
+            }
         }
 
-        [HttpGet("intranet")]
-        public async Task<ActionResult<IEnumerable<AlbumIntranetDto>>> GetAlbumIntranet()
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public async Task<ActionResult> PostAlbum(Album album)
         {
-            return await _context.Album
-            .Include( a => a.Artist)
-            .AsNoTracking()
-            .Select(a => _mapper.Map<AlbumIntranetDto>(a))
-            .ToListAsync();
-        }
-
-
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Album>> GetAlbum(int id)
-        {         
-            var Album = await _context.Album.FindAsync(id);
-            if(Album == null){
-                return NotFound();
+            try{
+                Album c = await _albumService.CreateAlbum(album);
+                return Ok(new { Message = "Album creado con éxito", c});
             }
-            return Album;
-        }
-
-        [HttpPost] 
-        public async Task<ActionResult<Company>> PostCompany(AlbumIntranetDto albumIntranetDto)
-        {
-            try
-            {
-                Album album = _mapper.Map<Album>(albumIntranetDto);
-                album.Artist = _context.Artist.Find(albumIntranetDto.ArtistId);
-                _context.Album.Add(album);
-                await _context.SaveChangesAsync();
-                return Ok(new { Message = "Album creado con éxito"});
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { Message = "Error al crear la album", Error = ex.Message });
+            catch(Exception ex){
+                return BadRequest(new {ex.Message});
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
-        public async Task<ActionResult> PutAlbum(int id, AlbumIntranetDto albumIntranetDto)
+        public async Task<ActionResult> PutAlbum(int id, Album album)
         {
-            try
+            if (!await _albumService.ExistAlbum(id))
             {
-                Album album = await _context.Album.Where(c => c.Id == id).FirstOrDefaultAsync();
-                if(album.PhotoUrl != albumIntranetDto.PhotoUrl){
-                }
-                _context.Entry(album).CurrentValues.SetValues(albumIntranetDto);
-                await _context.SaveChangesAsync();
-                return Ok(new { Message = "Album actualizado con éxito" });
+                return BadRequest(new { Message = "El album especificado no existe."});
             }
-            catch (Exception ex)
-            {
-                return BadRequest(new { Message = "Error al actualizar el álbum: " + ex.Message });
+            try{
+                Album c = await _albumService.UpdateAlbum(album);
+                return Ok(new { Message = "Album actualizado con éxito.", c});
+            }
+            catch(Exception ex){
+                return BadRequest(new {ex.Message});
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteAlbum(int id)
         {
-            var Album = await _context.Album.FindAsync(id);
-            if(Album == null){
-                return NotFound(new { Message = "El álbum no se ha encontrado"});
+            if (!await _albumService.ExistAlbum(id))
+            {
+                return BadRequest(new { Message = "El album especificado no existe." });
             }
-            
-            _context.Album.Remove(Album);
-            await _context.SaveChangesAsync();
-
-            return Ok(new { Message = "Álbum borrado con exito"});
+            try{
+                await _albumService.DeleteAlbum(id);
+                return Ok(new { Message = "Album eliminado con éxito."});
+            }
+            catch(Exception ex){
+                return BadRequest(new {ex.Message});
+            }
         }
     }
 }

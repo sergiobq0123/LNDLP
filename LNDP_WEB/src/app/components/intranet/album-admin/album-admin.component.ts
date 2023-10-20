@@ -69,7 +69,7 @@ export class AlbumAdminComponent {
 
     getAlbums() {
       this.spinner = true;
-      this._albumService.getIntranet().subscribe(
+      this._albumService.get().subscribe(
         (res) => {
           this.handleGetResponse(res);
         },
@@ -99,7 +99,7 @@ export class AlbumAdminComponent {
         },
         {
           name: 'Artista',
-          dataKey: 'artistName',
+          dataKey: 'artist.name',
           position: 'left',
           isSortable: true,
           hidden: false,

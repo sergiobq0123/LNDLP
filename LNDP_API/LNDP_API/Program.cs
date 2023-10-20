@@ -7,7 +7,6 @@ using Microsoft.IdentityModel.Tokens;
 using LNDP_API.Mapping;
 using System.Text.Json.Serialization;
 using TTTAPI.JWT.Managers;
-using LNDP_API.Models;
 using LNDP_API.Utils;
 using LNDP_API.Repositories;
 
@@ -42,7 +41,6 @@ builder.Services.AddCors(options => {
 });
 //Add token service
 builder.Services.AddTransient<IJwtService, JwtService>();
-builder.Services.AddScoped<IArtistService, ArtistService>();
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
 builder.Services.AddControllers().AddJsonOptions(x =>
@@ -55,24 +53,31 @@ builder.Services.AddTransient<IUrlEmbedUtils, UrlEmbedUtils>();
 builder.Services.AddTransient<IImageUtils, ImageUtils>();
 
 // REPOSITORY
+builder.Services.AddScoped<IArtistRepository, ArtistRepository>();
 builder.Services.AddScoped<IYoutubeVideoRepository, YoutubeVideoRepository>();
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
+builder.Services.AddScoped<ICompanyTypeRepository, CompanyTypeRepository>();
+builder.Services.AddScoped<IArtistFestivalAsocRepository, ArtistFestivalAsocRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<ISongRepository, SongRepository>();
 builder.Services.AddScoped<IConcertRepository, ConcertRepository>();       
 builder.Services.AddScoped<IFestivalRepository, FestivalRepository>();     
+builder.Services.AddScoped<IAlbumRepository, AlbumRepository>();     
 
 
 // SERVICES
+builder.Services.AddScoped<IArtistService, ArtistService>();
 builder.Services.AddScoped<IYoutubeVideoService, YoutubeVideoService>();
 builder.Services.AddScoped<ICompanyService, CompanyService>();
-builder.Services.AddScoped<IFestivalArtistAsocService, FestivalArtistAsocService>();
+builder.Services.AddScoped<ICompanyTypeService, CompanyTypeService>();
+builder.Services.AddScoped<IArtistFestivalAsocService, ArtistFestivalAsocService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ISongService, SongService>();
 builder.Services.AddScoped<IConcertService, ConcertService>();
 builder.Services.AddScoped<IFestivalService, FestivalService>();
+builder.Services.AddScoped<IAlbumService, AlbumService>();
 
 
 var app = builder.Build();
