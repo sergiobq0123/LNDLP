@@ -80,7 +80,6 @@ namespace LNDP_API.Data
                 }
             );
 
-            
             var passwordSalt = PasswordHasher.GenerateSalt();
             modelBuilder.Entity<LNDP_API.Models.Acces>()
             .HasData(
@@ -159,18 +158,17 @@ namespace LNDP_API.Data
                 .HasMany(a => a.Concerts)
                 .WithOne(e => e.Artist)
                 .OnDelete(DeleteBehavior.Cascade); 
+
             modelBuilder.Entity<ArtistFestivalAsoc>()
-                .HasKey(afa => new { afa.FestivalId, afa.ArtistId });
+                .HasOne(afa => afa.Artist)
+                .WithMany(a => a.ArtistFestivalAsoc)
+                .HasForeignKey(afa => afa.ArtistId);
 
             modelBuilder.Entity<ArtistFestivalAsoc>()
                 .HasOne(afa => afa.Festival)
                 .WithMany(f => f.ArtistFestivalAsoc)
                 .HasForeignKey(afa => afa.FestivalId);
 
-            modelBuilder.Entity<ArtistFestivalAsoc>()
-                .HasOne(afa => afa.Artist)
-                .WithMany(a => a.ArtistFestivalAsoc)
-                .HasForeignKey(afa => afa.ArtistId);
             modelBuilder.Entity<User>()
                 .HasOne(a => a.Acces)
                 .WithOne(sm => sm.User)

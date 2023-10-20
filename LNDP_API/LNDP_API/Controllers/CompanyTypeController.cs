@@ -1,10 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using LNDP_API.Data;
-using LNDP_API.Models;
-using Microsoft.AspNetCore.Authorization;
-using AutoMapper;
 using LNDP_API.Dtos;
+using LNDP_API.Services;
+using LNDP_API.Models;
 
 namespace LNDP_API.Controllers
 {   
@@ -12,21 +9,16 @@ namespace LNDP_API.Controllers
     [ApiController]
     public class CompanyTypeController : ControllerBase
     {
-        private readonly APIContext _context;
-        private readonly IMapper _mapper;
+        private readonly ICompanyTypeService _companyTypeService;
 
-        public CompanyTypeController(APIContext context, IMapper mapper)
+        public CompanyTypeController(ICompanyTypeService companyTypeService)
         {
-            _context = context;
-            _mapper = mapper;
+            _companyTypeService = companyTypeService;
         }
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CompanyTypeIntranetDto>>> GetCompany()
+        public async Task<ActionResult<IEnumerable<CompanyType>>> GetCompany()
         {         
-            return await _context.CompanyType
-            .AsNoTracking()
-            .Select(c => _mapper.Map<CompanyTypeIntranetDto>(c))
-            .ToListAsync();
+            return Ok(await _companyTypeService.GetCompanyType());
         }
     }
 }

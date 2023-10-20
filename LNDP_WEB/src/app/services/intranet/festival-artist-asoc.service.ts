@@ -11,8 +11,4 @@ export class FestivalArtistAsocService extends ServiceBaseService {
   constructor(http: HttpClient) {
     super(http, Urls.FESTIVALARTISTASOC);
    }
-
-   updateAsoc(data){
-    return this.postSpecificUrl(this.getUrl, data)
-   }
 }

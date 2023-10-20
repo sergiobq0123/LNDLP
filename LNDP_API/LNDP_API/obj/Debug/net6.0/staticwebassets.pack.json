@@ -1,12 +1,24 @@
 {
   "Files": [
     {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\a.jpg",
+      "PackagePath": "staticwebassets\\assets\\a.jpg"
+    },
+    {
       "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\aa.jpg",
       "PackagePath": "staticwebassets\\assets\\aa.jpg"
     },
     {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\aaaa.jpg",
+      "PackagePath": "staticwebassets\\assets\\aaaa.jpg"
+    },
+    {
       "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\aaaaaaaaaaaaa.jpg",
       "PackagePath": "staticwebassets\\assets\\aaaaaaaaaaaaa.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\ab.jpg",
+      "PackagePath": "staticwebassets\\assets\\ab.jpg"
     },
     {
       "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\asdas.jpg",
@@ -39,6 +51,10 @@
     {
       "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\sss.jpg",
       "PackagePath": "staticwebassets\\assets\\sss.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\xxxxxx.jpg",
+      "PackagePath": "staticwebassets\\assets\\xxxxxx.jpg"
     },
     {
       "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.LNDP_API.Microsoft.AspNetCore.StaticWebAssets.props",

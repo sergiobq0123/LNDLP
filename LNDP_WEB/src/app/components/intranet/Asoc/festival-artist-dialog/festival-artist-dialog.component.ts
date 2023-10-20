@@ -2,6 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FestivalArtistDialogData } from './festival-artist-data';
+import { Artist } from 'src/app/models/artist.model';
 
 @Component({
   selector: 'app-festival-artist-dialog',
@@ -17,30 +18,27 @@ export class FestivalArtistDialogComponent {
 
   VOForm: FormGroup;
 
+  originalArtistasAsociados: Artist[];
+
   ngOnInit(): void {
     this.VOForm = this.fb.group({});
+    this.originalArtistasAsociados = [].concat(...this.data.festival.artistFestivalAsoc.map(af => af.artist));
     this.data.artistas.forEach(artist => {
-      let isAssociated = this.data.festival.artistFestivalAsoc.some(
-        artistFestival => artistFestival.artistId === artist.id
-      );
+      let isAssociated = this.originalArtistasAsociados.some(a => a.id === artist.id);
       let initialValue = isAssociated;
       this.VOForm.addControl(artist.name, new FormControl(initialValue));
     });
   }
 
   save() {
-    let nuevosArtistas = [];
-    let artistasEliminados = [];
+    let nuevosArtistas = this.data.artistas.filter(artist => {
+      const control = this.VOForm.get(artist.name);
+      return control.value && !this.originalArtistasAsociados.some(a => a.id === artist.id);
+    });
 
-    Object.keys(this.VOForm.controls).forEach(key => {
-      let control = this.VOForm.get(key);
-      const artist = this.data.artistas.find(x => x.name == key);
-
-      if (control.value) {
-        nuevosArtistas.push(artist);
-      } else {
-        artistasEliminados.push(artist);
-      }
+    let artistasEliminados = this.originalArtistasAsociados.filter(artist => {
+      const control = this.VOForm.get(artist.name);
+      return !control.value && this.data.festival.artistFestivalAsoc.some(af => af.artistId === artist.id);
     });
 
     this.dialogRef.close({ nuevosArtistas, artistasEliminados });

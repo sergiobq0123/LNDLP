@@ -56,32 +56,32 @@ namespace LNDP_API.Migrations
                         new
                         {
                             Id = 1,
-                            PasswordHash = "hqGjeZaNY8WUfzecBOsVPtrDrd1hjsc3vvrCIIScp3I=",
-                            PasswordSalt = "c9hPd5GDg/9Nyw5B+56KwQ==",
+                            PasswordHash = "nOJwRAnMQv1IznImgP52MhTdhQhCx3UUicbXvdb1xLk=",
+                            PasswordSalt = "05ohbwjIBic0Z07g+2Ca8g==",
                             UserId = 1,
                             UserName = "Sanchez"
                         },
                         new
                         {
                             Id = 2,
-                            PasswordHash = "n0jMUt233KVWRfLVtNc+b+RRR1dc0x5hbwXaJbm63V0=",
-                            PasswordSalt = "c9hPd5GDg/9Nyw5B+56KwQ==",
+                            PasswordHash = "tjcfps3YiI4MWeednqiafUWYqVS4qQCQS1FseVy+qAE=",
+                            PasswordSalt = "05ohbwjIBic0Z07g+2Ca8g==",
                             UserId = 2,
                             UserName = "Torres"
                         },
                         new
                         {
                             Id = 3,
-                            PasswordHash = "UFbaC+jgIiWdxY9JldURMAv/ESBconIQZesVlttbSrk=",
-                            PasswordSalt = "c9hPd5GDg/9Nyw5B+56KwQ==",
+                            PasswordHash = "Oynl5mHB5HgYEm8CfnZnIz33z9dCBXT/8kQ5FoeEgNg=",
+                            PasswordSalt = "05ohbwjIBic0Z07g+2Ca8g==",
                             UserId = 3,
                             UserName = "Tomas"
                         },
                         new
                         {
                             Id = 4,
-                            PasswordHash = "WE8nOmXCem8QCb3uB22HOgwbokc0QxSr00352XfRs5k=",
-                            PasswordSalt = "c9hPd5GDg/9Nyw5B+56KwQ==",
+                            PasswordHash = "1Kc0oN/x9dQeCBTxmoPLc4gc7C0c0mreSRO56bwRZqA=",
+                            PasswordSalt = "05ohbwjIBic0Z07g+2Ca8g==",
                             UserId = 4,
                             UserName = "Iglesias"
                         });
@@ -161,18 +161,23 @@ namespace LNDP_API.Migrations
 
             modelBuilder.Entity("LNDP_API.Models.ArtistFestivalAsoc", b =>
                 {
-                    b.Property<int>("FestivalId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("ArtistId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Id")
+                    b.Property<int>("FestivalId")
                         .HasColumnType("integer");
 
-                    b.HasKey("FestivalId", "ArtistId");
+                    b.HasKey("Id");
 
                     b.HasIndex("ArtistId");
+
+                    b.HasIndex("FestivalId");
 
                     b.ToTable("ArtistFestivalAsoc");
                 });
@@ -607,7 +612,8 @@ namespace LNDP_API.Migrations
 
                     b.Navigation("Concerts");
 
-                    b.Navigation("SocialNetwork");
+                    b.Navigation("SocialNetwork")
+                        .IsRequired();
 
                     b.Navigation("Songs");
                 });

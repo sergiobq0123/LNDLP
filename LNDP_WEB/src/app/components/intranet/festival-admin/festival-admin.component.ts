@@ -305,8 +305,7 @@ export class FestivalAdminComponent {
   }
 
   updateFestivalArtistAsoc(data: any) {
-    data.id = 0;
-    this._festivalArtistAsocService.updateAsoc(data).subscribe(
+    this._festivalArtistAsocService.updateAll(data).subscribe(
       (res) => {this.handleResponse(res.message)},
       (err) => {this.handleErrorResponse(err.error.message)}
     );

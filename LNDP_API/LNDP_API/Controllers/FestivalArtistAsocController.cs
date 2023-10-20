@@ -13,85 +13,23 @@ namespace LNDP_API.Controllers
     [ApiController]
     public class FestivalArtistAsocController : ControllerBase
     {
-        private readonly APIContext _context;
-        private readonly IMapper _mapper;
-        private readonly IHttpContextAccessor _httpContext;
-        private readonly IJwtService _jwtService;
-        private readonly IFestivalArtistAsocService _festivalArtistAsocService;
+        private readonly IArtistFestivalAsocService _artistFestivalAsocService;
 
-        public FestivalArtistAsocController(APIContext context, IMapper mapper, IHttpContextAccessor httpContext, IJwtService jwtService, IFestivalArtistAsocService festivalArtistAsocService)
+        public FestivalArtistAsocController(IArtistFestivalAsocService artistFestivalAsocService)
         {
-            _context = context;
-            _mapper = mapper;
-            _httpContext = httpContext;
-            _jwtService = jwtService;
-            _festivalArtistAsocService = festivalArtistAsocService;
+            _artistFestivalAsocService = artistFestivalAsocService;
         }
  
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<FestivalArtistDto>>> GetConcert()
-        {
-            return Ok();
-        }
-
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Concert>> GetConcert(int id)
-        {         
-            var Concert = await _context.Concert.FindAsync(id);
-            if(Concert == null){
-                return NotFound(new { Message = "El concierto no se ha encontrado"});
-            }
-            return Concert;
-        }
-
-        [HttpPost()]
+        [HttpPut]
         public async Task<ActionResult> PostFestivalArtist(FestivalArtistDto festivalArtistDto)
         {
             try 
             {
-                if(festivalArtistDto.NuevosArtistas.Count > 0 && festivalArtistDto.ArtistasEliminados.Count > 0)
-                {
-                    await _festivalArtistAsocService.UpdateFestivalWithArtists(festivalArtistDto);
-                     return Ok(new { Message = "Artistas actualizados con éxito"});
-                }
-                else
-                {
-                    if(festivalArtistDto.NuevosArtistas.Count > 0)
-                    {
-                        await _festivalArtistAsocService.CreateFestivalWithArtists(festivalArtistDto);
-                         return Ok(new { Message = "Artistas añadidos con éxito"});
-                    }
-                    else
-                    {
-                        await _festivalArtistAsocService.DeleteFestivalFromArtist(festivalArtistDto);
-                         return Ok(new { Message = "Artistas eliminados con éxito"});
-                    }
-                }
-                
+                await _artistFestivalAsocService.UpdateFestivalWithArtists(festivalArtistDto);
+                return Ok(new { Message = "Artistas actualizados con éxito."});
             }
             catch(Exception ex)
             {
-                return BadRequest(new {ex.Message});
-            }
-            
-        }
-
-        [HttpPut("{id}")]
-        public async Task<ActionResult> PutConcert(int id, FestivalArtistDto festivalArtistDto)
-        {
-
-            await _context.SaveChangesAsync();
-            return Ok(new { Message = "Concierto actualizado con éxito"});
-        }
-
-        [HttpDelete]
-        public async Task<ActionResult> DeleteFestivalArtist(FestivalArtistDto festivalArtistDto)
-        {
-            try {
-                await _festivalArtistAsocService.DeleteFestivalFromArtist(festivalArtistDto);
-                return Ok(new { Message = "Artistas eliminados"});
-            }
-            catch(Exception ex){
                 return BadRequest(new {ex.Message});
             }
         }
