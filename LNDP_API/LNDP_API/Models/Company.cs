@@ -1,5 +1,7 @@
+using LNDP_API.Models.Interfaces;
+
 namespace LNDP_API.Models{
-    public class Company : ModelBase{
+    public class Company : ModelBase, IHasPhotoUrl{
         public string Name {get; set;}
         public string Description {get; set;}
         public string? PhotoUrl {get; set;}

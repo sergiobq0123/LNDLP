@@ -6,49 +6,30 @@ using LNDP_API.Utils;
 
 namespace LNDP_API.Services
 {
-    public class ConcertService : IConcertService
+    public class ConcertService : GenericService<Concert>, IConcertService
     {
         private readonly IConcertRepository _concertRepository;
         private readonly IMapper _mapper;
-        public ConcertService(IConcertRepository concertRepository, IMapper mapper)
+        public ConcertService(IConcertRepository concertRepository, IMapper mapper) : base(concertRepository)
         {
             _concertRepository = concertRepository;
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<Concert>> GetConcert()
+        public async Task<IEnumerable<Concert>> GetConcerts()
         {
-            return await _concertRepository.GetAsync();
-        }
-
-        public async Task<Concert> CreateConcert(Concert concert)
-        {
-            return await _concertRepository.CreateAsync(concert);
+           return await _concertRepository.GetWithIncludesAsync(
+            includes : c => c.Artist
+           );
         }
         public async Task<IEnumerable<Concert>> GetConcertForArtist(int idArista)
         {
-           return await _concertRepository.GetConcertsArtistAsync(idArista);
+           return await _concertRepository.GetAsync();
         }
         public async Task<IEnumerable<Concert>> GetFutureConcerts()
         {
-           return await _concertRepository.GetFutureConcertsAsync();
+           return await _concertRepository.GetAsync();
         }
         
-        public async Task<bool> ExistConcert(int idConcert)
-        {
-            return await _concertRepository.ExistConcertAsync(idConcert);
-        }
-
-        public async Task<Concert> UpdateConcert(Concert concert)
-        {
-            return await _concertRepository.UpdateAsync(concert);
-        }
-
-        public async Task DeleteConcert(int idConcert)
-        {
-            await _concertRepository.DeleteAsync(idConcert);
-        }
-        
-
     }
 }

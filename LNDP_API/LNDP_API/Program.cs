@@ -53,6 +53,7 @@ builder.Services.AddTransient<IUrlEmbedUtils, UrlEmbedUtils>();
 builder.Services.AddTransient<IImageUtils, ImageUtils>();
 
 // REPOSITORY
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IArtistRepository, ArtistRepository>();
 builder.Services.AddScoped<IYoutubeVideoRepository, YoutubeVideoRepository>();
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
@@ -67,6 +68,7 @@ builder.Services.AddScoped<IAlbumRepository, AlbumRepository>();
 
 
 // SERVICES
+builder.Services.AddScoped(typeof(IGenericService<>), typeof(GenericService<>));
 builder.Services.AddScoped<IArtistService, ArtistService>();
 builder.Services.AddScoped<IYoutubeVideoService, YoutubeVideoService>();
 builder.Services.AddScoped<ICompanyService, CompanyService>();

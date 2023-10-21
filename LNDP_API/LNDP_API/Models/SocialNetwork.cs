@@ -1,8 +1,5 @@
-using LNDP_API.Models;
-
 namespace LNDP_API.Models {
-    public class SocialNetwork{
-        public int Id {get;set;}
+    public class SocialNetwork : ModelBase{
         public Artist? Artist {get; set; }
         public int? ArtistId {get; set; }
         public string? Instagram {get; set;}

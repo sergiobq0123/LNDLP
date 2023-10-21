@@ -5,11 +5,11 @@ using LNDP_API.Repositories;
 
 namespace LNDP_API.Services
 {
-    public class ArtistFestivalAsocService : IArtistFestivalAsocService
+    public class ArtistFestivalAsocService : GenericService<ArtistFestivalAsoc>, IArtistFestivalAsocService
     {
         private readonly APIContext _context;
         private readonly IArtistFestivalAsocRepository _artistFestivalAsocRepository;
-        public ArtistFestivalAsocService(APIContext context, IArtistFestivalAsocRepository artistFestivalAsocRepository)
+        public ArtistFestivalAsocService(APIContext context, IArtistFestivalAsocRepository artistFestivalAsocRepository): base(artistFestivalAsocRepository)
         {
             _context = context;
             _artistFestivalAsocRepository = artistFestivalAsocRepository;

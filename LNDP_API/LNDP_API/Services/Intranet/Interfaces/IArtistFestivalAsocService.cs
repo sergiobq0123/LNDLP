@@ -3,7 +3,7 @@ using LNDP_API.Models;
 
 namespace LNDP_API.Services
 {
-    public interface IArtistFestivalAsocService
+    public interface IArtistFestivalAsocService : IGenericService<ArtistFestivalAsoc>
     {
         Task<ArtistFestivalAsoc> CreateArtistFestivalAsoc(ArtistFestivalAsoc ArtistFestivalAsoc);
         Task DeleteArtistFestivalAsoc(int idArtistFestivalAsoc);

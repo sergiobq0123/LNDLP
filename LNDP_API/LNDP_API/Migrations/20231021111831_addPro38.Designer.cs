@@ -3,6 +3,7 @@ using System;
 using LNDP_API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace LNDP_API.Migrations
 {
     [DbContext(typeof(APIContext))]
-    partial class APIContextModelSnapshot : ModelSnapshot
+    [Migration("20231021111831_addPro38")]
+    partial class addPro38
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -56,32 +59,32 @@ namespace LNDP_API.Migrations
                         new
                         {
                             Id = 1,
-                            PasswordHash = "WtuE00i1+LvCWzX/yPq9bV0lnYIXU1jcbMPyQTFUrP8=",
-                            PasswordSalt = "rg7D8/hAcg3HBrGqCG6cmw==",
+                            PasswordHash = "3LwO7cb6lCrgMmZVPBEWLAmgTRu3BHb7Lq1I6LOxpiw=",
+                            PasswordSalt = "S7MCocrtGR8xmACnBLr6rw==",
                             UserId = 1,
                             UserName = "Sanchez"
                         },
                         new
                         {
                             Id = 2,
-                            PasswordHash = "6TNzs5g/gAP8J/i4tDjBDDuKs4rBc/q1Ry+uyl2ZvEE=",
-                            PasswordSalt = "rg7D8/hAcg3HBrGqCG6cmw==",
+                            PasswordHash = "KybTMsuxlCgfsXadgJlKyhPAN+Q9pQRwTLFQvarIShE=",
+                            PasswordSalt = "S7MCocrtGR8xmACnBLr6rw==",
                             UserId = 2,
                             UserName = "Torres"
                         },
                         new
                         {
                             Id = 3,
-                            PasswordHash = "E/Yo/JIyHZh7Y660dGLgKEnlNPD4vWUy8E+cEW1SP9Q=",
-                            PasswordSalt = "rg7D8/hAcg3HBrGqCG6cmw==",
+                            PasswordHash = "1/qJ2mR7umv7xQm9T1c76zRtjNGv5dsyooVpuiHwfU0=",
+                            PasswordSalt = "S7MCocrtGR8xmACnBLr6rw==",
                             UserId = 3,
                             UserName = "Tomas"
                         },
                         new
                         {
                             Id = 4,
-                            PasswordHash = "w2m1E06gCqKc9/kgk3BeztNijRPUi9eTGzPnO/Tcrkc=",
-                            PasswordSalt = "rg7D8/hAcg3HBrGqCG6cmw==",
+                            PasswordHash = "Rq1wNXqEIpBL+zlaIr+1/UQk66PT9aNbZehoAVmaXL8=",
+                            PasswordSalt = "S7MCocrtGR8xmACnBLr6rw==",
                             UserId = 4,
                             UserName = "Iglesias"
                         });
@@ -307,7 +310,6 @@ namespace LNDP_API.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("PhotoUrl")

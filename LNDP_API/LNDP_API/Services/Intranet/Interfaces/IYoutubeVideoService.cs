@@ -3,13 +3,8 @@ using LNDP_API.Models;
 
 namespace LNDP_API.Services
 {
-    public interface IYoutubeVideoService
+    public interface IYoutubeVideoService : IGenericService<YoutubeVideo>
     {
-        Task<IEnumerable<YoutubeVideo>> GetYoutubeVideo();
         Task<IEnumerable<YoutubeVideoWebDto>> GetYoutubeVideoDto();
-        Task<bool> ExistYoutubeVideo(int idYoutubeVideo);
-        Task<YoutubeVideo> CreateYotubeVideo(YoutubeVideo youtubeVideo);
-        Task<YoutubeVideo> UpdateYoutubeVideo(YoutubeVideo youtubeVideo);
-        Task DeleteYoutubeVideo(int idYoutubeVideo);
     }
 }

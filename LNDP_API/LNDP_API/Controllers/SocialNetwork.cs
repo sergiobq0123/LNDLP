@@ -22,33 +22,9 @@ namespace LNDP_API.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<SocialNetwork>>> GetSocialNetwork()
-        {
-            if(_context.SocialNetwork == null){
-                return NotFound();
-            }
-            return await _context.SocialNetwork
-            .Include( s => s.Artist)
-            .ToListAsync();
-        }
-        
-        [HttpGet("{id}")]
-        public async Task<ActionResult<SocialNetwork>> GetSocialNetwork(int id)
-        {         
-            var SocialNetwork = await _context.SocialNetwork.FindAsync(id);
-            if(SocialNetwork == null){
-                return NotFound();
-            }
-            return SocialNetwork;
-        }
-
         [HttpPut("{id}")]
         public async Task<ActionResult> PutSocialNetwork(int id, SocialNetwork SocialNetwork)
         {
-            if(id != SocialNetwork.Id){
-                return BadRequest(new { Message = "La red social no coincide con el id"});
-            }
             _context.Entry(SocialNetwork).State = EntityState.Modified;
             await _context.SaveChangesAsync();
             return Ok( new { Message = "Red social actualizada con exito"});

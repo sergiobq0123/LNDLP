@@ -10,16 +10,12 @@ namespace LNDP_API.Controllers
 {   
     [Route("api/[controller]")]
     [ApiController]
-    public class ArtistController : ControllerBase
+    public class ArtistController : GenericController<Artist>
     {
-        private readonly APIContext _context;
-        private readonly IMapper _mapper;
         private readonly IArtistService _artistService;
 
-        public ArtistController(APIContext context, IMapper mapper, IArtistService artistService)
+        public ArtistController(IArtistService artistService): base(artistService)
         {
-            _context = context;
-            _mapper = mapper;
             _artistService = artistService;
         }
 
@@ -28,7 +24,7 @@ namespace LNDP_API.Controllers
         public async Task<ActionResult<IEnumerable<Artist>>> GetArtistIntranet()
         {
             try{
-                return Ok(await _artistService.GetArtist());
+                return Ok(await _artistService.Get());
             }
             catch(Exception ex){
                 return BadRequest(new {ex.Message});
@@ -41,53 +37,6 @@ namespace LNDP_API.Controllers
         {
             try{
                 return Ok(await _artistService.GetArtistKeys());
-            }
-            catch(Exception ex){
-                return BadRequest(new {ex.Message});
-            }
-        }
-
-        [Authorize(Roles = "Admin")]
-        [HttpPost]
-        public async Task<ActionResult> PostArtist(Artist artist)
-        {
-            try{
-                Artist a = await _artistService.CreateArtist(artist);
-                return Ok(new { Message = "Artista creado con éxito", a});
-            }
-            catch(Exception ex){
-                return BadRequest(new {ex.Message});
-            }
-        }
-
-        [Authorize(Roles = "Admin")]
-        [HttpPut("{id}")]
-        public async Task<ActionResult> PutArtist(int id, Artist artist)
-        {
-            if (!await _artistService.ExistArtist(id))
-            {
-                return BadRequest(new { Message = "El artista especificado no existe."});
-            }
-            try{
-                Artist a = await _artistService.UpdateArtist(artist);
-                return Ok(new { Message = "Artista actualizado con éxito.", a});
-            }
-            catch(Exception ex){
-                return BadRequest(new {ex.Message});
-            }
-        }
-
-        [Authorize(Roles = "Admin")]
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteArtist(int id)
-        {
-            if (!await _artistService.ExistArtist(id))
-            {
-                return BadRequest(new { Message = "El artista especificado no existe." });
-            }
-            try{
-                await _artistService.DeleteArtist(id);
-                return Ok(new { Message = "Artista eliminado con éxito."});
             }
             catch(Exception ex){
                 return BadRequest(new {ex.Message});

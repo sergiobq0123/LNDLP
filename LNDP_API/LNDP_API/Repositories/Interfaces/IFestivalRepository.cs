@@ -1,11 +1,8 @@
 using LNDP_API.Models;
 
 namespace LNDP_API.Repositories{
-    public interface IFestivalRepository{
-        Task<IEnumerable<Festival>> GetAsync();
+    public interface IFestivalRepository : IGenericRepository<Festival>{
+        Task<IEnumerable<Festival>> GetWithRelationAsync();
         Task<bool> ExistFestivalAsync(int idFestival);
-        Task<Festival> CreateAsync(Festival festival);
-        Task<Festival> UpdateAsync(Festival festival);
-        Task DeleteAsync(int idFestival);
     }
 }

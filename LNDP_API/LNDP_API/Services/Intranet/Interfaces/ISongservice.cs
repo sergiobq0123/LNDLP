@@ -3,13 +3,8 @@ using LNDP_API.Models;
 
 namespace LNDP_API.Services
 {
-    public interface ISongService
+    public interface ISongService : IGenericService<Song>
     {
-        Task<IEnumerable<Song>> GetSong();
         Task<IEnumerable<SongWebDto>> GetSongDto();
-        Task<bool> ExistSong(int idSong);
-        Task<Song> CreateSong(Song song);
-        Task<Song> UpdateSong(Song song);
-        Task DeleteSong(int idSong);
     }
 }

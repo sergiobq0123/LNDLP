@@ -3,12 +3,8 @@ using LNDP_API.Models;
 
 namespace LNDP_API.Services
 {
-    public interface IFestivalService
+    public interface IFestivalService : IGenericService<Festival>
     {
-        Task<IEnumerable<Festival>> GetFestival();
-        Task<bool> ExistFestival(int idFestival);
-        Task<Festival> CreateFestival(Festival festival);
-        Task<Festival> UpdateFestival(Festival festival);
-        Task DeleteFestival(int idFestival);
+
     }
 }

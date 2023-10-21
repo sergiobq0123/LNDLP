@@ -1,9 +1,10 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using LNDP_API.Models.Interfaces;
 
 namespace LNDP_API.Models {
-    public class Artist : ModelBase {
+    public class Artist : ModelBase, IHasPhotoUrl {
         public string? Name {get ; set ; }
         public string? Description {get ; set ; }
         public string? City {get ; set ; }

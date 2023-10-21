@@ -6,49 +6,22 @@ using LNDP_API.Utils;
 
 namespace LNDP_API.Services
 {
-    public class SongService : ISongService
+    public class SongService : GenericService<Song>, ISongService
     {
         private readonly IUrlEmbedUtils _urlEmbedUtils;
-        private readonly ISongRepository _SongRepository;
+        private readonly ISongRepository _songRepository;
         private readonly IMapper _mapper;
-        public SongService(IUrlEmbedUtils urlEmbedUtils, ISongRepository SongRepository, IMapper mapper)
+        public SongService(IUrlEmbedUtils urlEmbedUtils, ISongRepository songRepository, IMapper mapper) : base(songRepository, null, urlEmbedUtils)
         {
             _urlEmbedUtils = urlEmbedUtils;
-            _SongRepository = SongRepository;
+            _songRepository = songRepository;
             _mapper = mapper;
-        }
-
-        public async Task<IEnumerable<Song>> GetSong()
-        {
-            return await _SongRepository.GetAsync();
         }
 
         public async Task<IEnumerable<SongWebDto>> GetSongDto()
         {
-            var songs = await _SongRepository.GetAsync();
+            var songs = await _songRepository.GetAsync();
             return _mapper.Map<IEnumerable<SongWebDto>>(songs);
-        }
-
-        public async Task<Song> CreateSong(Song song)
-        {
-            song.Url = _urlEmbedUtils.GetEmbedUrlYoutube(song.Url);
-            return await _SongRepository.CreateAsync(song);
-        }
-        
-        public async Task<bool> ExistSong(int idSong)
-        {
-            return await _SongRepository.ExistSongAsync(idSong);
-        }
-
-        public async Task<Song> UpdateSong(Song song)
-        {
-            song.Url = _urlEmbedUtils.GetEmbedUrlYoutube(song.Url);
-            return await _SongRepository.UpdateAsync(song);
-        }
-
-        public async Task DeleteSong(int idSong)
-        {
-            await _SongRepository.DeleteAsync(idSong);
         }
     }
 }
