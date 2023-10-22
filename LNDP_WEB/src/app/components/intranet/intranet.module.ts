@@ -19,6 +19,8 @@ import { IntranetComponent } from './intranet.component';
 import { SongAdminComponent } from './song-admin/song-admin.component';
 import { UserAdminComponent } from './user-admin/user-admin.component';
 import { YoutubeVideoVisualComponent } from './youtube-video-visual/youtube-video-visual.component';
+import { AuthService } from 'src/app/services/auth.service';
+import { FestivalCrewComponent } from './festival-crew/festival-crew.component';
 
 
 @NgModule({
@@ -34,7 +36,8 @@ import { YoutubeVideoVisualComponent } from './youtube-video-visual/youtube-vide
     SongAdminComponent,
     YoutubeVideoVisualComponent,
     ConcertCrewComponent,
-    FestivalArtistDialogComponent
+    FestivalArtistDialogComponent,
+    FestivalCrewComponent
   ],
   imports: [
     IntranetRoutingModule,

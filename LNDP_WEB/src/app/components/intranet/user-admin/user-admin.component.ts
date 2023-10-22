@@ -18,6 +18,7 @@ import { notifications } from 'src/app/common/notifications';
 import { Filter } from '../general/generic-filter/filter';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { IconButton } from '../general/generic-table/icon-button';
+import { AccesService } from 'src/app/services/intranet/acces.service';
 
 
 @Component({
@@ -55,7 +56,7 @@ export class UserAdminComponent {
   constructor(
     private _userService: UsersService,
     private _userRoleService: UserRoleService,
-    private _authService: AuthService,
+    private _accesService: AccesService,
     public dialog: MatDialog,
     private _notificationService: NotificationService
   ) {}
@@ -112,22 +113,22 @@ export class UserAdminComponent {
       },
       {
         name: 'Nombre de usuario',
-        dataKey: 'username',
+        dataKey: 'acces.userName',
         position: 'left',
         isSortable: true,
         hidden: false,
-        type: ContentType.editableTextFields,
+        type: ContentType.plainText,
       },
       {
         name: 'Nombre',
-        dataKey: 'name',
+        dataKey: 'firstName',
         position: 'left',
         isSortable: false,
         type: ContentType.editableTextFields,
       },
       {
         name: 'Apellido',
-        dataKey: 'surname',
+        dataKey: 'lastName',
         position: 'left',
         isSortable: false,
         type: ContentType.editableTextFields,
@@ -141,7 +142,7 @@ export class UserAdminComponent {
       },
       {
         name: 'Role',
-        dataKey: 'userRoleName',
+        dataKey: 'userRole.role',
         position: 'left',
         isSortable: false,
         type: ContentType.plainText,
@@ -172,14 +173,14 @@ export class UserAdminComponent {
       },
       {
         name: 'Nombre',
-        dataKey: 'name',
+        dataKey: 'firstName',
         position: { row: 1, col: 0, rowSpan: 1, colSpan: 1 },
         type: ContentType.editableTextFields,
         validators: [Validators.required],
       },
       {
         name: 'Apellido',
-        dataKey: 'surname',
+        dataKey: 'lastName',
         position: { row: 1, col: 0, rowSpan: 1, colSpan: 1 },
         type: ContentType.editableTextFields,
         validators: [Validators.required],
@@ -211,26 +212,6 @@ export class UserAdminComponent {
   setUserPasswordForm(): any[] {
     return [
       {
-        name: '_id',
-        dataKey: 'id',
-        hidden: true,
-      },
-      {
-        name: 'Tipo de usuario',
-        dataKey: 'userRoleId',
-        hidden: true,
-      },
-      {
-        name: 'Correo',
-        dataKey: 'email',
-        hidden: true,
-      },
-      {
-        name: 'Nombre de usuario',
-        dataKey: 'username',
-        hidden: true,
-      },
-      {
         name: 'Contraseña',
         dataKey: 'password',
         position: { row: 0, col: 0, rowSpan: 1, colSpan: 2 },
@@ -238,25 +219,6 @@ export class UserAdminComponent {
         validators: [Validators.required],
       },
     ];
-  }
-
-  async createElement(event: any): Promise<number> {
-    try {
-      const res = await this._userService.create(event).toPromise();
-      return res.u.id;
-    } catch (err) {
-      this.handleErrorResponse(err.error.message);
-      throw err;
-    }
-  }
-
-  async createAcces(event: any) {
-    try {
-      const res = await this._authService.registrer(event).toPromise();
-      this.handleResponse(res.message);
-    } catch (err) {
-      this.handleErrorResponse(err.error.message + ". Tenga cuidado que el usuario se ha creado ya");
-    }
   }
 
   showFormDialog() {
@@ -272,23 +234,7 @@ export class UserAdminComponent {
     });
     dialogRef.afterClosed().subscribe(async (result) => {
       if (result !== undefined && result !== null && result !== '') {
-        var user = {
-          name: result.name,
-          surname: result.surname,
-          email: result.email,
-          userRoleId: result.userRoleId
-        };
-        try {
-          var userId = await this.createElement(user);
-          var acces = {
-            username: result.username,
-            password: result.password,
-            userId: userId
-          };
-          await this.createAcces(acces);
-        } catch (error) {
-          // Manejar errores generales aquí si es necesario
-        }
+        this.createElement(result);
       }
     });
   }
@@ -309,6 +255,14 @@ export class UserAdminComponent {
         this.updateElement(result);
       }
     });
+  }
+
+  createElement(event: any) {
+    event.id = 0;
+    this._userService.createUser(event).subscribe(
+      (res) => {this.handleResponse(res.message)},
+      (err) => {this.handleErrorResponse(err.error.message)}
+    );
   }
 
   updateElement(event: any) {

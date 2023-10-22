@@ -3,7 +3,7 @@ import { enviroment } from "src/enviroments/enviroment"
 
 export class Urls {
   static BASE = enviroment.url
-  static AUTH = '/api/Auth'
+  static ACCES = '/api/Acces'
   static USER = '/api/User'
   static LOGIN = '/Login'
   static REGISTER = '/Register'
@@ -27,6 +27,7 @@ export class Urls {
   static IMAGE = '/postImage'
   static INTRANET = '/intranet'
   static KEYS = '/keys'
+  static CREATEREGISTER = "/create-register"
 
   // WEB
   static YOUTUBEVIDEOSWEB = '/youtube-videos-web'

@@ -3,16 +3,16 @@
   <img class="lndp-logo" src="../../../assets/intranet-welcome.png">
   <form [formGroup]="LoginForm">
     <mat-form-field class="input-field">
-      <mat-label>Email</mat-label>
-      <input matInput placeholder="Enter email user" formControlName="useremail">
-      <mat-error *ngIf="LoginForm.get('password').errors?.['required']">Email is requiered</mat-error>
+      <mat-label>Username</mat-label>
+      <input matInput placeholder="Enter username" formControlName="username">
+      <mat-error *ngIf="LoginForm.get('username').errors?.['required']">Username is requiered</mat-error>
     </mat-form-field>
     <mat-form-field class="input-field">
       <mat-label>Password</mat-label>
       <input matInput placeholder="Enter password" type="password" formControlName="password">
-      <mat-error *ngIf="LoginForm.get('useremail').errors?.['required']">Password is requiered</mat-error>
+      <mat-error *ngIf="LoginForm.get('password').errors?.['required']">Password is requiered</mat-error>
     </mat-form-field>
-    <button class="button" (click)="SubmitLogin(LoginForm.get('useremail').value, LoginForm.get('password').value)"
+    <button class="button" (click)="SubmitLogin(LoginForm.get('username').value, LoginForm.get('password').value)"
     [disabled]="!LoginForm.valid">Login</button>
   </form>
 </div>

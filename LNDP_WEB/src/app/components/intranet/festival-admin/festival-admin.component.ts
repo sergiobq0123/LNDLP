@@ -98,7 +98,7 @@ export class FestivalAdminComponent {
   }
 
   setColumns(): void {
-    this.festivalColumns = [
+   this.festivalColumns = [
       {
         name: '_id',
         dataKey: 'id',
@@ -159,16 +159,11 @@ export class FestivalAdminComponent {
         template: this.imageTemplate,
         validators: [Validators.required]
       },
-    ];
+   ];
   }
 
   setFestivalesForm() : any[]{
     return [
-      {
-        name: 'Id',
-        dataKey : 'id',
-        hidden : true,
-      },
       {
         name: 'Nombre',
         dataKey : 'name',
@@ -217,33 +212,9 @@ export class FestivalAdminComponent {
   setImageForm(): any[] {
     return [
       {
-        dataKey: 'id',
-        hidden : true
-      },
-      {
-        dataKey: 'name',
-        hidden : true
-      },
-      {
-        dataKey: 'ciudad',
-        hidden : true
-      },
-      {
-        dataKey: 'date',
-        hidden : true
-      },
-      {
-        dataKey: 'location',
-        hidden : true,
-      },
-      {
-        dataKey: 'tickets',
-        hidden : true,
-      },
-      {
         name: 'Imagen',
         dataKey: 'photoUrl',
-        position: { row: 1, col: 1, rowSpan: 1, colSpan: 2 },
+        position: { row: 0, col: 0, rowSpan: 1, colSpan: 2 },
         type: ContentType.imageFile,
         validators: [Validators.required]
       },
@@ -299,7 +270,8 @@ export class FestivalAdminComponent {
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result !== undefined && result !== null && result !== '') {
-        this.updateElement(result)
+        dataShow.photoUrl = result.photoUrl
+        this.updateElement(dataShow)
       }
     });
   }

@@ -27,16 +27,14 @@ namespace LNDP_API.Controllers
         public async Task<ActionResult<IEnumerable<Concert>>> GetConcert()
         {
             try{
-                return Ok(await _concertService.Get(
-                    includes : c => c.Artist
-                ));
+                return Ok(await _concertService.GetConcerts());
             }
             catch(Exception ex){
                 return BadRequest(new {ex.Message});
             }
         }
 
-        //! Para la pagina web
+        // TODO Para la pagina web
         [AllowAnonymous]
         [HttpGet("proximos-conciertos")]
         public async Task<ActionResult<IEnumerable<Concert>>> GetConcertProximosConciertos()
@@ -49,8 +47,8 @@ namespace LNDP_API.Controllers
             }
         }
 
-        // TODO change to role crew y probarlo
-        [Authorize(Roles = "Admin")]
+        //! Para la crew
+        [Authorize(Roles = "Crew")]
         [HttpGet("artist-id")]
         public async Task<ActionResult<IEnumerable<Concert>>> GetConcertArtistId(int artistId)
         {
@@ -62,15 +60,5 @@ namespace LNDP_API.Controllers
             }
 
         }
-
-        // TODO hacer esto para view crew
-        [Authorize(Roles = "Admin")]
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Concert>> GetConcert(int id)
-        {         
-            return null;
-        }
-
-        
     }
 }

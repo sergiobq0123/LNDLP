@@ -150,13 +150,6 @@ export class AlbumAdminComponent {
           hidden: true,
         },
         {
-          name: 'Nombre',
-          dataKey: 'name',
-          position: { row: 0, col: 0, rowSpan: 1, colSpan: 1 },
-          type: ContentType.editableTextFields,
-          validators: [Validators.required]
-        },
-        {
           name: 'Artista',
           dataKey: 'artistId',
           position: { row: 0, col: 0, rowSpan: 1, colSpan: 1 },
@@ -168,9 +161,16 @@ export class AlbumAdminComponent {
           validators: [Validators.required]
         },
         {
+          name: 'Nombre',
+          dataKey: 'name',
+          position: { row: 0, col: 1, rowSpan: 1, colSpan: 1 },
+          type: ContentType.editableTextFields,
+          validators: [Validators.required]
+        },
+        {
           name: 'Date',
           dataKey: 'date',
-          position: { row: 1, col: 1, rowSpan: 1, colSpan: 1 },
+          position: { row: 1, col: 0, rowSpan: 1, colSpan: 1 },
           type: ContentType.datePicker,
           validators: [Validators.required]
         },
@@ -184,7 +184,7 @@ export class AlbumAdminComponent {
         {
           name: 'Imagen',
           dataKey: 'photoUrl',
-          position: { row: 1, col: 1, rowSpan: 1, colSpan: 2 },
+          position: { row: 2, col: 0, rowSpan: 1, colSpan: 2 },
           type: ContentType.imageFile,
           validators: [Validators.required]
         },
@@ -193,31 +193,6 @@ export class AlbumAdminComponent {
 
     setImageForm(): any[] {
       return [
-        {
-          name: 'Id',
-          dataKey: 'id',
-          hidden : true
-        },
-        {
-          name: 'Nombre',
-          dataKey: 'name',
-          hidden : true
-        },
-        {
-          name: 'Artista',
-          dataKey: 'artistId',
-          hidden : true
-        },
-        {
-          name: 'Date',
-          dataKey: 'date',
-          hidden : true
-        },
-        {
-          name: 'URL',
-          dataKey: 'webUrl',
-          hidden : true,
-        },
         {
           name: 'Imagen',
           dataKey: 'photoUrl',
@@ -259,7 +234,8 @@ export class AlbumAdminComponent {
       });
       dialogRef.afterClosed().subscribe((result) => {
         if (result !== undefined && result !== null && result !== '') {
-          this.updateElement(result)
+          dataShow.photoUrl = result.photoUrl
+          this.updateElement(dataShow)
         }
       });
     }

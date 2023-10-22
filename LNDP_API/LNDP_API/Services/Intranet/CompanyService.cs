@@ -11,14 +11,14 @@ namespace LNDP_API.Services
         private readonly ICompanyRepository _companyRepository;
         private readonly IMapper _mapper;
         private readonly IImageUtils _imageUtils;
-        public CompanyService(ICompanyRepository companyRepository, IMapper mapper, IImageUtils imageUtils): base(companyRepository)
+        public CompanyService(ICompanyRepository companyRepository, IMapper mapper, IImageUtils imageUtils): base(companyRepository, imageUtils)
         {
             _companyRepository = companyRepository;
             _mapper = mapper;
             _imageUtils = imageUtils;
         }
 
-        public async Task<IEnumerable<CompanyWebDto>> GetCompanyType(string type)
+        public async Task<IEnumerable<CompanyWebDto>> GetCompaniesByType(string type)
         {
             var Companys = await _companyRepository.GetByTypeAsync(type);
             return _mapper.Map<IEnumerable<CompanyWebDto>>(Companys);

@@ -5,6 +5,6 @@ namespace LNDP_API.Services
 {
     public interface IAlbumService : IGenericService<Album>
     {
-        
+        Task<IEnumerable<Album>> GetAlbums();
     }
 }

@@ -18,6 +18,12 @@ namespace LNDP_API.Services
             _mapper = mapper;
         }
 
+        public async Task<IEnumerable<Song>> GetSongs()
+        {
+            return await _songRepository.GetWithIncludesAsync(
+                includes: s => s.Artist
+            );
+        }
         public async Task<IEnumerable<SongWebDto>> GetSongDto()
         {
             var songs = await _songRepository.GetAsync();

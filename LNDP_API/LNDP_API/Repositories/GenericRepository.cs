@@ -44,22 +44,20 @@ namespace LNDP_API.Repositories{
             await _context.SaveChangesAsync();
         }
 
-            public async Task<IEnumerable<TEntity>> GetWithIncludesAsync(
-            Expression<Func<TEntity, bool>> filter = null,
-            Expression<Func<TEntity, object>> includes = null)
+        public async Task<IEnumerable<TEntity>> GetWithIncludesAsync(Expression<Func<TEntity, bool>> filter = null, Expression<Func<TEntity, object>> includes = null)
+        {
+            var query = _context.Set<TEntity>().AsQueryable();
+
+            if (includes != null)
             {
-                var query = _context.Set<TEntity>().AsQueryable();
+                query = query.Include(includes);
+            }
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
 
-                if (filter != null)
-                {
-                    query = query.Where(filter);
-                }
-
-                if (includes != null)
-                {
-                    query = query.Include(includes);
-                }
-                return await query.ToListAsync();
+            return await query.ToListAsync();
             }
     }
 }

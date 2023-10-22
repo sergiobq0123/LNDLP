@@ -20,8 +20,8 @@ export class ConcertService extends ServiceBaseService {
     return this.getToSpecificURL(this.getUrl + '/proximos-conciertos')
   }
 
-  getConcertForArtist(userId: number){
-    const params = new HttpParams().append('userId', userId)
+  getConcertForArtist(artistId: number){
+    const params = new HttpParams().append('artistId', artistId)
     return this.getWithParams(this.getUrl + '/artist-id', params)
   }
 }

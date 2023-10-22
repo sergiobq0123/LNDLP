@@ -149,13 +149,6 @@ export class CompanyAdminComponent {
         hidden: true,
       },
       {
-        name: 'Nombre',
-        dataKey: 'name',
-        position: { row: 0, col: 0, rowSpan: 1, colSpan: 1 },
-        type: ContentType.editableTextFields,
-        validators: [Validators.required]
-      },
-      {
         name: 'Tipo',
         dataKey: 'companyTypeId',
         position: { row: 0, col: 0, rowSpan: 1, colSpan: 1 },
@@ -166,21 +159,28 @@ export class CompanyAdminComponent {
         validators: [Validators.required]
       },
       {
+        name: 'Nombre',
+        dataKey: 'name',
+        position: { row: 0, col: 1, rowSpan: 1, colSpan: 1 },
+        type: ContentType.editableTextFields,
+        validators: [Validators.required]
+      },
+      {
         name: 'Descripcion',
         dataKey: 'description',
-        position: { row: 0, col: 0, rowSpan: 1, colSpan: 1 },
+        position: { row: 1, col: 0, rowSpan: 1, colSpan: 1 },
         type: ContentType.editableTextFields,
       },
       {
         name: 'Pagina web',
         dataKey: 'webUrl',
-        position: { row: 0, col: 0, rowSpan: 1, colSpan: 1 },
+        position: { row: 1, col: 1, rowSpan: 1, colSpan: 1 },
         type: ContentType.editableTextFields,
       },
       {
         name: 'Imagen',
         dataKey: 'photoUrl',
-        position: { row: 1, col: 1, rowSpan: 1, colSpan: 2 },
+        position: { row: 2, col: 1, rowSpan: 1, colSpan: 2 },
         type: ContentType.imageFile,
         validators: [Validators.required]
       },
@@ -189,31 +189,6 @@ export class CompanyAdminComponent {
 
   setImageForm(): any[] {
     return [
-      {
-        name: 'Id',
-        dataKey: 'id',
-        hidden : true
-      },
-      {
-        name: 'Nombre',
-        dataKey: 'name',
-        hidden : true
-      },
-      {
-        name: 'Tipo',
-        dataKey: 'companyTypeId',
-        hidden : true
-      },
-      {
-        name: 'Descripcion',
-        dataKey: 'description',
-        hidden : true
-      },
-      {
-        name: 'Pagina web',
-        dataKey: 'webUrl',
-        hidden : true
-      },
       {
         name: 'Imagen',
         dataKey: 'photoUrl',
@@ -254,7 +229,8 @@ export class CompanyAdminComponent {
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result !== undefined && result !== null && result !== '') {
-        this.updateElement(result)
+        dataShow.photoUrl = result.photoUrl
+        this.updateElement(dataShow)
       }
     });
   }

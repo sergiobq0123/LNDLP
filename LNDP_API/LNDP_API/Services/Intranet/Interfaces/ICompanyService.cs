@@ -5,7 +5,7 @@ namespace LNDP_API.Services
 {
     public interface ICompanyService : IGenericService<Company>
     {
-        Task<IEnumerable<CompanyWebDto>> GetCompanyType(string type);
+        Task<IEnumerable<CompanyWebDto>> GetCompaniesByType(string type);
 
     }
 }

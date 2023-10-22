@@ -23,14 +23,5 @@ namespace LNDP_API.Controllers
         {         
             return Ok(await _companyTypeService.Get());
         }
-
-        [AllowAnonymous]
-        [HttpGet("type/{type}")]
-        public async Task<ActionResult<IEnumerable<AlbumWebDto>>> GetAlbum(string type)
-        {
-            return Ok(_companyTypeService.Get(
-                filter: c => c.CompanyTypeName == type
-            ));
-        }
     }
 }

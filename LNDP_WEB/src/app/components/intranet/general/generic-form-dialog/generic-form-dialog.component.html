@@ -21,7 +21,7 @@
               </ng-container>
               <ng-container *ngSwitchCase="'plainText'">
                 <mat-label class="textplain"
-                  >Ticket: <span class="textplain">{{ item.name }}</span></mat-label
+                  ><span class="textplain">{{ item.name }}</span></mat-label
                 >
                 <mat-label class="textplain">
                   {{ controls[item.dataKey].value }}
@@ -76,7 +76,6 @@
                   <img [src]="selectedImage" alt="Preview" style="max-width: 100px; height: auto; padding: 20px">
                 </div>
               </ng-container>
-
               <ng-container *ngSwitchCase="'specialContent'">
                 <ng-container
                   [ngTemplateOutlet]="item.template"

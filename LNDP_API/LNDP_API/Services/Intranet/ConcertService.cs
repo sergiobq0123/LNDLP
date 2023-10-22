@@ -19,12 +19,15 @@ namespace LNDP_API.Services
         public async Task<IEnumerable<Concert>> GetConcerts()
         {
            return await _concertRepository.GetWithIncludesAsync(
-            includes : c => c.Artist
+            includes: c => c.Artist
            );
         }
         public async Task<IEnumerable<Concert>> GetConcertForArtist(int idArista)
         {
-           return await _concertRepository.GetAsync();
+           return await _concertRepository.GetWithIncludesAsync(
+            includes: c => c.Artist,
+            filter: c=> c.Artist.UserId == idArista
+           );
         }
         public async Task<IEnumerable<Concert>> GetFutureConcerts()
         {

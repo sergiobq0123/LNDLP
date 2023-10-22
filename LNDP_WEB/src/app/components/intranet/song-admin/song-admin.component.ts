@@ -138,20 +138,6 @@ export class SongAdminComponent {
         hidden: true,
       },
       {
-        name: 'Nombre',
-        dataKey: 'name',
-        position: { row: 0, col: 0, rowSpan: 1, colSpan: 1 },
-        type: ContentType.editableTextFields,
-        validators: [Validators.required]
-      },
-      {
-        name: 'URL',
-        dataKey: 'url',
-        position: { row: 1, col: 0, rowSpan: 1, colSpan: 1 },
-        type: ContentType.editableTextFields,
-        validators: [Validators.required]
-      },
-      {
         name: 'Artista',
         dataKey: 'artistId',
         position: { row: 0, col: 0, rowSpan: 1, colSpan: 1 },
@@ -160,6 +146,20 @@ export class SongAdminComponent {
         dropdown: this.artists,
         dropdownKeyToShow: 'name',
         dropdownKeyValue: 'id',
+        validators: [Validators.required]
+      },
+      {
+        name: 'Nombre',
+        dataKey: 'name',
+        position: { row: 0, col: 1, rowSpan: 1, colSpan: 1 },
+        type: ContentType.editableTextFields,
+        validators: [Validators.required]
+      },
+      {
+        name: 'URL',
+        dataKey: 'url',
+        position: { row: 1, col: 0, rowSpan: 1, colSpan: 2 },
+        type: ContentType.editableTextFields,
         validators: [Validators.required]
       },
     ];

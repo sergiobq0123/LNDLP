@@ -5,6 +5,7 @@ namespace LNDP_API.Services
 {
     public interface ISongService : IGenericService<Song>
     {
+        Task<IEnumerable<Song>> GetSongs();
         Task<IEnumerable<SongWebDto>> GetSongDto();
     }
 }

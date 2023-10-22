@@ -16,22 +16,33 @@ namespace LNDP_API.Controllers
     public class UserController : GenericController<User>
     {
         private readonly APIContext _context;
-        private readonly IAuthService _authService;
         private readonly IUserService _userService;
 
-        public UserController(APIContext context, IAuthService authService, IUserService userService): base(userService)
+        public UserController(APIContext context, IUserService userService): base(userService)
         {
             _context = context;
-            _authService = authService;
             _userService = userService;
         }
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserIntranetDto>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
             try{
-                return Ok(await _userService.Get());
+                return Ok(await _userService.GetUsers());
+            }
+            catch(Exception ex){
+                return BadRequest(new {ex.Message});
+            }
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost("create-register")]
+        public async Task<ActionResult<IEnumerable<User>>> PostUser(UserCreateDto userCreateDto)
+        {
+            try{
+                await _userService.PostUser(userCreateDto);
+                return Ok(new { Message = "Usuario creado(a) con éxito."});
             }
             catch(Exception ex){
                 return BadRequest(new {ex.Message});

@@ -44,42 +44,6 @@ namespace LNDP_API.Data
                 }
             );
 
-            modelBuilder.Entity<LNDP_API.Models.User>()
-            .HasData(
-                new LNDP_API.Models.User
-                {
-                    Id = 1,
-                    Name = "Sergio",
-                    Surname = "Sanchez",
-                    Email = "Sanchez",
-                    UserRoleId = 1,
-                },
-                new LNDP_API.Models.User
-                {
-                    Id = 2,
-                    Name = "Jorge",
-                    Surname = "Torres",
-                    Email = "Torres",
-                    UserRoleId = 1,
-                },
-                new LNDP_API.Models.User
-                {
-                    Id = 3,
-                    Name = "Tomas",
-                    Surname = "De la Fuente",
-                    Email = "Tomas",
-                    UserRoleId = 1,
-                },
-                new LNDP_API.Models.User
-                {
-                    Id = 4,
-                    Name = "Alvaro",
-                    Surname = "Iglesias",
-                    Email = "Iglesias",
-                    UserRoleId = 2,
-                }
-            );
-
             var passwordSalt = PasswordHasher.GenerateSalt();
             modelBuilder.Entity<LNDP_API.Models.Acces>()
             .HasData(
@@ -89,7 +53,6 @@ namespace LNDP_API.Data
                     UserName = "Sanchez",
                     PasswordSalt = passwordSalt,
                     PasswordHash = PasswordHasher.ComputeHash("sanchez", passwordSalt, "pepper", 3),
-                    UserId = 1
                 },
                 new LNDP_API.Models.Acces
                 {
@@ -97,7 +60,6 @@ namespace LNDP_API.Data
                     UserName = "Torres",
                     PasswordSalt = passwordSalt,
                     PasswordHash = PasswordHasher.ComputeHash("torres", passwordSalt, "pepper", 3),
-                    UserId = 2
                 },
                 new LNDP_API.Models.Acces
                 {
@@ -105,7 +67,6 @@ namespace LNDP_API.Data
                     UserName = "Tomas",
                     PasswordSalt = passwordSalt,
                     PasswordHash = PasswordHasher.ComputeHash("tomas", passwordSalt, "pepper", 3),
-                    UserId = 3
                 },
                 new LNDP_API.Models.Acces
                 {
@@ -113,7 +74,46 @@ namespace LNDP_API.Data
                     UserName = "Iglesias",
                     PasswordSalt = passwordSalt,
                     PasswordHash = PasswordHasher.ComputeHash("iglesias", passwordSalt, "pepper", 3),
-                    UserId = 4
+                }
+            );
+
+            modelBuilder.Entity<LNDP_API.Models.User>()
+            .HasData(
+                new LNDP_API.Models.User
+                {
+                    Id = 1,
+                    FirstName = "Sergio",
+                    LastName = "Sanchez",
+                    Email = "Sanchez",
+                    UserRoleId = 1,
+                    AccesId = 1
+                },
+                new LNDP_API.Models.User
+                {
+                    Id = 2,
+                    FirstName = "Jorge",
+                    LastName = "Torres",
+                    Email = "Torres",
+                    UserRoleId = 1,
+                    AccesId = 2
+                },
+                new LNDP_API.Models.User
+                {
+                    Id = 3,
+                    FirstName = "Tomas",
+                    LastName = "De la Fuente",
+                    Email = "Tomas",
+                    UserRoleId = 1,
+                    AccesId = 3
+                },
+                new LNDP_API.Models.User
+                {
+                    Id = 4,
+                    FirstName = "Alvaro",
+                    LastName = "Iglesias",
+                    Email = "Iglesias",
+                    UserRoleId = 2,
+                    AccesId = 4
                 }
             );
 
@@ -168,12 +168,6 @@ namespace LNDP_API.Data
                 .HasOne(afa => afa.Festival)
                 .WithMany(f => f.ArtistFestivalAsoc)
                 .HasForeignKey(afa => afa.FestivalId);
-
-            modelBuilder.Entity<User>()
-                .HasOne(a => a.Acces)
-                .WithOne(sm => sm.User)
-                .HasForeignKey<Acces>(sm => sm.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

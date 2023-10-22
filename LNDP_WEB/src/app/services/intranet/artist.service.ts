@@ -11,4 +11,9 @@ export class ArtistService extends ServiceBaseService {
   constructor(http: HttpClient) {
     super(http, Urls.ARTIST);
    }
+
+  CreateArtist(data : any)
+  {
+    return this.postSpecificUrl(this.getUrl + Urls.CREATEREGISTER, data);
+  }
 }

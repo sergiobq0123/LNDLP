@@ -11,4 +11,9 @@ export class UsersService extends ServiceBaseService{
   constructor(http: HttpClient) {
     super(http, Urls.USER);
    }
+
+   createUser(body : any)
+   {
+    return this.postSpecificUrl(this.getUrl + Urls.CREATEREGISTER, body)
+   }
 }

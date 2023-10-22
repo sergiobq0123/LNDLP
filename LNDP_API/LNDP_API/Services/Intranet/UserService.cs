@@ -9,11 +9,28 @@ namespace LNDP_API.Services
     public class UserService : GenericService<User>, IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IAccesService _accesService;
+        private readonly IMapper _mapper;
 
-        public UserService(IUserRepository userRepository) : base(userRepository)
+        public UserService(IUserRepository userRepository, IMapper mapper, IAccesService accesService) : base(userRepository)
         {
             _userRepository = userRepository;
+            _mapper = mapper;
+            _accesService = accesService;
         }
-        
+
+        public async Task<IEnumerable<User>> GetUsers()
+        {
+            return await _userRepository.GetUsersAsync();
+        }
+
+        public async Task<User> PostUser(UserCreateDto userCreateDto)
+        {
+            Acces newAcces = await _accesService.Register(_mapper.Map<AccesDto>(userCreateDto));
+
+            User user = _mapper.Map<User>(userCreateDto);
+            user.AccesId = newAcces.Id;
+            return await _userRepository.CreateAsync(user);
+        }
     }
 }

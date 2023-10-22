@@ -17,6 +17,14 @@ namespace LNDP_API.Services
             _mapper = mapper;
             _imageUtils = imageUtils;
         }
+        public async Task<IEnumerable<Festival>> GetFestivals()
+        {
+            return await _festivalRepository.GetFestivalsAsync();
+        }
 
+        public async Task<IEnumerable<Festival>> GetFestivalForArtist(int idArista)
+        {
+           return await _festivalRepository.GetFestivalsForArtistAsync(idArista);
+        }
     }
 }

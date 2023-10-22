@@ -21,10 +21,23 @@ namespace LNDP_API.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Artist>>> GetArtistIntranet()
+        public async Task<ActionResult<IEnumerable<Artist>>> Get()
         {
             try{
-                return Ok(await _artistService.Get());
+                return Ok(await _artistService.GetArtists());
+            }
+            catch(Exception ex){
+                return BadRequest(new {ex.Message});
+            }
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost("create-register")]
+        public async Task<ActionResult<Artist>> PostArtist(ArtistCreateDto artistCreateDto)
+        {
+            try{
+                Artist artist = await _artistService.PostArtist(artistCreateDto);
+                return Ok(new { Message = "Artista creado(a) con éxito.", artist });
             }
             catch(Exception ex){
                 return BadRequest(new {ex.Message});

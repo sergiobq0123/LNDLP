@@ -11,7 +11,7 @@ namespace LNDP_API.Services
         private readonly IUrlEmbedUtils _urlEmbedUtils;
         private readonly IYoutubeVideoRepository _youtubeVideoRepository;
         private readonly IMapper _mapper;
-        public YoutubeVideoService(IUrlEmbedUtils urlEmbedUtils, IYoutubeVideoRepository youtubeVideoRepository, IMapper mapper): base(youtubeVideoRepository)
+        public YoutubeVideoService(IUrlEmbedUtils urlEmbedUtils, IYoutubeVideoRepository youtubeVideoRepository, IMapper mapper): base(youtubeVideoRepository, null, urlEmbedUtils)
         {
             _urlEmbedUtils = urlEmbedUtils;
             _youtubeVideoRepository = youtubeVideoRepository;

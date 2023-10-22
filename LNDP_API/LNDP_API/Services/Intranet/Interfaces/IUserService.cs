@@ -5,6 +5,7 @@ namespace LNDP_API.Services
 {
     public interface IUserService : IGenericService<User>
     {
-        
+        Task<IEnumerable<User>> GetUsers();
+        Task<User> PostUser(UserCreateDto userCreateDto);
     }
 }

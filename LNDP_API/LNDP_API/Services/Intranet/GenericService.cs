@@ -17,11 +17,9 @@ namespace LNDP_API.Services{
             _urlEmbedUtils = urlEmbedUtils;
         }
 
-        public async Task<IEnumerable<TEntity>> Get(
-        Expression<Func<TEntity, bool>> filter = null,
-        Expression<Func<TEntity, object>> includes = null)
+        public async Task<IEnumerable<TEntity>> Get()
         {
-            return await _repository.GetWithIncludesAsync(filter, includes);
+            return await _repository.GetAsync();
         }
 
         public async Task<TEntity> Exists(TEntity entity)
@@ -51,6 +49,10 @@ namespace LNDP_API.Services{
                 {
                     entityWithPhotoUrl.PhotoUrl = await _imageUtils.ConvertBase64ToUrl(entityWithPhotoUrl.PhotoUrl, entityWithPhotoUrl.Name);
                 }
+            }
+            if (entity is IHasUrl entityWithUrl)
+            {
+                entityWithUrl.Url = _urlEmbedUtils.GetEmbedUrlYoutube(entityWithUrl.Url);
             }
             return await _repository.UpdateAsync(entity);
         }

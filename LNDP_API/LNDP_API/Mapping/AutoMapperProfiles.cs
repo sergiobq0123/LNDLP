@@ -8,15 +8,12 @@ namespace LNDP_API.Mapping{
         public AutoMapperProfiles()
         {
             // Inicio de sesión
-            CreateMap<User, UserIntranetDto>()
-            .ReverseMap();
             CreateMap<UserLoginDto, User>();
             CreateMap<AccesDto, Acces>().ReverseMap();
 
             // postArtist
             CreateMap<ArtistCreateDto, SocialNetwork>();
             CreateMap<ArtistCreateDto, Artist>();
-            CreateMap<ArtistCreateDto, UserIntranetDto>();
             CreateMap<ArtistDto, Artist>().ReverseMap();
             CreateMap<AlbumDto, Album>().ReverseMap();
 
@@ -47,22 +44,19 @@ namespace LNDP_API.Mapping{
             .ReverseMap();
             CreateMap<SocialNetwork, SocialNetworkIntranetDto>().ReverseMap();
 
-            
-            CreateMap<Song, SongIntranetDto>()
-            .ForMember(dest => dest.ArtistName, opt => opt.MapFrom(src => src.Artist.Name))
-            .ReverseMap();
-
-            CreateMap<Album, AlbumIntranetDto>()
-            .ForMember(dest => dest.ArtistName, opt => opt.MapFrom(src => src.Artist.Name))
-            .ReverseMap();
-
-            CreateMap<Concert, ConcertIntranetDto>()
-            .ForMember(dest => dest.ArtistName, opt => opt.MapFrom(src => src.Artist.Name))
-            .ReverseMap();
-
             //Filtros 
             CreateMap<Artist, ArtistIntranetNameDto>().ReverseMap();
             CreateMap<UserRole, UserRoleDto>().ReverseMap();
+
+            //! POST de Artista
+            CreateMap<Artist, ArtistCreateDto>().ReverseMap();
+            CreateMap<UserCreateDto, ArtistCreateDto>().ReverseMap();
+            CreateMap<SocialNetwork, ArtistCreateDto>().ReverseMap();
+
+            //! POST de User
+            CreateMap<User, UserCreateDto>().ReverseMap();
+            CreateMap<AccesDto, UserCreateDto>().ReverseMap();
+
         }
     }
 }

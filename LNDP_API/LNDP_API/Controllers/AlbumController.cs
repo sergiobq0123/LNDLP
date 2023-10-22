@@ -22,9 +22,7 @@ namespace LNDP_API.Controllers
         public virtual async Task<ActionResult<IEnumerable<Album>>> Get()
         {
             try{
-                return Ok(await _albumService.Get(
-                    includes: a => a.Artist
-                ));
+                return Ok(await _albumService.GetAlbums());
             }
             catch(Exception ex){
                 return BadRequest(new {ex.Message});

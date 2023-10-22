@@ -1,0 +1,30 @@
+<app-generic-window
+  [contentTemplate]="contentTemplate"
+  [windowTitle]="'Festivales'"
+></app-generic-window>
+<app-spinner *ngIf="this.spinner"></app-spinner>
+<ng-template #contentTemplate>
+  <app-generic-table
+    [tableData]="festivales"
+    [tableColumns]="festivalesColumns"
+    [isPageable]="true"
+    [isSortable]="true"
+    [apiFailing]="apiFailing"
+    (filtered)="filterData($event)"
+    [paginationSizes]="[5, 10, 20]"
+    [pageSize]="pageSize"
+    [pageNumber]="pageNumber"
+    [totalRecords]="totalfestivales"
+    (paginationChange)="onPaginationChange($event)"
+    [canManageColumns]="true"
+    [hasFilter]="true"
+    *ngIf="loaded"
+  >
+  </app-generic-table>
+</ng-template>
+
+<ng-template #ubicacionTemplate let-rowData="rowData">
+    <a [href]="rowData.urlLocation" target="_blank">
+      <mat-icon class="color">directions_car</mat-icon>
+    </a>
+</ng-template>

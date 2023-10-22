@@ -7,6 +7,5 @@ namespace LNDP_API.Models{
         public string PasswordHash {get; set; }
         public string PasswordSalt {get; set; }
         public User? User {get; set; }
-        public int UserId {get; set; }
     }
 }

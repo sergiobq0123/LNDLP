@@ -25,9 +25,7 @@ namespace LNDP_API.Controllers
         public async Task<ActionResult<IEnumerable<Song>>> GetSongIntranet()
         {
             try{
-                return Ok(await _songService.Get(
-                    includes: s => s.Artist
-                ));
+                return Ok(await _songService.GetSongs());
             }
             catch(Exception ex){
                 return BadRequest(new {ex.Message});

@@ -166,80 +166,129 @@ export class ArtistAdminComponent {
   setArtistForm() {
     return [
       {
-        name: 'Id',
-        dataKey: 'id',
-        hidden: true,
-      },
-      {
-        name: 'Nombre',
+        name: 'Nombre de artista',
         dataKey: 'name',
-        position: { row: 0, col: 0, rowSpan: 1, colSpan: 1 },
+        position: { row: 1, col: 0, rowSpan: 1, colSpan: 1 },
         type: ContentType.editableTextFields,
         validators: [Validators.required],
       },
       {
         name: 'Descripcion',
         dataKey: 'description',
-        position: { row: 0, col: 0, rowSpan: 1, colSpan: 1 },
+        position: { row: 1, col: 1, rowSpan: 1, colSpan: 1 },
         type: ContentType.editableTextFields,
         validators: [Validators.required],
       },
-      // {
-      //   name: 'Nombre de usuario',
-      //   dataKey: 'username',
-      //   position: { row: 0, col: 1, rowSpan: 1, colSpan: 1 },
-      //   type: ContentType.editableTextFields,
-      //   validators: [Validators.required],
-      // },
-      // {
-      //   name: 'Contraseña',
-      //   dataKey: 'password',
-      //   position: { row: 0, col: 2, rowSpan: 1, colSpan: 1 },
-      //   type: ContentType.editableTextFields,
-      //   validators: [Validators.required],
-      // },
       {
         name: 'Ciudad',
         dataKey: 'city',
-        position: { row: 0, col: 3, rowSpan: 1, colSpan: 1 },
-        type: ContentType.editableTextFields,
-        validators: [Validators.required],
-      },
-      {
-        name: 'Correo',
-        dataKey: 'email',
-        position: { row: 1, col: 1, rowSpan: 1, colSpan: 1 },
+        position: { row: 1, col: 3, rowSpan: 1, colSpan: 1 },
         type: ContentType.editableTextFields,
         validators: [Validators.required],
       },
       {
         name: 'Email Contratacion',
         dataKey: 'recruitmentemail',
-        position: { row: 1, col: 2, rowSpan: 1, colSpan: 1 },
+        position: { row: 2, col: 0, rowSpan: 1, colSpan: 1 },
         type: ContentType.editableTextFields,
         validators: [Validators.required],
       },
       {
         name: 'Email Comunicacion',
         dataKey: 'communicationemail',
-        position: { row: 2, col: 0, rowSpan: 1, colSpan: 1 },
+        position: { row: 2, col: 1, rowSpan: 1, colSpan: 1 },
         type: ContentType.editableTextFields,
         validators: [Validators.required],
       },
       {
         name: 'Telefono',
         dataKey: 'phone',
-        position: { row: 2, col: 1, rowSpan: 1, colSpan: 1 },
+        position: { row: 2, col: 2, rowSpan: 1, colSpan: 1 },
         type: ContentType.editableTextFields,
         validators: [Validators.required],
       },
       {
         name: 'Imagen',
         dataKey: 'photoUrl',
-        position: { row: 6, col: 1, rowSpan: 1, colSpan: 2 },
+        position: { row: 3, col: 1, rowSpan: 1, colSpan: 3 },
         type: ContentType.imageFile,
         validators: [Validators.required],
       },
+      {
+        name: 'Redes Sociales',
+        position: { row: 0, col: 0, rowSpan: 1, colSpan: 3 },
+        type: ContentType.plainText,
+      },
+      {
+        name: 'Instagram',
+        dataKey: 'instagram',
+        position: { row: 0, col: 0, rowSpan: 1, colSpan: 1 },
+        type: ContentType.editableTextFields,
+      },
+      {
+        name: 'Youtube',
+        dataKey: 'youtube',
+        position: { row: 1, col: 0, rowSpan: 1, colSpan: 1 },
+        type: ContentType.editableTextFields,
+      },
+      {
+        name: 'Spotify',
+        dataKey: 'spotify',
+        position: { row: 2, col: 0, rowSpan: 1, colSpan: 1 },
+        type: ContentType.editableTextFields,
+      },
+      {
+        name: 'TikTok',
+        dataKey: 'tikTok',
+        position: { row: 2, col: 2, rowSpan: 1, colSpan: 1 },
+        type: ContentType.editableTextFields,
+      },
+      {
+        name: 'Twitter',
+        dataKey: 'twitter',
+        position: { row: 3, col: 1, rowSpan: 1, colSpan: 1 },
+        type: ContentType.editableTextFields,
+      },
+      {
+        name: 'Usuario',
+        position: { row: 4, col: 0, rowSpan: 1, colSpan: 3 },
+        type: ContentType.plainText,
+      },
+      {
+        name: 'Nombre',
+        dataKey: 'firstName',
+        position: { row: 5, col: 1, rowSpan: 1, colSpan: 1 },
+        type: ContentType.editableTextFields,
+        validators: [Validators.required],
+      },
+      {
+        name: 'Apellido',
+        dataKey: 'lastName',
+        position: { row: 5, col: 1, rowSpan: 1, colSpan: 1 },
+        type: ContentType.editableTextFields,
+        validators: [Validators.required],
+      },
+      {
+        name: 'Correo',
+        dataKey: 'email',
+        position: { row: 5, col: 0, rowSpan: 1, colSpan: 1 },
+        type: ContentType.editableTextFields,
+        validators: [Validators.required],
+      },
+      {
+        name: 'Username',
+        dataKey: 'username',
+        position: { row: 6, col: 0, rowSpan: 1, colSpan: 1 },
+        type: ContentType.editableTextFields,
+        validators: [Validators.required],
+      },
+      {
+        name: 'Contraseña',
+        dataKey: 'password',
+        position: { row: 6, col: 1, rowSpan: 1, colSpan: 1 },
+        type: ContentType.editableTextFields,
+        validators: [Validators.required],
+      }
     ];
   }
 
@@ -361,7 +410,7 @@ export class ArtistAdminComponent {
 
   createElement(event: any) {
     event.id = 0;
-    this._artistService.create(event).subscribe(
+    this._artistService.CreateArtist(event).subscribe(
       (res) => {this.handleResponse(res.message)},
       (err) => {this.handleErrorResponse(err.error.message)}
     );

@@ -119,7 +119,7 @@ export class YoutubeVideoVisualComponent {
       {
         name: 'URL',
         dataKey: 'url',
-        position: { row: 1, col: 0, rowSpan: 1, colSpan: 1 },
+        position: { row: 0, col: 1, rowSpan: 1, colSpan: 2 },
         type: ContentType.editableTextFields,
         validators: [Validators.required]
       }
@@ -130,12 +130,12 @@ export class YoutubeVideoVisualComponent {
     let dialogData = {
       formData: undefined,
       formFields: this.setvideoForm(),
-      formCols: 2,
+      formCols: 3,
       dialogTitle: 'Añade un nuevo video',
     };
     const dialogRef = this._dialog.open(GenericFormDialogComponent, {
       data: dialogData,
-      minWidth: 600,
+      minWidth: 800,
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result !== undefined && result !== null && result !== '') {

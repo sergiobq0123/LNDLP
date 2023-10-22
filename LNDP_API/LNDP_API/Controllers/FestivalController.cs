@@ -17,17 +17,30 @@ namespace LNDP_API.Controllers
             _festivalService = festivalService;
         }
 
-
         [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Festival>>> GetFestivalIntranet()
         {
             try{
-                return Ok(await _festivalService.Get());
+                return Ok(await _festivalService.GetFestivals());
             }
             catch(Exception ex){
                 return BadRequest(new {ex.Message});
             }
+        }
+
+        //! Para la crew
+        [Authorize(Roles = "Crew")]
+        [HttpGet("artist-id")]
+        public async Task<ActionResult<IEnumerable<Festival>>> GetFestivalArtistId(int artistId)
+        {
+            try{
+                return Ok(await _festivalService.GetFestivalForArtist(artistId));
+            }
+            catch(Exception ex){
+                return BadRequest(new {ex.Message});
+            }
+
         }
     }
 }

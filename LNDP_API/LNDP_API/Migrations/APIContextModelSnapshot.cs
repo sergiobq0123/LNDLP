@@ -38,17 +38,11 @@ namespace LNDP_API.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
 
                     b.ToTable("Acces");
 
@@ -56,33 +50,29 @@ namespace LNDP_API.Migrations
                         new
                         {
                             Id = 1,
-                            PasswordHash = "WtuE00i1+LvCWzX/yPq9bV0lnYIXU1jcbMPyQTFUrP8=",
-                            PasswordSalt = "rg7D8/hAcg3HBrGqCG6cmw==",
-                            UserId = 1,
+                            PasswordHash = "g7xvkO0+id5be1Ah3TnFR3esYlPt1Xrgf6YoOacPO5w=",
+                            PasswordSalt = "7NB/yHGSwLpPMAQ62sfmyw==",
                             UserName = "Sanchez"
                         },
                         new
                         {
                             Id = 2,
-                            PasswordHash = "6TNzs5g/gAP8J/i4tDjBDDuKs4rBc/q1Ry+uyl2ZvEE=",
-                            PasswordSalt = "rg7D8/hAcg3HBrGqCG6cmw==",
-                            UserId = 2,
+                            PasswordHash = "mhA1h1lzHUV+wSLXiXiJug2hQ2iqprb62IZUhADYYk4=",
+                            PasswordSalt = "7NB/yHGSwLpPMAQ62sfmyw==",
                             UserName = "Torres"
                         },
                         new
                         {
                             Id = 3,
-                            PasswordHash = "E/Yo/JIyHZh7Y660dGLgKEnlNPD4vWUy8E+cEW1SP9Q=",
-                            PasswordSalt = "rg7D8/hAcg3HBrGqCG6cmw==",
-                            UserId = 3,
+                            PasswordHash = "0SIa189UTQjFViOzEZJVWiZwsmu8ufUJmyHDQ9o1Uwg=",
+                            PasswordSalt = "7NB/yHGSwLpPMAQ62sfmyw==",
                             UserName = "Tomas"
                         },
                         new
                         {
                             Id = 4,
-                            PasswordHash = "w2m1E06gCqKc9/kgk3BeztNijRPUi9eTGzPnO/Tcrkc=",
-                            PasswordSalt = "rg7D8/hAcg3HBrGqCG6cmw==",
-                            UserId = 4,
+                            PasswordHash = "lfl+3z0JRIlpRjUoiOyoVWJ0YuZEufDpA6In1AfEUwY=",
+                            PasswordSalt = "7NB/yHGSwLpPMAQ62sfmyw==",
                             UserName = "Iglesias"
                         });
                 });
@@ -149,7 +139,7 @@ namespace LNDP_API.Migrations
                     b.Property<string>("RecruitmentEmail")
                         .HasColumnType("text");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -393,22 +383,27 @@ namespace LNDP_API.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("AccesId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Surname")
-                        .IsRequired()
+                    b.Property<string>("LastName")
                         .HasColumnType("text");
 
                     b.Property<int>("UserRoleId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AccesId")
+                        .IsUnique();
 
                     b.HasIndex("UserRoleId");
 
@@ -418,33 +413,37 @@ namespace LNDP_API.Migrations
                         new
                         {
                             Id = 1,
+                            AccesId = 1,
                             Email = "Sanchez",
-                            Name = "Sergio",
-                            Surname = "Sanchez",
+                            FirstName = "Sergio",
+                            LastName = "Sanchez",
                             UserRoleId = 1
                         },
                         new
                         {
                             Id = 2,
+                            AccesId = 2,
                             Email = "Torres",
-                            Name = "Jorge",
-                            Surname = "Torres",
+                            FirstName = "Jorge",
+                            LastName = "Torres",
                             UserRoleId = 1
                         },
                         new
                         {
                             Id = 3,
+                            AccesId = 3,
                             Email = "Tomas",
-                            Name = "Tomas",
-                            Surname = "De la Fuente",
+                            FirstName = "Tomas",
+                            LastName = "De la Fuente",
                             UserRoleId = 1
                         },
                         new
                         {
                             Id = 4,
+                            AccesId = 4,
                             Email = "Iglesias",
-                            Name = "Alvaro",
-                            Surname = "Iglesias",
+                            FirstName = "Alvaro",
+                            LastName = "Iglesias",
                             UserRoleId = 2
                         });
                 });
@@ -503,17 +502,6 @@ namespace LNDP_API.Migrations
                     b.ToTable("YoutubeVideo");
                 });
 
-            modelBuilder.Entity("LNDP_API.Models.Acces", b =>
-                {
-                    b.HasOne("LNDP_API.Models.User", "User")
-                        .WithOne("Acces")
-                        .HasForeignKey("LNDP_API.Models.Acces", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("LNDP_API.Models.Album", b =>
                 {
                     b.HasOne("LNDP_API.Models.Artist", "Artist")
@@ -529,7 +517,9 @@ namespace LNDP_API.Migrations
                 {
                     b.HasOne("LNDP_API.Models.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
@@ -597,13 +587,26 @@ namespace LNDP_API.Migrations
 
             modelBuilder.Entity("LNDP_API.Models.User", b =>
                 {
+                    b.HasOne("LNDP_API.Models.Acces", "Acces")
+                        .WithOne("User")
+                        .HasForeignKey("LNDP_API.Models.User", "AccesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("LNDP_API.Models.UserRole", "UserRole")
                         .WithMany()
                         .HasForeignKey("UserRoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Acces");
+
                     b.Navigation("UserRole");
+                });
+
+            modelBuilder.Entity("LNDP_API.Models.Acces", b =>
+                {
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("LNDP_API.Models.Artist", b =>
@@ -614,8 +617,7 @@ namespace LNDP_API.Migrations
 
                     b.Navigation("Concerts");
 
-                    b.Navigation("SocialNetwork")
-                        .IsRequired();
+                    b.Navigation("SocialNetwork");
 
                     b.Navigation("Songs");
                 });
@@ -623,11 +625,6 @@ namespace LNDP_API.Migrations
             modelBuilder.Entity("LNDP_API.Models.Festival", b =>
                 {
                     b.Navigation("ArtistFestivalAsoc");
-                });
-
-            modelBuilder.Entity("LNDP_API.Models.User", b =>
-                {
-                    b.Navigation("Acces");
                 });
 #pragma warning restore 612, 618
         }
