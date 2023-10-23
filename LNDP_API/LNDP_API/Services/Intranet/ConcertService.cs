@@ -31,7 +31,7 @@ namespace LNDP_API.Services
         }
         public async Task<IEnumerable<Concert>> GetFutureConcerts()
         {
-           return await _concertRepository.GetAsync();
+           return await _concertRepository.GetFutureConcertsAsync();
         }
         
     }

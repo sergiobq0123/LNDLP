@@ -11,4 +11,8 @@ export class FestivalArtistAsocService extends ServiceBaseService {
   constructor(http: HttpClient) {
     super(http, Urls.FESTIVALARTISTASOC);
    }
+
+   getFestivalForArtist(id: number){
+    return this.getToSpecificURL(this.getUrl + '/festival-user-id/' + id)
+  }
 }

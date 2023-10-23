@@ -31,6 +31,7 @@ export class IntranetComponent {
   opened: boolean = false;
   visible: boolean = true;
   isAdmin: boolean = false;
+  role : string;
 
   loginSubscription: Subscription;
 
@@ -61,6 +62,7 @@ export class IntranetComponent {
           : 'none';
       });
     this._authService.loginChangedEvent.next(this._authService.isLoggedIn());
+    this.role = this._authService.getRole();
   }
 
   ngOnDestroy() {

@@ -8,6 +8,7 @@ namespace LNDP_API.Services
         Task<IEnumerable<Artist>> GetArtists();
         Task<IEnumerable<KeysIntranetDto>> GetArtistKeys();
         Task<Artist> PostArtist(ArtistCreateDto artistCreateDto);
+        Task<ArtistWebDetailDto> GetArtistById(int id);
         
     }
 }

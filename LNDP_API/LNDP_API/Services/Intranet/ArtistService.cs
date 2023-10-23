@@ -32,6 +32,11 @@ namespace LNDP_API.Services
                 includes: a => a.SocialNetwork
             );
         }
+        public async Task<ArtistWebDetailDto> GetArtistById(int id)
+        {
+            Artist artist =  await _artistRepository.GetArtistByIdAsync(id);
+            return _mapper.Map<ArtistWebDetailDto>(artist);
+        }
         public async Task<IEnumerable<KeysIntranetDto>> GetArtistKeys()
         {
             var keys =  await _artistRepository.GetAsync();

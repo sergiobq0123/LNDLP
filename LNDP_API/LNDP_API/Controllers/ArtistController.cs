@@ -56,23 +56,16 @@ namespace LNDP_API.Controllers
             }
         }
 
-        // [HttpGet("{id}")]
-        // public async Task<ActionResult<ArtistWebDetailDto>> GetArtist(int id)
-        // {
-        //     var fechaActualUtc = DateTime.UtcNow; 
-
-        //     var artist = await _context.Artist
-        //         .Include(a => a.Songs)
-        //         .Include(a => a.Albums)
-        //         .Include(a => a.Concerts)
-        //         .AsNoTracking()
-        //         .FirstOrDefaultAsync(a => a.Id == id);
-
-        //     artist.Concerts = artist.Concerts.Where(c => c.Date >= fechaActualUtc).ToList();
-        //     artist.Concerts = artist.Concerts.OrderBy(c => c.Date).ToList();
-        //     artist.Songs = artist.Songs.OrderBy(s => s.Name).ToList();
-        //     return _mapper.Map<ArtistWebDetailDto>(artist);
-        // }
-        
+        [AllowAnonymous]
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ArtistWebDetailDto>> GetArtist(int id)
+        {
+            try{
+                return Ok(await _artistService.GetArtistById(id));
+            }
+            catch(Exception ex){
+                return BadRequest(new {ex.Message});
+            }
+        }
     }
 }

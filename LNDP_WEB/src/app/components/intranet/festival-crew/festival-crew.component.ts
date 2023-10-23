@@ -10,6 +10,7 @@ import { Column } from '../general/generic-table/column';
 import { GenericTableComponent } from '../general/generic-table/generic-table.component';
 import { PageEvent } from '@angular/material/paginator';
 import { FestivalService } from 'src/app/services/intranet/festival.service';
+import { FestivalArtistAsocService } from 'src/app/services/intranet/festival-artist-asoc.service';
 
 @Component({
   selector: 'app-festival-crew',
@@ -33,7 +34,7 @@ export class FestivalCrewComponent {
   @ViewChild('ubicacionTemplate') ubicacionTemplate: TemplateRef<any>;
 
   constructor(
-    private _festivalService: FestivalService,
+    private _festivalArtistAsocService: FestivalArtistAsocService,
     private _notificationService : NotificationService,
     private _authService : AuthService,
     public _dialog: MatDialog,
@@ -47,7 +48,7 @@ export class FestivalCrewComponent {
     this.spinner = true;
     console.log(this._authService.getUserId());
 
-    this._festivalService.getFestivalForArtist(this._authService.getUserId()).subscribe(
+    this._festivalArtistAsocService.getFestivalForArtist(this._authService.getUserId()).subscribe(
       (res) => {
         this.handleGetResponse(res);
       },
@@ -63,39 +64,31 @@ export class FestivalCrewComponent {
     this.festivalesColumns = [
       {
         name: 'Nombre',
-        dataKey: 'name',
+        dataKey: 'festival.name',
         position: 'left',
         isSortable: false,
         type: ContentType.plainText,
       },
       {
         name: 'Ciudad',
-        dataKey: 'city',
+        dataKey: 'festival.city',
         position: 'left',
         isSortable: false,
         type: ContentType.plainText,
       },
       {
         name: 'Localizacion',
-        dataKey: 'location',
+        dataKey: 'festival.location',
         position: 'left',
         isSortable: false,
         type: ContentType.plainText,
       },
       {
-        name: 'Maps',
-        dataKey: 'urlLocation',
-        position: 'left',
-        isSortable: false,
-        type: ContentType.specialContent,
-        template: this.ubicacionTemplate
-      },
-      {
         name: 'Fecha',
-        dataKey: 'date',
+        dataKey: 'festival.date',
         position: 'left',
         isSortable: false,
-        type: ContentType.datePicker
+        type: ContentType.dateText
       }
     ];
   }
@@ -116,12 +109,6 @@ export class FestivalCrewComponent {
     this._notificationService.showErrorMessage(notifications.LOADING_DATA_FAIL);
     this.apiFailing = false;
     this.spinner = false;
-  }
-
-  filterData(filters: Filter[]) {
-    this._festivalService.getFiltered(filters).subscribe((res) => {
-      this.festivales = res;
-    });
   }
 
   onPaginationChange(PageEvent: PageEvent){

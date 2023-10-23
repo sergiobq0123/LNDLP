@@ -41,4 +41,8 @@ export class AuthService {
   getUserId(): number {
     return JSON.parse(atob(this.getToken().split('.')[1])).userId;
   }
+
+  getRole(): string {
+    return JSON.parse(atob(this.getToken().split('.')[1])).role;
+  }
 }

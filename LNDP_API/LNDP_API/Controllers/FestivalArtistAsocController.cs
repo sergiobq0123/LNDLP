@@ -6,6 +6,7 @@ using LNDP_API.Dtos;
 using AutoMapper;
 using LNDP_API.Services;
 using TTTAPI.JWT.Managers;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LNDP_API.Controllers
 {   
@@ -20,6 +21,7 @@ namespace LNDP_API.Controllers
             _artistFestivalAsocService = artistFestivalAsocService;
         }
  
+        [Authorize(Roles = "Admin")]
         [HttpPut]
         public async Task<ActionResult> PostFestivalArtist(FestivalArtistDto festivalArtistDto)
         {
@@ -27,6 +29,20 @@ namespace LNDP_API.Controllers
             {
                 await _artistFestivalAsocService.UpdateFestivalWithArtists(festivalArtistDto);
                 return Ok(new { Message = "Artistas actualizados con éxito."});
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(new {ex.Message});
+            }
+        }
+    
+        [Authorize(Roles = "Crew")]
+        [HttpGet("festival-user-id/{id}")]
+        public async Task<ActionResult> GetFestivalforArtist(int id)
+        {
+            try 
+            {
+                return Ok(await _artistFestivalAsocService.GetFestivalForArtist(id));
             }
             catch(Exception ex)
             {

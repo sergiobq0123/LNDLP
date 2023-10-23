@@ -10,7 +10,6 @@
     [isPageable]="true"
     [isSortable]="true"
     [apiFailing]="apiFailing"
-    (filtered)="filterData($event)"
     [paginationSizes]="[5, 10, 20]"
     [pageSize]="pageSize"
     [pageNumber]="pageNumber"
@@ -21,10 +20,4 @@
     *ngIf="loaded"
   >
   </app-generic-table>
-</ng-template>
-
-<ng-template #ubicacionTemplate let-rowData="rowData">
-    <a [href]="rowData.urlLocation" target="_blank">
-      <mat-icon class="color">directions_car</mat-icon>
-    </a>
 </ng-template>

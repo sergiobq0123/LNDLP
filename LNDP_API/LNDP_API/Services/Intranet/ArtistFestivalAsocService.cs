@@ -38,6 +38,11 @@ namespace LNDP_API.Services
                 await DeleteArtistFestivalAsoc(idArtistFestivalAsoc);
             }
         }
+
+        public async Task<IEnumerable<ArtistFestivalAsoc>> GetFestivalForArtist(int id)
+        {
+            return await _artistFestivalAsocRepository.GetFestivalsForArtistAsync(id);
+        }
     }
 
 }

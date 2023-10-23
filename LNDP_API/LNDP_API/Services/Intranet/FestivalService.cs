@@ -21,10 +21,11 @@ namespace LNDP_API.Services
         {
             return await _festivalRepository.GetFestivalsAsync();
         }
-
-        public async Task<IEnumerable<Festival>> GetFestivalForArtist(int idArista)
+        public async Task<IEnumerable<Festival>> GetFutureFestivals()
         {
-           return await _festivalRepository.GetFestivalsForArtistAsync(idArista);
+            return await _festivalRepository.GetFutureFestivalsAsync();
         }
+
+
     }
 }

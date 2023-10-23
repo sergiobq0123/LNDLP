@@ -29,18 +29,17 @@ namespace LNDP_API.Controllers
             }
         }
 
-        //! Para la crew
-        [Authorize(Roles = "Crew")]
-        [HttpGet("artist-id")]
-        public async Task<ActionResult<IEnumerable<Festival>>> GetFestivalArtistId(int artistId)
+        [AllowAnonymous]
+        [HttpGet("proximos-festivales")]
+        public async Task<ActionResult<IEnumerable<Concert>>> GetConcertProximosFestivales()
         {
             try{
-                return Ok(await _festivalService.GetFestivalForArtist(artistId));
+                return Ok(await _festivalService.GetFutureFestivals());
             }
             catch(Exception ex){
                 return BadRequest(new {ex.Message});
             }
-
         }
+
     }
 }

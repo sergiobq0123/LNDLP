@@ -85,19 +85,11 @@ export class ConcertCrewComponent {
         type: ContentType.plainText,
       },
       {
-        name: 'Maps',
-        dataKey: 'urlLocation',
-        position: 'left',
-        isSortable: false,
-        type: ContentType.specialContent,
-        template: this.ubicacionTemplate
-      },
-      {
         name: 'Fecha',
         dataKey: 'date',
         position: 'left',
         isSortable: false,
-        type: ContentType.datePicker
+        type: ContentType.dateText
       }
     ];
   }

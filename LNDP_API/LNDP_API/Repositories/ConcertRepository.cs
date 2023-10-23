@@ -11,5 +11,14 @@ namespace LNDP_API.Repositories
         {
             _context = context;
         }
+
+        public async Task<IEnumerable<Concert>> GetFutureConcertsAsync()
+        {
+            return await _context.Concert
+                .Include(c => c.Artist)
+                .Where(c => c.Date >= DateTime.UtcNow).OrderBy(c => c.Date)
+                .AsNoTracking()
+                .ToListAsync();
+        }
     }
 }

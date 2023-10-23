@@ -34,7 +34,6 @@ namespace LNDP_API.Controllers
             }
         }
 
-        // TODO Para la pagina web
         [AllowAnonymous]
         [HttpGet("proximos-conciertos")]
         public async Task<ActionResult<IEnumerable<Concert>>> GetConcertProximosConciertos()
@@ -47,7 +46,6 @@ namespace LNDP_API.Controllers
             }
         }
 
-        //! Para la crew
         [Authorize(Roles = "Crew")]
         [HttpGet("artist-id")]
         public async Task<ActionResult<IEnumerable<Concert>>> GetConcertArtistId(int artistId)

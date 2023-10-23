@@ -8,5 +8,7 @@ namespace LNDP_API.Services
         Task<ArtistFestivalAsoc> CreateArtistFestivalAsoc(ArtistFestivalAsoc ArtistFestivalAsoc);
         Task DeleteArtistFestivalAsoc(int idArtistFestivalAsoc);
         Task UpdateFestivalWithArtists(FestivalArtistDto festivalArtistDto);
+
+        Task<IEnumerable<ArtistFestivalAsoc>> GetFestivalForArtist(int id);
     }
 }

@@ -15,9 +15,4 @@ export class FestivalService extends ServiceBaseService {
    getProximosFestivales(){
     return this.getToSpecificURL(this.getUrl + '/proximos-festivales')
   }
-
-  getFestivalForArtist(artistId: number){
-    const params = new HttpParams().append('artistId', artistId)
-    return this.getWithParams(this.getUrl + '/artist-id', params)
-  }
 }
