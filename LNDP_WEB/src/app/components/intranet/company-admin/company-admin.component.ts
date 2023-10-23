@@ -2,7 +2,10 @@ import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { notifications } from 'src/app/common/notifications';
 import { NotificationService } from 'src/app/services/notification.service';
-import { GenericForm, ContentType } from '../general/generic-form-dialog/generic-content';
+import {
+  GenericForm,
+  ContentType,
+} from '../general/generic-form-dialog/generic-content';
 import { GenericFormDialogComponent } from '../general/generic-form-dialog/generic-form-dialog.component';
 import { Column } from '../general/generic-table/column';
 import { GenericTableComponent } from '../general/generic-table/generic-table.component';
@@ -14,12 +17,10 @@ import { Filter } from '../general/generic-filter/filter';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { IconButton } from '../general/generic-table/icon-button';
 
-
-
 @Component({
   selector: 'app-company-admin',
   templateUrl: './company-admin.component.html',
-  styleUrls: ['./company-admin.component.scss']
+  styleUrls: ['./company-admin.component.scss'],
 })
 export class CompanyAdminComponent {
   companies: Array<any> = new Array<any>();
@@ -34,9 +35,9 @@ export class CompanyAdminComponent {
   pageNumber: number = 1;
   photo: any;
   spinner: boolean = false;
-  pageSize : number = 10;
-  totalCompanies = 50
-  iconButtons : IconButton[] = []
+  pageSize: number = 10;
+  totalCompanies = 50;
+  iconButtons: IconButton[] = [];
 
   @ViewChild(GenericTableComponent) table: GenericTableComponent;
   @ViewChild('imageTemplate') imageTemplate: TemplateRef<any>;
@@ -48,7 +49,7 @@ export class CompanyAdminComponent {
     public _companyService: CompanyService,
     public _companyTypeService: CompanyTypeService,
     public _dialog: MatDialog,
-    public _notificationService : NotificationService
+    public _notificationService: NotificationService
   ) {}
 
   ngOnInit() {
@@ -56,8 +57,8 @@ export class CompanyAdminComponent {
     this.getCompanies();
   }
 
-  ngAfterViewInit(){
-    this.setIconsButtons()
+  ngAfterViewInit() {
+    this.setIconsButtons();
   }
 
   setIconsButtons() {
@@ -65,7 +66,7 @@ export class CompanyAdminComponent {
       {
         template: this.addTemplate,
         isLeft: true,
-      }
+      },
     ];
   }
 
@@ -82,11 +83,9 @@ export class CompanyAdminComponent {
   }
 
   getCompaniesType() {
-    this._companyTypeService.get().subscribe(
-      (res) => {
-        this.companiesKeys = res;
-      },
-    );
+    this._companyTypeService.getKeys().subscribe((res) => {
+      this.companiesKeys = res;
+    });
   }
 
   setColumns(): void {
@@ -103,7 +102,7 @@ export class CompanyAdminComponent {
         isSortable: true,
         hidden: false,
         type: ContentType.editableTextFields,
-        validators: [Validators.required]
+        validators: [Validators.required],
       },
       {
         name: 'Tipo',
@@ -114,7 +113,7 @@ export class CompanyAdminComponent {
         dropdown: this.companiesKeys,
         dropdownKeyToShow: 'companyTypeName',
         dropdownKeyValue: 'id',
-        validators: [Validators.required]
+        validators: [Validators.required],
       },
       {
         name: 'Descripcion',
@@ -156,14 +155,14 @@ export class CompanyAdminComponent {
         dropdown: this.companiesKeys,
         dropdownKeyToShow: 'companyTypeName',
         dropdownKeyValue: 'id',
-        validators: [Validators.required]
+        validators: [Validators.required],
       },
       {
         name: 'Nombre',
         dataKey: 'name',
         position: { row: 0, col: 1, rowSpan: 1, colSpan: 1 },
         type: ContentType.editableTextFields,
-        validators: [Validators.required]
+        validators: [Validators.required],
       },
       {
         name: 'Descripcion',
@@ -182,7 +181,7 @@ export class CompanyAdminComponent {
         dataKey: 'photoUrl',
         position: { row: 2, col: 1, rowSpan: 1, colSpan: 2 },
         type: ContentType.imageFile,
-        validators: [Validators.required]
+        validators: [Validators.required],
       },
     ];
   }
@@ -218,7 +217,7 @@ export class CompanyAdminComponent {
 
   showFormDialogImage(dataShow: any) {
     let dialogData = {
-      formData: dataShow ,
+      formData: dataShow,
       formFields: this.setImageForm(),
       formCols: 2,
       dialogTitle: 'Imagen',
@@ -229,8 +228,8 @@ export class CompanyAdminComponent {
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result !== undefined && result !== null && result !== '') {
-        dataShow.photoUrl = result.photoUrl
-        this.updateElement(dataShow)
+        dataShow.photoUrl = result.photoUrl;
+        this.updateElement(dataShow);
       }
     });
   }
@@ -296,7 +295,7 @@ export class CompanyAdminComponent {
     this.apiFailing = true;
   }
 
-  onPaginationChange(PageEvent: PageEvent){
+  onPaginationChange(PageEvent: PageEvent) {
     this.pageNumber = PageEvent.pageIndex + 1;
     this.pageSize = PageEvent.pageSize;
     this.getCompanies();

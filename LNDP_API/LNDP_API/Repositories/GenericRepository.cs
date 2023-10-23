@@ -1,8 +1,10 @@
 using System.Linq.Expressions;
 using LNDP_API.Data;
+using LNDP_API.Dtos;
 using Microsoft.EntityFrameworkCore;
 
-namespace LNDP_API.Repositories{
+namespace LNDP_API.Repositories
+{
 
     public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
@@ -58,6 +60,6 @@ namespace LNDP_API.Repositories{
             }
 
             return await query.ToListAsync();
-            }
+        }
     }
 }

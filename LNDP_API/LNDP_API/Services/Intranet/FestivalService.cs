@@ -9,21 +9,18 @@ namespace LNDP_API.Services
     public class FestivalService : GenericService<Festival>, IFestivalService
     {
         private readonly IFestivalRepository _festivalRepository;
-        private readonly IMapper _mapper;
-        private readonly IImageUtils _imageUtils;
-        public FestivalService(IFestivalRepository festivalRepository, IMapper mapper, IImageUtils imageUtils) : base(festivalRepository, imageUtils)
+        public FestivalService(IFestivalRepository festivalRepository, IMapper mapper) : base(festivalRepository, mapper)
         {
             _festivalRepository = festivalRepository;
-            _mapper = mapper;
-            _imageUtils = imageUtils;
         }
         public async Task<IEnumerable<Festival>> GetFestivals()
         {
             return await _festivalRepository.GetFestivalsAsync();
         }
-        public async Task<IEnumerable<Festival>> GetFutureFestivals()
+        public async Task<IEnumerable<FestivalWebDto>> GetFutureFestivals()
         {
-            return await _festivalRepository.GetFutureFestivalsAsync();
+            var festivales = await _festivalRepository.GetFutureFestivalsAsync();
+            return _mapper.Map<IEnumerable<FestivalWebDto>>(festivales);
         }
 
 

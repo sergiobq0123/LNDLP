@@ -3,6 +3,7 @@ using System;
 using LNDP_API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace LNDP_API.Migrations
 {
     [DbContext(typeof(APIContext))]
-    partial class APIContextModelSnapshot : ModelSnapshot
+    [Migration("20231023185621_addPro50")]
+    partial class addPro50
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,29 +53,29 @@ namespace LNDP_API.Migrations
                         new
                         {
                             Id = 1,
-                            PasswordHash = "z4NRlgBKMjb/9jUdwyEGL53m2OLYQL4ZOr1K1+Cn0KA=",
-                            PasswordSalt = "lu7lO643JcUbgi5Bx4PyBw==",
+                            PasswordHash = "X7sC8k5o3p8N7cKLkf+RX4zbWlbCalqE9DKKxfQhrgo=",
+                            PasswordSalt = "He4tl/sTtU07IHK1y60/dA==",
                             UserName = "Sanchez"
                         },
                         new
                         {
                             Id = 2,
-                            PasswordHash = "MXWZR5Pf98gKlZj1lIBppI0wK96VcmOET8iCgPDJ70o=",
-                            PasswordSalt = "lu7lO643JcUbgi5Bx4PyBw==",
+                            PasswordHash = "pED4Fn8+v0jViY3uD8hs8PQym+RrBVghVQXRPiyW/nE=",
+                            PasswordSalt = "He4tl/sTtU07IHK1y60/dA==",
                             UserName = "Torres"
                         },
                         new
                         {
                             Id = 3,
-                            PasswordHash = "ZXtsQXLxppwrrDIiXYJNUN4nmLip9iIjR+Yhx5Q6dT0=",
-                            PasswordSalt = "lu7lO643JcUbgi5Bx4PyBw==",
+                            PasswordHash = "4RAmi9Q3ktKNE8jvdhe4NcSHkqAatE9hC1rAxbjZCwU=",
+                            PasswordSalt = "He4tl/sTtU07IHK1y60/dA==",
                             UserName = "Tomas"
                         },
                         new
                         {
                             Id = 4,
-                            PasswordHash = "YMGicJvYg2F++FDcXuMmBPHuUWhOUIKa8uJmq13QTYg=",
-                            PasswordSalt = "lu7lO643JcUbgi5Bx4PyBw==",
+                            PasswordHash = "kRkkh46Dsp8TzJcLKdGzc0IAFqtuG42cZ98SxDn3u4E=",
+                            PasswordSalt = "He4tl/sTtU07IHK1y60/dA==",
                             UserName = "Iglesias"
                         });
                 });

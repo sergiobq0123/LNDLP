@@ -12,11 +12,10 @@ import { PageEvent } from '@angular/material/paginator';
 import { AuthService } from 'src/app/services/auth.service';
 import { Filter } from '../general/generic-filter/filter';
 
-
 @Component({
   selector: 'app-concert-crew',
   templateUrl: './concert-crew.component.html',
-  styleUrls: ['./concert-crew.component.scss']
+  styleUrls: ['./concert-crew.component.scss'],
 })
 export class ConcertCrewComponent {
   conciertos: Array<any> = new Array<any>();
@@ -28,20 +27,20 @@ export class ConcertCrewComponent {
   entryBeingEdited: boolean = false;
   pageNumber: number = 1;
   spinner: boolean = false;
-  pageSize : number = 10;
-  totalConciertos = 50
+  pageSize: number = 10;
+  totalConciertos = 50;
 
   @ViewChild(GenericTableComponent) table: GenericTableComponent;
   @ViewChild('ubicacionTemplate') ubicacionTemplate: TemplateRef<any>;
 
   constructor(
     private _concertService: ConcertService,
-    private _notificationService : NotificationService,
-    private _authService : AuthService,
-    public _dialog: MatDialog,
-  ){}
+    private _notificationService: NotificationService,
+    private _authService: AuthService,
+    public _dialog: MatDialog
+  ) {}
 
-  ngOnInit(){
+  ngOnInit() {
     this.getConciertos();
   }
 
@@ -49,16 +48,18 @@ export class ConcertCrewComponent {
     this.spinner = true;
     console.log(this._authService.getUserId());
 
-    this._concertService.getConcertForArtist(this._authService.getUserId()).subscribe(
-      (res) => {
-        this.handleGetResponse(res);
-      },
-      (error) => {
-        console.log(error);
+    this._concertService
+      .getConcertForArtist(this._authService.getUserId())
+      .subscribe(
+        (res) => {
+          this.handleGetResponse(res);
+        },
+        (error) => {
+          console.log(error);
 
-        this.handleGetErrorResponse();
-      }
-    );
+          this.handleGetErrorResponse();
+        }
+      );
   }
 
   setColumns(): void {
@@ -89,14 +90,13 @@ export class ConcertCrewComponent {
         dataKey: 'date',
         position: 'left',
         isSortable: false,
-        type: ContentType.dateText
-      }
+        type: ContentType.dateText,
+      },
     ];
   }
 
-  getUrl(event: any){
+  getUrl(event: any) {
     console.log(event);
-
   }
 
   private handleGetResponse(res: any) {
@@ -118,7 +118,7 @@ export class ConcertCrewComponent {
     });
   }
 
-  onPaginationChange(PageEvent: PageEvent){
+  onPaginationChange(PageEvent: PageEvent) {
     this.pageNumber = PageEvent.pageIndex + 1;
     this.pageSize = PageEvent.pageSize;
   }

@@ -7,24 +7,24 @@ namespace LNDP_API.Data
 {
     public class APIContext : DbContext
     {
-        public APIContext(DbContextOptions<APIContext> options) : base(options){}
+        public APIContext(DbContextOptions<APIContext> options) : base(options) { }
 
-        public DbSet<LNDP_API.Models.User> User {get ; set ; }
-        public DbSet<LNDP_API.Models.Artist> Artist {get ; set ; }
-        public DbSet<LNDP_API.Models.SocialNetwork> SocialNetwork {get ; set ; }
-        public DbSet<LNDP_API.Models.UserRole> UserRole {get ; set ; }
-        public DbSet<LNDP_API.Models.Album> Album {get ; set ; }
-        public DbSet<LNDP_API.Models.Song> Song {get ; set ; }
-        public DbSet<LNDP_API.Models.Company> Company {get ; set ; }
-        public DbSet<LNDP_API.Models.CompanyType> CompanyType {get ; set ; }
-        public DbSet<LNDP_API.Models.Concert> Concert {get ; set ; }
-        public DbSet<LNDP_API.Models.Festival> Festival {get ; set ; }
-        public DbSet<LNDP_API.Models.ArtistFestivalAsoc> ArtistFestivalAsoc {get ; set ; }
-        public DbSet<LNDP_API.Models.YoutubeVideo> YoutubeVideo {get ; set ; }
-        public DbSet<LNDP_API.Models.Acces> Acces {get ; set ; }
+        public DbSet<LNDP_API.Models.User> User { get; set; }
+        public DbSet<LNDP_API.Models.Artist> Artist { get; set; }
+        public DbSet<LNDP_API.Models.SocialNetwork> SocialNetwork { get; set; }
+        public DbSet<LNDP_API.Models.UserRole> UserRole { get; set; }
+        public DbSet<LNDP_API.Models.Album> Album { get; set; }
+        public DbSet<LNDP_API.Models.Song> Song { get; set; }
+        public DbSet<LNDP_API.Models.Company> Company { get; set; }
+        public DbSet<LNDP_API.Models.CompanyType> CompanyType { get; set; }
+        public DbSet<LNDP_API.Models.Concert> Concert { get; set; }
+        public DbSet<LNDP_API.Models.Festival> Festival { get; set; }
+        public DbSet<LNDP_API.Models.ArtistFestivalAsoc> ArtistFestivalAsoc { get; set; }
+        public DbSet<LNDP_API.Models.YoutubeVideo> YoutubeVideo { get; set; }
+        public DbSet<LNDP_API.Models.Acces> Acces { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {   
+        {
             modelBuilder.Entity<LNDP_API.Models.UserRole>().HasData
             (
                 new LNDP_API.Models.UserRole
@@ -139,7 +139,7 @@ namespace LNDP_API.Data
                     Id = 4,
                     CompanyTypeName = "Project"
                 }
-                
+
             );
             modelBuilder.Entity<Artist>()
                 .HasMany(a => a.Albums)
@@ -157,7 +157,7 @@ namespace LNDP_API.Data
             modelBuilder.Entity<Artist>()
                 .HasMany(a => a.Concerts)
                 .WithOne(e => e.Artist)
-                .OnDelete(DeleteBehavior.Cascade); 
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<ArtistFestivalAsoc>()
                 .HasOne(afa => afa.Artist)

@@ -4,10 +4,10 @@ using LNDP_API.Models;
 
 namespace LNDP_API.Repositories
 {
-    public class UserRepository :GenericRepository<User>, IUserRepository
+    public class UserRepository : GenericRepository<User>, IUserRepository
     {
         private readonly APIContext _context;
-        public UserRepository(APIContext context): base(context)
+        public UserRepository(APIContext context) : base(context)
         {
             _context = context;
         }

@@ -3,6 +3,7 @@ using System;
 using LNDP_API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace LNDP_API.Migrations
 {
     [DbContext(typeof(APIContext))]
-    partial class APIContextModelSnapshot : ModelSnapshot
+    [Migration("20231023212133_addPro51")]
+    partial class addPro51
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,29 +53,29 @@ namespace LNDP_API.Migrations
                         new
                         {
                             Id = 1,
-                            PasswordHash = "z4NRlgBKMjb/9jUdwyEGL53m2OLYQL4ZOr1K1+Cn0KA=",
-                            PasswordSalt = "lu7lO643JcUbgi5Bx4PyBw==",
+                            PasswordHash = "/+I/kAWObg51/2JPnIsfFdaBvB27Gv6WBAjsDi2Hk4s=",
+                            PasswordSalt = "bjEFFGTpZgt6eLAAfu/PAg==",
                             UserName = "Sanchez"
                         },
                         new
                         {
                             Id = 2,
-                            PasswordHash = "MXWZR5Pf98gKlZj1lIBppI0wK96VcmOET8iCgPDJ70o=",
-                            PasswordSalt = "lu7lO643JcUbgi5Bx4PyBw==",
+                            PasswordHash = "nSu81MMpm0cFt4HRA5GOWfQf3c8ug+N5sFZPBwcij68=",
+                            PasswordSalt = "bjEFFGTpZgt6eLAAfu/PAg==",
                             UserName = "Torres"
                         },
                         new
                         {
                             Id = 3,
-                            PasswordHash = "ZXtsQXLxppwrrDIiXYJNUN4nmLip9iIjR+Yhx5Q6dT0=",
-                            PasswordSalt = "lu7lO643JcUbgi5Bx4PyBw==",
+                            PasswordHash = "1lUdaIeYuwk8vBJRZa3sqa5HZKlup0Feha47Q7aMct0=",
+                            PasswordSalt = "bjEFFGTpZgt6eLAAfu/PAg==",
                             UserName = "Tomas"
                         },
                         new
                         {
                             Id = 4,
-                            PasswordHash = "YMGicJvYg2F++FDcXuMmBPHuUWhOUIKa8uJmq13QTYg=",
-                            PasswordSalt = "lu7lO643JcUbgi5Bx4PyBw==",
+                            PasswordHash = "V/jwUNU/BrPEGPrUY4Su8uHFq6MRcsbj4IYu4t332Lg=",
+                            PasswordSalt = "bjEFFGTpZgt6eLAAfu/PAg==",
                             UserName = "Iglesias"
                         });
                 });
@@ -465,7 +468,7 @@ namespace LNDP_API.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Role")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -477,17 +480,17 @@ namespace LNDP_API.Migrations
                         new
                         {
                             Id = 1,
-                            Role = "Admin"
+                            Name = "Admin"
                         },
                         new
                         {
                             Id = 2,
-                            Role = "Visual"
+                            Name = "Visual"
                         },
                         new
                         {
                             Id = 3,
-                            Role = "Crew"
+                            Name = "Crew"
                         });
                 });
 

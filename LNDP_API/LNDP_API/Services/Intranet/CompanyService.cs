@@ -6,16 +6,12 @@ using LNDP_API.Utils;
 
 namespace LNDP_API.Services
 {
-    public class CompanyService : GenericService<Company>, ICompanyService 
+    public class CompanyService : GenericService<Company>, ICompanyService
     {
         private readonly ICompanyRepository _companyRepository;
-        private readonly IMapper _mapper;
-        private readonly IImageUtils _imageUtils;
-        public CompanyService(ICompanyRepository companyRepository, IMapper mapper, IImageUtils imageUtils): base(companyRepository, imageUtils)
+        public CompanyService(ICompanyRepository companyRepository, IMapper mapper) : base(companyRepository, mapper)
         {
             _companyRepository = companyRepository;
-            _mapper = mapper;
-            _imageUtils = imageUtils;
         }
 
         public async Task<IEnumerable<CompanyWebDto>> GetCompaniesByType(string type)

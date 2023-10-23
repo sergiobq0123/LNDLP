@@ -6,16 +6,12 @@ using LNDP_API.Utils;
 
 namespace LNDP_API.Services
 {
-    public class YoutubeVideoService :GenericService<YoutubeVideo>, IYoutubeVideoService
+    public class YoutubeVideoService : GenericService<YoutubeVideo>, IYoutubeVideoService
     {
-        private readonly IUrlEmbedUtils _urlEmbedUtils;
         private readonly IYoutubeVideoRepository _youtubeVideoRepository;
-        private readonly IMapper _mapper;
-        public YoutubeVideoService(IUrlEmbedUtils urlEmbedUtils, IYoutubeVideoRepository youtubeVideoRepository, IMapper mapper): base(youtubeVideoRepository, null, urlEmbedUtils)
+        public YoutubeVideoService(IYoutubeVideoRepository youtubeVideoRepository, IMapper mapper) : base(youtubeVideoRepository, mapper)
         {
-            _urlEmbedUtils = urlEmbedUtils;
             _youtubeVideoRepository = youtubeVideoRepository;
-            _mapper = mapper;
         }
 
         public async Task<IEnumerable<YoutubeVideoWebDto>> GetYoutubeVideoDto()

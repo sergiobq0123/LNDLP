@@ -1,8 +1,11 @@
 
+using LNDP_API.Dtos;
 using LNDP_API.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LNDP_API.Controllers{
+namespace LNDP_API.Controllers
+{
     [ApiController]
     [Route("api/[controller]")]
     public class GenericController<TEntity> : ControllerBase where TEntity : class
@@ -12,6 +15,19 @@ namespace LNDP_API.Controllers{
         public GenericController(IGenericService<TEntity> service)
         {
             _service = service;
+        }
+
+        [HttpGet("keys")]
+        public async Task<ActionResult<IEnumerable<KeysIntranetDto>>> GetArtistKeys()
+        {
+            try
+            {
+                return Ok(await _service.GetKeys());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { ex.Message });
+            }
         }
 
         [HttpPost]

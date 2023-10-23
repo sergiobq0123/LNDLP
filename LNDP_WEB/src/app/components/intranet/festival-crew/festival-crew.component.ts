@@ -15,7 +15,7 @@ import { FestivalArtistAsocService } from 'src/app/services/intranet/festival-ar
 @Component({
   selector: 'app-festival-crew',
   templateUrl: './festival-crew.component.html',
-  styleUrls: ['./festival-crew.component.scss']
+  styleUrls: ['./festival-crew.component.scss'],
 })
 export class FestivalCrewComponent {
   festivales: Array<any> = new Array<any>();
@@ -27,20 +27,20 @@ export class FestivalCrewComponent {
   entryBeingEdited: boolean = false;
   pageNumber: number = 1;
   spinner: boolean = false;
-  pageSize : number = 10;
-  totalfestivales = 50
+  pageSize: number = 10;
+  totalfestivales = 50;
 
   @ViewChild(GenericTableComponent) table: GenericTableComponent;
   @ViewChild('ubicacionTemplate') ubicacionTemplate: TemplateRef<any>;
 
   constructor(
     private _festivalArtistAsocService: FestivalArtistAsocService,
-    private _notificationService : NotificationService,
-    private _authService : AuthService,
-    public _dialog: MatDialog,
-  ){}
+    private _notificationService: NotificationService,
+    private _authService: AuthService,
+    public _dialog: MatDialog
+  ) {}
 
-  ngOnInit(){
+  ngOnInit() {
     this.getfestivales();
   }
 
@@ -48,16 +48,18 @@ export class FestivalCrewComponent {
     this.spinner = true;
     console.log(this._authService.getUserId());
 
-    this._festivalArtistAsocService.getFestivalForArtist(this._authService.getUserId()).subscribe(
-      (res) => {
-        this.handleGetResponse(res);
-      },
-      (error) => {
-        console.log(error);
+    this._festivalArtistAsocService
+      .getFestivalForArtist(this._authService.getUserId())
+      .subscribe(
+        (res) => {
+          this.handleGetResponse(res);
+        },
+        (error) => {
+          console.log(error);
 
-        this.handleGetErrorResponse();
-      }
-    );
+          this.handleGetErrorResponse();
+        }
+      );
   }
 
   setColumns(): void {
@@ -88,14 +90,13 @@ export class FestivalCrewComponent {
         dataKey: 'festival.date',
         position: 'left',
         isSortable: false,
-        type: ContentType.dateText
-      }
+        type: ContentType.dateText,
+      },
     ];
   }
 
-  getUrl(event: any){
+  getUrl(event: any) {
     console.log(event);
-
   }
 
   private handleGetResponse(res: any) {
@@ -111,7 +112,7 @@ export class FestivalCrewComponent {
     this.spinner = false;
   }
 
-  onPaginationChange(PageEvent: PageEvent){
+  onPaginationChange(PageEvent: PageEvent) {
     this.pageNumber = PageEvent.pageIndex + 1;
     this.pageSize = PageEvent.pageSize;
   }

@@ -6,29 +6,16 @@ using System.Linq.Expressions;
 using TTTAPI.Utils;
 using LNDP_API.Dtos;
 using AutoMapper;
+using LNDP_API.Services;
 
 namespace LNDP_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserRoleController : ControllerBase
+    public class UserRoleController : GenericController<UserRole>
     {
-        private readonly APIContext _context;
-        private readonly IMapper _mapper;
-
-        public UserRoleController(APIContext context, IMapper mapper)
+        public UserRoleController(IUserRoleService userRoleService) : base(userRoleService)
         {
-            _context = context;
-            _mapper = mapper;
-        }
-
-        [HttpGet("keys")]
-        public async Task<ActionResult<IEnumerable<UserRoleDto>>> GetUsers()
-        {
-            return await _context.UserRole
-            .Where(u => u.Id != 3)
-            .Select( u => _mapper.Map<UserRoleDto>(u))
-            .ToListAsync();
         }
     }
 }

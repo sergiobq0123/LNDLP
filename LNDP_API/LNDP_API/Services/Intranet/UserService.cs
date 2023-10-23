@@ -10,12 +10,10 @@ namespace LNDP_API.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IAccesService _accesService;
-        private readonly IMapper _mapper;
 
-        public UserService(IUserRepository userRepository, IMapper mapper, IAccesService accesService) : base(userRepository)
+        public UserService(IUserRepository userRepository, IMapper mapper, IAccesService accesService) : base(userRepository, mapper)
         {
             _userRepository = userRepository;
-            _mapper = mapper;
             _accesService = accesService;
         }
 

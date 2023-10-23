@@ -9,10 +9,9 @@ namespace LNDP_API.Services
     public class SocialNetworkService : GenericService<SocialNetwork>, ISocialNetworkService
     {
         private readonly ISocialNetworkRepository _socialNetworkRepository;
-        public SocialNetworkService(ISocialNetworkRepository socialNetworkRepository, IMapper mapper, IImageUtils imageUtils) : base(socialNetworkRepository)
+        public SocialNetworkService(ISocialNetworkRepository socialNetworkRepository) : base(socialNetworkRepository, null)
         {
             _socialNetworkRepository = socialNetworkRepository;
-
         }
     }
 }

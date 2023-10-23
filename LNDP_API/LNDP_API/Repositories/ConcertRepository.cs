@@ -16,7 +16,8 @@ namespace LNDP_API.Repositories
         {
             return await _context.Concert
                 .Include(c => c.Artist)
-                .Where(c => c.Date >= DateTime.UtcNow).OrderBy(c => c.Date)
+                .Where(c => c.Date >= DateTime.UtcNow)
+                .OrderBy(c => c.Date)
                 .AsNoTracking()
                 .ToListAsync();
         }

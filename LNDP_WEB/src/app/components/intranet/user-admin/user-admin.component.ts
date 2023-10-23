@@ -20,7 +20,6 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { IconButton } from '../general/generic-table/icon-button';
 import { AccesService } from 'src/app/services/intranet/acces.service';
 
-
 @Component({
   selector: 'app-user-admin',
   templateUrl: './user-admin.component.html',
@@ -45,7 +44,7 @@ export class UserAdminComponent {
   spinner: boolean = false;
   pageSize: number = 10;
   totalUsers = 50;
-  iconButtons : IconButton[] = []
+  iconButtons: IconButton[] = [];
 
   @ViewChild(GenericTableComponent) table: GenericTableComponent;
   @ViewChild('passwordTemplate') passwordTemplate: TemplateRef<any>;
@@ -66,8 +65,8 @@ export class UserAdminComponent {
     this.getUserKeys();
   }
 
-  ngAfterViewInit(){
-    this.setIconsButtons()
+  ngAfterViewInit() {
+    this.setIconsButtons();
   }
 
   setIconsButtons() {
@@ -75,7 +74,7 @@ export class UserAdminComponent {
       {
         template: this.addTemplate,
         isLeft: true,
-      }
+      },
     ];
   }
 
@@ -92,11 +91,9 @@ export class UserAdminComponent {
   }
 
   getUserKeys() {
-    this._userRoleService.getKeys().subscribe(
-      (res) => {
-        this.usersKeys = res;
-      },
-    );
+    this._userRoleService.getKeys().subscribe((res) => {
+      this.usersKeys = res;
+    });
   }
 
   setColumns(): void {
@@ -167,7 +164,7 @@ export class UserAdminComponent {
         hidden: false,
         type: ContentType.dropdownFields,
         dropdown: this.usersKeys,
-        dropdownKeyToShow: 'role',
+        dropdownKeyToShow: 'name',
         dropdownKeyValue: 'id',
         validators: [Validators.required],
       },
@@ -260,8 +257,12 @@ export class UserAdminComponent {
   createElement(event: any) {
     event.id = 0;
     this._userService.createUser(event).subscribe(
-      (res) => {this.handleResponse(res.message)},
-      (err) => {this.handleErrorResponse(err.error.message)}
+      (res) => {
+        this.handleResponse(res.message);
+      },
+      (err) => {
+        this.handleErrorResponse(err.error.message);
+      }
     );
   }
 
