@@ -3,31 +3,29 @@ using Microsoft.EntityFrameworkCore;
 using LNDP_API.Data;
 using LNDP_API.Models;
 using System.Linq.Expressions;
-using TTTAPI.Utils;
 using LNDP_API.Dtos;
 using AutoMapper;
+using LNDP_API.Services;
+using LNDP_API.Repositories;
 
 namespace LNDP_API.Controllers
-{   
+{
     [Route("api/[controller]")]
     [ApiController]
     public class SocialNetworkController : ControllerBase
     {
-        private readonly APIContext _context;
-        private readonly IMapper _mapper;
+        private readonly ISocialNetworkService _socialNetworkService;
 
-        public SocialNetworkController(APIContext context, IMapper mapper)
+        public SocialNetworkController(ISocialNetworkService socialNetworkService)
         {
-            _context = context;
-            _mapper = mapper;
+            _socialNetworkService = socialNetworkService;
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> PutSocialNetwork(int id, SocialNetwork SocialNetwork)
+        public async Task<ActionResult> PutSocialNetwork(int id, SocialNetwork socialNetwork)
         {
-            _context.Entry(SocialNetwork).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-            return Ok( new { Message = "Red social actualizada con exito"});
+            await _socialNetworkService.Update(socialNetwork);
+            return Ok(new { Message = "Red social actualizada con exito" });
         }
 
     }

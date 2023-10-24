@@ -3,6 +3,7 @@ using LNDP_API.Dtos;
 using LNDP_API.Models;
 using LNDP_API.Repositories;
 using LNDP_API.Utils;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LNDP_API.Services
 {
@@ -11,17 +12,16 @@ namespace LNDP_API.Services
         private readonly IArtistRepository _artistRepository;
         private readonly IUserService _userService;
 
-        public ArtistService(IArtistRepository artistRepository, IMapper mapper, IUserService userService) : base(artistRepository, mapper)
+        public ArtistService(IArtistRepository artistRepository, IMapper mapper, IUserService userService, IUriService uriService) : base(artistRepository, mapper, uriService)
         {
             _artistRepository = artistRepository;
             _userService = userService;
         }
 
-        public async Task<IEnumerable<Artist>> GetArtists()
+        public async Task<PagedResponse<List<Artist>>> GetArtistas([FromQuery] PaginationFilter paginationFilter, string route)
         {
-            return await _artistRepository.GetWithIncludesAsync(
-                includes: a => a.SocialNetwork
-            );
+            IQueryable<Artist> query = await _artistRepository.GetArtistasAsync();
+            return await this.GetPagination(paginationFilter, query, route);
         }
         public async Task<ArtistWebDetailDto> GetArtistById(int id)
         {

@@ -9,7 +9,7 @@ namespace LNDP_API.Services
     {
         private readonly ICompanyTypeRepository _companyTypeRepository;
 
-        public CompanyTypeService(ICompanyTypeRepository companyTypeRepository, IMapper mapper) : base(companyTypeRepository, mapper)
+        public CompanyTypeService(ICompanyTypeRepository companyTypeRepository, IMapper mapper, IUriService uriService) : base(companyTypeRepository, mapper, uriService)
         {
             _companyTypeRepository = companyTypeRepository;
         }

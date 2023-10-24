@@ -4,12 +4,18 @@ using LNDP_API.Models;
 
 namespace LNDP_API.Repositories
 {
-    public class ArtistRepository :GenericRepository<Artist>, IArtistRepository
+    public class ArtistRepository : GenericRepository<Artist>, IArtistRepository
     {
         private readonly APIContext _context;
         public ArtistRepository(APIContext context) : base(context)
         {
             _context = context;
+        }
+
+        public async Task<IQueryable<Artist>> GetArtistasAsync()
+        {
+            var query = _context.Artist.Include(c => c.SocialNetwork).AsNoTracking();
+            return await Task.FromResult(query);
         }
 
         public async Task<Artist> GetArtistByIdAsync(int id)

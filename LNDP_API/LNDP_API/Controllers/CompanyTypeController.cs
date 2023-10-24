@@ -21,7 +21,9 @@ namespace LNDP_API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CompanyType>>> GetCompany()
         {
-            return Ok(await _companyTypeService.Get());
+            return Ok(
+                // await _companyTypeService.Get()
+                );
         }
     }
 }

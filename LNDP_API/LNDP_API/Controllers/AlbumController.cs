@@ -5,27 +5,29 @@ using LNDP_API.Services;
 using Microsoft.AspNetCore.Authorization;
 
 namespace LNDP_API.Controllers
-{   
+{
     [Route("api/[controller]")]
     [ApiController]
     public class AlbumController : GenericController<Album>
     {
         private readonly IAlbumService _albumService;
 
-        public AlbumController(IAlbumService albumService): base(albumService)
+        public AlbumController(IAlbumService albumService) : base(albumService)
         {
             _albumService = albumService;
         }
- 
+
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public virtual async Task<ActionResult<IEnumerable<Album>>> Get()
+        public virtual async Task<ActionResult<IEnumerable<Album>>> GetAlbumsIntranet([FromQuery] PaginationFilter paginationFilter)
         {
-            try{
-                return Ok(await _albumService.GetAlbums());
+            try
+            {
+                return Ok(await _albumService.GetAlbums(paginationFilter, Request.Path.Value));
             }
-            catch(Exception ex){
-                return BadRequest(new {ex.Message});
+            catch (Exception ex)
+            {
+                return BadRequest(new { ex.Message });
             }
         }
 

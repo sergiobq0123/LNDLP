@@ -3,20 +3,25 @@
   [windowTitle]="'Festivales'"
 ></app-generic-window>
 <app-spinner *ngIf="this.spinner"></app-spinner>
+
 <ng-template #contentTemplate>
   <app-generic-table
-    [tableData]="festivales"
-    [tableColumns]="festivalesColumns"
+    [tableData]="entries"
+    [tableColumns]="columns"
     [isPageable]="true"
-    [isSortable]="true"
     [apiFailing]="apiFailing"
+    [isSortable]="true"
+    [hasActions]="false"
     [paginationSizes]="[5, 10, 20]"
     [pageSize]="pageSize"
     [pageNumber]="pageNumber"
-    [totalRecords]="totalfestivales"
+    [totalRecords]="totalRecords"
     (paginationChange)="onPaginationChange($event)"
+    (sort)="sortData($event)"
+    (filtered)="filterData($event)"
     [canManageColumns]="true"
     [hasFilter]="true"
+    (edited)="entryBeingEdited = $event"
     *ngIf="loaded"
   >
   </app-generic-table>

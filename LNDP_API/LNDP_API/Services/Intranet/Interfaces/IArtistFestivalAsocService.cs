@@ -1,5 +1,6 @@
 using LNDP_API.Dtos;
 using LNDP_API.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LNDP_API.Services
 {
@@ -9,6 +10,6 @@ namespace LNDP_API.Services
         Task DeleteArtistFestivalAsoc(int idArtistFestivalAsoc);
         Task UpdateFestivalWithArtists(FestivalArtistDto festivalArtistDto);
 
-        Task<IEnumerable<ArtistFestivalAsoc>> GetFestivalForArtist(int id);
+        Task<PagedResponse<List<ArtistFestivalAsoc>>> GetFestivalForArtist(int id, [FromQuery] PaginationFilter paginationFilter, string route);
     }
 }

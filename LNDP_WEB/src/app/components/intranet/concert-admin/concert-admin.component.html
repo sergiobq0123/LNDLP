@@ -13,31 +13,34 @@
     (click)="showFormDialog()"
     matTooltip="Add User"
     matTooltipPosition="below"
-    matTooltipShowDelay="500">
+    matTooltipShowDelay="500"
+  >
     <fa-icon [icon]="faPlus"></fa-icon>
   </button>
 </ng-template>
 
 <ng-template #contentTemplate>
   <app-generic-table
-    [tableData]="conciertos"
-    [tableColumns]="conciertosColumns"
+    [tableData]="entries"
+    [tableColumns]="columns"
     [isPageable]="true"
-    [isSortable]="true"
     [apiFailing]="apiFailing"
-    (filtered)="filterData($event)"
+    [isSortable]="true"
     [hasActions]="true"
-    [paginationSizes]="[5, 10, 20]"
-    [pageSize]="pageSize"
-    [pageNumber]="pageNumber"
-    [totalRecords]="totalConciertos"
-    (paginationChange)="onPaginationChange($event)"
     (modified)="updateElement($event)"
     (rowAdded)="newRowAdded = $event"
     (create)="createElement($event)"
     (delete)="deleteElement($event)"
+    [paginationSizes]="[5, 10, 20]"
+    [pageSize]="pageSize"
+    [pageNumber]="pageNumber"
+    [totalRecords]="totalRecords"
+    (paginationChange)="onPaginationChange($event)"
+    (sort)="sortData($event)"
+    (filtered)="filterData($event)"
     [canManageColumns]="true"
     [hasFilter]="true"
+    (edited)="entryBeingEdited = $event"
     [iconButtons]="iconButtons"
     *ngIf="loaded"
   >

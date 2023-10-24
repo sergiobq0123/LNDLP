@@ -9,7 +9,7 @@ using TTTAPI.JWT.Managers;
 using Microsoft.AspNetCore.Authorization;
 
 namespace LNDP_API.Controllers
-{   
+{
     [Route("api/[controller]")]
     [ApiController]
     public class FestivalArtistAsocController : ControllerBase
@@ -20,33 +20,33 @@ namespace LNDP_API.Controllers
         {
             _artistFestivalAsocService = artistFestivalAsocService;
         }
- 
+
         [Authorize(Roles = "Admin")]
         [HttpPut]
         public async Task<ActionResult> PostFestivalArtist(FestivalArtistDto festivalArtistDto)
         {
-            try 
+            try
             {
                 await _artistFestivalAsocService.UpdateFestivalWithArtists(festivalArtistDto);
-                return Ok(new { Message = "Artistas actualizados con éxito."});
+                return Ok(new { Message = "Artistas actualizados con éxito." });
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                return BadRequest(new {ex.Message});
+                return BadRequest(new { ex.Message });
             }
         }
-    
+
         [Authorize(Roles = "Crew")]
         [HttpGet("festival-user-id/{id}")]
-        public async Task<ActionResult> GetFestivalforArtist(int id)
+        public async Task<ActionResult> GetFestivalforArtist(int id, [FromQuery] PaginationFilter paginationFilter)
         {
-            try 
+            try
             {
-                return Ok(await _artistFestivalAsocService.GetFestivalForArtist(id));
+                return Ok(await _artistFestivalAsocService.GetFestivalForArtist(id, paginationFilter, Request.Path.Value));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                return BadRequest(new {ex.Message});
+                return BadRequest(new { ex.Message });
             }
         }
     }

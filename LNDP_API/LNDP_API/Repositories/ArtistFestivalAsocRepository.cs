@@ -13,21 +13,22 @@ namespace LNDP_API.Repositories
         }
         public async Task<int> GetIdByArtistFestival(int idArtista, int idfestival)
         {
-            ArtistFestivalAsoc artistFestivalAsoc = await  _context.ArtistFestivalAsoc.AsNoTracking().FirstOrDefaultAsync(a => a.ArtistId == idArtista && a.FestivalId == idfestival);
+            ArtistFestivalAsoc artistFestivalAsoc = await _context.ArtistFestivalAsoc.AsNoTracking().FirstOrDefaultAsync(a => a.ArtistId == idArtista && a.FestivalId == idfestival);
             return artistFestivalAsoc.Id;
         }
-        
+
         public async Task<bool> ExistArtistFestivalAsocAsync(int idArtistFestivalAsoc)
         {
             return await _context.ArtistFestivalAsoc.AnyAsync(v => v.Id == idArtistFestivalAsoc);
         }
-        public async Task<IEnumerable<ArtistFestivalAsoc>> GetFestivalsForArtistAsync(int id)
+        public async Task<IQueryable<ArtistFestivalAsoc>> GetFestivalsForArtistAsync(int id)
         {
-            return await _context.ArtistFestivalAsoc
+            var query = _context.ArtistFestivalAsoc
                 .Include(a => a.Artist)
                 .Include(a => a.Festival)
-                .Where( a => a.Artist.UserId == id)
-                .ToListAsync();
+                .Where(a => a.Artist.UserId == id)
+                .AsNoTracking();
+            return await Task.FromResult(query);
         }
     }
 }

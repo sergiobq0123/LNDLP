@@ -12,6 +12,12 @@ namespace LNDP_API.Repositories
             _context = context;
         }
 
+        public async Task<IQueryable<Concert>> GetConcertsAsync()
+        {
+            var query = _context.Concert.Include(c => c.Artist).AsNoTracking();
+            return await Task.FromResult(query);
+        }
+
         public async Task<IEnumerable<Concert>> GetFutureConcertsAsync()
         {
             return await _context.Concert
@@ -20,6 +26,15 @@ namespace LNDP_API.Repositories
                 .OrderBy(c => c.Date)
                 .AsNoTracking()
                 .ToListAsync();
+        }
+
+        public async Task<IQueryable<Concert>> GetConcertsForArtistAsync(int id)
+        {
+            var query = _context.Concert
+                .Include(a => a.Artist)
+                .Where(a => a.Artist.UserId == id)
+                .AsNoTracking();
+            return await Task.FromResult(query);
         }
     }
 }

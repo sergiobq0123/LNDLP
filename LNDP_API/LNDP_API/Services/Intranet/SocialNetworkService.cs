@@ -9,7 +9,7 @@ namespace LNDP_API.Services
     public class SocialNetworkService : GenericService<SocialNetwork>, ISocialNetworkService
     {
         private readonly ISocialNetworkRepository _socialNetworkRepository;
-        public SocialNetworkService(ISocialNetworkRepository socialNetworkRepository) : base(socialNetworkRepository, null)
+        public SocialNetworkService(ISocialNetworkRepository socialNetworkRepository, IUriService uriService) : base(socialNetworkRepository, null, uriService)
         {
             _socialNetworkRepository = socialNetworkRepository;
         }

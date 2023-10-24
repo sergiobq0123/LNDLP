@@ -9,7 +9,7 @@ namespace LNDP_API.Services
     public class UserRoleService : GenericService<UserRole>, IUserRoleService
     {
         private readonly IUserRoleRepository _userRoleRepository;
-        public UserRoleService(IUserRoleRepository userRoleRepository, IMapper mapper) : base(userRoleRepository, mapper)
+        public UserRoleService(IUserRoleRepository userRoleRepository, IMapper mapper, IUriService uriService) : base(userRoleRepository, mapper, uriService)
         {
             _userRoleRepository = userRoleRepository;
         }

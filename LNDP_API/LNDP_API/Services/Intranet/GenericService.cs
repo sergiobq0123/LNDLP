@@ -4,6 +4,7 @@ using LNDP_API.Dtos;
 using LNDP_API.Models.Interfaces;
 using LNDP_API.Repositories;
 using LNDP_API.Utils;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LNDP_API.Services
 {
@@ -13,18 +14,27 @@ namespace LNDP_API.Services
         protected readonly IImageUtils _imageUtils;
         protected readonly IUrlEmbedUtils _urlEmbedUtils;
         protected readonly IMapper _mapper;
-
-        public GenericService(IGenericRepository<TEntity> repository, IMapper mapper)
+        protected readonly PaginationUtils<TEntity> _paginationUtils;
+        protected readonly Func<TEntity, TEntity> _mappingFunc = entity => entity;
+        protected readonly IUriService _uriService;
+        public GenericService(IGenericRepository<TEntity> repository, IMapper mapper, IUriService uriService)
         {
             _repository = repository;
             _imageUtils = new ImageUtils();
             _urlEmbedUtils = new UrlEmbedUtils();
             _mapper = mapper;
+            _paginationUtils = new PaginationUtils<TEntity>(uriService);
+            _uriService = uriService;
         }
 
-        public async Task<IEnumerable<TEntity>> Get()
+        public async Task<PagedResponse<List<TEntity>>> Get([FromQuery] PaginationFilter paginationFilter, string route)
         {
-            return await _repository.GetAsync();
+            IQueryable<TEntity> query = await _repository.GetAsync();
+            return await GetPagination(paginationFilter, query, route);
+        }
+        public async Task<PagedResponse<List<TEntity>>> GetPagination([FromQuery] PaginationFilter paginationFilter, IQueryable<TEntity> query, string route)
+        {
+            return await _paginationUtils.GetPagedDataAsync(query, paginationFilter, route, _mappingFunc);
         }
 
         public async Task<TEntity> Exists(TEntity entity)

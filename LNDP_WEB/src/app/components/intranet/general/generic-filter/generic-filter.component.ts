@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { AbstractControl, FormControl, Validators } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
+import { faCheck, faPlus, faSave, faUndo } from '@fortawesome/free-solid-svg-icons';
 import { NotificationService } from 'src/app/services/notification.service';
 import { ContentType } from '../generic-form-dialog/generic-content';
 import { Column } from '../generic-table/column';
@@ -33,6 +34,7 @@ export class GenericFilterComponent {
     Filter.Condition.LAST_YEAR,
   ];
   filterTypeDropdownConditions: Filter.Condition[] = [Filter.Condition.IS, Filter.Condition.IS_NOT];
+  filterTypeNumericConditions: Filter.Condition[] = [Filter.Condition.IS, Filter.Condition.IS_NOT];
   public FilterCondition = Filter.Condition;
   startDate: FormControl = new FormControl(Date.now, [Validators.required]);
   endDate: FormControl = new FormControl(Date.now, [Validators.required]);
@@ -42,18 +44,16 @@ export class GenericFilterComponent {
 
   @Output() filtered: EventEmitter<Filter[]> = new EventEmitter();
 
+  faCheck = faCheck;
+  faSave = faSave;
+  faPlus = faPlus;
+  faUndo = faUndo;
+
   constructor(private notificationService: NotificationService) {}
 
   ngOnInit() {
     this.selectedFilters = [];
     this.selectedOption = null;
-  }
-
-  setupFilteringByColumn(column: string) {
-    this.tableDataSource.filterPredicate = (data: AbstractControl, filter) => {
-      const textToSearch = data.value[column].trim().toLowerCase() || '';
-      return textToSearch.includes(filter.trim().toLowerCase());
-    };
   }
 
   // Function to Find selectedOptions assing by the user
@@ -72,7 +72,7 @@ export class GenericFilterComponent {
         dataKey: this.selectedOption.dataKey,
         name: this.selectedOption.name,
         type: this.selectedOption.type,
-        condition: this.getFilterConditions(this.selectedOption.type)[0],
+        condition: this.getFilterConditions(this.selectedOption)[0],
         filterInput: null,
         dropdown: this.selectedOption.dropdown,
         dropdownKeyToShow: this.selectedOption.dropdownKeyToShow,
@@ -97,7 +97,9 @@ export class GenericFilterComponent {
   }
 
   getTypeColumn() {
-    return this.tableColumns.filter(c => !c.name.includes('_') && c.type != ContentType.specialContent);
+    return this.tableColumns.filter(
+      c => !c.name.includes('_') && c.type != ContentType.specialContent && c.isFilterable,
+    );
   }
 
   // Function to reset all Filter options
@@ -111,34 +113,23 @@ export class GenericFilterComponent {
     this.selectedFilters = this.selectedFilters.map(f => (f.dataKey === filterKey ? { ...f, active: !f.active } : f));
   }
 
-  getDropdownValue(dropdownItem: any): string {
-    if (dropdownItem.hasOwnProperty('status')) {
-      return dropdownItem.status;
-    } else if (dropdownItem.hasOwnProperty('name')) {
-      return dropdownItem.name;
-    } else if (dropdownItem.hasOwnProperty('type')) {
-      return dropdownItem.type;
-    } else if (dropdownItem.hasOwnProperty('userCode')) {
-      return dropdownItem.userCode;
-    }
-    return '';
+  getDropdownKeyValue(dropdownValue: any, filter: Filter): string {
+    return dropdownValue[filter.dropdownKeyToShow];
   }
 
-  getDropdownKeyValue(dropdownItem: any): string {
-    if (dropdownItem.hasOwnProperty('id')) {
-      return dropdownItem.id.toString();
-    }
-    return '';
-  }
-
-  getFilterConditions(filterType: ContentType): Filter.Condition[] {
-    switch (filterType) {
+  getFilterConditions(column: Column): Filter.Condition[] {
+    switch (column.type) {
       case ContentType.datePicker:
       case ContentType.dateText:
         return this.filterTypeDateConditions;
       case ContentType.dropdownFields:
         return this.filterTypeDropdownConditions;
+      case ContentType.numericField:
+        return this.filterTypeNumericConditions;
       default:
+        if (column.dropdown) {
+          return this.filterTypeDropdownConditions;
+        }
         return this.filterTypeInputConditions;
     }
   }

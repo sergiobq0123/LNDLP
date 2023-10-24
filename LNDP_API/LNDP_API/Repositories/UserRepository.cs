@@ -20,30 +20,29 @@ namespace LNDP_API.Repositories
         {
             return await _context.User.AnyAsync(v => v.Id == idUser);
         }
-        public async Task<IEnumerable<User>> GetUsersAsync()
+        public async Task<IQueryable<User>> GetUsersAsync()
         {
-            return await _context.User
-            .Include(u => u.Acces)
-            .Include(u => u.UserRole)
-            .Select(u => new User
-            {
-                Id = u.Id,
-                FirstName = u.FirstName,
-                LastName = u.LastName,
-                Email = u.Email,
-                UserRoleId = u.UserRoleId,
-                Acces = new Acces
-                {
-                    UserName = u.Acces.UserName
-                },
-                UserRole = new UserRole
+            var query = _context.User
+                .Include(u => u.Acces)
+                .Include(u => u.UserRole)
+                .Select(u => new User
                 {
                     Id = u.Id,
-                    Role = u.UserRole.Role
-                }
-            })
-            .AsNoTracking()
-            .ToListAsync();
+                    FirstName = u.FirstName,
+                    LastName = u.LastName,
+                    Email = u.Email,
+                    UserRoleId = u.UserRoleId,
+                    Acces = new Acces
+                    {
+                        UserName = u.Acces.UserName
+                    },
+                    UserRole = new UserRole
+                    {
+                        Id = u.Id,
+                        Role = u.UserRole.Role
+                    }
+                }).AsNoTracking();
+            return await Task.FromResult(query);
         }
     }
 }

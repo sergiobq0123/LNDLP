@@ -3,21 +3,25 @@
   [windowTitle]="'Conciertos'"
 ></app-generic-window>
 <app-spinner *ngIf="this.spinner"></app-spinner>
+
 <ng-template #contentTemplate>
   <app-generic-table
-    [tableData]="conciertos"
-    [tableColumns]="conciertosColumns"
+    [tableData]="entries"
+    [tableColumns]="columns"
     [isPageable]="true"
-    [isSortable]="true"
     [apiFailing]="apiFailing"
-    (filtered)="filterData($event)"
+    [isSortable]="true"
+    [hasActions]="false"
     [paginationSizes]="[5, 10, 20]"
     [pageSize]="pageSize"
     [pageNumber]="pageNumber"
-    [totalRecords]="totalConciertos"
+    [totalRecords]="totalRecords"
     (paginationChange)="onPaginationChange($event)"
+    (sort)="sortData($event)"
+    (filtered)="filterData($event)"
     [canManageColumns]="true"
     [hasFilter]="true"
+    (edited)="entryBeingEdited = $event"
     *ngIf="loaded"
   >
   </app-generic-table>

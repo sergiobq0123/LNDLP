@@ -11,6 +11,7 @@ import { GenericTableComponent } from '../general/generic-table/generic-table.co
 import { PageEvent } from '@angular/material/paginator';
 import { AuthService } from 'src/app/services/auth.service';
 import { Filter } from '../general/generic-filter/filter';
+import { Sort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-concert-crew',
@@ -18,9 +19,9 @@ import { Filter } from '../general/generic-filter/filter';
   styleUrls: ['./concert-crew.component.scss'],
 })
 export class ConcertCrewComponent {
-  conciertos: Array<any> = new Array<any>();
+  entries: Array<any> = new Array<any>();
   artists: Array<any> = new Array<any>();
-  conciertosColumns: Column[];
+  columns: Column[];
   apiFailing: boolean = false;
   loaded: boolean = false;
   newRowAdded: boolean = false;
@@ -28,7 +29,10 @@ export class ConcertCrewComponent {
   pageNumber: number = 1;
   spinner: boolean = false;
   pageSize: number = 10;
-  totalConciertos = 50;
+  totalRecords: number;
+  filters: Filter[];
+  sortBy: string;
+  sortOrder: string;
 
   @ViewChild(GenericTableComponent) table: GenericTableComponent;
   @ViewChild('ubicacionTemplate') ubicacionTemplate: TemplateRef<any>;
@@ -46,24 +50,27 @@ export class ConcertCrewComponent {
 
   getConciertos() {
     this.spinner = true;
-    console.log(this._authService.getUserId());
-
     this._concertService
-      .getConcertForArtist(this._authService.getUserId())
+      .getConcertForArtist(
+        this._authService.getUserId(),
+        this.pageNumber,
+        this.pageSize,
+        this.sortBy,
+        this.sortOrder,
+        this.filters
+      )
       .subscribe(
         (res) => {
           this.handleGetResponse(res);
         },
         (error) => {
-          console.log(error);
-
           this.handleGetErrorResponse();
         }
       );
   }
 
   setColumns(): void {
-    this.conciertosColumns = [
+    this.columns = [
       {
         name: 'Nombre',
         dataKey: 'name',
@@ -100,7 +107,8 @@ export class ConcertCrewComponent {
   }
 
   private handleGetResponse(res: any) {
-    this.conciertos = res;
+    this.entries = res.data;
+    this.totalRecords = res.totalEntries;
     this.setColumns();
     this.loaded = true;
     this.spinner = false;
@@ -112,14 +120,26 @@ export class ConcertCrewComponent {
     this.spinner = false;
   }
 
-  filterData(filters: Filter[]) {
-    this._concertService.getFiltered(filters).subscribe((res) => {
-      this.conciertos = res;
-    });
-  }
-
   onPaginationChange(PageEvent: PageEvent) {
     this.pageNumber = PageEvent.pageIndex + 1;
     this.pageSize = PageEvent.pageSize;
+    this.getConciertos();
+  }
+
+  sortData(sortParameters: Sort) {
+    this.sortBy = sortParameters.active;
+    this.sortOrder = sortParameters.direction;
+    this.pageNumber = 1;
+    this.getConciertos();
+  }
+
+  filterData(filters: Filter[]) {
+    console.log(filters);
+
+    (this.filters = filters),
+      (this.pageNumber = 1),
+      (this.sortBy = null),
+      (this.sortOrder = null),
+      this.getConciertos();
   }
 }

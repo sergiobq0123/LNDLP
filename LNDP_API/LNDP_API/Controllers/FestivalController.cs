@@ -5,27 +5,29 @@ using LNDP_API.Services;
 using Microsoft.AspNetCore.Authorization;
 
 namespace LNDP_API.Controllers
-{   
+{
     [Route("api/[controller]")]
     [ApiController]
     public class FestivalController : GenericController<Festival>
     {
         private readonly IFestivalService _festivalService;
 
-        public FestivalController(IFestivalService festivalService): base(festivalService)
+        public FestivalController(IFestivalService festivalService) : base(festivalService)
         {
             _festivalService = festivalService;
         }
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Festival>>> GetFestivalIntranet()
+        public async Task<ActionResult<IEnumerable<Festival>>> GetFestivalIntranet([FromQuery] PaginationFilter paginationFilter)
         {
-            try{
-                return Ok(await _festivalService.GetFestivals());
+            try
+            {
+                return Ok(await _festivalService.GetFestivales(paginationFilter, Request.Path.Value));
             }
-            catch(Exception ex){
-                return BadRequest(new {ex.Message});
+            catch (Exception ex)
+            {
+                return BadRequest(new { ex.Message });
             }
         }
 
@@ -33,11 +35,13 @@ namespace LNDP_API.Controllers
         [HttpGet("proximos-festivales")]
         public async Task<ActionResult<IEnumerable<Concert>>> GetConcertProximosFestivales()
         {
-            try{
+            try
+            {
                 return Ok(await _festivalService.GetFutureFestivals());
             }
-            catch(Exception ex){
-                return BadRequest(new {ex.Message});
+            catch (Exception ex)
+            {
+                return BadRequest(new { ex.Message });
             }
         }
 

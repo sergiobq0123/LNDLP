@@ -1,9 +1,11 @@
 using LNDP_API.Models;
 
-namespace LNDP_API.Repositories{
-    public interface IUserRepository : IGenericRepository<User>{
+namespace LNDP_API.Repositories
+{
+    public interface IUserRepository : IGenericRepository<User>
+    {
         Task<bool> ExistUserAsync(int idUser);
         Task<bool> ExistUserMailAsync(string userName);
-        Task<IEnumerable<User>> GetUsersAsync();
+        Task<IQueryable<User>> GetUsersAsync();
     }
 }

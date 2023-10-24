@@ -9,14 +9,14 @@ using TTTAPI.JWT.Managers;
 using Microsoft.AspNetCore.Authorization;
 
 namespace LNDP_API.Controllers
-{   
+{
     [Route("api/[controller]")]
     [ApiController]
     public class ConcertController : GenericController<Concert>
     {
         private readonly IConcertService _concertService;
 
-        public ConcertController(IConcertService concertService): base(concertService)
+        public ConcertController(IConcertService concertService) : base(concertService)
         {
             _concertService = concertService;
         }
@@ -24,13 +24,15 @@ namespace LNDP_API.Controllers
         //! Para la vista de admin
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Concert>>> GetConcert()
+        public async Task<ActionResult<IEnumerable<Concert>>> GetConcert([FromQuery] PaginationFilter paginationFilter)
         {
-            try{
-                return Ok(await _concertService.GetConcerts());
+            try
+            {
+                return Ok(await _concertService.GetConcerts(paginationFilter, Request.Path.Value));
             }
-            catch(Exception ex){
-                return BadRequest(new {ex.Message});
+            catch (Exception ex)
+            {
+                return BadRequest(new { ex.Message });
             }
         }
 
@@ -38,25 +40,29 @@ namespace LNDP_API.Controllers
         [HttpGet("proximos-conciertos")]
         public async Task<ActionResult<IEnumerable<Concert>>> GetConcertProximosConciertos()
         {
-            try{
+            try
+            {
                 return Ok(await _concertService.GetFutureConcerts());
             }
-            catch(Exception ex){
-                return BadRequest(new {ex.Message});
+            catch (Exception ex)
+            {
+                return BadRequest(new { ex.Message });
             }
         }
 
         [Authorize(Roles = "Crew")]
-        [HttpGet("artist-id")]
-        public async Task<ActionResult<IEnumerable<Concert>>> GetConcertArtistId(int artistId)
+        [HttpGet("concert-user-id/{id}")]
+        public async Task<ActionResult> GetConcertforArtist(int id, [FromQuery] PaginationFilter paginationFilter)
         {
-            try{
-                return Ok(await _concertService.GetConcertForArtist(artistId));
-            }
-            catch(Exception ex){
-                return BadRequest(new {ex.Message});
-            }
 
+            try
+            {
+                return Ok(await _concertService.GetConcertsForArtist(id, paginationFilter, Request.Path.Value));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { ex.Message });
+            }
         }
     }
 }

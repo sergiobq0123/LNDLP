@@ -2,15 +2,14 @@ import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { notifications } from 'src/app/common/notifications';
 import { AuthService } from 'src/app/services/auth.service';
-import { ConcertService } from 'src/app/services/intranet/concert.service';
 import { NotificationService } from 'src/app/services/notification.service';
-import { Filter } from '../general/generic-filter/filter';
 import { ContentType } from '../general/generic-form-dialog/generic-content';
 import { Column } from '../general/generic-table/column';
 import { GenericTableComponent } from '../general/generic-table/generic-table.component';
 import { PageEvent } from '@angular/material/paginator';
-import { FestivalService } from 'src/app/services/intranet/festival.service';
 import { FestivalArtistAsocService } from 'src/app/services/intranet/festival-artist-asoc.service';
+import { Filter } from '../general/generic-filter/filter';
+import { Sort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-festival-crew',
@@ -18,9 +17,9 @@ import { FestivalArtistAsocService } from 'src/app/services/intranet/festival-ar
   styleUrls: ['./festival-crew.component.scss'],
 })
 export class FestivalCrewComponent {
-  festivales: Array<any> = new Array<any>();
+  entries: Array<any> = new Array<any>();
   artists: Array<any> = new Array<any>();
-  festivalesColumns: Column[];
+  columns: Column[];
   apiFailing: boolean = false;
   loaded: boolean = false;
   newRowAdded: boolean = false;
@@ -28,7 +27,10 @@ export class FestivalCrewComponent {
   pageNumber: number = 1;
   spinner: boolean = false;
   pageSize: number = 10;
-  totalfestivales = 50;
+  totalRecords: number;
+  filters: Filter[];
+  sortBy: string;
+  sortOrder: string;
 
   @ViewChild(GenericTableComponent) table: GenericTableComponent;
   @ViewChild('ubicacionTemplate') ubicacionTemplate: TemplateRef<any>;
@@ -46,24 +48,27 @@ export class FestivalCrewComponent {
 
   getfestivales() {
     this.spinner = true;
-    console.log(this._authService.getUserId());
-
     this._festivalArtistAsocService
-      .getFestivalForArtist(this._authService.getUserId())
+      .getFestivalForArtist(
+        this._authService.getUserId(),
+        this.pageNumber,
+        this.pageSize,
+        this.sortBy,
+        this.sortOrder,
+        this.filters
+      )
       .subscribe(
         (res) => {
           this.handleGetResponse(res);
         },
         (error) => {
-          console.log(error);
-
           this.handleGetErrorResponse();
         }
       );
   }
 
   setColumns(): void {
-    this.festivalesColumns = [
+    this.columns = [
       {
         name: 'Nombre',
         dataKey: 'festival.name',
@@ -95,12 +100,9 @@ export class FestivalCrewComponent {
     ];
   }
 
-  getUrl(event: any) {
-    console.log(event);
-  }
-
   private handleGetResponse(res: any) {
-    this.festivales = res;
+    this.entries = res.data;
+    this.totalRecords = res.totalEntries;
     this.setColumns();
     this.loaded = true;
     this.spinner = false;
@@ -115,5 +117,23 @@ export class FestivalCrewComponent {
   onPaginationChange(PageEvent: PageEvent) {
     this.pageNumber = PageEvent.pageIndex + 1;
     this.pageSize = PageEvent.pageSize;
+    this.getfestivales();
+  }
+
+  sortData(sortParameters: Sort) {
+    this.sortBy = sortParameters.active;
+    this.sortOrder = sortParameters.direction;
+    this.pageNumber = 1;
+    this.getfestivales();
+  }
+
+  filterData(filters: Filter[]) {
+    console.log(filters);
+
+    (this.filters = filters),
+      (this.pageNumber = 1),
+      (this.sortBy = null),
+      (this.sortOrder = null),
+      this.getfestivales();
   }
 }

@@ -1,136 +1,285 @@
 using System.Linq.Expressions;
 using System.Reflection;
 using Newtonsoft.Json.Linq;
+using LNDP_API.Dtos;
+using LNDP_API.Models;
 
-namespace TTTAPI.Utils {
+namespace LNDP_API.Utils
+{
 
-    public class FilterUtils {
+    public class FilterUtils
+    {
 
-        public static Expression<Func<T, bool>> GetPredicate<T>(List<Filter> filters) {
+        /// <summary>
+        /// Gets an expression to filter a table using a list of filters
+        /// </summary>
+        /// <typeparam name="T">Table to be filtered</typeparam>
+        /// <param name="filters">List of filters to apply to the table</param>
+        /// <returns>An expression with all the filters applied</returns>
+        public static Expression<Func<T, bool>> GetPredicate<T>(List<Filter>? filters)
+        {
             Expression<Func<T, bool>> predicate = PredicateBuilder.True<T>();
-            foreach (Filter filter in filters) {
+            if (filters == null)
+            {
+                return predicate;
+            }
+            foreach (Filter filter in filters)
+            {
                 var param = Expression.Parameter(typeof(T), "a"); // a =>
-                var prop = Expression.Property(param, filter.DataKey); // a => a.ColumnName
-                var value = filter.FilterInput;
-                var valueInt = 0;
-                bool isValueInt = int.TryParse(value, out valueInt);
-                MethodCallExpression? propLower = null, valueLower = null;
-                if (filter.Type.Equals("editableTextFields") || filter.Type.Equals("plainText")) {
-                    if (prop.Type.Equals(typeof(string))) {
-                        propLower = Expression.Call(prop, typeof(string).GetMethod("ToLower", System.Type.EmptyTypes));
+                var prop = GetPropertyExpression<T>(param, filter);
+                var values = filter.FilterInput;
+
+                if (prop == null)
+                {
+                    continue;
+                }
+
+                if (values == null && filter.Type == Filter.ContentType.DateText || filter.Type == Filter.ContentType.DatePicker)
+                {
+                    var call = BuildFilterExpression(filter, param, prop, null);
+                    predicate = predicate.And(Expression.Lambda<Func<T, bool>>(call, param));
+                    continue;
+                }
+                var valuesPredicate = PredicateBuilder.False<T>();
+                foreach (var value in values)
+                {
+                    var call = BuildFilterExpression(filter, param, prop, value);
+                    if (call != null)
+                    {
+                        valuesPredicate = valuesPredicate.Or(Expression.Lambda<Func<T, bool>>(call, param));
                     }
-                    if (value != null && !isValueInt) {
-                        valueLower = Expression.Call(Expression.Constant(value), typeof(string).GetMethod("ToLower", System.Type.EmptyTypes));
-                    }
                 }
-                var day = prop;
-                var month = prop;
-                var year = prop;
-                DateTime today = DateTime.UtcNow.Date;
-                if (filter.Type == Filter.ContentType.DatePicker) {
-                    prop = Expression.Property(prop, "Value");
-                    day = Expression.Property(prop, "Day");
-                    month = Expression.Property(prop, "Month");
-                    year = Expression.Property(prop, "Year");
-                }
-                Expression call;
-                switch (filter.Condition) {
-                    case Filter.ConditionType.Is:
-                        // a => a.ColumnName = value
-                        if (filter.Type == Filter.ContentType.DropdownFields) {
-                            call = Expression.Equal(prop, Expression.Convert(Expression.Constant(int.Parse(value)), prop.Type));
-                        } else if (filter.Type == Filter.ContentType.DatePicker) {
-                            call = Expression.And(Expression.GreaterThanOrEqual(prop, Expression.Constant(filter.StartDate)), Expression.LessThan(prop, Expression.Constant(filter.StartDate.Value.AddDays(1))));
-                        } else {
-                            if (isValueInt) {
-                                call = Expression.Equal(prop, Expression.Convert(Expression.Constant(valueInt), prop.Type));
-                            } else if (propLower != null) {
-                                call = Expression.Equal(propLower, valueLower != null ? valueLower: Expression.Constant(value));
-                            } else {
-                                continue;
-                            }
-                        }
-                        break;
-                    case Filter.ConditionType.IsNot:
-                        // a => a.ColumnName <> value
-                        if (filter.Type == Filter.ContentType.DropdownFields) {
-                            call = Expression.NotEqual(prop, Expression.Convert(Expression.Constant(int.Parse(value)), prop.Type));
-                        } else {
-                            if (isValueInt) {
-                                call = Expression.NotEqual(prop, Expression.Convert(Expression.Constant(valueInt), prop.Type));
-                            } else if (propLower != null) {
-                                call = Expression.NotEqual(propLower, valueLower != null ? valueLower: Expression.Constant(value));
-                            } else {
-                                continue;
-                            }
-                        }
-                        break;
-                    case Filter.ConditionType.MoreOrEquals:
-                        // a => a.ColumnName >= value
-                        call = Expression.GreaterThanOrEqual(prop, Expression.Constant(filter.StartDate));
-                        break;
-                    case Filter.ConditionType.LessOrEquals:
-                        // a => a.ColumnName <= value
-                        call = Expression.LessThanOrEqual(prop, Expression.Constant(filter.StartDate));
-                        break;
-                    case Filter.ConditionType.Between:
-                        // a => a.ColumnName >= start && a.ColumnName <= end
-                        call = Expression.And(Expression.GreaterThanOrEqual(prop, Expression.Constant(filter.StartDate)), Expression.LessThanOrEqual(prop, Expression.Constant(filter.EndDate)));
-                        break;
-                    case Filter.ConditionType.Today:
-                        // a => a.ColumnName >= Today && a.ColumnName < Tomorrow
-                        call = Expression.And(Expression.GreaterThanOrEqual(prop, Expression.Constant(today)), Expression.LessThan(prop, Expression.Constant(today.AddDays(1))));
-                        break;
-                    case Filter.ConditionType.Yesterday:
-                        // a => a.ColumnName >= Yesterday && a.ColumnName < Today
-                        call = Expression.And(Expression.GreaterThanOrEqual(prop, Expression.Constant(today.AddDays(-1))), Expression.LessThan(prop, Expression.Constant(today)));
-                        break;
-                    case Filter.ConditionType.ThisWeek:
-                        // a => a.ColumnName >= Today - 6 days && a.ColumnName <= Today
-                        call = Expression.And(Expression.GreaterThanOrEqual(prop, Expression.Constant(today.AddDays(-6))), Expression.LessThan(prop, Expression.Constant(today.AddDays(1))));
-                        break;
-                    case Filter.ConditionType.LastWeek:
-                        // a => a.ColumnName >= Today - 13 days && a.ColumnName < Today - 6 days
-                        call = Expression.And(Expression.GreaterThanOrEqual(prop, Expression.Constant(today.AddDays(-13))), Expression.LessThan(prop, Expression.Constant(today.AddDays(-6))));
-                        break;
-                    case Filter.ConditionType.ThisMonth:
-                        // a => a.ColumnName.Year = Today.Year && a.ColumnName.Month = Today.Month
-                        var equalYear = Expression.Equal(year, Expression.Constant(today.Year));
-                        var equalMonth = Expression.Equal(month, Expression.Constant(today.Month));
-                        call = Expression.And(equalYear, equalMonth);
-                        break;
-                    case Filter.ConditionType.LastMonth:
-                        // a => a.ColumnName.Year = Today.Year && a.ColumnName.Month = Today.Month - 1
-                        equalYear = Expression.Equal(year, Expression.Constant(today.Year));
-                        equalMonth = Expression.Equal(month, Expression.Constant(today.AddMonths(-1).Month));
-                        call = Expression.And(equalYear, equalMonth);
-                        break;
-                    case Filter.ConditionType.ThisYear:
-                        // a => a.ColumnName.Year = Today.Year
-                        call = Expression.Equal(year, Expression.Constant(today.Year));
-                        break;
-                    case Filter.ConditionType.LastYear:
-                        // a => a.ColumnName.Year = Today.Year - 1
-                        call = Expression.Equal(year, Expression.Constant(today.AddYears(-1).Year));
-                        break;
-                    case Filter.ConditionType.Contains:
-                    default:
-                        // a => a.ColumnName.Contains(value)
-                        if (value != null && isValueInt) {
-                            MethodInfo methodContains = typeof(string).GetMethod("Contains", new[] { typeof(string) });
-                            MethodInfo methodToString = typeof(Convert).GetMethod("ToString", BindingFlags.Static | BindingFlags.Public, Type.DefaultBinder, new Type[] { typeof(int) }, null);
-                            var stringProperty = Expression.Call(null, methodToString, Expression.Convert(prop, typeof(int)));
-                            call = Expression.Call(stringProperty, methodContains, Expression.Constant(value, typeof(string)));
-                        } else if (value != null && propLower != null) {
-                            call = Expression.Call(propLower, "Contains", new Type[0], valueLower != null ? valueLower: Expression.Constant(value));
-                        } else {
-                            continue;
-                        }
-                        break;
-                }
-                predicate = predicate.And(Expression.Lambda<Func<T, bool>>(call, param));
+                predicate = predicate.And(valuesPredicate);
             }
             return predicate;
+        }
+
+        private static Expression GetPropertyExpression<T>(ParameterExpression param, Filter filter)
+        {
+            var entityType = typeof(T);
+            var properties = filter.DataKey.Split('.');
+            Expression filterExpression = param;
+            foreach (var property in properties)
+            {
+                var propertyInfo = entityType.GetProperty(property, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+                if (propertyInfo == null)
+                {
+                    throw new ArgumentException($"Property {property} not found in type {entityType.Name}");
+                }
+
+                filterExpression = Expression.Property(filterExpression, propertyInfo);
+                entityType = propertyInfo.PropertyType;
+            }
+            return filterExpression;
+        }
+
+        private static Expression? BuildFilterExpression(Filter filter, ParameterExpression param, Expression prop, string value)
+        {
+            bool isValueNumber = prop.Type.Equals(typeof(int?)) || prop.Type.Equals(typeof(float?)) || prop.Type.Equals(typeof(int)) || prop.Type.Equals(typeof(float));
+            Expression? propLower = null, valueLower = null;
+
+            if (filter.Type.Equals("editableTextFields") || filter.Type.Equals("plainText"))
+            {
+                propLower = GetToLowerExpression(prop);
+                valueLower = GetToLowerExpression(Expression.Constant(value));
+            }
+
+            DateTime today = DateTime.UtcNow.Date;
+            Expression call = filter.Condition switch
+            {
+                Filter.ConditionType.Is => BuildIsConditionExpression(filter, prop, value, isValueNumber, propLower, valueLower),
+                Filter.ConditionType.IsNot => BuildIsNotConditionExpression(filter, prop, value, isValueNumber, propLower, valueLower),
+                Filter.ConditionType.MoreOrEquals => BuildMoreOrEqualsConditionExpression(filter, prop),
+                Filter.ConditionType.LessOrEquals => BuildLessOrEqualsConditionExpression(filter, prop),
+                Filter.ConditionType.Between => BuildBetweenConditionExpression(filter, prop),
+                Filter.ConditionType.Today => BuildTodayConditionExpression(prop, today),
+                Filter.ConditionType.Yesterday => BuildYesterdayConditionExpression(prop, today),
+                Filter.ConditionType.ThisWeek => BuildThisWeekConditionExpression(prop, today),
+                Filter.ConditionType.LastWeek => BuildLastWeekConditionExpression(prop, today),
+                Filter.ConditionType.ThisMonth => BuildThisMonthConditionExpression(prop, today),
+                Filter.ConditionType.LastMonth => BuildLastMonthConditionExpression(prop, today),
+                Filter.ConditionType.ThisYear => BuildThisYearConditionExpression(prop, today),
+                Filter.ConditionType.LastYear => BuildLastYearConditionExpression(prop, today),
+                Filter.ConditionType.Contains or _ => BuildContainsConditionExpression(prop, value, isValueNumber, propLower, valueLower),
+            };
+
+            return call;
+        }
+
+        private static Expression GetToLowerExpression(Expression expression)
+        {
+            if (expression.Type.Equals(typeof(string)))
+            {
+                return Expression.Call(expression, typeof(string).GetMethod("ToLower", Type.EmptyTypes));
+            }
+            return expression;
+        }
+
+        private static Expression BuildIsConditionExpression(Filter filter, Expression prop, string value, bool isValueNumber, Expression? propLower, Expression? valueLower)
+        {
+            if (filter.Type == Filter.ContentType.DropdownFields)
+            {
+                return Expression.Equal(prop, Expression.Convert(Expression.Constant(int.Parse(value)), prop.Type));
+            }
+
+            if (filter.Type == Filter.ContentType.DatePicker || filter.Type == Filter.ContentType.DateText)
+            {
+                return Expression.And(Expression.GreaterThanOrEqual(prop, Expression.Constant(filter.StartDate)),
+                    Expression.LessThan(prop, Expression.Constant(filter.StartDate.Value.AddDays(1))));
+            }
+
+            if (isValueNumber)
+            {
+                return Expression.Equal(prop, Expression.Convert(Expression.Constant(GetValueNumber(value, prop.Type)), prop.Type));
+            }
+            return Expression.Equal(propLower ?? prop, valueLower ?? Expression.Constant(value));
+        }
+
+        private static Expression BuildIsNotConditionExpression(Filter filter, Expression prop, string value, bool isValueNumber, Expression? propLower, Expression? valueLower)
+        {
+            if (filter.Type == Filter.ContentType.DropdownFields)
+            {
+                return Expression.NotEqual(prop, Expression.Convert(Expression.Constant(int.Parse(value)), prop.Type));
+            }
+
+            if (isValueNumber)
+            {
+                return Expression.NotEqual(prop, Expression.Convert(Expression.Constant(GetValueNumber(value, prop.Type)), prop.Type));
+            }
+
+            return Expression.NotEqual(propLower ?? prop, valueLower ?? Expression.Constant(value));
+        }
+
+        private static Expression BuildMoreOrEqualsConditionExpression(Filter filter, Expression prop)
+        {
+            return Expression.GreaterThanOrEqual(prop, Expression.Constant(filter.StartDate));
+        }
+
+        private static Expression BuildLessOrEqualsConditionExpression(Filter filter, Expression prop)
+        {
+            return Expression.LessThanOrEqual(prop, Expression.Constant(filter.StartDate));
+        }
+
+        private static Expression BuildBetweenConditionExpression(Filter filter, Expression prop)
+        {
+            // a => a.ColumnName >= start && a.ColumnName <= end
+            return Expression.And(
+                Expression.GreaterThanOrEqual(prop, Expression.Constant(filter.StartDate)),
+                Expression.LessThanOrEqual(prop, Expression.Constant(filter.EndDate)));
+        }
+
+        private static Expression BuildTodayConditionExpression(Expression prop, DateTime today)
+        {
+            // a => a.ColumnName >= Today && a.ColumnName < Tomorrow
+            return Expression.And(
+                Expression.GreaterThanOrEqual(prop, Expression.Constant(today)),
+                Expression.LessThan(prop, Expression.Constant(today.AddDays(1))));
+        }
+
+        private static Expression BuildYesterdayConditionExpression(Expression prop, DateTime today)
+        {
+            // a => a.ColumnName >= Yesterday && a.ColumnName < Today
+            return Expression.And(
+                Expression.GreaterThanOrEqual(prop, Expression.Constant(today.AddDays(-1))),
+                Expression.LessThan(prop, Expression.Constant(today)));
+        }
+
+        private static Expression BuildThisWeekConditionExpression(Expression prop, DateTime today)
+        {
+            // a => a.ColumnName >= Today - 6 days && a.ColumnName <= Today
+            return Expression.And(
+                Expression.GreaterThanOrEqual(prop, Expression.Constant(today.AddDays(-6))),
+                Expression.LessThan(prop, Expression.Constant(today.AddDays(1))));
+        }
+
+        private static Expression BuildLastWeekConditionExpression(Expression prop, DateTime today)
+        {
+            // a => a.ColumnName >= Today - 13 days && a.ColumnName < Today - 6 days
+            return Expression.And(
+                Expression.GreaterThanOrEqual(prop, Expression.Constant(today.AddDays(-13))),
+                Expression.LessThan(prop, Expression.Constant(today.AddDays(-6))));
+        }
+
+        private static Expression BuildThisMonthConditionExpression(Expression prop, DateTime today)
+        {
+            var year = Expression.Property(prop, "Year");
+            var month = Expression.Property(prop, "Month");
+
+            // a => a.ColumnName.Year = Today.Year && a.ColumnName.Month = Today.Month
+            var equalYear = Expression.Equal(year, Expression.Constant(today.Year));
+            var equalMonth = Expression.Equal(month, Expression.Constant(today.Month));
+            return Expression.And(equalYear, equalMonth);
+        }
+
+        private static Expression BuildLastMonthConditionExpression(Expression prop, DateTime today)
+        {
+            var year = Expression.Property(prop, "Year");
+            var month = Expression.Property(prop, "Month");
+
+            // a => a.ColumnName.Year = Today.Year && a.ColumnName.Month = Today.Month - 1
+            var equalYear = Expression.Equal(year, Expression.Constant(today.Year));
+            var equalMonth = Expression.Equal(month, Expression.Constant(today.AddMonths(-1).Month));
+            return Expression.And(equalYear, equalMonth);
+        }
+
+        private static Expression BuildThisYearConditionExpression(Expression prop, DateTime today)
+        {
+            var year = Expression.Property(prop, "Year");
+
+            // a => a.ColumnName.Year = Today.Year
+            return Expression.Equal(year, Expression.Constant(today.Year));
+        }
+
+        private static Expression BuildLastYearConditionExpression(Expression prop, DateTime today)
+        {
+            var year = Expression.Property(prop, "Year");
+
+            // a => a.ColumnName.Year = Today.Year - 1
+            return Expression.Equal(year, Expression.Constant(today.AddYears(-1).Year));
+        }
+
+        private static Expression BuildContainsConditionExpression(Expression prop, string value, bool isValueNumber, Expression propLower, Expression valueLower)
+        {
+            Expression propertyAccess;
+            if (!isValueNumber && prop.Type == typeof(string))
+            {
+                // Make the comparison case-insensitive for string properties
+                MethodInfo stringContainsMethod = typeof(string).GetMethod("Contains", new[] { typeof(string) });
+                propertyAccess = Expression.Call(propLower, stringContainsMethod, valueLower);
+            }
+            else
+            {
+                // For numeric or other types, compare as-is
+                propertyAccess = Expression.Equal(prop, Expression.Constant(value, prop.Type));
+            }
+
+            // Create an expression to check if the value is not null and the property comparison is true
+            Expression condition = Expression.AndAlso(
+                Expression.NotEqual(Expression.Constant(value, prop.Type), Expression.Constant(null)),
+                propertyAccess
+            );
+
+            return condition;
+        }
+
+        private static object? GetValueNumber(string? value, Type type)
+        {
+            if (value == null || value == "")
+            {
+                return null;
+            }
+            if (type.Equals(typeof(int?)) || type.Equals(typeof(int)))
+            {
+                return value != null ? int.Parse(value) : null;
+            }
+            else if (type.Equals(typeof(float?)) || type.Equals(typeof(float)))
+            {
+                return value != null ? float.Parse(value) : null;
+            }
+            else
+            {
+                return value;
+            }
         }
     }
 }

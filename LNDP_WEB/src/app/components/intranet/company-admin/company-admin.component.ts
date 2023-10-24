@@ -13,9 +13,10 @@ import { PageEvent } from '@angular/material/paginator';
 import { CompanyService } from 'src/app/services/intranet/company.service';
 import { CompanyTypeService } from 'src/app/services/intranet/company-type.service';
 import { Validators } from '@angular/forms';
-import { Filter } from '../general/generic-filter/filter';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { IconButton } from '../general/generic-table/icon-button';
+import { Filter } from '../general/generic-filter/filter';
+import { Sort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-company-admin',
@@ -23,9 +24,9 @@ import { IconButton } from '../general/generic-table/icon-button';
   styleUrls: ['./company-admin.component.scss'],
 })
 export class CompanyAdminComponent {
-  companies: Array<any> = new Array<any>();
+  entries: Array<any> = new Array<any>();
   companiesKeys: Array<any> = new Array<any>();
-  companiesColumns: Column[];
+  columns: Column[];
   companyForm: GenericForm[];
   imageForm: GenericForm[];
   apiFailing: boolean = false;
@@ -36,8 +37,11 @@ export class CompanyAdminComponent {
   photo: any;
   spinner: boolean = false;
   pageSize: number = 10;
-  totalCompanies = 50;
+  totalRecords: number;
   iconButtons: IconButton[] = [];
+  filters: Filter[];
+  sortBy: string;
+  sortOrder: string;
 
   @ViewChild(GenericTableComponent) table: GenericTableComponent;
   @ViewChild('imageTemplate') imageTemplate: TemplateRef<any>;
@@ -72,14 +76,22 @@ export class CompanyAdminComponent {
 
   getCompanies() {
     this.spinner = true;
-    this._companyService.get().subscribe(
-      (res) => {
-        this.handleGetResponse(res);
-      },
-      (error) => {
-        this.handleGetErrorResponse();
-      }
-    );
+    this._companyService
+      .get(
+        this.pageNumber,
+        this.pageSize,
+        this.sortBy,
+        this.sortOrder,
+        this.filters
+      )
+      .subscribe(
+        (res) => {
+          this.handleGetResponse(res);
+        },
+        (error) => {
+          this.handleGetErrorResponse();
+        }
+      );
   }
 
   getCompaniesType() {
@@ -89,7 +101,7 @@ export class CompanyAdminComponent {
   }
 
   setColumns(): void {
-    this.companiesColumns = [
+    this.columns = [
       {
         name: '_id',
         dataKey: 'id',
@@ -111,7 +123,7 @@ export class CompanyAdminComponent {
         hidden: false,
         type: ContentType.dropdownFields,
         dropdown: this.companiesKeys,
-        dropdownKeyToShow: 'companyTypeName',
+        dropdownKeyToShow: 'name',
         dropdownKeyValue: 'id',
         validators: [Validators.required],
       },
@@ -153,7 +165,7 @@ export class CompanyAdminComponent {
         position: { row: 0, col: 0, rowSpan: 1, colSpan: 1 },
         type: ContentType.dropdownFields,
         dropdown: this.companiesKeys,
-        dropdownKeyToShow: 'companyTypeName',
+        dropdownKeyToShow: 'name',
         dropdownKeyValue: 'id',
         validators: [Validators.required],
       },
@@ -269,7 +281,8 @@ export class CompanyAdminComponent {
   }
 
   private handleGetResponse(res: any) {
-    this.companies = res;
+    this.entries = res.data;
+    this.totalRecords = res.totalEntries;
     this.setColumns();
     this.loaded = true;
     this.spinner = false;
@@ -301,13 +314,20 @@ export class CompanyAdminComponent {
     this.getCompanies();
   }
 
-  filterData(filters: Filter[]) {
-    this._companyService.getFiltered(filters).subscribe((res) => {
-      this.companies = res;
-    });
+  sortData(sortParameters: Sort) {
+    this.sortBy = sortParameters.active;
+    this.sortOrder = sortParameters.direction;
+    this.pageNumber = 1;
+    this.getCompanies();
   }
 
-  updatePageNumber(pageNum: number) {
-    this.pageNumber = pageNum;
+  filterData(filters: Filter[]) {
+    console.log(filters);
+
+    (this.filters = filters),
+      (this.pageNumber = 1),
+      (this.sortBy = null),
+      (this.sortOrder = null),
+      this.getCompanies();
   }
 }

@@ -13,19 +13,19 @@
     (click)="showFormDialog()"
     matTooltip="Add User"
     matTooltipPosition="below"
-    matTooltipShowDelay="500">
+    matTooltipShowDelay="500"
+  >
     <fa-icon [icon]="faPlus"></fa-icon>
   </button>
 </ng-template>
 
 <ng-template #contentTemplate>
   <app-generic-table
-    [tableData]="festivales"
-    [tableColumns]="festivalColumns"
+    [tableData]="entries"
+    [tableColumns]="columns"
     [isPageable]="true"
     [apiFailing]="apiFailing"
     [isSortable]="true"
-    (filtered)="filterData($event)"
     [hasActions]="true"
     (modified)="updateElement($event)"
     (rowAdded)="newRowAdded = $event"
@@ -34,8 +34,10 @@
     [paginationSizes]="[5, 10, 20]"
     [pageSize]="pageSize"
     [pageNumber]="pageNumber"
-    [totalRecords]="totalFestivales"
+    [totalRecords]="totalRecords"
     (paginationChange)="onPaginationChange($event)"
+    (sort)="sortData($event)"
+    (filtered)="filterData($event)"
     [canManageColumns]="true"
     [hasFilter]="true"
     (edited)="entryBeingEdited = $event"
@@ -47,21 +49,25 @@
 
 <ng-template #artistTemplate let-rowData="rowData">
   <button
-  class="button"
-  matTooltip="Ver artistas"
-  matTooltipPosition="right"
-  matTooltipShowDelay="500"
-  aria-label="Ver artistas"
-  (click)="showArtistFestival(rowData)"
+    class="button"
+    matTooltip="Ver artistas"
+    matTooltipPosition="right"
+    matTooltipShowDelay="500"
+    aria-label="Ver artistas"
+    (click)="showArtistFestival(rowData)"
   >
     <mat-icon>card_travel</mat-icon>
   </button>
 </ng-template>
 
 <ng-template #imageTemplate let-rowData="rowData">
-  <button mat-icon-button malToolTipe="Ver la imagen" matTooltipShowDelay="1000" aria-label="Ver la imagen"
-    (click)="showFormDialogImage(rowData)">
+  <button
+    mat-icon-button
+    malToolTipe="Ver la imagen"
+    matTooltipShowDelay="1000"
+    aria-label="Ver la imagen"
+    (click)="showFormDialogImage(rowData)"
+  >
     <mat-icon>image</mat-icon>
   </button>
 </ng-template>
-

@@ -21,11 +21,11 @@ namespace LNDP_API.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Artist>>> Get()
+        public async Task<ActionResult<IEnumerable<Artist>>> Get([FromQuery] PaginationFilter paginationFilter)
         {
             try
             {
-                return Ok(await _artistService.GetArtists());
+                return Ok(await _artistService.GetArtistas(paginationFilter, Request.Path.Value));
             }
             catch (Exception ex)
             {

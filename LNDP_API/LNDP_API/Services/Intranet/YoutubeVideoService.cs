@@ -9,7 +9,7 @@ namespace LNDP_API.Services
     public class YoutubeVideoService : GenericService<YoutubeVideo>, IYoutubeVideoService
     {
         private readonly IYoutubeVideoRepository _youtubeVideoRepository;
-        public YoutubeVideoService(IYoutubeVideoRepository youtubeVideoRepository, IMapper mapper) : base(youtubeVideoRepository, mapper)
+        public YoutubeVideoService(IYoutubeVideoRepository youtubeVideoRepository, IMapper mapper, IUriService uriService) : base(youtubeVideoRepository, mapper, uriService)
         {
             _youtubeVideoRepository = youtubeVideoRepository;
         }

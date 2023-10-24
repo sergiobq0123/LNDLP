@@ -19,7 +19,7 @@ namespace LNDP_API.Services
         private readonly IJwtService _jwtService;
         private readonly string _pepper = "pepper";
         private readonly int _iteration = 3;
-        public AccesService(IAccesRepository accesRepository, IJwtService jwtService, IMapper mapper) : base(accesRepository, mapper)
+        public AccesService(IAccesRepository accesRepository, IJwtService jwtService, IMapper mapper, IUriService uriService) : base(accesRepository, mapper, uriService)
         {
             _accesRepository = accesRepository;
             _jwtService = jwtService;

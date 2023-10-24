@@ -15,10 +15,9 @@ import { GenericTableComponent } from '../general/generic-table/generic-table.co
 import { SocialNetworkService } from 'src/app/services/intranet/social-network.service';
 import { notifications } from 'src/app/common/notifications';
 import { PageEvent } from '@angular/material/paginator';
-import { Filter } from '../general/generic-filter/filter';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { IconButton } from '../general/generic-table/icon-button';
-
+import { Filter } from '../general/generic-filter/filter';
 
 @Component({
   selector: 'app-artist-admin',
@@ -26,9 +25,9 @@ import { IconButton } from '../general/generic-table/icon-button';
   styleUrls: ['./artist-admin.component.scss'],
 })
 export class ArtistAdminComponent {
-  artists: Array<any> = new Array<any>();
+  entries: Array<any> = new Array<any>();
   socialNetwork: Array<any> = new Array<any>();
-  artistColumns: Column[];
+  columns: Column[];
   artistForm: GenericForm[];
   artistData: GenericForm[];
   socialNetworkForm: GenericForm[];
@@ -42,9 +41,12 @@ export class ArtistAdminComponent {
     sensitivity: 'base',
   });
   spinner: boolean = false;
-  pageSize : number = 10;
-  totalArtist = 50
-  iconButtons : IconButton[] = []
+  pageSize: number = 10;
+  totalRecords: number;
+  iconButtons: IconButton[] = [];
+  filters: Filter[];
+  sortBy: string;
+  sortOrder: string;
 
   @ViewChild(GenericTableComponent) table: GenericTableComponent;
   @ViewChild('socialNetworkTemplate') socialNetworkTemplate: TemplateRef<any>;
@@ -57,15 +59,15 @@ export class ArtistAdminComponent {
     public _artistService: ArtistService,
     public _dialog: MatDialog,
     private _notificationService: NotificationService,
-    private _socialNetworkService : SocialNetworkService
+    private _socialNetworkService: SocialNetworkService
   ) {}
 
   ngOnInit() {
-    this.getArtist();
+    this.getArtists();
   }
 
-  ngAfterViewInit(){
-    this.setIconsButtons()
+  ngAfterViewInit() {
+    this.setIconsButtons();
   }
 
   setIconsButtons() {
@@ -73,24 +75,32 @@ export class ArtistAdminComponent {
       {
         template: this.addTemplate,
         isLeft: true,
-      }
+      },
     ];
   }
 
-  getArtist() {
+  getArtists() {
     this.spinner = true;
-    this._artistService.get().subscribe(
-      (res) => {
-        this.handleGetResponse(res);
-      },
-      (error) => {
-        this.handleGetErrorResponse();
-      }
-    );
+    this._artistService
+      .get(
+        this.pageNumber,
+        this.pageSize,
+        this.sortBy,
+        this.sortOrder,
+        this.filters
+      )
+      .subscribe(
+        (res) => {
+          this.handleGetResponse(res);
+        },
+        (error) => {
+          this.handleGetErrorResponse();
+        }
+      );
   }
 
   setColumns(): void {
-    this.artistColumns = [
+    this.columns = [
       {
         name: '_id',
         dataKey: 'id',
@@ -106,6 +116,7 @@ export class ArtistAdminComponent {
         dataKey: 'name',
         position: 'left',
         isSortable: true,
+        isFilterable: true,
         hidden: false,
         type: ContentType.editableTextFields,
       },
@@ -142,7 +153,7 @@ export class ArtistAdminComponent {
         dataKey: 'description',
         position: 'left',
         isSortable: false,
-        type: ContentType.editableTextFields
+        type: ContentType.editableTextFields,
       },
       {
         name: 'Redes',
@@ -288,7 +299,7 @@ export class ArtistAdminComponent {
         position: { row: 6, col: 1, rowSpan: 1, colSpan: 1 },
         type: ContentType.editableTextFields,
         validators: [Validators.required],
-      }
+      },
     ];
   }
 
@@ -391,7 +402,7 @@ export class ArtistAdminComponent {
 
   showFormDialogImage(dataShow: any) {
     let dialogData = {
-      formData: dataShow ,
+      formData: dataShow,
       formFields: this.setImageForm(),
       formCols: 2,
       dialogTitle: 'Imagen',
@@ -402,8 +413,8 @@ export class ArtistAdminComponent {
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result !== undefined && result !== null && result !== '') {
-        dataShow.photoUrl = result.photoUrl
-        this.updateElement(this._artistService, dataShow)
+        dataShow.photoUrl = result.photoUrl;
+        this.updateElement(this._artistService, dataShow);
       }
     });
   }
@@ -411,27 +422,40 @@ export class ArtistAdminComponent {
   createElement(event: any) {
     event.id = 0;
     this._artistService.CreateArtist(event).subscribe(
-      (res) => {this.handleResponse(res.message)},
-      (err) => {this.handleErrorResponse(err.error.message)}
+      (res) => {
+        this.handleResponse(res.message);
+      },
+      (err) => {
+        this.handleErrorResponse(err.error.message);
+      }
     );
   }
 
   updateElement(service: any, event: any) {
     service.update(event.id, event).subscribe(
-      (res) => {this.handleResponse(res.message)},
-      (err) => {this.handleErrorResponse(err.error.message)}
+      (res) => {
+        this.handleResponse(res.message);
+      },
+      (err) => {
+        this.handleErrorResponse(err.error.message);
+      }
     );
   }
 
   deleteElement(event: any) {
     this._artistService.delete(event.id).subscribe(
-      (res) => {this.handleResponse(res.message)},
-      (err) => {this.handleErrorResponse(err.error.message)}
+      (res) => {
+        this.handleResponse(res.message);
+      },
+      (err) => {
+        this.handleErrorResponse(err.error.message);
+      }
     );
   }
 
   private handleGetResponse(res: any) {
-    this.artists = res;
+    this.entries = res.data;
+    this.totalRecords = res.totalEntries;
     this.setColumns();
     this.loaded = true;
     this.spinner = false;
@@ -444,7 +468,7 @@ export class ArtistAdminComponent {
   }
 
   private handleResponse(message: string) {
-    this.getArtist();
+    this.getArtists();
     this._notificationService.showOkMessage(message);
     this.apiFailing = false;
     if (this.table.tableDataSource.data.length === 1) {
@@ -457,34 +481,26 @@ export class ArtistAdminComponent {
     this.apiFailing = true;
   }
 
-  onPaginationChange(PageEvent: PageEvent){
+  onPaginationChange(PageEvent: PageEvent) {
     this.pageNumber = PageEvent.pageIndex + 1;
     this.pageSize = PageEvent.pageSize;
-    this.getArtist();
+    this.getArtists();
   }
 
   sortData(sortParameters: Sort) {
-    const keyName = sortParameters.active;
-    if (sortParameters.direction === 'asc') {
-      this.artists = [
-        ...this.artists.sort((a, b) =>
-          this.collator.compare(a[keyName], b[keyName])
-        ),
-      ];
-    } else if (sortParameters.direction === 'desc') {
-      this.artists = [
-        ...this.artists.sort(
-          (a, b) => -1 * this.collator.compare(a[keyName], b[keyName])
-        ),
-      ];
-    } else {
-      this.getArtist();
-    }
+    this.sortBy = sortParameters.active;
+    this.sortOrder = sortParameters.direction;
+    this.pageNumber = 1;
+    this.getArtists();
   }
 
   filterData(filters: Filter[]) {
-    this._artistService.getFiltered(filters).subscribe((res) => {
-      this.artists = res;
-    });
+    console.log(filters);
+
+    (this.filters = filters),
+      (this.pageNumber = 1),
+      (this.sortBy = null),
+      (this.sortOrder = null),
+      this.getArtists();
   }
 }

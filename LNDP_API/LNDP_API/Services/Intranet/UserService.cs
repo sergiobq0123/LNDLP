@@ -3,6 +3,7 @@ using LNDP_API.Dtos;
 using LNDP_API.Models;
 using LNDP_API.Repositories;
 using LNDP_API.Utils;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LNDP_API.Services
 {
@@ -11,15 +12,16 @@ namespace LNDP_API.Services
         private readonly IUserRepository _userRepository;
         private readonly IAccesService _accesService;
 
-        public UserService(IUserRepository userRepository, IMapper mapper, IAccesService accesService) : base(userRepository, mapper)
+        public UserService(IUserRepository userRepository, IMapper mapper, IAccesService accesService, IUriService uriService) : base(userRepository, mapper, uriService)
         {
             _userRepository = userRepository;
             _accesService = accesService;
         }
 
-        public async Task<IEnumerable<User>> GetUsers()
+        public async Task<PagedResponse<List<User>>> GetUsers([FromQuery] PaginationFilter paginationFilter, string route)
         {
-            return await _userRepository.GetUsersAsync();
+            IQueryable<User> query = await _userRepository.GetUsersAsync();
+            return await this.GetPagination(paginationFilter, query, route);
         }
 
         public async Task<User> PostUser(UserCreateDto userCreateDto)

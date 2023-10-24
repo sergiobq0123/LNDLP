@@ -3,6 +3,7 @@ using LNDP_API.Dtos;
 using LNDP_API.Models;
 using LNDP_API.Repositories;
 using LNDP_API.Utils;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LNDP_API.Services
 {
@@ -10,24 +11,21 @@ namespace LNDP_API.Services
     {
         private readonly IConcertRepository _concertRepository;
 
-        public ConcertService(IConcertRepository concertRepository, IMapper mapper) : base(concertRepository, mapper)
+        public ConcertService(IConcertRepository concertRepository, IMapper mapper, IUriService uriService) : base(concertRepository, mapper, uriService)
         {
             _concertRepository = concertRepository;
 
         }
 
-        public async Task<IEnumerable<Concert>> GetConcerts()
+        public async Task<PagedResponse<List<Concert>>> GetConcerts([FromQuery] PaginationFilter paginationFilter, string route)
         {
-            return await _concertRepository.GetWithIncludesAsync(
-             includes: c => c.Artist
-            );
+            IQueryable<Concert> query = await _concertRepository.GetConcertsAsync();
+            return await this.GetPagination(paginationFilter, query, route);
         }
-        public async Task<IEnumerable<Concert>> GetConcertForArtist(int idArista)
+        public async Task<PagedResponse<List<Concert>>> GetConcertsForArtist(int id, [FromQuery] PaginationFilter paginationFilter, string route)
         {
-            return await _concertRepository.GetWithIncludesAsync(
-             includes: c => c.Artist,
-             filter: c => c.Artist.UserId == idArista
-            );
+            IQueryable<Concert> query = await _concertRepository.GetConcertsForArtistAsync(id);
+            return await this.GetPagination(paginationFilter, query, route);
         }
         public async Task<IEnumerable<ConcertWebDto>> GetFutureConcerts()
         {

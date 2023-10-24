@@ -13,12 +13,11 @@ import { Validators } from '@angular/forms';
 import { GenericFormDialogComponent } from '../general/generic-form-dialog/generic-form-dialog.component';
 import { PageEvent } from '@angular/material/paginator';
 import { UserRoleService } from 'src/app/services/intranet/user-role.service';
-import { AuthService } from 'src/app/services/auth.service';
 import { notifications } from 'src/app/common/notifications';
-import { Filter } from '../general/generic-filter/filter';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { IconButton } from '../general/generic-table/icon-button';
 import { AccesService } from 'src/app/services/intranet/acces.service';
+import { Filter } from '../general/generic-filter/filter';
 
 @Component({
   selector: 'app-user-admin',
@@ -26,11 +25,11 @@ import { AccesService } from 'src/app/services/intranet/acces.service';
   styleUrls: ['./user-admin.component.scss'],
 })
 export class UserAdminComponent {
-  users: Array<any> = new Array<any>();
+  entries: Array<any> = new Array<any>();
   usersRole: Array<any> = new Array<any>();
   usersKeys: Array<any> = new Array<any>();
   artistWithoutUser: Array<any> = new Array<any>();
-  usersColumns: Column[];
+  columns: Column[];
   usersForm: GenericForm[];
   pageNumber: number = 1;
   loaded: boolean = false;
@@ -43,14 +42,16 @@ export class UserAdminComponent {
   });
   spinner: boolean = false;
   pageSize: number = 10;
-  totalUsers = 50;
+  totalRecords: number;
   iconButtons: IconButton[] = [];
+  filters: Filter[];
+  sortBy: string;
+  sortOrder: string;
+  faPlus = faPlus;
 
   @ViewChild(GenericTableComponent) table: GenericTableComponent;
   @ViewChild('passwordTemplate') passwordTemplate: TemplateRef<any>;
   @ViewChild('addTemplate') addTemplate: TemplateRef<any>;
-
-  faPlus = faPlus;
 
   constructor(
     private _userService: UsersService,
@@ -80,14 +81,22 @@ export class UserAdminComponent {
 
   getUsers() {
     this.spinner = true;
-    this._userService.get().subscribe(
-      (res) => {
-        this.handleGetResponse(res);
-      },
-      (error) => {
-        this.handleGetErrorResponse();
-      }
-    );
+    this._userService
+      .get(
+        this.pageNumber,
+        this.pageSize,
+        this.sortBy,
+        this.sortOrder,
+        this.filters
+      )
+      .subscribe(
+        (res) => {
+          this.handleGetResponse(res);
+        },
+        (error) => {
+          this.handleGetErrorResponse();
+        }
+      );
   }
 
   getUserKeys() {
@@ -97,7 +106,7 @@ export class UserAdminComponent {
   }
 
   setColumns(): void {
-    this.usersColumns = [
+    this.columns = [
       {
         name: '_id',
         dataKey: 'id',
@@ -289,7 +298,8 @@ export class UserAdminComponent {
   }
 
   private handleGetResponse(res: any) {
-    this.users = res;
+    this.entries = res.data;
+    this.totalRecords = res.totalEntries;
     this.setColumns();
     this.loaded = true;
     this.spinner = false;
@@ -322,27 +332,19 @@ export class UserAdminComponent {
   }
 
   sortData(sortParameters: Sort) {
-    const keyName = sortParameters.active;
-    if (sortParameters.direction === 'asc') {
-      this.users = [
-        ...this.users.sort((a, b) =>
-          this.collator.compare(a[keyName], b[keyName])
-        ),
-      ];
-    } else if (sortParameters.direction === 'desc') {
-      this.users = [
-        ...this.users.sort(
-          (a, b) => -1 * this.collator.compare(a[keyName], b[keyName])
-        ),
-      ];
-    } else {
-      this.getUsers();
-    }
+    this.sortBy = sortParameters.active;
+    this.sortOrder = sortParameters.direction;
+    this.pageNumber = 1;
+    this.getUsers();
   }
 
   filterData(filters: Filter[]) {
-    this._userService.getFiltered(filters).subscribe((res) => {
-      this.users = res;
-    });
+    console.log(filters);
+
+    (this.filters = filters),
+      (this.pageNumber = 1),
+      (this.sortBy = null),
+      (this.sortOrder = null),
+      this.getUsers();
   }
 }

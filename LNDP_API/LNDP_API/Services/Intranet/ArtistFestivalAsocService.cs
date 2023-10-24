@@ -3,13 +3,14 @@ using LNDP_API.Data;
 using LNDP_API.Dtos;
 using LNDP_API.Models;
 using LNDP_API.Repositories;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LNDP_API.Services
 {
     public class ArtistFestivalAsocService : GenericService<ArtistFestivalAsoc>, IArtistFestivalAsocService
     {
         private readonly IArtistFestivalAsocRepository _artistFestivalAsocRepository;
-        public ArtistFestivalAsocService(IArtistFestivalAsocRepository artistFestivalAsocRepository, IMapper mapper) : base(artistFestivalAsocRepository, mapper)
+        public ArtistFestivalAsocService(IArtistFestivalAsocRepository artistFestivalAsocRepository, IMapper mapper, IUriService uriService) : base(artistFestivalAsocRepository, mapper, uriService)
         {
             _artistFestivalAsocRepository = artistFestivalAsocRepository;
         }
@@ -41,9 +42,10 @@ namespace LNDP_API.Services
             }
         }
 
-        public async Task<IEnumerable<ArtistFestivalAsoc>> GetFestivalForArtist(int id)
+        public async Task<PagedResponse<List<ArtistFestivalAsoc>>> GetFestivalForArtist(int id, [FromQuery] PaginationFilter paginationFilter, string route)
         {
-            return await _artistFestivalAsocRepository.GetFestivalsForArtistAsync(id);
+            IQueryable<ArtistFestivalAsoc> query = await _artistFestivalAsocRepository.GetFestivalsForArtistAsync(id);
+            return await this.GetPagination(paginationFilter, query, route);
         }
     }
 

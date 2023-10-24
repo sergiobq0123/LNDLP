@@ -11,10 +11,13 @@ namespace LNDP_API.Repositories
         {
             _context = context;
         }
-        public async Task<IEnumerable<Festival>> GetFestivalsAsync()
+
+        public async Task<IQueryable<Festival>> GetFestivalesAsync()
         {
-            return await _context.Festival.Include(c => c.ArtistFestivalAsoc).ThenInclude(afa => afa.Artist).AsNoTracking().ToListAsync();
+            var query = _context.Festival.Include(c => c.ArtistFestivalAsoc).ThenInclude(afa => afa.Artist).AsNoTracking();
+            return await Task.FromResult(query);
         }
+
         public async Task<IEnumerable<Festival>> GetFestivalsForArtistAsync(int artistId)
         {
             return await _context.Festival
@@ -33,6 +36,6 @@ namespace LNDP_API.Repositories
                 .AsNoTracking()
                 .ToListAsync();
         }
-        
+
     }
 }
