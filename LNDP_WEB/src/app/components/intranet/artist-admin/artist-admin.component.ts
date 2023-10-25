@@ -124,42 +124,42 @@ export class ArtistAdminComponent {
         name: 'Ciudad',
         dataKey: 'city',
         position: 'left',
-        isSortable: false,
+        isSortable: true,
         type: ContentType.editableTextFields,
       },
       {
         name: 'Email de contratación',
         dataKey: 'recruitmentEmail',
         position: 'left',
-        isSortable: false,
+        isSortable: true,
         type: ContentType.editableTextFields,
       },
       {
         name: 'Email de comunicación',
         dataKey: 'communicationEmail',
         position: 'left',
-        isSortable: false,
+        isSortable: true,
         type: ContentType.editableTextFields,
       },
       {
         name: 'Teléfono',
         dataKey: 'phone',
         position: 'left',
-        isSortable: false,
+        isSortable: true,
         type: ContentType.editableTextFields,
       },
       {
         name: 'Descripcion',
         dataKey: 'description',
         position: 'left',
-        isSortable: false,
+        isSortable: true,
         type: ContentType.editableTextFields,
       },
       {
         name: 'Redes',
         dataKey: 'socialNetwork',
         position: 'left',
-        isSortable: false,
+        isSortable: true,
         type: ContentType.specialContent,
         template: this.socialNetworkTemplate,
       },
@@ -495,8 +495,6 @@ export class ArtistAdminComponent {
   }
 
   filterData(filters: Filter[]) {
-    console.log(filters);
-
     (this.filters = filters),
       (this.pageNumber = 1),
       (this.sortBy = null),

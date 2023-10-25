@@ -7,5 +7,6 @@ namespace LNDP_API.Services
     {
         Task<Acces> Register(AccesDto accesDto);
         Task<string> Login(AccesDto accesDto);
+        Task ChangePassword(int id, string password);
     }
 }

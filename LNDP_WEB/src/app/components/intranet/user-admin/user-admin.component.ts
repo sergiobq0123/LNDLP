@@ -63,7 +63,7 @@ export class UserAdminComponent {
 
   ngOnInit() {
     this.getUsers();
-    this.getUserKeys();
+    //this.getUserKeys();
   }
 
   ngAfterViewInit() {
@@ -118,6 +118,11 @@ export class UserAdminComponent {
         hidden: true,
       },
       {
+        name: '_accesId',
+        dataKey: 'accesId',
+        hidden: true,
+      },
+      {
         name: 'Nombre de usuario',
         dataKey: 'acces.userName',
         position: 'left',
@@ -129,28 +134,28 @@ export class UserAdminComponent {
         name: 'Nombre',
         dataKey: 'firstName',
         position: 'left',
-        isSortable: false,
+        isSortable: true,
         type: ContentType.editableTextFields,
       },
       {
         name: 'Apellido',
         dataKey: 'lastName',
         position: 'left',
-        isSortable: false,
+        isSortable: true,
         type: ContentType.editableTextFields,
       },
       {
         name: 'Email',
         dataKey: 'email',
         position: 'left',
-        isSortable: false,
+        isSortable: true,
         type: ContentType.editableTextFields,
       },
       {
         name: 'Role',
         dataKey: 'userRole.role',
         position: 'left',
-        isSortable: false,
+        isSortable: true,
         type: ContentType.plainText,
       },
       {
@@ -258,7 +263,7 @@ export class UserAdminComponent {
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result !== undefined && result !== null && result !== '') {
-        this.updateElement(result);
+        this.updatePassword(event.accesId, result.password);
       }
     });
   }
@@ -277,6 +282,17 @@ export class UserAdminComponent {
 
   updateElement(event: any) {
     this._userService.update(event.id, event).subscribe(
+      (res) => {
+        this.handleResponse(res.message);
+      },
+      (err) => {
+        this.handleErrorResponse(err.error.message);
+      }
+    );
+  }
+
+  updatePassword(id: number, password: string) {
+    this._accesService.ChangePassword(id, password).subscribe(
       (res) => {
         this.handleResponse(res.message);
       },
@@ -339,8 +355,6 @@ export class UserAdminComponent {
   }
 
   filterData(filters: Filter[]) {
-    console.log(filters);
-
     (this.filters = filters),
       (this.pageNumber = 1),
       (this.sortBy = null),

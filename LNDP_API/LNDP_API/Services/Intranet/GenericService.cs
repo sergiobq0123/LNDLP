@@ -37,11 +37,6 @@ namespace LNDP_API.Services
             return await _paginationUtils.GetPagedDataAsync(query, paginationFilter, route, _mappingFunc);
         }
 
-        public async Task<TEntity> Exists(TEntity entity)
-        {
-            return await _repository.Exist(entity);
-        }
-
         public async Task<TEntity> Create(TEntity entity)
 
         {

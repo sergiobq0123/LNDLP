@@ -16,14 +16,5 @@ namespace LNDP_API.Controllers
         {
             _companyTypeService = companyTypeService;
         }
-
-        [Authorize(Roles = "Admin")]
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<CompanyType>>> GetCompany()
-        {
-            return Ok(
-                // await _companyTypeService.Get()
-                );
-        }
     }
 }

@@ -18,4 +18,8 @@ export class ArtistService extends ServiceBaseService {
   getArtists() {
     return this.getToSpecificURL(this.getUrl + '/artist-web');
   }
+
+  getArtistWebDetail(id: number) {
+    return this.getToSpecificURL(this.getUrl + `/artist-web-detail/${id}`);
+  }
 }

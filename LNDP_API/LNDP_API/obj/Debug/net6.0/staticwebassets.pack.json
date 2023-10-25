@@ -37,6 +37,10 @@
       "PackagePath": "staticwebassets\\assets\\aaaaaaaaaaaaa.jpg"
     },
     {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\aaaaaaaaaaaaaaaaaaaaaaa.jpg",
+      "PackagePath": "staticwebassets\\assets\\aaaaaaaaaaaaaaaaaaaaaaa.jpg"
+    },
+    {
       "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\ab.jpg",
       "PackagePath": "staticwebassets\\assets\\ab.jpg"
     },
@@ -151,6 +155,18 @@
     {
       "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\sss.jpg",
       "PackagePath": "staticwebassets\\assets\\sss.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\ssss.jpg",
+      "PackagePath": "staticwebassets\\assets\\ssss.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\sssssssss.jpg",
+      "PackagePath": "staticwebassets\\assets\\sssssssss.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\ssssssssssssssssssssssssssssssssssssssss.jpg",
+      "PackagePath": "staticwebassets\\assets\\ssssssssssssssssssssssssssssssssssssssss.jpg"
     },
     {
       "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\triste 1.jpg",

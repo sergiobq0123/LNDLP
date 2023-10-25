@@ -122,7 +122,7 @@ namespace LNDP_API.Data
                 new LNDP_API.Models.CompanyType
                 {
                     Id = 1,
-                    CompanyTypeName = "Brand"
+                    CompanyTypeName = "Marca"
                 },
                 new LNDP_API.Models.CompanyType
                 {
@@ -132,12 +132,12 @@ namespace LNDP_API.Data
                 new LNDP_API.Models.CompanyType
                 {
                     Id = 3,
-                    CompanyTypeName = "Record"
+                    CompanyTypeName = "Sello"
                 },
                 new LNDP_API.Models.CompanyType
                 {
                     Id = 4,
-                    CompanyTypeName = "Project"
+                    CompanyTypeName = "Proyecto"
                 }
 
             );

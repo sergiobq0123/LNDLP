@@ -124,7 +124,6 @@ export class AlbumAdminComponent {
         dataKey: 'name',
         position: 'left',
         isSortable: true,
-        hidden: false,
         type: ContentType.editableTextFields,
         validators: [Validators.required],
       },
@@ -133,7 +132,6 @@ export class AlbumAdminComponent {
         dataKey: 'webUrl',
         position: 'left',
         isSortable: true,
-        hidden: false,
         type: ContentType.editableTextFields,
         validators: [Validators.required],
       },
@@ -142,13 +140,14 @@ export class AlbumAdminComponent {
         dataKey: 'date',
         position: 'left',
         isSortable: true,
-        hidden: false,
         type: ContentType.datePicker,
         validators: [Validators.required],
       },
       {
         name: 'Photo',
         dataKey: 'photoUrl',
+        position: 'left',
+        isSortable: false,
         type: ContentType.specialContent,
         template: this.imageTemplate,
         validators: [Validators.required],
@@ -330,8 +329,6 @@ export class AlbumAdminComponent {
   }
 
   filterData(filters: Filter[]) {
-    console.log(filters);
-
     (this.filters = filters),
       (this.pageNumber = 1),
       (this.sortBy = null),

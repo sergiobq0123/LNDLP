@@ -73,28 +73,29 @@ export class FestivalCrewComponent {
         name: 'Nombre',
         dataKey: 'festival.name',
         position: 'left',
-        isSortable: false,
+        isSortable: true,
         type: ContentType.plainText,
       },
       {
         name: 'Ciudad',
         dataKey: 'festival.city',
         position: 'left',
-        isSortable: false,
+        isSortable: true,
         type: ContentType.plainText,
       },
       {
         name: 'Localizacion',
         dataKey: 'festival.location',
         position: 'left',
-        isSortable: false,
+        isSortable: true,
         type: ContentType.plainText,
       },
       {
         name: 'Fecha',
         dataKey: 'festival.date',
         position: 'left',
-        isSortable: false,
+        isSortable: true,
+        width: '200px',
         type: ContentType.dateText,
       },
     ];
@@ -128,8 +129,6 @@ export class FestivalCrewComponent {
   }
 
   filterData(filters: Filter[]) {
-    console.log(filters);
-
     (this.filters = filters),
       (this.pageNumber = 1),
       (this.sortBy = null),

@@ -28,7 +28,7 @@ namespace LNDP_API.Controllers
             return Ok(youtubeVideoDtos);
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Visual")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<YoutubeVideo>>> GetYoutubeVideoIntranet([FromQuery] PaginationFilter paginationFilter)
         {
@@ -43,7 +43,7 @@ namespace LNDP_API.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Visual")]
         [HttpPost]
         public async Task<ActionResult> PostYoutubeVideo(YoutubeVideo youtubeVideo)
         {
@@ -58,7 +58,7 @@ namespace LNDP_API.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Visual")]
         [HttpPut("{id}")]
         public async Task<ActionResult> PutYoutubeVideo(int id, YoutubeVideo youtubeVideo)
         {
@@ -73,7 +73,7 @@ namespace LNDP_API.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Visual")]
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteYoutubeVideo(int id)
         {

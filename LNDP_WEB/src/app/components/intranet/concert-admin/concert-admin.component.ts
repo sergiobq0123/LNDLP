@@ -114,42 +114,43 @@ export class ConcertAdminComponent {
         name: 'Artista',
         dataKey: 'artist.name',
         position: 'left',
-        isSortable: false,
+        isSortable: true,
         type: ContentType.plainText,
       },
       {
         name: 'Nombre',
         dataKey: 'name',
         position: 'left',
-        isSortable: false,
+        isSortable: true,
         type: ContentType.editableTextFields,
       },
       {
         name: 'Ciudad',
         dataKey: 'city',
         position: 'left',
-        isSortable: false,
+        isSortable: true,
         type: ContentType.editableTextFields,
       },
       {
         name: 'Localización',
         dataKey: 'location',
         position: 'left',
-        isSortable: false,
+        isSortable: true,
         type: ContentType.editableTextFields,
       },
       {
         name: 'Entradas',
         dataKey: 'tickets',
         position: 'left',
-        isSortable: false,
+        isSortable: true,
         type: ContentType.editableTextFields,
       },
       {
         name: 'Fecha',
         dataKey: 'date',
         position: 'left',
-        isSortable: false,
+        isSortable: true,
+        width: '200px',
         type: ContentType.datePicker,
       },
     ];
@@ -303,8 +304,6 @@ export class ConcertAdminComponent {
   }
 
   filterData(filters: Filter[]) {
-    console.log(filters);
-
     (this.filters = filters),
       (this.pageNumber = 1),
       (this.sortBy = null),

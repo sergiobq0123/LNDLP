@@ -63,5 +63,12 @@ namespace LNDP_API.Services
             }
         }
 
+        public async Task ChangePassword(int id, string password)
+        {
+            Acces acces = await _accesRepository.GetByIdAsync(id);
+            acces.PasswordSalt = PasswordHasher.GenerateSalt();
+            acces.PasswordHash = PasswordHasher.ComputeHash(password, acces.PasswordSalt, _pepper, _iteration);
+            await _accesRepository.SaveChangesAsync();
+        }
     }
 }

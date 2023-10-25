@@ -75,35 +75,32 @@ export class ConcertCrewComponent {
         name: 'Nombre',
         dataKey: 'name',
         position: 'left',
-        isSortable: false,
+        isSortable: true,
         type: ContentType.plainText,
       },
       {
         name: 'Ciudad',
         dataKey: 'city',
         position: 'left',
-        isSortable: false,
+        isSortable: true,
         type: ContentType.plainText,
       },
       {
         name: 'Localizacion',
         dataKey: 'location',
         position: 'left',
-        isSortable: false,
+        isSortable: true,
         type: ContentType.plainText,
       },
       {
         name: 'Fecha',
         dataKey: 'date',
         position: 'left',
-        isSortable: false,
+        isSortable: true,
+        width: '200px',
         type: ContentType.dateText,
       },
     ];
-  }
-
-  getUrl(event: any) {
-    console.log(event);
   }
 
   private handleGetResponse(res: any) {
@@ -134,8 +131,6 @@ export class ConcertCrewComponent {
   }
 
   filterData(filters: Filter[]) {
-    console.log(filters);
-
     (this.filters = filters),
       (this.pageNumber = 1),
       (this.sortBy = null),

@@ -5,20 +5,27 @@ import { ArtistService } from 'src/app/services/intranet/artist.service';
 @Component({
   selector: 'app-artist-detail-section',
   templateUrl: './artist-detail-section.component.html',
-  styleUrls: ['./artist-detail-section.component.scss']
+  styleUrls: ['./artist-detail-section.component.scss'],
 })
 export class ArtistDetailSectionComponent {
-  @Input() artistDetail : any ;
+  @Input() artistDetail: any;
   artist: any;
 
-  constructor(private route: ActivatedRoute, private artistService : ArtistService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private artistService: ArtistService
+  ) {}
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
+    this.route.params.subscribe((params) => {
       const artistId = params['id'];
-      this.artistService.get(artistId).subscribe(res => {
-        this.artist = res
-      })
+      this.getArtistById(artistId);
+    });
+  }
+
+  getArtistById(id: number) {
+    this.artistService.getArtistWebDetail(id).subscribe((res) => {
+      this.artist = res;
     });
   }
 }

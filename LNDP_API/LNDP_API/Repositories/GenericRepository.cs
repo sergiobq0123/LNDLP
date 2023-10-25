@@ -21,10 +21,9 @@ namespace LNDP_API.Repositories
             return await Task.FromResult(query);
         }
 
-        public async Task<TEntity> Exist(TEntity entity)
+        public async Task<TEntity> GetByIdAsync(int id)
         {
-            return await _context.Set<TEntity>().AsNoTracking().FirstOrDefaultAsync(e => e.Equals(entity));
-
+            return await _context.Set<TEntity>().FindAsync(id);
         }
 
         public async Task<TEntity> CreateAsync(TEntity entity)
@@ -61,6 +60,11 @@ namespace LNDP_API.Repositories
             }
 
             return await query.ToListAsync();
+        }
+
+        public Task SaveChangesAsync()
+        {
+            return _context.SaveChangesAsync();
         }
     }
 }

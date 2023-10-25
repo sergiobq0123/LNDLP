@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { DateFormat } from 'src/app/Utils/DateFormat';
 import { ConcertService } from 'src/app/services/intranet/concert.service';
 
 @Component({
@@ -23,7 +24,7 @@ export class TourManagerSectionConciertosComponent {
     this.genericCard = this.concerts.map((concert) => ({
       imagen: concert.photoUrl,
       titulo: concert.name,
-      descripcion: `${concert.city}, ${concert.date}`,
+      descripcion: `${concert.city}, ${DateFormat.format(concert.date)}`,
       url: concert.tickets,
     }));
   }

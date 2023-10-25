@@ -32,13 +32,13 @@ namespace LNDP_API.Repositories
                     LastName = u.LastName,
                     Email = u.Email,
                     UserRoleId = u.UserRoleId,
+                    AccesId = u.AccesId,
                     Acces = new Acces
                     {
                         UserName = u.Acces.UserName
                     },
                     UserRole = new UserRole
                     {
-                        Id = u.Id,
                         Role = u.UserRole.Role
                     }
                 }).AsNoTracking();

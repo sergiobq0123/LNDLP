@@ -130,7 +130,7 @@ export class SongAdminComponent {
         name: 'Url',
         dataKey: 'url',
         position: 'left',
-        isSortable: false,
+        isSortable: true,
         type: ContentType.editableTextFields,
         validators: [Validators.required],
       },
@@ -266,8 +266,6 @@ export class SongAdminComponent {
   }
 
   filterData(filters: Filter[]) {
-    console.log(filters);
-
     (this.filters = filters),
       (this.pageNumber = 1),
       (this.sortBy = null),

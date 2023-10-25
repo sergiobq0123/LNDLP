@@ -122,35 +122,36 @@ export class FestivalAdminComponent {
         name: 'Nombre',
         dataKey: 'name',
         position: 'left',
-        isSortable: false,
+        isSortable: true,
         type: ContentType.editableTextFields,
       },
       {
         name: 'Ciudad',
         dataKey: 'city',
         position: 'left',
-        isSortable: false,
+        isSortable: true,
         type: ContentType.editableTextFields,
       },
       {
         name: 'Localizacion',
         dataKey: 'location',
         position: 'left',
-        isSortable: false,
+        isSortable: true,
         type: ContentType.editableTextFields,
       },
       {
         name: 'Entradas',
         dataKey: 'tickets',
         position: 'left',
-        isSortable: false,
+        isSortable: true,
         type: ContentType.editableTextFields,
       },
       {
         name: 'Fecha',
         dataKey: 'date',
         position: 'left',
-        isSortable: false,
+        isSortable: true,
+        width: '200px',
         type: ContentType.datePicker,
       },
       {
@@ -166,6 +167,7 @@ export class FestivalAdminComponent {
         dataKey: 'photoUrl',
         type: ContentType.specialContent,
         template: this.imageTemplate,
+        isSortable: false,
         validators: [Validators.required],
       },
     ];
@@ -204,6 +206,7 @@ export class FestivalAdminComponent {
       {
         name: 'Fecha',
         dataKey: 'date',
+        width: '200px',
         position: { row: 2, col: 2, rowSpan: 1, colSpan: 1 },
         type: ContentType.datePicker,
         validators: [Validators.required],
@@ -313,6 +316,7 @@ export class FestivalAdminComponent {
   }
 
   updateElement(event: any) {
+    event.artistFestivalAsoc = null;
     this._festivalService.update(event.id, event).subscribe(
       (res) => {
         this.handleResponse(res.message);
@@ -376,8 +380,6 @@ export class FestivalAdminComponent {
   }
 
   filterData(filters: Filter[]) {
-    console.log(filters);
-
     (this.filters = filters),
       (this.pageNumber = 1),
       (this.sortBy = null),

@@ -49,25 +49,26 @@ namespace LNDP_API.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("{id}")]
-        public async Task<ActionResult<ArtistWebDetailDto>> GetArtist(int id)
-        {
-            try
-            {
-                return Ok(await _artistService.GetArtistById(id));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { ex.Message });
-            }
-        }
-        [AllowAnonymous]
         [HttpGet("artist-web")]
         public async Task<ActionResult<ArtistWebGenericDto>> GetArtistWeb()
         {
             try
             {
                 return Ok(await _artistService.GetArtistsWeb());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { ex.Message });
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpGet("artist-web-detail/{id}")]
+        public async Task<ActionResult<ArtistWebDetailDto>> GetArtist(int id)
+        {
+            try
+            {
+                return Ok(await _artistService.GetArtistById(id));
             }
             catch (Exception ex)
             {

@@ -112,7 +112,6 @@ export class CompanyAdminComponent {
         dataKey: 'name',
         position: 'left',
         isSortable: true,
-        hidden: false,
         type: ContentType.editableTextFields,
         validators: [Validators.required],
       },
@@ -120,7 +119,7 @@ export class CompanyAdminComponent {
         name: 'Tipo',
         dataKey: 'companyTypeId',
         position: 'left',
-        hidden: false,
+        isSortable: true,
         type: ContentType.dropdownFields,
         dropdown: this.companiesKeys,
         dropdownKeyToShow: 'name',
@@ -322,8 +321,6 @@ export class CompanyAdminComponent {
   }
 
   filterData(filters: Filter[]) {
-    console.log(filters);
-
     (this.filters = filters),
       (this.pageNumber = 1),
       (this.sortBy = null),
