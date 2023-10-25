@@ -1,14 +1,12 @@
 using LNDP_API.Dtos;
 using LNDP_API.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LNDP_API.Services
 {
-    public interface IFestivalService
+    public interface IFestivalService : IGenericService<Festival>
     {
-        Task<IEnumerable<Festival>> GetFestival();
-        Task<bool> ExistFestival(int idFestival);
-        Task<Festival> CreateFestival(Festival festival);
-        Task<Festival> UpdateFestival(Festival festival);
-        Task DeleteFestival(int idFestival);
+        Task<PagedResponse<List<Festival>>> GetFestivales([FromQuery] PaginationFilter paginationFilter, string route);
+        Task<IEnumerable<FestivalWebDto>> GetFutureFestivals();
     }
 }

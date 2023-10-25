@@ -1,8 +1,7 @@
 using LNDP_API.Models;
 
 namespace LNDP_API.Repositories{
-    public interface ICompanyTypeRepository{
-        Task<IEnumerable<CompanyType>> GetAsync();
+    public interface ICompanyTypeRepository : IGenericRepository<CompanyType>{
 
     }
 }

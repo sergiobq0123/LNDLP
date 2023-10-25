@@ -5,19 +5,13 @@ using LNDP_API.Repositories;
 
 namespace LNDP_API.Services
 {
-    public class CompanyTypeService : ICompanyTypeService
+    public class CompanyTypeService : GenericService<CompanyType>, ICompanyTypeService
     {
         private readonly ICompanyTypeRepository _companyTypeRepository;
 
-        public CompanyTypeService(ICompanyTypeRepository companyTypeRepository)
+        public CompanyTypeService(ICompanyTypeRepository companyTypeRepository, IMapper mapper, IUriService uriService) : base(companyTypeRepository, mapper, uriService)
         {
             _companyTypeRepository = companyTypeRepository;
         }
-
-        public async Task<IEnumerable<CompanyType>> GetCompanyType()
-        {
-            return await _companyTypeRepository.GetAsync();
-        }
-
     }
 }

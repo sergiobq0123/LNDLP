@@ -4,6 +4,7 @@ import { GenericModule } from '../generic/generic.module';
 import { MarketingArtistWebComponent } from './marketing-artist-web/marketing-artist-web.component';
 import { MarketingSellosComponent } from './marketing-sellos/marketing-sellos.component';
 import { MarketingSectionComponent } from './marketing-section.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 
 
@@ -15,7 +16,8 @@ import { MarketingSectionComponent } from './marketing-section.component';
   ],
   imports: [
     CommonModule,
-    GenericModule
+    GenericModule,
+    FontAwesomeModule
   ]
 })
 export class MarketingSectionModule { }

@@ -4,41 +4,38 @@ using LNDP_API.Models;
 
 namespace LNDP_API.Repositories
 {
-    public class FestivalRepository : IFestivalRepository
+    public class FestivalRepository : GenericRepository<Festival>, IFestivalRepository
     {
         private readonly APIContext _context;
-        public FestivalRepository(APIContext context)
+        public FestivalRepository(APIContext context) : base(context)
         {
             _context = context;
         }
-        public async Task<IEnumerable<Festival>> GetAsync()
+
+        public async Task<IQueryable<Festival>> GetFestivalesAsync()
         {
-            return await _context.Festival.Include(c => c.ArtistFestivalAsoc).ThenInclude(afa => afa.Artist).AsNoTracking().ToListAsync();
-        }
-        
-        public async Task<bool> ExistFestivalAsync(int idFestival)
-        {
-            return await _context.Festival.AnyAsync(v => v.Id == idFestival);
+            var query = _context.Festival.Include(c => c.ArtistFestivalAsoc).ThenInclude(afa => afa.Artist).AsNoTracking();
+            return await Task.FromResult(query);
         }
 
-        public async Task<Festival> CreateAsync(Festival festival)
+        public async Task<IEnumerable<Festival>> GetFestivalsForArtistAsync(int artistId)
         {
-            _context.Festival.Add(festival);
-            await _context.SaveChangesAsync();
-            return festival;
+            return await _context.Festival
+                .Where(f =>
+                    f.ArtistFestivalAsoc.Any(afa => afa.ArtistId == artistId)
+                )
+                .Include(f => f.ArtistFestivalAsoc)
+                .ThenInclude(afa => afa.Artist)
+                .AsNoTracking()
+                .ToListAsync();
+        }
+        public async Task<IEnumerable<Festival>> GetFutureFestivalsAsync()
+        {
+            return await _context.Festival
+                .Where(c => c.Date >= DateTime.UtcNow).OrderBy(c => c.Date)
+                .AsNoTracking()
+                .ToListAsync();
         }
 
-        public async Task<Festival> UpdateAsync(Festival festival)
-        {
-            _context.Festival.Update(festival);
-            await _context.SaveChangesAsync();
-            return festival;
-        }
-
-        public async Task DeleteAsync(int idFestival)
-        {
-            _context.Festival.Remove(await _context.Festival.FindAsync(idFestival));
-            await _context.SaveChangesAsync();
-        }
     }
 }

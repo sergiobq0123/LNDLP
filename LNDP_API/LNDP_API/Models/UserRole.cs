@@ -1,8 +1,7 @@
-using LNDP_API.Models;
-
-namespace LNDP_API.Models{
-    public class UserRole {
-        public int Id {get; set;}
-        public string? Role {get;set;}
+namespace LNDP_API.Models
+{
+    public class UserRole : ModelBase
+    {
+        public string Role { get; set; }
     }
 }

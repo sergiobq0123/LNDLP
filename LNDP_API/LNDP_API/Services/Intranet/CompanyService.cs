@@ -3,56 +3,28 @@ using LNDP_API.Dtos;
 using LNDP_API.Models;
 using LNDP_API.Repositories;
 using LNDP_API.Utils;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LNDP_API.Services
 {
-    public class CompanyService : ICompanyService
+    public class CompanyService : GenericService<Company>, ICompanyService
     {
         private readonly ICompanyRepository _companyRepository;
-        private readonly IMapper _mapper;
-        private readonly IImageUtils _imageUtils;
-        public CompanyService(ICompanyRepository CompanyRepository, IMapper mapper, IImageUtils imageUtils)
+        public CompanyService(ICompanyRepository companyRepository, IMapper mapper, IUriService uriService) : base(companyRepository, mapper, uriService)
         {
-            _companyRepository = CompanyRepository;
-            _mapper = mapper;
-            _imageUtils = imageUtils;
+            _companyRepository = companyRepository;
         }
 
-        public async Task<IEnumerable<Company>> GetCompany()
+        public async Task<PagedResponse<List<Company>>> GetCompanies([FromQuery] PaginationFilter paginationFilter, string route)
         {
-            return await _companyRepository.GetAsync();
+            IQueryable<Company> query = await _companyRepository.GetCompaniesAsync();
+            return await this.GetPagination(paginationFilter, query, route);
         }
 
-        public async Task<IEnumerable<CompanyWebDto>> GetCompanyType(string type)
+        public async Task<IEnumerable<CompanyWebDto>> GetCompaniesByType(string type)
         {
             var Companys = await _companyRepository.GetByTypeAsync(type);
             return _mapper.Map<IEnumerable<CompanyWebDto>>(Companys);
         }
-
-        public async Task<Company> CreateCompany(Company company)
-        {
-            company.PhotoUrl = await _imageUtils.ConvertBase64ToUrl(company.PhotoUrl, company.Name);
-            return await _companyRepository.CreateAsync(company);
-        }
-        
-        public async Task<bool> ExistCompany(int idCompany)
-        {
-            return await _companyRepository.ExistCompanyAsync(idCompany);
-        }
-
-        public async Task<Company> UpdateCompany(Company company)
-        {
-            if(!_imageUtils.IsValidUrl(company.PhotoUrl)){
-                company.PhotoUrl = await _imageUtils.ConvertBase64ToUrl(company.PhotoUrl, company.Name);
-            }
-            return await _companyRepository.UpdateAsync(company);
-        }
-
-        public async Task DeleteCompany(int idCompany)
-        {
-            await _companyRepository.DeleteAsync(idCompany);
-        }
-        
-
     }
 }

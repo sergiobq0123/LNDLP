@@ -11,104 +11,101 @@ import { GenericTableComponent } from '../general/generic-table/generic-table.co
 import { PageEvent } from '@angular/material/paginator';
 import { AuthService } from 'src/app/services/auth.service';
 import { Filter } from '../general/generic-filter/filter';
-
+import { Sort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-concert-crew',
   templateUrl: './concert-crew.component.html',
-  styleUrls: ['./concert-crew.component.scss']
+  styleUrls: ['./concert-crew.component.scss'],
 })
 export class ConcertCrewComponent {
-  conciertos: Array<any> = new Array<any>();
+  entries: Array<any> = new Array<any>();
   artists: Array<any> = new Array<any>();
-  conciertosColumns: Column[];
+  columns: Column[];
   apiFailing: boolean = false;
   loaded: boolean = false;
   newRowAdded: boolean = false;
   entryBeingEdited: boolean = false;
   pageNumber: number = 1;
   spinner: boolean = false;
-  pageSize : number = 10;
-  totalConciertos = 50
+  pageSize: number = 10;
+  totalRecords: number;
+  filters: Filter[];
+  sortBy: string;
+  sortOrder: string;
 
   @ViewChild(GenericTableComponent) table: GenericTableComponent;
   @ViewChild('ubicacionTemplate') ubicacionTemplate: TemplateRef<any>;
 
   constructor(
     private _concertService: ConcertService,
-    private _notificationService : NotificationService,
-    private _authService : AuthService,
-    public _dialog: MatDialog,
-  ){}
+    private _notificationService: NotificationService,
+    private _authService: AuthService,
+    public _dialog: MatDialog
+  ) {}
 
-  ngOnInit(){
+  ngOnInit() {
     this.getConciertos();
   }
 
   getConciertos() {
     this.spinner = true;
-    console.log(this._authService.getUserId());
-
-    this._concertService.getConcertForArtist(this._authService.getUserId()).subscribe(
-      (res) => {
-        this.handleGetResponse(res);
-      },
-      (error) => {
-        console.log(error);
-
-        this.handleGetErrorResponse();
-      }
-    );
+    this._concertService
+      .getConcertForArtist(
+        this._authService.getUserId(),
+        this.pageNumber,
+        this.pageSize,
+        this.sortBy,
+        this.sortOrder,
+        this.filters
+      )
+      .subscribe(
+        (res) => {
+          this.handleGetResponse(res);
+        },
+        (error) => {
+          this.handleGetErrorResponse();
+        }
+      );
   }
 
   setColumns(): void {
-    this.conciertosColumns = [
+    this.columns = [
       {
         name: 'Nombre',
         dataKey: 'name',
         position: 'left',
-        isSortable: false,
+        isSortable: true,
         type: ContentType.plainText,
       },
       {
         name: 'Ciudad',
         dataKey: 'city',
         position: 'left',
-        isSortable: false,
+        isSortable: true,
         type: ContentType.plainText,
       },
       {
         name: 'Localizacion',
         dataKey: 'location',
         position: 'left',
-        isSortable: false,
+        isSortable: true,
         type: ContentType.plainText,
-      },
-      {
-        name: 'Maps',
-        dataKey: 'urlLocation',
-        position: 'left',
-        isSortable: false,
-        type: ContentType.specialContent,
-        template: this.ubicacionTemplate
       },
       {
         name: 'Fecha',
         dataKey: 'date',
         position: 'left',
-        isSortable: false,
-        type: ContentType.datePicker
-      }
+        isSortable: true,
+        width: '200px',
+        type: ContentType.dateText,
+      },
     ];
   }
 
-  getUrl(event: any){
-    console.log(event);
-
-  }
-
   private handleGetResponse(res: any) {
-    this.conciertos = res;
+    this.entries = res.data;
+    this.totalRecords = res.totalEntries;
     this.setColumns();
     this.loaded = true;
     this.spinner = false;
@@ -120,14 +117,24 @@ export class ConcertCrewComponent {
     this.spinner = false;
   }
 
-  filterData(filters: Filter[]) {
-    this._concertService.getFiltered(filters).subscribe((res) => {
-      this.conciertos = res;
-    });
-  }
-
-  onPaginationChange(PageEvent: PageEvent){
+  onPaginationChange(PageEvent: PageEvent) {
     this.pageNumber = PageEvent.pageIndex + 1;
     this.pageSize = PageEvent.pageSize;
+    this.getConciertos();
+  }
+
+  sortData(sortParameters: Sort) {
+    this.sortBy = sortParameters.active;
+    this.sortOrder = sortParameters.direction;
+    this.pageNumber = 1;
+    this.getConciertos();
+  }
+
+  filterData(filters: Filter[]) {
+    (this.filters = filters),
+      (this.pageNumber = 1),
+      (this.sortBy = null),
+      (this.sortOrder = null),
+      this.getConciertos();
   }
 }

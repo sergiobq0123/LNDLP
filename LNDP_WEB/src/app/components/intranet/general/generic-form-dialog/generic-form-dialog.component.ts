@@ -79,8 +79,8 @@ export class GenericFormDialogComponent {
       reader.onload = (e) => {
         const dataURL = e.target?.result as string;
         this.selectedImage = dataURL
-        const base64Data = dataURL.split(',')[1]; // Extraer la parte Base64
-        this.selectedImageBase64 = base64Data; // Almacena la cadena Base64
+        const base64Data = dataURL.split(',')[1];
+        this.selectedImageBase64 = base64Data;
       };
       reader.readAsDataURL(file);
     }
@@ -90,7 +90,7 @@ export class GenericFormDialogComponent {
     let data = {};
     Object.keys(this.VOForm.controls).forEach((key) => {
       if (key == 'photoUrl') {
-        data[key] = this.selectedImageBase64;
+        data[key] = this.selectedImageBase64 ??  this.VOForm.get(key).value ;
       } else {
         data[key] = this.VOForm.get(key).value;
       }

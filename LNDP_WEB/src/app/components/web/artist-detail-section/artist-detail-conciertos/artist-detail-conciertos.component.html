@@ -1,15 +1,23 @@
 <app-generic-section
-[contentTemplate]="contentTemplate"
-[sectionTitle]="'Conciertos'"
+  [contentTemplate]="contentTemplate"
+  [sectionTitle]="'Conciertos'"
 ></app-generic-section>
 
 <ng-template #contentTemplate>
   <div class="table-container">
-    <div *ngFor="let item of conciertos" class="table-row">
-      <div class="table-cell"><p>{{item.date}}</p></div>
-      <div class="table-cell"><p>{{item.city}}</p></div>
-      <div class="table-cell"><p>{{item.name}}</p></div>
-      <div class="table-cell"><a [href]="item.tickets" target="_blank">Comprar entradas</a></div>
+    <div *ngFor="let item of conciertosShow" class="table-row">
+      <div class="table-cell">
+        <p>{{ item.date }}</p>
+      </div>
+      <div class="table-cell">
+        <p>{{ item.city }}</p>
+      </div>
+      <div class="table-cell">
+        <p>{{ item.name }}</p>
+      </div>
+      <div class="table-cell">
+        <a [href]="item.tickets" target="_blank">Comprar entradas</a>
+      </div>
     </div>
   </div>
 </ng-template>

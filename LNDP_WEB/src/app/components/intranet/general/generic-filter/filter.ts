@@ -5,11 +5,11 @@ export class Filter {
   name: string;
   type: ContentType;
   condition: Filter.Condition;
-  filterInput: string;
-  dropdown: any[];
-  dropdownKeyToShow: string;
-  startDate: Date;
-  endDate: Date;
+  filterInput: string[];
+  dropdown?: any[];
+  dropdownKeyToShow?: string;
+  startDate?: Date;
+  endDate?: Date;
   active: boolean;
 }
 

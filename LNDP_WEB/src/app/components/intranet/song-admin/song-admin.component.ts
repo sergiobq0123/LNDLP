@@ -13,22 +13,20 @@ import { ArtistService } from 'src/app/services/intranet/artist.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { PageEvent } from '@angular/material/paginator';
 import { Validators } from '@angular/forms';
-import { Filter } from '../general/generic-filter/filter';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { IconButton } from '../general/generic-table/icon-button';
-
-
+import { Filter } from '../general/generic-filter/filter';
+import { Sort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-artist-song',
   templateUrl: './song-admin.component.html',
   styleUrls: ['./song-admin.component.scss'],
 })
-
 export class SongAdminComponent {
-  songs: Array<any> = new Array<any>();
+  entries: Array<any> = new Array<any>();
   artists: Array<any> = new Array<any>();
-  songColumns: Column[];
+  columns: Column[];
   songForm: GenericForm[];
   apiFailing: boolean = false;
   loaded: boolean = false;
@@ -36,9 +34,12 @@ export class SongAdminComponent {
   entryBeingEdited: boolean = false;
   pageNumber: number = 1;
   spinner: boolean = false;
-  pageSize : number = 10;
-  totalSongs = 50
-  iconButtons : IconButton[] = []
+  pageSize: number = 10;
+  totalRecords: number;
+  iconButtons: IconButton[] = [];
+  filters: Filter[];
+  sortBy: string;
+  sortOrder: string;
 
   @ViewChild(GenericTableComponent) table: GenericTableComponent;
   @ViewChild('addTemplate') addTemplate: TemplateRef<any>;
@@ -57,8 +58,8 @@ export class SongAdminComponent {
     this.getArtist();
   }
 
-  ngAfterViewInit(){
-    this.setIconsButtons()
+  ngAfterViewInit() {
+    this.setIconsButtons();
   }
 
   setIconsButtons() {
@@ -66,32 +67,38 @@ export class SongAdminComponent {
       {
         template: this.addTemplate,
         isLeft: true,
-      }
+      },
     ];
   }
 
   getSongs() {
     this.spinner = true;
-    this._songService.get().subscribe(
-      (res) => {
-        this.handleGetResponse(res);
-      },
-      (error) => {
-        this.handleGetErrorResponse();
-      }
-    );
+    this._songService
+      .get(
+        this.pageNumber,
+        this.pageSize,
+        this.sortBy,
+        this.sortOrder,
+        this.filters
+      )
+      .subscribe(
+        (res) => {
+          this.handleGetResponse(res);
+        },
+        (error) => {
+          this.handleGetErrorResponse();
+        }
+      );
   }
 
   getArtist() {
-    this._artistService.getKeys().subscribe(
-      (res) => {
-       this.artists = res
-      }
-    );
+    this._artistService.getKeys().subscribe((res) => {
+      this.artists = res;
+    });
   }
 
   setColumns(): void {
-    this.songColumns = [
+    this.columns = [
       {
         name: '_id',
         dataKey: 'id',
@@ -117,15 +124,15 @@ export class SongAdminComponent {
         isSortable: true,
         hidden: false,
         type: ContentType.editableTextFields,
-        validators: [Validators.required]
+        validators: [Validators.required],
       },
       {
         name: 'Url',
         dataKey: 'url',
         position: 'left',
-        isSortable: false,
+        isSortable: true,
         type: ContentType.editableTextFields,
-        validators: [Validators.required]
+        validators: [Validators.required],
       },
     ];
   }
@@ -138,20 +145,6 @@ export class SongAdminComponent {
         hidden: true,
       },
       {
-        name: 'Nombre',
-        dataKey: 'name',
-        position: { row: 0, col: 0, rowSpan: 1, colSpan: 1 },
-        type: ContentType.editableTextFields,
-        validators: [Validators.required]
-      },
-      {
-        name: 'URL',
-        dataKey: 'url',
-        position: { row: 1, col: 0, rowSpan: 1, colSpan: 1 },
-        type: ContentType.editableTextFields,
-        validators: [Validators.required]
-      },
-      {
         name: 'Artista',
         dataKey: 'artistId',
         position: { row: 0, col: 0, rowSpan: 1, colSpan: 1 },
@@ -160,7 +153,21 @@ export class SongAdminComponent {
         dropdown: this.artists,
         dropdownKeyToShow: 'name',
         dropdownKeyValue: 'id',
-        validators: [Validators.required]
+        validators: [Validators.required],
+      },
+      {
+        name: 'Nombre',
+        dataKey: 'name',
+        position: { row: 0, col: 1, rowSpan: 1, colSpan: 1 },
+        type: ContentType.editableTextFields,
+        validators: [Validators.required],
+      },
+      {
+        name: 'URL',
+        dataKey: 'url',
+        position: { row: 1, col: 0, rowSpan: 1, colSpan: 2 },
+        type: ContentType.editableTextFields,
+        validators: [Validators.required],
       },
     ];
   }
@@ -186,27 +193,40 @@ export class SongAdminComponent {
   createElement(event: any) {
     event.id = 0;
     this._songService.create(event).subscribe(
-      (res) => {this.handleResponse(res.message)},
-      (err) => {this.handleErrorResponse(err.error.message)}
+      (res) => {
+        this.handleResponse(res.message);
+      },
+      (err) => {
+        this.handleErrorResponse(err.error.message);
+      }
     );
   }
 
   updateElement(event: any) {
     this._songService.update(event.id, event).subscribe(
-      (res) => {this.handleResponse(res.message)},
-      (err) => {this.handleErrorResponse(err.error.message)}
+      (res) => {
+        this.handleResponse(res.message);
+      },
+      (err) => {
+        this.handleErrorResponse(err.error.message);
+      }
     );
   }
 
   deleteElement(event: any) {
     this._songService.delete(event.id).subscribe(
-      (res) => {this.handleResponse(res.message)},
-      (err) => {this.handleErrorResponse(err.error.message)}
+      (res) => {
+        this.handleResponse(res.message);
+      },
+      (err) => {
+        this.handleErrorResponse(err.error.message);
+      }
     );
   }
 
   private handleGetResponse(res: any) {
-    this.songs = res;
+    this.entries = res.data;
+    this.totalRecords = res.totalEntries;
     this.setColumns();
     this.loaded = true;
     this.spinner = false;
@@ -232,15 +252,24 @@ export class SongAdminComponent {
     this.apiFailing = true;
   }
 
-  filterData(filters: Filter[]) {
-    this._songService.getFiltered(filters).subscribe((res) => {
-      this.songs = res;
-    });
-  }
-
-  onPaginationChange(PageEvent: PageEvent){
+  onPaginationChange(PageEvent: PageEvent) {
     this.pageNumber = PageEvent.pageIndex + 1;
     this.pageSize = PageEvent.pageSize;
-    this.getArtist();
+    this.getSongs();
+  }
+
+  sortData(sortParameters: Sort) {
+    this.sortBy = sortParameters.active;
+    this.sortOrder = sortParameters.direction;
+    this.pageNumber = 1;
+    this.getSongs();
+  }
+
+  filterData(filters: Filter[]) {
+    (this.filters = filters),
+      (this.pageNumber = 1),
+      (this.sortBy = null),
+      (this.sortOrder = null),
+      this.getSongs();
   }
 }

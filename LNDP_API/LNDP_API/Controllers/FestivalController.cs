@@ -5,76 +5,45 @@ using LNDP_API.Services;
 using Microsoft.AspNetCore.Authorization;
 
 namespace LNDP_API.Controllers
-{   
+{
     [Route("api/[controller]")]
     [ApiController]
-    public class FestivalController : ControllerBase
+    public class FestivalController : GenericController<Festival>
     {
         private readonly IFestivalService _festivalService;
 
-        public FestivalController(IFestivalService festivalService)
+        public FestivalController(IFestivalService festivalService) : base(festivalService)
         {
             _festivalService = festivalService;
         }
 
-
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Festival>>> GetFestivalIntranet()
+        public async Task<ActionResult<IEnumerable<Festival>>> GetFestivalIntranet([FromQuery] PaginationFilter paginationFilter)
         {
-            try{
-                return Ok(await _festivalService.GetFestival());
-            }
-            catch(Exception ex){
-                return BadRequest(new {ex.Message});
-            }
-        }
-
-        [Authorize(Roles = "Admin")]
-        [HttpPost]
-        public async Task<ActionResult> PostFestival(Festival festival)
-        {
-            try{
-                Festival f = await _festivalService.CreateFestival(festival);
-                return Ok(new { Message = "Festival creada con éxito", f});
-            }
-            catch(Exception ex){
-                return BadRequest(new {ex.Message});
-            }
-        }
-
-        [Authorize(Roles = "Admin")]
-        [HttpPut("{id}")]
-        public async Task<ActionResult> PutFestival(int id, Festival festival)
-        {
-            if (!await _festivalService.ExistFestival(id))
+            try
             {
-                return BadRequest(new { Message = "El festival especificada no existe."});
+                return Ok(await _festivalService.GetFestivales(paginationFilter, Request.Path.Value));
             }
-            try{
-                Festival f = await _festivalService.UpdateFestival(festival);
-                return Ok(new { Message = "Festival actualizado con éxito.", f});
-            }
-            catch(Exception ex){
-                return BadRequest(new {ex.Message});
+            catch (Exception ex)
+            {
+                return BadRequest(new { ex.Message });
             }
         }
 
-        [Authorize(Roles = "Admin")]
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteFestival(int id)
+        [AllowAnonymous]
+        [HttpGet("proximos-festivales")]
+        public async Task<ActionResult<IEnumerable<Concert>>> GetConcertProximosFestivales()
         {
-            if (!await _festivalService.ExistFestival(id))
+            try
             {
-                return BadRequest(new { Message = "El festival especificado no existe." });
+                return Ok(await _festivalService.GetFutureFestivals());
             }
-            try{
-                await _festivalService.DeleteFestival(id);
-                return Ok(new { Message = "Festival eliminado con éxito."});
-            }
-            catch(Exception ex){
-                return BadRequest(new {ex.Message});
+            catch (Exception ex)
+            {
+                return BadRequest(new { ex.Message });
             }
         }
+
     }
 }

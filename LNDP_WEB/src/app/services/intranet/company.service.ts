@@ -4,24 +4,23 @@ import { Urls } from 'src/app/common/urls';
 import { ServiceBaseService } from '../service-base.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class CompanyService extends ServiceBaseService{
-
+export class CompanyService extends ServiceBaseService {
   constructor(http: HttpClient) {
     super(http, Urls.COMPANY);
-   }
+  }
 
-  getBrands(){
-    return this.getToSpecificURL(this.getUrl + '/type/Brand')
+  getBrands() {
+    return this.getToSpecificURL(this.getUrl + '/type/Marca');
   }
-  getPartner(){
-    return this.getToSpecificURL(this.getUrl + '/type/Partner')
+  getPartner() {
+    return this.getToSpecificURL(this.getUrl + '/type/Partner');
   }
-  getRecords(){
-    return this.getToSpecificURL(this.getUrl + '/type/Record')
+  getRecords() {
+    return this.getToSpecificURL(this.getUrl + '/type/Sello');
   }
-  getProjects(){
-    return this.getToSpecificURL(this.getUrl + '/type/Project')
+  getProjects() {
+    return this.getToSpecificURL(this.getUrl + '/type/Proyecto');
   }
 }

@@ -9,35 +9,30 @@ using TTTAPI.JWT.Managers;
 using Microsoft.AspNetCore.Authorization;
 
 namespace LNDP_API.Controllers
-{   
+{
     [Route("api/[controller]")]
     [ApiController]
-    public class ConcertController : ControllerBase
+    public class ConcertController : GenericController<Concert>
     {
-        private readonly APIContext _context;
-        private readonly IMapper _mapper;
-        private readonly IHttpContextAccessor _httpContext;
-        private readonly IJwtService _jwtService;
         private readonly IConcertService _concertService;
 
-        public ConcertController(APIContext context, IMapper mapper, IHttpContextAccessor httpContext, IConcertService concertService)
+        public ConcertController(IConcertService concertService) : base(concertService)
         {
-            _context = context;
-            _mapper = mapper;
-            _httpContext = httpContext;
             _concertService = concertService;
         }
- 
+
+        //! Para la vista de admin
         [Authorize(Roles = "Admin")]
-        [AllowAnonymous]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Concert>>> GetConcert()
+        public async Task<ActionResult<IEnumerable<Concert>>> GetConcert([FromQuery] PaginationFilter paginationFilter)
         {
-            try{
-                return Ok(await _concertService.GetConcert());
+            try
+            {
+                return Ok(await _concertService.GetConcerts(paginationFilter, Request.Path.Value));
             }
-            catch(Exception ex){
-                return BadRequest(new {ex.Message});
+            catch (Exception ex)
+            {
+                return BadRequest(new { ex.Message });
             }
         }
 
@@ -45,84 +40,28 @@ namespace LNDP_API.Controllers
         [HttpGet("proximos-conciertos")]
         public async Task<ActionResult<IEnumerable<Concert>>> GetConcertProximosConciertos()
         {
-            try{
+            try
+            {
                 return Ok(await _concertService.GetFutureConcerts());
             }
-            catch(Exception ex){
-                return BadRequest(new {ex.Message});
-            }
-        }
-
-        // TODO change to role crew y probarlo
-        [Authorize(Roles = "Admin")]
-        [HttpGet("artist-id")]
-        public async Task<ActionResult<IEnumerable<Concert>>> GetConcertArtistId(int artistId)
-        {
-            try{
-                return Ok(await _concertService.GetConcertForArtist(artistId));
-            }
-            catch(Exception ex){
-                return BadRequest(new {ex.Message});
-            }
-
-        }
-
-        [Authorize(Roles = "Admin")]
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Concert>> GetConcert(int id)
-        {         
-            var Concert = await _context.Concert.FindAsync(id);
-            if(Concert == null){
-                return NotFound(new { Message = "El concierto no se ha encontrado"});
-            }
-            return Concert;
-        }
-
-        [Authorize(Roles = "Admin")]
-        [HttpPost]
-        public async Task<ActionResult> PostConcert(Concert concert)
-        {
-            try{
-                Concert c = await _concertService.CreateConcert(concert);
-                return Ok(new { Message = "Concierto creado con éxito", c});
-            }
-            catch(Exception ex){
-                return BadRequest(new {ex.Message});
-            }
-        }
-
-        [Authorize(Roles = "Admin")]
-        [HttpPut("{id}")]
-        public async Task<ActionResult> PutConcert(int id, Concert concert)
-        {
-            if (!await _concertService.ExistConcert(id))
+            catch (Exception ex)
             {
-                return BadRequest(new { Message = "El concierto especificado no existe."});
-            }
-            try{
-                Concert s = await _concertService.UpdateConcert(concert);
-                return Ok(new { Message = "concierto actualizado con éxito.", s});
-            }
-            catch(Exception ex){
-                return BadRequest(new {ex.Message});
+                return BadRequest(new { ex.Message });
             }
         }
 
-
-        [Authorize(Roles = "Admin")]
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteConcert(int id)
+        [Authorize(Roles = "Crew")]
+        [HttpGet("concert-user-id/{id}")]
+        public async Task<ActionResult> GetConcertforArtist(int id, [FromQuery] PaginationFilter paginationFilter)
         {
-            if (!await _concertService.ExistConcert(id))
+
+            try
             {
-                return BadRequest(new { Message = "la canción especificada no existe." });
+                return Ok(await _concertService.GetConcertsForArtist(id, paginationFilter, Request.Path.Value));
             }
-            try{
-                await _concertService.DeleteConcert(id);
-                return Ok(new { Message = "Canción eliminada con éxito."});
-            }
-            catch(Exception ex){
-                return BadRequest(new {ex.Message});
+            catch (Exception ex)
+            {
+                return BadRequest(new { ex.Message });
             }
         }
     }

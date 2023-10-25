@@ -1,14 +1,12 @@
 using LNDP_API.Dtos;
 using LNDP_API.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LNDP_API.Services
 {
-    public interface IUserService
+    public interface IUserService : IGenericService<User>
     {
-        Task<IEnumerable<User>> GetUser();
-        Task<bool> ExistUser(int idUser);
-        Task<User> CreateUser(User user);
-        Task<User> UpdateUser(User User);
-        Task DeleteUser(int idUser);
+        Task<PagedResponse<List<User>>> GetUsers([FromQuery] PaginationFilter paginationFilter, string route);
+        Task<User> PostUser(UserCreateDto userCreateDto);
     }
 }

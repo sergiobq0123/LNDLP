@@ -10,30 +10,32 @@ import { ArtistService } from 'src/app/services/intranet/artist.service';
 import { Validators } from '@angular/forms';
 import { GenericFormDialogComponent } from '../general/generic-form-dialog/generic-form-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { Filter } from '../general/generic-filter/filter';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { IconButton } from '../general/generic-table/icon-button';
-
-
+import { Filter } from '../general/generic-filter/filter';
+import { Sort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-concert-admin',
   templateUrl: './concert-admin.component.html',
-  styleUrls: ['./concert-admin.component.scss']
+  styleUrls: ['./concert-admin.component.scss'],
 })
 export class ConcertAdminComponent {
-  conciertos: Array<any> = new Array<any>();
+  entries: Array<any> = new Array<any>();
   artists: Array<any> = new Array<any>();
-  conciertosColumns: Column[];
+  columns: Column[];
   apiFailing: boolean = false;
   loaded: boolean = false;
   newRowAdded: boolean = false;
   entryBeingEdited: boolean = false;
   pageNumber: number = 1;
   spinner: boolean = false;
-  pageSize : number = 10;
-  totalConciertos = 50
-  iconButtons : IconButton[] = []
+  pageSize: number = 10;
+  iconButtons: IconButton[] = [];
+  filters: Filter[];
+  sortBy: string;
+  sortOrder: string;
+  totalRecords: number;
 
   @ViewChild(GenericTableComponent) table: GenericTableComponent;
   @ViewChild('addTemplate') addTemplate: TemplateRef<any>;
@@ -43,17 +45,17 @@ export class ConcertAdminComponent {
   constructor(
     private _concertService: ConcertService,
     private _artistService: ArtistService,
-    private _notificationService : NotificationService,
-    public _dialog: MatDialog,
-  ){}
+    private _notificationService: NotificationService,
+    public _dialog: MatDialog
+  ) {}
 
-  ngOnInit(){
+  ngOnInit() {
     this.getConciertos();
     this.getArtist();
   }
 
-  ngAfterViewInit(){
-    this.setIconsButtons()
+  ngAfterViewInit() {
+    this.setIconsButtons();
   }
 
   setIconsButtons() {
@@ -61,144 +63,151 @@ export class ConcertAdminComponent {
       {
         template: this.addTemplate,
         isLeft: true,
-      }
+      },
     ];
   }
 
   getConciertos() {
     this.spinner = true;
-    this._concertService.get().subscribe(
-      (res) => {
-        this.handleGetResponse(res);
-      },
-      (error) => {
-        this.handleGetErrorResponse();
-      }
-    );
+    this._concertService
+      .get(
+        this.pageNumber,
+        this.pageSize,
+        this.sortBy,
+        this.sortOrder,
+        this.filters
+      )
+      .subscribe(
+        (res) => {
+          this.handleGetResponse(res);
+        },
+        (error) => {
+          this.handleGetErrorResponse();
+        }
+      );
   }
 
   getArtist() {
-    this._artistService.getKeys().subscribe(
-      (res) => {
-       this.artists = res
-      }
-    );
+    this._artistService.getKeys().subscribe((res) => {
+      this.artists = res;
+    });
   }
 
   setColumns(): void {
-    this.conciertosColumns = [
+    this.columns = [
       {
         name: '_id',
         dataKey: 'id',
-        hidden: true
+        hidden: true,
       },
       {
         name: '_urlLocation',
         dataKey: 'urlLocation',
-        hidden: true
+        hidden: true,
       },
       {
         name: '_artistId',
         dataKey: 'artistId',
-        hidden: true
+        hidden: true,
       },
       {
         name: 'Artista',
         dataKey: 'artist.name',
         position: 'left',
-        isSortable: false,
-        type: ContentType.plainText
+        isSortable: true,
+        type: ContentType.plainText,
       },
       {
         name: 'Nombre',
         dataKey: 'name',
         position: 'left',
-        isSortable: false,
+        isSortable: true,
         type: ContentType.editableTextFields,
       },
       {
         name: 'Ciudad',
         dataKey: 'city',
         position: 'left',
-        isSortable: false,
+        isSortable: true,
         type: ContentType.editableTextFields,
       },
       {
         name: 'Localización',
         dataKey: 'location',
         position: 'left',
-        isSortable: false,
+        isSortable: true,
         type: ContentType.editableTextFields,
       },
       {
         name: 'Entradas',
         dataKey: 'tickets',
         position: 'left',
-        isSortable: false,
+        isSortable: true,
         type: ContentType.editableTextFields,
       },
       {
         name: 'Fecha',
         dataKey: 'date',
         position: 'left',
-        isSortable: false,
-        type: ContentType.datePicker
-      }
+        isSortable: true,
+        width: '200px',
+        type: ContentType.datePicker,
+      },
     ];
   }
 
-  setConciertosForm() : any[]{
+  setConciertosForm(): any[] {
     return [
       {
         name: 'Id',
-        dataKey : 'id',
-        hidden : true,
-      },
-      {
-        name: 'Nombre',
-        dataKey : 'name',
-        position: {row: 0, col : 0, rowSpan: 1, colSpan: 1},
-        type : ContentType.editableTextFields,
-        validators: [Validators.required]
+        dataKey: 'id',
+        hidden: true,
       },
       {
         name: 'Artista',
         dataKey: 'artistId',
-        position: {row: 0, col : 1, rowSpan: 1, colSpan: 1},
+        position: { row: 0, col: 1, rowSpan: 1, colSpan: 1 },
         type: ContentType.dropdownFields,
-        dropdown : this.artists,
-        dropdownKeyValue : 'id',
-        dropdownKeyToShow : 'name'
+        dropdown: this.artists,
+        dropdownKeyValue: 'id',
+        dropdownKeyToShow: 'name',
+      },
+      {
+        name: 'Nombre',
+        dataKey: 'name',
+        position: { row: 0, col: 0, rowSpan: 1, colSpan: 1 },
+        type: ContentType.editableTextFields,
+        validators: [Validators.required],
       },
       {
         name: 'Ciudad',
-        dataKey : 'city',
-        position: {row: 1, col : 0, rowSpan: 1, colSpan: 1},
-        type : ContentType.editableTextFields,
-        validators: [Validators.required]
+        dataKey: 'city',
+        position: { row: 1, col: 0, rowSpan: 1, colSpan: 1 },
+        type: ContentType.editableTextFields,
+        validators: [Validators.required],
       },
       {
         name: 'Localizacion',
-        dataKey : 'location',
-        position: {row: 2, col : 0, rowSpan: 1, colSpan: 1},
-        type : ContentType.editableTextFields,
-        validators: [Validators.required]
+        dataKey: 'location',
+        position: { row: 2, col: 0, rowSpan: 1, colSpan: 1 },
+        type: ContentType.editableTextFields,
+        validators: [Validators.required],
       },
       {
         name: 'Entradas',
-        dataKey : 'tickets',
-        position: {row: 2, col : 0, rowSpan: 1, colSpan: 1},
-        type : ContentType.editableTextFields,
-        validators: [Validators.required]
+        dataKey: 'tickets',
+        position: { row: 2, col: 0, rowSpan: 1, colSpan: 1 },
+        type: ContentType.editableTextFields,
+        validators: [Validators.required],
       },
       {
         name: 'Fecha',
-        dataKey : 'date',
-        position: {row: 2, col : 2, rowSpan: 1, colSpan: 1},
-        type : ContentType.datePicker,
-        validators: [Validators.required]
+        dataKey: 'date',
+        position: { row: 2, col: 2, rowSpan: 1, colSpan: 1 },
+        type: ContentType.datePicker,
+        validators: [Validators.required],
       },
-    ]
+    ];
   }
 
   showFormDialog() {
@@ -222,34 +231,47 @@ export class ConcertAdminComponent {
   createElement(event: any) {
     event.id = 0;
     this._concertService.create(event).subscribe(
-      (res) => {this.handleResponse(res.message)},
-      (err) => {this.handleErrorResponse(err.error.message)}
+      (res) => {
+        this.handleResponse(res.message);
+      },
+      (err) => {
+        this.handleErrorResponse(err.error.message);
+      }
     );
   }
 
   updateElement(event: any) {
     this._concertService.update(event.id, event).subscribe(
-      (res) => {this.handleResponse(res.message)},
-      (err) => {this.handleErrorResponse(err.error.message)}
+      (res) => {
+        this.handleResponse(res.message);
+      },
+      (err) => {
+        this.handleErrorResponse(err.error.message);
+      }
     );
   }
 
   deleteElement(event: any) {
     this._concertService.delete(event.id).subscribe(
-      (res) => {this.handleResponse(res.message)},
-      (err) => {this.handleErrorResponse(err.error.message)}
+      (res) => {
+        this.handleResponse(res.message);
+      },
+      (err) => {
+        this.handleErrorResponse(err.error.message);
+      }
     );
   }
 
   private handleGetResponse(res: any) {
-    this.conciertos = res;
+    this.entries = res.data;
+    this.totalRecords = res.totalEntries;
     this.setColumns();
     this.loaded = true;
     this.spinner = false;
   }
 
   private handleGetErrorResponse() {
-    this._notificationService.showOkMessage(notifications.LOADING_DATA_FAIL);
+    this._notificationService.showErrorMessage(notifications.LOADING_DATA_FAIL);
     this.apiFailing = false;
     this.spinner = false;
   }
@@ -268,15 +290,24 @@ export class ConcertAdminComponent {
     this.apiFailing = true;
   }
 
-  filterData(filters: Filter[]) {
-    this._concertService.getFiltered(filters).subscribe((res) => {
-      this.conciertos = res;
-    });
-  }
-
-  onPaginationChange(PageEvent: PageEvent){
+  onPaginationChange(PageEvent: PageEvent) {
     this.pageNumber = PageEvent.pageIndex + 1;
     this.pageSize = PageEvent.pageSize;
-    this.getArtist();
+    this.getConciertos();
+  }
+
+  sortData(sortParameters: Sort) {
+    this.sortBy = sortParameters.active;
+    this.sortOrder = sortParameters.direction;
+    this.pageNumber = 1;
+    this.getConciertos();
+  }
+
+  filterData(filters: Filter[]) {
+    (this.filters = filters),
+      (this.pageNumber = 1),
+      (this.sortBy = null),
+      (this.sortOrder = null),
+      this.getConciertos();
   }
 }

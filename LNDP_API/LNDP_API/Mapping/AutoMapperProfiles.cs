@@ -3,66 +3,51 @@ using LNDP_API.Dtos;
 using LNDP_API.Models;
 using LNDP_API.Utils;
 
-namespace LNDP_API.Mapping{
-    public class AutoMapperProfiles : Profile {
+namespace LNDP_API.Mapping
+{
+    public class AutoMapperProfiles : Profile
+    {
         public AutoMapperProfiles()
         {
-            // Inicio de sesión
-            CreateMap<User, UserIntranetDto>()
-            .ReverseMap();
-            CreateMap<UserLoginDto, User>();
+            //! Iniciar sesión
             CreateMap<AccesDto, Acces>().ReverseMap();
 
-            // postArtist
+            //! Intranet
+            //* Artista
             CreateMap<ArtistCreateDto, SocialNetwork>();
             CreateMap<ArtistCreateDto, Artist>();
-            CreateMap<ArtistCreateDto, UserIntranetDto>();
-            CreateMap<ArtistDto, Artist>().ReverseMap();
-            CreateMap<AlbumDto, Album>().ReverseMap();
 
-            //web
+            //* POST de Artista
+            CreateMap<Artist, ArtistCreateDto>().ReverseMap();
+            CreateMap<UserCreateDto, ArtistCreateDto>().ReverseMap();
+            CreateMap<SocialNetwork, ArtistCreateDto>().ReverseMap();
+
+            //* POST de User
+            CreateMap<User, UserCreateDto>().ReverseMap();
+            CreateMap<AccesDto, UserCreateDto>().ReverseMap();
+
+            //* Para los dropdown 
+            CreateMap<Artist, KeysIntranetDto>().ReverseMap();
+            CreateMap<CompanyType, KeysIntranetDto>()
+                .ForMember(u => u.Name, opt => opt.MapFrom(src => src.CompanyTypeName))
+                .ReverseMap();
+
+            //! WEB
             CreateMap<YoutubeVideoWebDto, YoutubeVideo>().ReverseMap();
             CreateMap<CompanyWebDto, Company>().ReverseMap();
 
-            // Para el artist/id de la pagina web
-            CreateMap<Artist, ArtistWebDetailDto>();
+            //* Para el artist/id de la pagina web
+            CreateMap<ArtistWebDetailDto, Artist>().ReverseMap();
             CreateMap<Song, SongWebDto>();
             CreateMap<Album, AlbumWebDto>();
-            CreateMap<Concert, ConcertWebDto>();
+            CreateMap<Concert, ConcertWebDto>()
+                .ForMember(u => u.PhotoUrl, opt => opt.MapFrom(src => src.Artist.PhotoUrl));
+            CreateMap<Festival, FestivalWebDto>();
 
-            // Para el generic artist
+            //* Para el generic artist
             CreateMap<Artist, ArtistWebGenericDto>();
             CreateMap<SocialNetwork, SocialNetworkWebDto>();
-        
-                
-            CreateMap<Company, CompanyIntranetDto>().ReverseMap();           
-            CreateMap<CompanyType, CompanyTypeIntranetDto>().ReverseMap();
 
-
-            //intranet
-            CreateMap<Artist, KeysIntranetDto>().ReverseMap();
-
-            CreateMap<Artist, ArtistGetDto>()
-            .ForMember(dest => dest.socialNetworkIntranetDto, opt => opt.MapFrom(src => src.SocialNetwork))
-            .ReverseMap();
-            CreateMap<SocialNetwork, SocialNetworkIntranetDto>().ReverseMap();
-
-            
-            CreateMap<Song, SongIntranetDto>()
-            .ForMember(dest => dest.ArtistName, opt => opt.MapFrom(src => src.Artist.Name))
-            .ReverseMap();
-
-            CreateMap<Album, AlbumIntranetDto>()
-            .ForMember(dest => dest.ArtistName, opt => opt.MapFrom(src => src.Artist.Name))
-            .ReverseMap();
-
-            CreateMap<Concert, ConcertIntranetDto>()
-            .ForMember(dest => dest.ArtistName, opt => opt.MapFrom(src => src.Artist.Name))
-            .ReverseMap();
-
-            //Filtros 
-            CreateMap<Artist, ArtistIntranetNameDto>().ReverseMap();
-            CreateMap<UserRole, UserRoleDto>().ReverseMap();
         }
     }
 }

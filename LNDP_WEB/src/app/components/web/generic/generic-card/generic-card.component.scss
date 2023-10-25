@@ -1,12 +1,15 @@
-@import './../../web-styles.scss';
+@import "./../../web-styles.scss";
 
-h5{
+h5 {
   color: $grey1;
   font-size: 20px;
   font-family: "Akira";
   text-align: center;
   padding: 1%;
   margin: 0px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: 3em;
 }
 
 @media (max-width: 768px) {
@@ -37,11 +40,11 @@ h5{
   height: auto; /* Mantener la relación de aspecto */
 }
 
-.button{
-   @include custom-button-2
+.button {
+  @include custom-button-2;
 }
 
-.description{
+.description {
   color: $yellow;
 }
 

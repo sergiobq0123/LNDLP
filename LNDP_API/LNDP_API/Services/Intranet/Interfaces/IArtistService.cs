@@ -1,15 +1,15 @@
 using LNDP_API.Dtos;
 using LNDP_API.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LNDP_API.Services
 {
-    public interface IArtistService
+    public interface IArtistService : IGenericService<Artist>
     {
-        Task<IEnumerable<Artist>> GetArtist();
-        Task<IEnumerable<KeysIntranetDto>> GetArtistKeys();
-        Task<bool> ExistArtist(int idArtist);
-        Task<Artist> CreateArtist(Artist artist);
-        Task<Artist> UpdateArtist(Artist artist);
-        Task DeleteArtist(int idArtist);
+        Task<PagedResponse<List<Artist>>> GetArtistas([FromQuery] PaginationFilter paginationFilter, string route);
+        Task<IEnumerable<ArtistWebGenericDto>> GetArtistsWeb();
+        Task<Artist> PostArtist(ArtistCreateDto artistCreateDto);
+        Task<ArtistWebDetailDto> GetArtistById(int id);
+
     }
 }

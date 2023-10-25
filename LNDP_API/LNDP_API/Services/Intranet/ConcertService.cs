@@ -3,52 +3,35 @@ using LNDP_API.Dtos;
 using LNDP_API.Models;
 using LNDP_API.Repositories;
 using LNDP_API.Utils;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LNDP_API.Services
 {
-    public class ConcertService : IConcertService
+    public class ConcertService : GenericService<Concert>, IConcertService
     {
         private readonly IConcertRepository _concertRepository;
-        private readonly IMapper _mapper;
-        public ConcertService(IConcertRepository concertRepository, IMapper mapper)
+
+        public ConcertService(IConcertRepository concertRepository, IMapper mapper, IUriService uriService) : base(concertRepository, mapper, uriService)
         {
             _concertRepository = concertRepository;
-            _mapper = mapper;
+
         }
 
-        public async Task<IEnumerable<Concert>> GetConcert()
+        public async Task<PagedResponse<List<Concert>>> GetConcerts([FromQuery] PaginationFilter paginationFilter, string route)
         {
-            return await _concertRepository.GetAsync();
+            IQueryable<Concert> query = await _concertRepository.GetConcertsAsync();
+            return await this.GetPagination(paginationFilter, query, route);
         }
-
-        public async Task<Concert> CreateConcert(Concert concert)
+        public async Task<PagedResponse<List<Concert>>> GetConcertsForArtist(int id, [FromQuery] PaginationFilter paginationFilter, string route)
         {
-            return await _concertRepository.CreateAsync(concert);
+            IQueryable<Concert> query = await _concertRepository.GetConcertsForArtistAsync(id);
+            return await this.GetPagination(paginationFilter, query, route);
         }
-        public async Task<IEnumerable<Concert>> GetConcertForArtist(int idArista)
+        public async Task<IEnumerable<ConcertWebDto>> GetFutureConcerts()
         {
-           return await _concertRepository.GetConcertsArtistAsync(idArista);
+            var conciertos = await _concertRepository.GetFutureConcertsAsync();
+            return _mapper.Map<IEnumerable<ConcertWebDto>>(conciertos);
         }
-        public async Task<IEnumerable<Concert>> GetFutureConcerts()
-        {
-           return await _concertRepository.GetFutureConcertsAsync();
-        }
-        
-        public async Task<bool> ExistConcert(int idConcert)
-        {
-            return await _concertRepository.ExistConcertAsync(idConcert);
-        }
-
-        public async Task<Concert> UpdateConcert(Concert concert)
-        {
-            return await _concertRepository.UpdateAsync(concert);
-        }
-
-        public async Task DeleteConcert(int idConcert)
-        {
-            await _concertRepository.DeleteAsync(idConcert);
-        }
-        
 
     }
 }

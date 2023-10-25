@@ -5,20 +5,20 @@ import { ArtistService } from 'src/app/services/intranet/artist.service';
 @Component({
   selector: 'app-marketing-artist-web',
   templateUrl: './marketing-artist-web.component.html',
-  styleUrls: ['./marketing-artist-web.component.scss']
+  styleUrls: ['./marketing-artist-web.component.scss'],
 })
 export class MarketingArtistWebComponent {
-  title = "Artistas"
+  title = 'Artistas';
   artists: Array<any> = new Array<any>();
 
-  constructor(private artistService : ArtistService, private router : Router) {}
+  constructor(private artistService: ArtistService, private router: Router) {}
 
-  ngOnInit(){
+  ngOnInit() {
     this.getArtist();
   }
 
   getArtist() {
-    this.artistService.get().subscribe((res) => {
+    this.artistService.getArtists().subscribe((res) => {
       this.artists = [...res];
     });
   }

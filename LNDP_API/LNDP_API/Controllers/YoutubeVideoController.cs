@@ -8,7 +8,7 @@ using LNDP_API.Services;
 using Microsoft.AspNetCore.Authorization;
 
 namespace LNDP_API.Controllers
-{   
+{
     [Route("api/[controller]")]
     [ApiController]
     public class YoutubeVideoController : ControllerBase
@@ -19,7 +19,7 @@ namespace LNDP_API.Controllers
         {
             _youtubeVideoService = youtubeVideoService;
         }
- 
+
         [AllowAnonymous]
         [HttpGet("youtube-videos-web")]
         public async Task<ActionResult<IEnumerable<YoutubeVideoWebDto>>> GetYoutubeVideo()
@@ -28,62 +28,63 @@ namespace LNDP_API.Controllers
             return Ok(youtubeVideoDtos);
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Visual")]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<YoutubeVideo>>> GetYoutubeVideoIntranet()
+        public async Task<ActionResult<IEnumerable<YoutubeVideo>>> GetYoutubeVideoIntranet([FromQuery] PaginationFilter paginationFilter)
         {
-            try{
-                return Ok(await _youtubeVideoService.GetYoutubeVideo());
+            try
+            {
+                return Ok(await _youtubeVideoService.Get(paginationFilter, Request.Path.Value));
             }
-            catch(Exception ex){
-                return BadRequest(new {ex.Message});
+
+            catch (Exception ex)
+            {
+                return BadRequest(new { ex.Message });
             }
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Visual")]
         [HttpPost]
         public async Task<ActionResult> PostYoutubeVideo(YoutubeVideo youtubeVideo)
         {
-            try{
-                YoutubeVideo yb = await _youtubeVideoService.CreateYotubeVideo(youtubeVideo);
-                return Ok(new { Message = "Video de youtube creado con éxito", yb});
+            try
+            {
+                YoutubeVideo yv = await _youtubeVideoService.Create(youtubeVideo);
+                return Ok(new { Message = "Video de youtube creado con éxito.", yv });
             }
-            catch(Exception ex){
-                return BadRequest(new {ex.Message});
+            catch (Exception ex)
+            {
+                return BadRequest(new { Message = ex.Message });
             }
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Visual")]
         [HttpPut("{id}")]
         public async Task<ActionResult> PutYoutubeVideo(int id, YoutubeVideo youtubeVideo)
         {
-            if (!await _youtubeVideoService.ExistYoutubeVideo(id))
+            try
             {
-                return BadRequest(new { Message = "El video de youtube especificado no existe."});
+                YoutubeVideo yv = await _youtubeVideoService.Update(youtubeVideo);
+                return Ok(new { Message = "Video de youtube actualizado con éxito.", yv });
             }
-            try{
-                YoutubeVideo yb = await _youtubeVideoService.UpdateYoutubeVideo(youtubeVideo);
-                return Ok(new { Message = "Video de youtube actualizado con éxito.", yb});
-            }
-            catch(Exception ex){
-                return BadRequest(new {ex.Message});
+            catch (Exception ex)
+            {
+                return BadRequest(new { Message = ex.Message });
             }
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Visual")]
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteYoutubeVideo(int id)
         {
-            if (!await _youtubeVideoService.ExistYoutubeVideo(id))
+            try
             {
-                return BadRequest(new { Message = "El video de youtube especificado no existe." });
+                await _youtubeVideoService.Delete(id);
+                return Ok(new { Message = "Video de Youtube eliminado con éxito." });
             }
-            try{
-                await _youtubeVideoService.DeleteYoutubeVideo(id);
-                return Ok(new { Message = "Video de youtube eliminado con éxito."});
-            }
-            catch(Exception ex){
-                return BadRequest(new {ex.Message});
+            catch (Exception ex)
+            {
+                return BadRequest(new { Message = ex.Message });
             }
         }
     }

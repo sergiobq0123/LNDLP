@@ -13,12 +13,11 @@ import { Validators } from '@angular/forms';
 import { GenericFormDialogComponent } from '../general/generic-form-dialog/generic-form-dialog.component';
 import { PageEvent } from '@angular/material/paginator';
 import { UserRoleService } from 'src/app/services/intranet/user-role.service';
-import { AuthService } from 'src/app/services/auth.service';
 import { notifications } from 'src/app/common/notifications';
-import { Filter } from '../general/generic-filter/filter';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { IconButton } from '../general/generic-table/icon-button';
-
+import { AccesService } from 'src/app/services/intranet/acces.service';
+import { Filter } from '../general/generic-filter/filter';
 
 @Component({
   selector: 'app-user-admin',
@@ -26,11 +25,11 @@ import { IconButton } from '../general/generic-table/icon-button';
   styleUrls: ['./user-admin.component.scss'],
 })
 export class UserAdminComponent {
-  users: Array<any> = new Array<any>();
+  entries: Array<any> = new Array<any>();
   usersRole: Array<any> = new Array<any>();
   usersKeys: Array<any> = new Array<any>();
   artistWithoutUser: Array<any> = new Array<any>();
-  usersColumns: Column[];
+  columns: Column[];
   usersForm: GenericForm[];
   pageNumber: number = 1;
   loaded: boolean = false;
@@ -43,30 +42,32 @@ export class UserAdminComponent {
   });
   spinner: boolean = false;
   pageSize: number = 10;
-  totalUsers = 50;
-  iconButtons : IconButton[] = []
+  totalRecords: number;
+  iconButtons: IconButton[] = [];
+  filters: Filter[];
+  sortBy: string;
+  sortOrder: string;
+  faPlus = faPlus;
 
   @ViewChild(GenericTableComponent) table: GenericTableComponent;
   @ViewChild('passwordTemplate') passwordTemplate: TemplateRef<any>;
   @ViewChild('addTemplate') addTemplate: TemplateRef<any>;
 
-  faPlus = faPlus;
-
   constructor(
     private _userService: UsersService,
     private _userRoleService: UserRoleService,
-    private _authService: AuthService,
+    private _accesService: AccesService,
     public dialog: MatDialog,
     private _notificationService: NotificationService
   ) {}
 
   ngOnInit() {
     this.getUsers();
-    this.getUserKeys();
+    //this.getUserKeys();
   }
 
-  ngAfterViewInit(){
-    this.setIconsButtons()
+  ngAfterViewInit() {
+    this.setIconsButtons();
   }
 
   setIconsButtons() {
@@ -74,32 +75,38 @@ export class UserAdminComponent {
       {
         template: this.addTemplate,
         isLeft: true,
-      }
+      },
     ];
   }
 
   getUsers() {
     this.spinner = true;
-    this._userService.get().subscribe(
-      (res) => {
-        this.handleGetResponse(res);
-      },
-      (error) => {
-        this.handleGetErrorResponse();
-      }
-    );
+    this._userService
+      .get(
+        this.pageNumber,
+        this.pageSize,
+        this.sortBy,
+        this.sortOrder,
+        this.filters
+      )
+      .subscribe(
+        (res) => {
+          this.handleGetResponse(res);
+        },
+        (error) => {
+          this.handleGetErrorResponse();
+        }
+      );
   }
 
   getUserKeys() {
-    this._userRoleService.getKeys().subscribe(
-      (res) => {
-        this.usersKeys = res;
-      },
-    );
+    this._userRoleService.getKeys().subscribe((res) => {
+      this.usersKeys = res;
+    });
   }
 
   setColumns(): void {
-    this.usersColumns = [
+    this.columns = [
       {
         name: '_id',
         dataKey: 'id',
@@ -111,39 +118,44 @@ export class UserAdminComponent {
         hidden: true,
       },
       {
+        name: '_accesId',
+        dataKey: 'accesId',
+        hidden: true,
+      },
+      {
         name: 'Nombre de usuario',
-        dataKey: 'username',
+        dataKey: 'acces.userName',
         position: 'left',
         isSortable: true,
         hidden: false,
-        type: ContentType.editableTextFields,
+        type: ContentType.plainText,
       },
       {
         name: 'Nombre',
-        dataKey: 'name',
+        dataKey: 'firstName',
         position: 'left',
-        isSortable: false,
+        isSortable: true,
         type: ContentType.editableTextFields,
       },
       {
         name: 'Apellido',
-        dataKey: 'surname',
+        dataKey: 'lastName',
         position: 'left',
-        isSortable: false,
+        isSortable: true,
         type: ContentType.editableTextFields,
       },
       {
         name: 'Email',
         dataKey: 'email',
         position: 'left',
-        isSortable: false,
+        isSortable: true,
         type: ContentType.editableTextFields,
       },
       {
         name: 'Role',
-        dataKey: 'userRoleName',
+        dataKey: 'userRole.role',
         position: 'left',
-        isSortable: false,
+        isSortable: true,
         type: ContentType.plainText,
       },
       {
@@ -166,20 +178,20 @@ export class UserAdminComponent {
         hidden: false,
         type: ContentType.dropdownFields,
         dropdown: this.usersKeys,
-        dropdownKeyToShow: 'role',
+        dropdownKeyToShow: 'name',
         dropdownKeyValue: 'id',
         validators: [Validators.required],
       },
       {
         name: 'Nombre',
-        dataKey: 'name',
+        dataKey: 'firstName',
         position: { row: 1, col: 0, rowSpan: 1, colSpan: 1 },
         type: ContentType.editableTextFields,
         validators: [Validators.required],
       },
       {
         name: 'Apellido',
-        dataKey: 'surname',
+        dataKey: 'lastName',
         position: { row: 1, col: 0, rowSpan: 1, colSpan: 1 },
         type: ContentType.editableTextFields,
         validators: [Validators.required],
@@ -211,26 +223,6 @@ export class UserAdminComponent {
   setUserPasswordForm(): any[] {
     return [
       {
-        name: '_id',
-        dataKey: 'id',
-        hidden: true,
-      },
-      {
-        name: 'Tipo de usuario',
-        dataKey: 'userRoleId',
-        hidden: true,
-      },
-      {
-        name: 'Correo',
-        dataKey: 'email',
-        hidden: true,
-      },
-      {
-        name: 'Nombre de usuario',
-        dataKey: 'username',
-        hidden: true,
-      },
-      {
         name: 'Contraseña',
         dataKey: 'password',
         position: { row: 0, col: 0, rowSpan: 1, colSpan: 2 },
@@ -238,25 +230,6 @@ export class UserAdminComponent {
         validators: [Validators.required],
       },
     ];
-  }
-
-  async createElement(event: any): Promise<number> {
-    try {
-      const res = await this._userService.create(event).toPromise();
-      return res.u.id;
-    } catch (err) {
-      this.handleErrorResponse(err.error.message);
-      throw err;
-    }
-  }
-
-  async createAcces(event: any) {
-    try {
-      const res = await this._authService.registrer(event).toPromise();
-      this.handleResponse(res.message);
-    } catch (err) {
-      this.handleErrorResponse(err.error.message + ". Tenga cuidado que el usuario se ha creado ya");
-    }
   }
 
   showFormDialog() {
@@ -272,23 +245,7 @@ export class UserAdminComponent {
     });
     dialogRef.afterClosed().subscribe(async (result) => {
       if (result !== undefined && result !== null && result !== '') {
-        var user = {
-          name: result.name,
-          surname: result.surname,
-          email: result.email,
-          userRoleId: result.userRoleId
-        };
-        try {
-          var userId = await this.createElement(user);
-          var acces = {
-            username: result.username,
-            password: result.password,
-            userId: userId
-          };
-          await this.createAcces(acces);
-        } catch (error) {
-          // Manejar errores generales aquí si es necesario
-        }
+        this.createElement(result);
       }
     });
   }
@@ -306,13 +263,36 @@ export class UserAdminComponent {
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result !== undefined && result !== null && result !== '') {
-        this.updateElement(result);
+        this.updatePassword(event.accesId, result.password);
       }
     });
   }
 
+  createElement(event: any) {
+    event.id = 0;
+    this._userService.createUser(event).subscribe(
+      (res) => {
+        this.handleResponse(res.message);
+      },
+      (err) => {
+        this.handleErrorResponse(err.error.message);
+      }
+    );
+  }
+
   updateElement(event: any) {
     this._userService.update(event.id, event).subscribe(
+      (res) => {
+        this.handleResponse(res.message);
+      },
+      (err) => {
+        this.handleErrorResponse(err.error.message);
+      }
+    );
+  }
+
+  updatePassword(id: number, password: string) {
+    this._accesService.ChangePassword(id, password).subscribe(
       (res) => {
         this.handleResponse(res.message);
       },
@@ -334,7 +314,8 @@ export class UserAdminComponent {
   }
 
   private handleGetResponse(res: any) {
-    this.users = res;
+    this.entries = res.data;
+    this.totalRecords = res.totalEntries;
     this.setColumns();
     this.loaded = true;
     this.spinner = false;
@@ -367,27 +348,17 @@ export class UserAdminComponent {
   }
 
   sortData(sortParameters: Sort) {
-    const keyName = sortParameters.active;
-    if (sortParameters.direction === 'asc') {
-      this.users = [
-        ...this.users.sort((a, b) =>
-          this.collator.compare(a[keyName], b[keyName])
-        ),
-      ];
-    } else if (sortParameters.direction === 'desc') {
-      this.users = [
-        ...this.users.sort(
-          (a, b) => -1 * this.collator.compare(a[keyName], b[keyName])
-        ),
-      ];
-    } else {
-      this.getUsers();
-    }
+    this.sortBy = sortParameters.active;
+    this.sortOrder = sortParameters.direction;
+    this.pageNumber = 1;
+    this.getUsers();
   }
 
   filterData(filters: Filter[]) {
-    this._userService.getFiltered(filters).subscribe((res) => {
-      this.users = res;
-    });
+    (this.filters = filters),
+      (this.pageNumber = 1),
+      (this.sortBy = null),
+      (this.sortOrder = null),
+      this.getUsers();
   }
 }

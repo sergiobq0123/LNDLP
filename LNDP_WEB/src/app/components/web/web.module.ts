@@ -11,7 +11,7 @@ import { CommonSectionModule } from './common-section/common-section.module';
   ],
   imports: [
     WebRoutingModule,
-    CommonSectionModule
+    CommonSectionModule,
   ]
 })
 export class WebModule { }

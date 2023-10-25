@@ -13,7 +13,8 @@
     (click)="showFormDialog()"
     matTooltip="Add User"
     matTooltipPosition="below"
-    matTooltipShowDelay="500">
+    matTooltipShowDelay="500"
+  >
     <fa-icon [icon]="faPlus"></fa-icon>
   </button>
 </ng-template>
@@ -25,7 +26,6 @@
     [isPageable]="true"
     [apiFailing]="apiFailing"
     [isSortable]="true"
-    (filtered)="filterData($event)"
     [hasActions]="true"
     (modified)="updateElement($event)"
     (rowAdded)="newRowAdded = $event"
@@ -34,8 +34,10 @@
     [paginationSizes]="[5, 10, 20]"
     [pageSize]="pageSize"
     [pageNumber]="pageNumber"
-    [totalRecords]="totalVideos"
+    [totalRecords]="totalRecords"
     (paginationChange)="onPaginationChange($event)"
+    (sort)="sortData($event)"
+    (filtered)="filterData($event)"
     [canManageColumns]="true"
     [hasFilter]="true"
     (edited)="entryBeingEdited = $event"

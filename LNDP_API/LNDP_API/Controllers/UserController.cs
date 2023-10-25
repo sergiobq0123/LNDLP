@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using LNDP_API.Data;
 using LNDP_API.Models;
 using System.Linq.Expressions;
-using TTTAPI.Utils;
 using LNDP_API.Dtos;
 using LNDP_API.Services;
 using AutoMapper;
@@ -13,85 +12,41 @@ namespace LNDP_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class UserController : GenericController<User>
     {
-        private readonly APIContext _context;
-        private readonly IAuthService _authService;
         private readonly IUserService _userService;
 
-        public UserController(APIContext context, IAuthService authService, IUserService userService)
+        public UserController(IUserService userService) : base(userService)
         {
-            _context = context;
-            _authService = authService;
             _userService = userService;
         }
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserIntranetDto>>> GetUsers()
-        {
-            try{
-                return Ok(await _userService.GetUser());
-            }
-            catch(Exception ex){
-                return BadRequest(new {ex.Message});
-            }
-        }
-
-        [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
-        {         
-            var user = await _context.User.Include(u => u.UserRole).FirstOrDefaultAsync(u => u.Id == id);
-    
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            return user;
-        }
-
-        [Authorize(Roles = "Admin")]
-        [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user) 
+        public async Task<ActionResult<IEnumerable<User>>> GetUsers([FromQuery] PaginationFilter paginationFilter)
         {
             try
             {
-                User u = await _userService.CreateUser(user);
-                return Ok(new { Message = "Usuario creado con éxito", u });
+                return Ok(await _userService.GetUsers(paginationFilter, Request.Path.Value));
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return BadRequest(new { e.Message });
+                return BadRequest(new { ex.Message });
             }
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpPut("{id}")]
-        public async Task<ActionResult> PutUser(int id, User user)
+        [HttpPost("create-register")]
+        public async Task<ActionResult<IEnumerable<User>>> PostUser(UserCreateDto userCreateDto)
         {
-            if (!await _userService.ExistUser(id))
+            try
             {
-                return BadRequest(new { Message = "El usuario especificado no exise."});
+                await _userService.PostUser(userCreateDto);
+                return Ok(new { Message = "Usuario creado(a) con éxito." });
             }
-            try{
-                User u = await _userService.UpdateUser(user);
-                return Ok(new { Message = "Usuario actualizado con éxito.", u});
-            }
-            catch(Exception ex){
-                return BadRequest(new {ex.Message});
-            }
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteUser(int id)
-        {
-            try{
-                await _authService.DeleteUser(id);
-                return Ok(new { Message = "Usuario borrado con éxito" });
-            }
-            catch(Exception ex){
-                return BadRequest(new {ex.Message});
+            catch (Exception ex)
+            {
+                return BadRequest(new { ex.Message });
             }
         }
     }

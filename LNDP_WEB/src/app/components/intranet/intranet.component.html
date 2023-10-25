@@ -168,13 +168,30 @@
         matTooltipPosition="right"
         matTooltipShowDelay="500"
       >
-      <fa-icon
-      [icon]="faMicrophoneLines"
-      routerLinkActive="highlighted"
-      [routerLinkActiveOptions]="{ exact : true }"
-      class="menu-button"
-      ></fa-icon>
-      </mat-list-item>
+        <fa-icon
+        [icon]="faMicrophoneLines"
+        routerLinkActive="highlighted"
+        [routerLinkActiveOptions]="{ exact : true }"
+        class="menu-button"
+        ></fa-icon>
+        </mat-list-item>
+      <mat-list-item
+        [routerLink]="'FestivalCrew'"
+        [routerLinkActiveOptions]="{ exact: true }"
+        routerLinkActive="highlighted"
+        matTooltip="Festivales"
+        matTooltipPosition="right"
+        matTooltipShowDelay="500"
+      >
+        <fa-icon
+        [icon]="faPodcast"
+        routerLinkActive="highlighted"
+        [routerLinkActiveOptions]="{ exact : true }"
+        class="menu-button"
+        ></fa-icon>
+        </mat-list-item>
+
+
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>

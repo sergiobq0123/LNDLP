@@ -13,31 +13,34 @@
     (click)="showFormDialog()"
     matTooltip="Add User"
     matTooltipPosition="below"
-    matTooltipShowDelay="500">
+    matTooltipShowDelay="500"
+  >
     <fa-icon [icon]="faPlus"></fa-icon>
   </button>
 </ng-template>
 
 <ng-template #contentTemplate>
   <app-generic-table
-    [tableData]="users"
-    [tableColumns]="usersColumns"
+    [tableData]="entries"
+    [tableColumns]="columns"
     [isPageable]="true"
     [apiFailing]="apiFailing"
     [isSortable]="true"
-    (filtered)="filterData($event)"
-    (sort)="sortData($event)"
     [hasActions]="true"
+    (modified)="updateElement($event)"
+    (rowAdded)="newRowAdded = $event"
     (create)="createElement($event)"
     (delete)="deleteElement($event)"
-    (modified)="updateElement($event)"
     [paginationSizes]="[5, 10, 20]"
     [pageSize]="pageSize"
     [pageNumber]="pageNumber"
-    [totalRecords]="totalUsers"
+    [totalRecords]="totalRecords"
     (paginationChange)="onPaginationChange($event)"
+    (sort)="sortData($event)"
+    (filtered)="filterData($event)"
     [canManageColumns]="true"
     [hasFilter]="true"
+    (edited)="entryBeingEdited = $event"
     [iconButtons]="iconButtons"
     *ngIf="loaded"
   >
@@ -45,8 +48,13 @@
 </ng-template>
 
 <ng-template #passwordTemplate let-rowData="rowData">
-  <button mat-icon-button malToolTipe="Ver la contraseña" matTooltipShowDelay="1000" aria-label="Ver la contraseña"
-    (click)="showFormDialogPassword(rowData)">
+  <button
+    mat-icon-button
+    malToolTipe="Ver la contraseña"
+    matTooltipShowDelay="1000"
+    aria-label="Ver la contraseña"
+    (click)="showFormDialogPassword(rowData)"
+  >
     <mat-icon>visibility</mat-icon>
   </button>
 </ng-template>

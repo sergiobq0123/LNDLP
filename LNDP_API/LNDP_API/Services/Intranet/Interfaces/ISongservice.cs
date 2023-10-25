@@ -1,15 +1,11 @@
 using LNDP_API.Dtos;
 using LNDP_API.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LNDP_API.Services
 {
-    public interface ISongService
+    public interface ISongService : IGenericService<Song>
     {
-        Task<IEnumerable<Song>> GetSong();
-        Task<IEnumerable<SongWebDto>> GetSongDto();
-        Task<bool> ExistSong(int idSong);
-        Task<Song> CreateSong(Song song);
-        Task<Song> UpdateSong(Song song);
-        Task DeleteSong(int idSong);
+        Task<PagedResponse<List<Song>>> GetSongs([FromQuery] PaginationFilter paginationFilter, string route);
     }
 }

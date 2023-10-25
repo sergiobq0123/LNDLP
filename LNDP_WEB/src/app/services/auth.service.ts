@@ -1,34 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { LocalStorageService } from './local-storage.service';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { ServiceBaseService } from './service-base.service';
-import { Urls } from '../common/urls';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService extends ServiceBaseService {
+export class AuthService {
   loginChangedEvent = new Subject();
 
   constructor(
-    private _localStorageService: LocalStorageService,
-    http: HttpClient
-  ) {
-    super(http, Urls.AUTH);
-  }
-
-  login(email: string, password: string): Observable<any> {
-    const data = {
-      email: email,
-      password: password,
-    };
-    return this.post(this.getUrl + Urls.LOGIN, data);
-  }
-
-  registrer(event: any) {
-    return this.post(this.getUrl + Urls.REGISTER , event);
-  }
+    private _localStorageService: LocalStorageService
+  ) {}
 
   logout() {
     this._localStorageService.clearStorage();
@@ -58,5 +40,9 @@ export class AuthService extends ServiceBaseService {
 
   getUserId(): number {
     return JSON.parse(atob(this.getToken().split('.')[1])).userId;
+  }
+
+  getRole(): string {
+    return JSON.parse(atob(this.getToken().split('.')[1])).role;
   }
 }

@@ -2,7 +2,10 @@ import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { notifications } from 'src/app/common/notifications';
 import { NotificationService } from 'src/app/services/notification.service';
-import { GenericForm, ContentType } from '../general/generic-form-dialog/generic-content';
+import {
+  GenericForm,
+  ContentType,
+} from '../general/generic-form-dialog/generic-content';
 import { GenericFormDialogComponent } from '../general/generic-form-dialog/generic-form-dialog.component';
 import { Column } from '../general/generic-table/column';
 import { GenericTableComponent } from '../general/generic-table/generic-table.component';
@@ -10,21 +13,20 @@ import { PageEvent } from '@angular/material/paginator';
 import { CompanyService } from 'src/app/services/intranet/company.service';
 import { CompanyTypeService } from 'src/app/services/intranet/company-type.service';
 import { Validators } from '@angular/forms';
-import { Filter } from '../general/generic-filter/filter';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { IconButton } from '../general/generic-table/icon-button';
-
-
+import { Filter } from '../general/generic-filter/filter';
+import { Sort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-company-admin',
   templateUrl: './company-admin.component.html',
-  styleUrls: ['./company-admin.component.scss']
+  styleUrls: ['./company-admin.component.scss'],
 })
 export class CompanyAdminComponent {
-  companies: Array<any> = new Array<any>();
+  entries: Array<any> = new Array<any>();
   companiesKeys: Array<any> = new Array<any>();
-  companiesColumns: Column[];
+  columns: Column[];
   companyForm: GenericForm[];
   imageForm: GenericForm[];
   apiFailing: boolean = false;
@@ -34,9 +36,12 @@ export class CompanyAdminComponent {
   pageNumber: number = 1;
   photo: any;
   spinner: boolean = false;
-  pageSize : number = 10;
-  totalCompanies = 50
-  iconButtons : IconButton[] = []
+  pageSize: number = 10;
+  totalRecords: number;
+  iconButtons: IconButton[] = [];
+  filters: Filter[];
+  sortBy: string;
+  sortOrder: string;
 
   @ViewChild(GenericTableComponent) table: GenericTableComponent;
   @ViewChild('imageTemplate') imageTemplate: TemplateRef<any>;
@@ -48,7 +53,7 @@ export class CompanyAdminComponent {
     public _companyService: CompanyService,
     public _companyTypeService: CompanyTypeService,
     public _dialog: MatDialog,
-    public _notificationService : NotificationService
+    public _notificationService: NotificationService
   ) {}
 
   ngOnInit() {
@@ -56,8 +61,8 @@ export class CompanyAdminComponent {
     this.getCompanies();
   }
 
-  ngAfterViewInit(){
-    this.setIconsButtons()
+  ngAfterViewInit() {
+    this.setIconsButtons();
   }
 
   setIconsButtons() {
@@ -65,32 +70,38 @@ export class CompanyAdminComponent {
       {
         template: this.addTemplate,
         isLeft: true,
-      }
+      },
     ];
   }
 
   getCompanies() {
     this.spinner = true;
-    this._companyService.get().subscribe(
-      (res) => {
-        this.handleGetResponse(res);
-      },
-      (error) => {
-        this.handleGetErrorResponse();
-      }
-    );
+    this._companyService
+      .get(
+        this.pageNumber,
+        this.pageSize,
+        this.sortBy,
+        this.sortOrder,
+        this.filters
+      )
+      .subscribe(
+        (res) => {
+          this.handleGetResponse(res);
+        },
+        (error) => {
+          this.handleGetErrorResponse();
+        }
+      );
   }
 
   getCompaniesType() {
-    this._companyTypeService.get().subscribe(
-      (res) => {
-        this.companiesKeys = res;
-      },
-    );
+    this._companyTypeService.getKeys().subscribe((res) => {
+      this.companiesKeys = res;
+    });
   }
 
   setColumns(): void {
-    this.companiesColumns = [
+    this.columns = [
       {
         name: '_id',
         dataKey: 'id',
@@ -101,20 +112,19 @@ export class CompanyAdminComponent {
         dataKey: 'name',
         position: 'left',
         isSortable: true,
-        hidden: false,
         type: ContentType.editableTextFields,
-        validators: [Validators.required]
+        validators: [Validators.required],
       },
       {
         name: 'Tipo',
         dataKey: 'companyTypeId',
         position: 'left',
-        hidden: false,
+        isSortable: true,
         type: ContentType.dropdownFields,
         dropdown: this.companiesKeys,
-        dropdownKeyToShow: 'companyTypeName',
+        dropdownKeyToShow: 'name',
         dropdownKeyValue: 'id',
-        validators: [Validators.required]
+        validators: [Validators.required],
       },
       {
         name: 'Descripcion',
@@ -149,71 +159,46 @@ export class CompanyAdminComponent {
         hidden: true,
       },
       {
-        name: 'Nombre',
-        dataKey: 'name',
-        position: { row: 0, col: 0, rowSpan: 1, colSpan: 1 },
-        type: ContentType.editableTextFields,
-        validators: [Validators.required]
-      },
-      {
         name: 'Tipo',
         dataKey: 'companyTypeId',
         position: { row: 0, col: 0, rowSpan: 1, colSpan: 1 },
         type: ContentType.dropdownFields,
         dropdown: this.companiesKeys,
-        dropdownKeyToShow: 'companyTypeName',
+        dropdownKeyToShow: 'name',
         dropdownKeyValue: 'id',
-        validators: [Validators.required]
+        validators: [Validators.required],
+      },
+      {
+        name: 'Nombre',
+        dataKey: 'name',
+        position: { row: 0, col: 1, rowSpan: 1, colSpan: 1 },
+        type: ContentType.editableTextFields,
+        validators: [Validators.required],
       },
       {
         name: 'Descripcion',
         dataKey: 'description',
-        position: { row: 0, col: 0, rowSpan: 1, colSpan: 1 },
+        position: { row: 1, col: 0, rowSpan: 1, colSpan: 1 },
         type: ContentType.editableTextFields,
       },
       {
         name: 'Pagina web',
         dataKey: 'webUrl',
-        position: { row: 0, col: 0, rowSpan: 1, colSpan: 1 },
+        position: { row: 1, col: 1, rowSpan: 1, colSpan: 1 },
         type: ContentType.editableTextFields,
       },
       {
         name: 'Imagen',
         dataKey: 'photoUrl',
-        position: { row: 1, col: 1, rowSpan: 1, colSpan: 2 },
+        position: { row: 2, col: 1, rowSpan: 1, colSpan: 2 },
         type: ContentType.imageFile,
-        validators: [Validators.required]
+        validators: [Validators.required],
       },
     ];
   }
 
   setImageForm(): any[] {
     return [
-      {
-        name: 'Id',
-        dataKey: 'id',
-        hidden : true
-      },
-      {
-        name: 'Nombre',
-        dataKey: 'name',
-        hidden : true
-      },
-      {
-        name: 'Tipo',
-        dataKey: 'companyTypeId',
-        hidden : true
-      },
-      {
-        name: 'Descripcion',
-        dataKey: 'description',
-        hidden : true
-      },
-      {
-        name: 'Pagina web',
-        dataKey: 'webUrl',
-        hidden : true
-      },
       {
         name: 'Imagen',
         dataKey: 'photoUrl',
@@ -243,7 +228,7 @@ export class CompanyAdminComponent {
 
   showFormDialogImage(dataShow: any) {
     let dialogData = {
-      formData: dataShow ,
+      formData: dataShow,
       formFields: this.setImageForm(),
       formCols: 2,
       dialogTitle: 'Imagen',
@@ -254,7 +239,8 @@ export class CompanyAdminComponent {
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result !== undefined && result !== null && result !== '') {
-        this.updateElement(result)
+        dataShow.photoUrl = result.photoUrl;
+        this.updateElement(dataShow);
       }
     });
   }
@@ -294,7 +280,8 @@ export class CompanyAdminComponent {
   }
 
   private handleGetResponse(res: any) {
-    this.companies = res;
+    this.entries = res.data;
+    this.totalRecords = res.totalEntries;
     this.setColumns();
     this.loaded = true;
     this.spinner = false;
@@ -320,19 +307,24 @@ export class CompanyAdminComponent {
     this.apiFailing = true;
   }
 
-  onPaginationChange(PageEvent: PageEvent){
+  onPaginationChange(PageEvent: PageEvent) {
     this.pageNumber = PageEvent.pageIndex + 1;
     this.pageSize = PageEvent.pageSize;
     this.getCompanies();
   }
 
-  filterData(filters: Filter[]) {
-    this._companyService.getFiltered(filters).subscribe((res) => {
-      this.companies = res;
-    });
+  sortData(sortParameters: Sort) {
+    this.sortBy = sortParameters.active;
+    this.sortOrder = sortParameters.direction;
+    this.pageNumber = 1;
+    this.getCompanies();
   }
 
-  updatePageNumber(pageNum: number) {
-    this.pageNumber = pageNum;
+  filterData(filters: Filter[]) {
+    (this.filters = filters),
+      (this.pageNumber = 1),
+      (this.sortBy = null),
+      (this.sortOrder = null),
+      this.getCompanies();
   }
 }

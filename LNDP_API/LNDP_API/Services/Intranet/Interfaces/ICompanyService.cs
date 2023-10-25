@@ -1,15 +1,12 @@
 using LNDP_API.Dtos;
 using LNDP_API.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LNDP_API.Services
 {
-    public interface ICompanyService
+    public interface ICompanyService : IGenericService<Company>
     {
-        Task<IEnumerable<Company>> GetCompany();
-        Task<IEnumerable<CompanyWebDto>> GetCompanyType(string type);
-        Task<bool> ExistCompany(int idCompany);
-        Task<Company> CreateCompany(Company company);
-        Task<Company> UpdateCompany(Company company);
-        Task DeleteCompany(int idCompany);
+        Task<PagedResponse<List<Company>>> GetCompanies([FromQuery] PaginationFilter paginationFilter, string route);
+        Task<IEnumerable<CompanyWebDto>> GetCompaniesByType(string type);
     }
 }

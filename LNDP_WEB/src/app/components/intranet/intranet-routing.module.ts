@@ -11,6 +11,7 @@ import { AlbumAdminComponent } from './album-admin/album-admin.component';
 import { SongAdminComponent } from './song-admin/song-admin.component';
 import { YoutubeVideoVisualComponent } from './youtube-video-visual/youtube-video-visual.component';
 import { ConcertCrewComponent } from './concert-crew/concert-crew.component';
+import { FestivalCrewComponent } from './festival-crew/festival-crew.component';
 
 
 const routes: Routes = [
@@ -56,6 +57,10 @@ const routes: Routes = [
       {
         path : 'ConcertCrew',
         component : ConcertCrewComponent,
+      },
+      {
+        path : 'FestivalCrew',
+        component : FestivalCrewComponent,
       },
     ]}
 ];

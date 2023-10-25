@@ -2,9 +2,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/material/material/material.module';
 import { IntranetRoutingModule } from './intranet-routing.module';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ServiceBaseService } from 'src/app/services/service-base.service';
-import { HttpInterceptorService } from 'src/app/services/http-interceptor.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FestivalArtistDialogComponent } from './Asoc/festival-artist-dialog/festival-artist-dialog.component';
 import { AlbumAdminComponent } from './album-admin/album-admin.component';
@@ -19,6 +16,7 @@ import { IntranetComponent } from './intranet.component';
 import { SongAdminComponent } from './song-admin/song-admin.component';
 import { UserAdminComponent } from './user-admin/user-admin.component';
 import { YoutubeVideoVisualComponent } from './youtube-video-visual/youtube-video-visual.component';
+import { FestivalCrewComponent } from './festival-crew/festival-crew.component';
 
 
 @NgModule({
@@ -34,7 +32,8 @@ import { YoutubeVideoVisualComponent } from './youtube-video-visual/youtube-vide
     SongAdminComponent,
     YoutubeVideoVisualComponent,
     ConcertCrewComponent,
-    FestivalArtistDialogComponent
+    FestivalArtistDialogComponent,
+    FestivalCrewComponent
   ],
   imports: [
     IntranetRoutingModule,

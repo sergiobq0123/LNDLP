@@ -18,7 +18,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<APIContext>(options => 
+builder.Services.AddDbContext<APIContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("APIContext") ?? throw new InvalidOperationException("Connect string 'APIContext' not found.")));
 
 //Add auth
@@ -34,9 +34,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = false,
         };
     });
-builder.Services.AddCors(options => {
-    options.AddPolicy(name: MyAllowSpecificOrigins, policy => {
-        policy.WithOrigins("*").WithMethods( "POST", "PUT", "DELETE").WithHeaders("content-type", "Authorization");
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins, policy =>
+    {
+        policy.WithOrigins("*").WithMethods("POST", "PUT", "DELETE").WithHeaders("content-type", "Authorization");
     });
 });
 //Add token service
@@ -53,32 +55,48 @@ builder.Services.AddTransient<IUrlEmbedUtils, UrlEmbedUtils>();
 builder.Services.AddTransient<IImageUtils, ImageUtils>();
 
 // REPOSITORY
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IArtistRepository, ArtistRepository>();
 builder.Services.AddScoped<IYoutubeVideoRepository, YoutubeVideoRepository>();
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 builder.Services.AddScoped<ICompanyTypeRepository, CompanyTypeRepository>();
 builder.Services.AddScoped<IArtistFestivalAsocRepository, ArtistFestivalAsocRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<ISongRepository, SongRepository>();
-builder.Services.AddScoped<IConcertRepository, ConcertRepository>();       
-builder.Services.AddScoped<IFestivalRepository, FestivalRepository>();     
-builder.Services.AddScoped<IAlbumRepository, AlbumRepository>();     
+builder.Services.AddScoped<IConcertRepository, ConcertRepository>();
+builder.Services.AddScoped<IFestivalRepository, FestivalRepository>();
+builder.Services.AddScoped<IAlbumRepository, AlbumRepository>();
+builder.Services.AddScoped<IAccesRepository, AccesRepository>();
+builder.Services.AddScoped<ISocialNetworkRepository, SocialNetworkRepository>();
+builder.Services.AddScoped<IUserRoleRepository, UserRoleRepository>();
 
 
 // SERVICES
+builder.Services.AddScoped(typeof(IGenericService<>), typeof(GenericService<>));
 builder.Services.AddScoped<IArtistService, ArtistService>();
 builder.Services.AddScoped<IYoutubeVideoService, YoutubeVideoService>();
 builder.Services.AddScoped<ICompanyService, CompanyService>();
 builder.Services.AddScoped<ICompanyTypeService, CompanyTypeService>();
 builder.Services.AddScoped<IArtistFestivalAsocService, ArtistFestivalAsocService>();
 builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ISongService, SongService>();
 builder.Services.AddScoped<IConcertService, ConcertService>();
 builder.Services.AddScoped<IFestivalService, FestivalService>();
 builder.Services.AddScoped<IAlbumService, AlbumService>();
+builder.Services.AddScoped<IAccesService, AccesService>();
+builder.Services.AddScoped<ISocialNetworkService, SocialNetworkService>();
+builder.Services.AddScoped<IUserRoleService, UserRoleService>();
 
+
+// Filters
+builder.Services.AddScoped(typeof(PaginationUtils<>));
+builder.Services.AddSingleton<IUriService>(o =>
+{
+    var accessor = o.GetRequiredService<IHttpContextAccessor>();
+    var request = accessor.HttpContext.Request;
+    var uri = string.Concat(request.Scheme, "://", request.Host.ToUriComponent());
+    return new UriService(uri);
+});
 
 var app = builder.Build();
 
@@ -89,14 +107,15 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 app.UseCors(MyAllowSpecificOrigins);
-using (var scope = app.Services.CreateScope()){
+using (var scope = app.Services.CreateScope())
+{
     var DbContext = scope.ServiceProvider.GetRequiredService<APIContext>();
     DbContext.Database.Migrate();
 }
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
-app.UseAuthentication();  
+app.UseAuthentication();
 
 app.UseAuthorization();
 app.UseMiddleware<JwtMiddleware>();

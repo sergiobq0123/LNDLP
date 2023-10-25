@@ -3,51 +3,29 @@ using LNDP_API.Dtos;
 using LNDP_API.Models;
 using LNDP_API.Repositories;
 using LNDP_API.Utils;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LNDP_API.Services
 {
-    public class FestivalService : IFestivalService
+    public class FestivalService : GenericService<Festival>, IFestivalService
     {
         private readonly IFestivalRepository _festivalRepository;
-        private readonly IMapper _mapper;
-        private readonly IImageUtils _imageUtils;
-        public FestivalService(IFestivalRepository festivalRepository, IMapper mapper, IImageUtils imageUtils)
+        public FestivalService(IFestivalRepository festivalRepository, IMapper mapper, IUriService uriService) : base(festivalRepository, mapper, uriService)
         {
             _festivalRepository = festivalRepository;
-            _mapper = mapper;
-            _imageUtils = imageUtils;
+        }
+        public async Task<PagedResponse<List<Festival>>> GetFestivales([FromQuery] PaginationFilter paginationFilter, string route)
+        {
+            IQueryable<Festival> query = await _festivalRepository.GetFestivalesAsync();
+            return await this.GetPagination(paginationFilter, query, route);
         }
 
-        public async Task<IEnumerable<Festival>> GetFestival()
+        public async Task<IEnumerable<FestivalWebDto>> GetFutureFestivals()
         {
-            return await _festivalRepository.GetAsync();
+            var festivales = await _festivalRepository.GetFutureFestivalsAsync();
+            return _mapper.Map<IEnumerable<FestivalWebDto>>(festivales);
         }
 
-
-        public async Task<Festival> CreateFestival(Festival festival)
-        {
-            festival.PhotoUrl = await _imageUtils.ConvertBase64ToUrl(festival.PhotoUrl, festival.Name);
-            return await _festivalRepository.CreateAsync(festival);
-        }
-        
-        public async Task<bool> ExistFestival(int idFestival)
-        {
-            return await _festivalRepository.ExistFestivalAsync(idFestival);
-        }
-
-        public async Task<Festival> UpdateFestival(Festival festival)
-        {
-            if(!_imageUtils.IsValidUrl(festival.PhotoUrl)){
-                festival.PhotoUrl = await _imageUtils.ConvertBase64ToUrl(festival.PhotoUrl, festival.Name);
-            }
-            return await _festivalRepository.UpdateAsync(festival);
-        }
-
-        public async Task DeleteFestival(int idFestival)
-        {
-            await _festivalRepository.DeleteAsync(idFestival);
-        }
-        
 
     }
 }

@@ -31,6 +31,7 @@ export class IntranetComponent {
   opened: boolean = false;
   visible: boolean = true;
   isAdmin: boolean = false;
+  role : string;
 
   loginSubscription: Subscription;
 
@@ -46,10 +47,10 @@ export class IntranetComponent {
   faHouse = faHouse
   faGlobe = faGlobe
 
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(private router: Router, private _authService: AuthService) {}
 
   ngAfterViewInit() {
-    this.loginSubscription = this.authService
+    this.loginSubscription = this._authService
       .getLoginEvent()
       .subscribe((loggedIn) => {
         if (!loggedIn) {
@@ -60,7 +61,8 @@ export class IntranetComponent {
           ? ''
           : 'none';
       });
-    this.authService.loginChangedEvent.next(this.authService.isLoggedIn());
+    this._authService.loginChangedEvent.next(this._authService.isLoggedIn());
+    this.role = this._authService.getRole();
   }
 
   ngOnDestroy() {
@@ -68,6 +70,6 @@ export class IntranetComponent {
   }
 
   logout() {
-    this.authService.logout();
+    this._authService.logout();
   }
 }

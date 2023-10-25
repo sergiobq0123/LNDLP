@@ -1,0 +1,11 @@
+<app-generic-section
+[contentTemplate]="contentTemplate"
+[sectionTitle]="'Festivales'"
+></app-generic-section>
+
+<ng-template #contentTemplate>
+  <app-generic-card
+    [buttonText]="this.buttonTitle"
+    [array]="this.genericCard"
+  ></app-generic-card>
+</ng-template>

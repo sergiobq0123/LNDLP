@@ -16,7 +16,7 @@ export class NavbarComponent {
   nameLogin: string;
   user: User;
 
-  constructor(private _breakpointObserver: BreakpointObserver, private _authService : AuthService, private _usersService : UsersService) {}
+  constructor(private _breakpointObserver: BreakpointObserver, private _authService : AuthService) {}
 
   ngOnInit() {
     this._breakpointObserver
