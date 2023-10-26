@@ -54,7 +54,6 @@ namespace LNDP_API.Controllers
         [HttpGet("concert-user-id/{id}")]
         public async Task<ActionResult> GetConcertforArtist(int id, [FromQuery] PaginationFilter paginationFilter)
         {
-
             try
             {
                 return Ok(await _concertService.GetConcertsForArtist(id, paginationFilter, Request.Path.Value));

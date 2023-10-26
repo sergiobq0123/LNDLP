@@ -1,5 +1,6 @@
 public class PagedResponse<T> : Response<T>
 {
+
     public int Page { get; set; }
     public int Size { get; set; }
     public Uri? FirstPage { get; set; }

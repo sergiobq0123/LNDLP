@@ -1,4 +1,4 @@
-@import './../../web-styles.scss';
+@import "./../../web-styles.scss";
 
 .servicios {
   display: flex;
@@ -18,21 +18,17 @@
 }
 
 .tarjeta:hover {
-  transform: scale(1.1); /* Hace la tarjeta un 10% más grande al pasar el ratón por encima */
+  transform: scale(1.1);
 }
 
 .tarjeta img {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
+  width: 250px;
+  height: 250px;
   margin: 0 auto 10px;
   display: block;
 }
 
-
-.tarjeta h3 {
-  color: $grey1;
-  font-size: 1.5rem;
+.tarjeta h5 {
 }
 
 .tarjeta p {
@@ -48,6 +44,6 @@
 
 @media (max-width: 768px) {
   .tarjeta {
-      width: 100%;
+    width: 100%;
   }
 }

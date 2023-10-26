@@ -63,7 +63,7 @@ export class UserAdminComponent {
 
   ngOnInit() {
     this.getUsers();
-    //this.getUserKeys();
+    this.getUserKeys();
   }
 
   ngAfterViewInit() {
@@ -177,7 +177,7 @@ export class UserAdminComponent {
         position: { row: 0, col: 0, rowSpan: 1, colSpan: 1 },
         hidden: false,
         type: ContentType.dropdownFields,
-        dropdown: this.usersKeys,
+        dropdown: this.usersKeys.filter((role) => role.id !== 3),
         dropdownKeyToShow: 'name',
         dropdownKeyValue: 'id',
         validators: [Validators.required],

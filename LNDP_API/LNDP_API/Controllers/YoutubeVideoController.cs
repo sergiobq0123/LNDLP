@@ -42,50 +42,5 @@ namespace LNDP_API.Controllers
                 return BadRequest(new { ex.Message });
             }
         }
-
-        [Authorize(Roles = "Visual")]
-        [HttpPost]
-        public async Task<ActionResult> PostYoutubeVideo(YoutubeVideo youtubeVideo)
-        {
-            try
-            {
-                YoutubeVideo yv = await _youtubeVideoService.Create(youtubeVideo);
-                return Ok(new { Message = "Video de youtube creado con éxito.", yv });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { Message = ex.Message });
-            }
-        }
-
-        [Authorize(Roles = "Visual")]
-        [HttpPut("{id}")]
-        public async Task<ActionResult> PutYoutubeVideo(int id, YoutubeVideo youtubeVideo)
-        {
-            try
-            {
-                YoutubeVideo yv = await _youtubeVideoService.Update(youtubeVideo);
-                return Ok(new { Message = "Video de youtube actualizado con éxito.", yv });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { Message = ex.Message });
-            }
-        }
-
-        [Authorize(Roles = "Visual")]
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteYoutubeVideo(int id)
-        {
-            try
-            {
-                await _youtubeVideoService.Delete(id);
-                return Ok(new { Message = "Video de Youtube eliminado con éxito." });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { Message = ex.Message });
-            }
-        }
     }
 }
