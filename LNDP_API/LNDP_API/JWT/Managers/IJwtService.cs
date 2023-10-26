@@ -6,8 +6,7 @@ namespace TTTAPI.JWT.Managers
 {
     public interface IJwtService
     {
-        bool IsTokenValid(string token);
         string GenerateToken(IJwtContainer model);
-        IEnumerable<Claim> GetTokenClaims(string token);
+        ClaimsPrincipal GetValidToken(string token);
     }
 }

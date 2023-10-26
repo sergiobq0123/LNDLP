@@ -9,10 +9,12 @@ namespace TTTAPI.JWT.Managers
     public class JwtService : IJwtService
     {
         private IConfiguration _configuration;
+        private readonly ILogger<JwtService> _logger;
 
-        public JwtService(IConfiguration configuration)
+        public JwtService(IConfiguration configuration, ILogger<JwtService> logger)
         {
             _configuration = configuration;
+            _logger = logger;
         }
         private TokenValidationParameters GetTokenValidationParameters()
         {
@@ -52,45 +54,23 @@ namespace TTTAPI.JWT.Managers
 
         }
 
-        public IEnumerable<Claim> GetTokenClaims(string token)
+        public ClaimsPrincipal GetValidToken(string token)
         {
             if (string.IsNullOrEmpty(token))
             {
                 throw new ArgumentException("Given token is null or empty");
             }
-
-            TokenValidationParameters tokenValidationParameters = GetTokenValidationParameters();
-
-            JwtSecurityTokenHandler jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
-
-            try
-            {
-                ClaimsPrincipal tokenValid = jwtSecurityTokenHandler.ValidateToken(token, tokenValidationParameters, out SecurityToken validatedToken);
-                return tokenValid.Claims;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        public bool IsTokenValid(string token)
-        {
-            if (string.IsNullOrEmpty(token))
-            {
-                throw new ArgumentException("Given token is null or empty");
-            }
-
             TokenValidationParameters tokenValidationParameters = GetTokenValidationParameters();
             JwtSecurityTokenHandler jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
             try
             {
                 ClaimsPrincipal tokenValid = jwtSecurityTokenHandler.ValidateToken(token, tokenValidationParameters, out SecurityToken validatedToken);
-                return true;
+                return tokenValid;
             }
             catch (Exception ex)
             {
-                throw ex;
+                _logger.LogError(ex, "Token Invalid");
+                return null;
             }
         }
     }

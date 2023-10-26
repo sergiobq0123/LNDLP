@@ -27,10 +27,11 @@ namespace LNDP_API.Mapping
             CreateMap<AccesDto, UserCreateDto>().ReverseMap();
 
             //* Para los dropdown 
-            CreateMap<Artist, KeysIntranetDto>().ReverseMap();
+            CreateMap<Artist, KeysIntranetDto>();
             CreateMap<CompanyType, KeysIntranetDto>()
-                .ForMember(u => u.Name, opt => opt.MapFrom(src => src.CompanyTypeName))
-                .ReverseMap();
+                .ForMember(u => u.Name, opt => opt.MapFrom(src => src.CompanyTypeName));
+            CreateMap<UserRole, KeysIntranetDto>()
+                .ForMember(u => u.Name, opt => opt.MapFrom(src => src.Role));
 
             //! WEB
             CreateMap<YoutubeVideoWebDto, YoutubeVideo>().ReverseMap();

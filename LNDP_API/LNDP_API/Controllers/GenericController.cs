@@ -17,7 +17,7 @@ namespace LNDP_API.Controllers
             _service = service;
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Visual")]
         [HttpGet("keys")]
         public async Task<ActionResult<IEnumerable<KeysIntranetDto>>> GetArtistKeys()
         {
@@ -31,7 +31,7 @@ namespace LNDP_API.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Visual")]
         [HttpPost]
         public async Task<ActionResult> Post(TEntity entity)
         {
@@ -46,7 +46,7 @@ namespace LNDP_API.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Visual")]
         [HttpPut("{id}")]
         public async Task<ActionResult> Put(int id, TEntity entity)
         {
@@ -61,7 +61,7 @@ namespace LNDP_API.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Visual")]
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "W7YPj0VzzofWQU/b8Es4HFIcmN+ADyq1QWRgZUJ06Ik=",
+  "Hash": "rvp1c2rSGG/O2kHhIvrKVNI+JDvdrUQT3VDnNuolhkk=",
   "Source": "LNDP_API",
   "BasePath": "_content/LNDP_API",
   "Mode": "Default",
@@ -627,6 +627,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\assets\\reter.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\s.jpg",
+      "SourceId": "LNDP_API",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\",
+      "BasePath": "_content/LNDP_API",
+      "RelativePath": "assets/s.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\assets\\s.jpg"
     },
     {
       "Identity": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\sadasd.jpg",
