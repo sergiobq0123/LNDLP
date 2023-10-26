@@ -1,6 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { faCheck, faPlus, faSave, faUndo } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCheck,
+  faPlus,
+  faSave,
+  faUndo,
+} from '@fortawesome/free-solid-svg-icons';
 import { NotificationService } from 'src/app/services/notification.service';
 import { ContentType } from '../generic-form-dialog/generic-content';
 import { Column } from '../generic-table/column';
@@ -33,8 +38,14 @@ export class GenericFilterComponent {
     Filter.Condition.THIS_YEAR,
     Filter.Condition.LAST_YEAR,
   ];
-  filterTypeDropdownConditions: Filter.Condition[] = [Filter.Condition.IS, Filter.Condition.IS_NOT];
-  filterTypeNumericConditions: Filter.Condition[] = [Filter.Condition.IS, Filter.Condition.IS_NOT];
+  filterTypeDropdownConditions: Filter.Condition[] = [
+    Filter.Condition.IS,
+    Filter.Condition.IS_NOT,
+  ];
+  filterTypeNumericConditions: Filter.Condition[] = [
+    Filter.Condition.IS,
+    Filter.Condition.IS_NOT,
+  ];
   public FilterCondition = Filter.Condition;
   startDate: FormControl = new FormControl(Date.now, [Validators.required]);
   endDate: FormControl = new FormControl(Date.now, [Validators.required]);
@@ -61,7 +72,7 @@ export class GenericFilterComponent {
     if (this.startDate.invalid || this.endDate.invalid) {
       return;
     }
-    const filters: Filter[] = this.selectedFilters.filter(f => f.active);
+    const filters: Filter[] = this.selectedFilters.filter((f) => f.active);
     this.filtered.emit(filters);
   }
 
@@ -80,7 +91,9 @@ export class GenericFilterComponent {
         endDate: new Date(),
         active: true,
       };
-      const existingFilterIndex = this.selectedFilters.findIndex(filter => filter.dataKey === filterOptions.dataKey);
+      const existingFilterIndex = this.selectedFilters.findIndex(
+        (filter) => filter.dataKey === filterOptions.dataKey
+      );
 
       if (existingFilterIndex != -1) {
         return;
@@ -92,14 +105,15 @@ export class GenericFilterComponent {
 
   getUnselectedColumns() {
     return this.getTypeColumn().filter(
-      column => !this.selectedFilters.some(filter => filter.dataKey === column.dataKey),
+      (column) =>
+        !this.selectedFilters.some(
+          (filter) => filter.dataKey === column.dataKey
+        )
     );
   }
 
   getTypeColumn() {
-    return this.tableColumns.filter(
-      c => !c.name.includes('_') && c.type != ContentType.specialContent && c.isFilterable,
-    );
+    return this.tableColumns.filter((c) => c.isFilterable);
   }
 
   // Function to reset all Filter options
@@ -110,7 +124,9 @@ export class GenericFilterComponent {
   }
 
   onFilterActiveChange(filterKey: string) {
-    this.selectedFilters = this.selectedFilters.map(f => (f.dataKey === filterKey ? { ...f, active: !f.active } : f));
+    this.selectedFilters = this.selectedFilters.map((f) =>
+      f.dataKey === filterKey ? { ...f, active: !f.active } : f
+    );
   }
 
   getDropdownKeyValue(dropdownValue: any, filter: Filter): string {

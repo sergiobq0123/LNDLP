@@ -57,6 +57,7 @@ public static class RoutesManager
     };
     public static List<string> OnlyAdminPutRoutes = new List<string>()
     {
+        $"^{BASE}/{ACCES}/\\d$",
         $"^{BASE}/{ALBUM}/\\d$",
         $"^{BASE}/{ARTIST}/\\d$",
         $"^{BASE}/{COMPANY}/\\d$",

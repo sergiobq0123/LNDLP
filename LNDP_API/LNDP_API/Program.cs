@@ -9,6 +9,7 @@ using System.Text.Json.Serialization;
 using TTTAPI.JWT.Managers;
 using LNDP_API.Utils;
 using LNDP_API.Repositories;
+using LNDP_API.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -90,6 +91,7 @@ builder.Services.AddScoped<IUserRoleService, UserRoleService>();
 
 // Filters
 builder.Services.AddScoped(typeof(PaginationUtils<>));
+
 builder.Services.AddSingleton<IUriService>(o =>
 {
     var accessor = o.GetRequiredService<IHttpContextAccessor>();
@@ -97,6 +99,7 @@ builder.Services.AddSingleton<IUriService>(o =>
     var uri = string.Concat(request.Scheme, "://", request.Host.ToUriComponent());
     return new UriService(uri);
 });
+
 
 var app = builder.Build();
 
