@@ -125,6 +125,7 @@ export class ArtistAdminComponent {
         dataKey: 'city',
         position: 'left',
         isSortable: true,
+        isFilterable: true,
         type: ContentType.editableTextFields,
       },
       {
@@ -132,6 +133,7 @@ export class ArtistAdminComponent {
         dataKey: 'recruitmentEmail',
         position: 'left',
         isSortable: true,
+        isFilterable: true,
         type: ContentType.editableTextFields,
       },
       {
@@ -139,6 +141,7 @@ export class ArtistAdminComponent {
         dataKey: 'communicationEmail',
         position: 'left',
         isSortable: true,
+        isFilterable: true,
         type: ContentType.editableTextFields,
       },
       {
@@ -146,6 +149,7 @@ export class ArtistAdminComponent {
         dataKey: 'phone',
         position: 'left',
         isSortable: true,
+        isFilterable: true,
         type: ContentType.editableTextFields,
       },
       {
@@ -159,7 +163,6 @@ export class ArtistAdminComponent {
         name: 'Redes',
         dataKey: 'socialNetwork',
         position: 'left',
-        isSortable: true,
         type: ContentType.specialContent,
         template: this.socialNetworkTemplate,
       },
@@ -167,7 +170,6 @@ export class ArtistAdminComponent {
         name: 'Imagen',
         dataKey: 'photoUrl',
         position: 'left',
-        isSortable: false,
         type: ContentType.specialContent,
         template: this.imageTemplate,
       },

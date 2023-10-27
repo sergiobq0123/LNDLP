@@ -26,7 +26,6 @@ import { Filter } from '../general/generic-filter/filter';
 })
 export class UserAdminComponent {
   entries: Array<any> = new Array<any>();
-  usersRole: Array<any> = new Array<any>();
   usersKeys: Array<any> = new Array<any>();
   artistWithoutUser: Array<any> = new Array<any>();
   columns: Column[];
@@ -134,6 +133,7 @@ export class UserAdminComponent {
         name: 'Nombre',
         dataKey: 'firstName',
         position: 'left',
+        isFilterable: true,
         isSortable: true,
         type: ContentType.editableTextFields,
       },
@@ -142,6 +142,7 @@ export class UserAdminComponent {
         dataKey: 'lastName',
         position: 'left',
         isSortable: true,
+        isFilterable: true,
         type: ContentType.editableTextFields,
       },
       {
@@ -149,6 +150,7 @@ export class UserAdminComponent {
         dataKey: 'email',
         position: 'left',
         isSortable: true,
+        isFilterable: true,
         type: ContentType.editableTextFields,
       },
       {
@@ -156,7 +158,10 @@ export class UserAdminComponent {
         dataKey: 'userRole.role',
         position: 'left',
         isSortable: true,
+        isFilterable: true,
         type: ContentType.plainText,
+        dropdown: this.usersKeys,
+        dropdownKeyToShow: 'name',
       },
       {
         name: 'Password',

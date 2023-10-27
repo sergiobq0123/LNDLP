@@ -109,6 +109,7 @@ export class YoutubeVideoVisualComponent {
         dataKey: 'url',
         position: 'left',
         isSortable: true,
+        isFilterable: true,
         type: ContentType.editableTextFields,
         validators: [Validators.required],
       },

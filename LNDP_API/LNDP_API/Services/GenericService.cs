@@ -28,9 +28,10 @@ namespace LNDP_API.Services
             _uriService = uriService;
         }
 
-        public async Task<PagedResponse<List<TEntity>>> Get([FromQuery] PaginationFilter paginationFilter, string route)
+        public async Task<PagedResponse<List<TEntity>>> Get([FromQuery] PaginationFilter paginationFilter, string route, [FromBody] List<Filter> filters)
         {
-            IQueryable<TEntity> query = await _repository.GetAsync();
+            Expression<Func<TEntity, bool>> predicate = FilterUtils.GetPredicate<TEntity>(filters);
+            IQueryable<TEntity> query = await _repository.GetAsync(predicate);
             return await GetPagination(paginationFilter, query, route);
         }
         public async Task<PagedResponse<List<TEntity>>> GetPagination([FromQuery] PaginationFilter paginationFilter, IQueryable<TEntity> query, string route)
@@ -75,7 +76,7 @@ namespace LNDP_API.Services
 
         public async Task<IEnumerable<KeysIntranetDto>> GetKeys()
         {
-            var keys = await _repository.GetAsync();
+            var keys = await _repository.GetAsync(null);
             return _mapper.Map<IEnumerable<KeysIntranetDto>>(keys);
         }
     }

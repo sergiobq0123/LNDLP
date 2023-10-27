@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using AutoMapper;
 using LNDP_API.Dtos;
 using LNDP_API.Filters;
@@ -16,9 +17,10 @@ namespace LNDP_API.Services
             _albumRepository = albumRepository;
         }
 
-        public async Task<PagedResponse<List<Album>>> GetAlbums([FromQuery] PaginationFilter paginationFilter, string route)
+        public async Task<PagedResponse<List<Album>>> GetAlbums([FromQuery] PaginationFilter paginationFilter, string route, [FromBody] List<Filter> filters)
         {
-            IQueryable<Album> query = await _albumRepository.GetAlbumsAsync();
+            Expression<Func<Album, bool>> predicate = FilterUtils.GetPredicate<Album>(filters);
+            IQueryable<Album> query = await _albumRepository.GetAlbumsAsync(predicate);
             return await this.GetPagination(paginationFilter, query, route);
         }
     }

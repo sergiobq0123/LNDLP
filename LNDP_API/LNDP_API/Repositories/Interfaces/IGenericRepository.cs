@@ -4,7 +4,7 @@ namespace LNDP_API.Repositories
 {
     public interface IGenericRepository<TEntity> where TEntity : class
     {
-        Task<IQueryable<TEntity>> GetAsync();
+        Task<IQueryable<TEntity>> GetAsync(Expression<Func<TEntity, bool>> predicate);
         Task<TEntity> GetByIdAsync(int id);
         Task<TEntity> CreateAsync(TEntity entity);
         Task<TEntity> UpdateAsync(TEntity entity);

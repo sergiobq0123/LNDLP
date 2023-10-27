@@ -7,6 +7,6 @@ namespace LNDP_API.Services
 {
     public interface IAlbumService : IGenericService<Album>
     {
-        Task<PagedResponse<List<Album>>> GetAlbums([FromQuery] PaginationFilter paginationFilter, string route);
+        Task<PagedResponse<List<Album>>> GetAlbums([FromQuery] PaginationFilter paginationFilter, string route, [FromBody] List<Filter> filters);
     }
 }

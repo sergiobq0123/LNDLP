@@ -35,7 +35,21 @@ namespace LNDP_API.Controllers
         {
             try
             {
-                return Ok(await _youtubeVideoService.Get(paginationFilter, Request.Path.Value));
+                return Ok(await _youtubeVideoService.Get(paginationFilter, Request.Path.Value, null));
+            }
+
+            catch (Exception ex)
+            {
+                return BadRequest(new { ex.Message });
+            }
+        }
+        [Authorize(Roles = "Visual")]
+        [HttpPost("filter")]
+        public async Task<ActionResult<IEnumerable<YoutubeVideo>>> PostFilterYoutubeVideoIntranet([FromQuery] PaginationFilter paginationFilter, [FromBody] List<Filter> filters)
+        {
+            try
+            {
+                return Ok(await _youtubeVideoService.Get(paginationFilter, Request.Path.Value, filters));
             }
 
             catch (Exception ex)

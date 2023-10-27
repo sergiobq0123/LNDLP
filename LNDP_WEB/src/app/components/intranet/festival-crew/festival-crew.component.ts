@@ -81,6 +81,7 @@ export class FestivalCrewComponent {
         dataKey: 'festival.city',
         position: 'left',
         isSortable: true,
+        isFilterable: true,
         type: ContentType.plainText,
       },
       {
@@ -88,6 +89,7 @@ export class FestivalCrewComponent {
         dataKey: 'festival.location',
         position: 'left',
         isSortable: true,
+        isFilterable: true,
         type: ContentType.plainText,
       },
       {
@@ -95,6 +97,7 @@ export class FestivalCrewComponent {
         dataKey: 'festival.date',
         position: 'left',
         isSortable: true,
+        isFilterable: true,
         width: '200px',
         type: ContentType.dateText,
       },

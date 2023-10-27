@@ -25,7 +25,7 @@ import { Sort } from '@angular/material/sort';
 })
 export class SongAdminComponent {
   entries: Array<any> = new Array<any>();
-  artists: Array<any> = new Array<any>();
+  artistas: Array<any> = new Array<any>();
   columns: Column[];
   songForm: GenericForm[];
   apiFailing: boolean = false;
@@ -93,7 +93,7 @@ export class SongAdminComponent {
 
   getArtist() {
     this._artistService.getKeys().subscribe((res) => {
-      this.artists = res;
+      this.artistas = res;
     });
   }
 
@@ -114,14 +114,18 @@ export class SongAdminComponent {
         dataKey: 'artist.name',
         position: 'left',
         isSortable: true,
+        isFilterable: true,
         hidden: false,
         type: ContentType.plainText,
+        dropdown: this.artistas,
+        dropdownKeyToShow: 'name',
       },
       {
         name: 'Nombre',
         dataKey: 'name',
         position: 'left',
         isSortable: true,
+        isFilterable: true,
         hidden: false,
         type: ContentType.editableTextFields,
         validators: [Validators.required],
@@ -150,7 +154,7 @@ export class SongAdminComponent {
         position: { row: 0, col: 0, rowSpan: 1, colSpan: 1 },
         hidden: false,
         type: ContentType.dropdownFields,
-        dropdown: this.artists,
+        dropdown: this.artistas,
         dropdownKeyToShow: 'name',
         dropdownKeyValue: 'id',
         validators: [Validators.required],

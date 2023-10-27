@@ -76,6 +76,7 @@ export class ConcertCrewComponent {
         dataKey: 'name',
         position: 'left',
         isSortable: true,
+        isFilterable: true,
         type: ContentType.plainText,
       },
       {
@@ -83,6 +84,7 @@ export class ConcertCrewComponent {
         dataKey: 'city',
         position: 'left',
         isSortable: true,
+        isFilterable: true,
         type: ContentType.plainText,
       },
       {
@@ -90,6 +92,7 @@ export class ConcertCrewComponent {
         dataKey: 'location',
         position: 'left',
         isSortable: true,
+        isFilterable: true,
         type: ContentType.plainText,
       },
       {
@@ -98,6 +101,7 @@ export class ConcertCrewComponent {
         position: 'left',
         isSortable: true,
         width: '200px',
+        isFilterable: true,
         type: ContentType.dateText,
       },
     ];

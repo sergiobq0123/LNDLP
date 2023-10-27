@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using LNDP_API.Models;
 
 namespace LNDP_API.Repositories
@@ -6,6 +7,6 @@ namespace LNDP_API.Repositories
     {
         Task<bool> ExistUserAsync(int idUser);
         Task<bool> ExistUserMailAsync(string userName);
-        Task<IQueryable<User>> GetUsersAsync();
+        Task<IQueryable<User>> GetUsersAsync(Expression<Func<User, bool>> predicate);
     }
 }

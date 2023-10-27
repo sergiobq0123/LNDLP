@@ -7,6 +7,6 @@ namespace LNDP_API.Services
 {
     public interface ISongService : IGenericService<Song>
     {
-        Task<PagedResponse<List<Song>>> GetSongs([FromQuery] PaginationFilter paginationFilter, string route);
+        Task<PagedResponse<List<Song>>> GetSongs([FromQuery] PaginationFilter paginationFilter, string route, [FromBody] List<Filter> filters);
     }
 }

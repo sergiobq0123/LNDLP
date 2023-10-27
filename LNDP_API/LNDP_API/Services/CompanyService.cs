@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using AutoMapper;
 using LNDP_API.Dtos;
 using LNDP_API.Filters;
@@ -16,9 +17,10 @@ namespace LNDP_API.Services
             _companyRepository = companyRepository;
         }
 
-        public async Task<PagedResponse<List<Company>>> GetCompanies([FromQuery] PaginationFilter paginationFilter, string route)
+        public async Task<PagedResponse<List<Company>>> GetCompanies([FromQuery] PaginationFilter paginationFilter, string route, [FromBody] List<Filter> filters)
         {
-            IQueryable<Company> query = await _companyRepository.GetCompaniesAsync();
+            Expression<Func<Company, bool>> predicate = FilterUtils.GetPredicate<Company>(filters);
+            IQueryable<Company> query = await _companyRepository.GetCompaniesAsync(predicate);
             return await this.GetPagination(paginationFilter, query, route);
         }
 

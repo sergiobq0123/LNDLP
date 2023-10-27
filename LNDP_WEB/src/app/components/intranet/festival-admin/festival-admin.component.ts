@@ -123,6 +123,7 @@ export class FestivalAdminComponent {
         dataKey: 'name',
         position: 'left',
         isSortable: true,
+        isFilterable: true,
         type: ContentType.editableTextFields,
       },
       {
@@ -130,6 +131,7 @@ export class FestivalAdminComponent {
         dataKey: 'city',
         position: 'left',
         isSortable: true,
+        isFilterable: true,
         type: ContentType.editableTextFields,
       },
       {
@@ -137,6 +139,7 @@ export class FestivalAdminComponent {
         dataKey: 'location',
         position: 'left',
         isSortable: true,
+        isFilterable: true,
         type: ContentType.editableTextFields,
       },
       {
@@ -152,6 +155,7 @@ export class FestivalAdminComponent {
         position: 'left',
         isSortable: true,
         width: '200px',
+        isFilterable: true,
         type: ContentType.datePicker,
       },
       {

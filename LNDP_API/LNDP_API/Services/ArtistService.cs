@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using AutoMapper;
 using LNDP_API.Dtos;
 using LNDP_API.Filters;
@@ -19,9 +20,10 @@ namespace LNDP_API.Services
             _userService = userService;
         }
 
-        public async Task<PagedResponse<List<Artist>>> GetArtistas([FromQuery] PaginationFilter paginationFilter, string route)
+        public async Task<PagedResponse<List<Artist>>> GetArtistas([FromQuery] PaginationFilter paginationFilter, string route, [FromBody] List<Filter> filters)
         {
-            IQueryable<Artist> query = await _artistRepository.GetArtistasAsync();
+            Expression<Func<Artist, bool>> predicate = FilterUtils.GetPredicate<Artist>(filters);
+            IQueryable<Artist> query = await _artistRepository.GetArtistasAsync(predicate);
             return await this.GetPagination(paginationFilter, query, route);
         }
         public async Task<ArtistWebDetailDto> GetArtistById(int id)

@@ -17,7 +17,7 @@ namespace LNDP_API.Services
 
         public async Task<IEnumerable<YoutubeVideoWebDto>> GetYoutubeVideoDto()
         {
-            var youtubeVideos = await _youtubeVideoRepository.GetAsync();
+            var youtubeVideos = await _youtubeVideoRepository.GetAsync(null);
             return _mapper.Map<IEnumerable<YoutubeVideoWebDto>>(youtubeVideos);
         }
 

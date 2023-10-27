@@ -32,7 +32,20 @@ namespace LNDP_API.Controllers
         {
             try
             {
-                return Ok(await _companyService.GetCompanies(paginationFilter, Request.Path.Value));
+                return Ok(await _companyService.GetCompanies(paginationFilter, Request.Path.Value, null));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { ex.Message });
+            }
+        }
+        [Authorize(Roles = "Admin")]
+        [HttpPost("filter")]
+        public async Task<ActionResult<IEnumerable<Company>>> PostFilterCompanyIntranet([FromQuery] PaginationFilter paginationFilter, [FromBody] List<Filter> filters)
+        {
+            try
+            {
+                return Ok(await _companyService.GetCompanies(paginationFilter, Request.Path.Value, filters));
             }
             catch (Exception ex)
             {

@@ -7,7 +7,7 @@ namespace LNDP_API.Services
 {
     public interface IUserService : IGenericService<User>
     {
-        Task<PagedResponse<List<User>>> GetUsers([FromQuery] PaginationFilter paginationFilter, string route);
+        Task<PagedResponse<List<User>>> GetUsers([FromQuery] PaginationFilter paginationFilter, string route, [FromBody] List<Filter> filters);
         Task<User> PostUser(UserCreateDto userCreateDto);
     }
 }

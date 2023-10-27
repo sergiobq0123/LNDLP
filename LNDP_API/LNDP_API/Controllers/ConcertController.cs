@@ -29,7 +29,20 @@ namespace LNDP_API.Controllers
         {
             try
             {
-                return Ok(await _concertService.GetConcerts(paginationFilter, Request.Path.Value));
+                return Ok(await _concertService.GetConcerts(paginationFilter, Request.Path.Value, null));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { ex.Message });
+            }
+        }
+        [Authorize(Roles = "Admin")]
+        [HttpPost("filter")]
+        public async Task<ActionResult<IEnumerable<Concert>>> PostFilterConcert([FromQuery] PaginationFilter paginationFilter, [FromBody] List<Filter> filters)
+        {
+            try
+            {
+                return Ok(await _concertService.GetConcerts(paginationFilter, Request.Path.Value, filters));
             }
             catch (Exception ex)
             {
@@ -53,11 +66,11 @@ namespace LNDP_API.Controllers
 
         [Authorize(Roles = "Crew")]
         [HttpGet("concert-user-id/{id}")]
-        public async Task<ActionResult> GetConcertforArtist(int id, [FromQuery] PaginationFilter paginationFilter)
+        public async Task<ActionResult> GetConcertforArtist(int id, [FromQuery] PaginationFilter paginationFilter, [FromBody] List<Filter> filters)
         {
             try
             {
-                return Ok(await _concertService.GetConcertsForArtist(id, paginationFilter, Request.Path.Value));
+                return Ok(await _concertService.GetConcertsForArtist(id, paginationFilter, Request.Path.Value, filters));
             }
             catch (Exception ex)
             {

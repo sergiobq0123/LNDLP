@@ -24,16 +24,16 @@ public class JwtMiddleware
 
         if (authorizeAttribute != null && allowAnonymousAttribute == null)
         {
-            // Esta acción requiere autorización, verifica el token y el rol.
             var authorizationHeader = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
             if (!string.IsNullOrEmpty(authorizationHeader))
+
             {
                 var token = authorizationHeader.Split(" ").Last();
                 var validToken = _jwtService.GetValidToken(token);
                 if (validToken == null)
                 {
-                    context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-                    await context.Response.WriteAsync("Unauthorizated");
+                    context.Response.StatusCode = StatusCodes.Status403Forbidden;
+                    await context.Response.WriteAsync("Token Invalid");
                     return;
                 }
                 var claims = validToken.Claims;

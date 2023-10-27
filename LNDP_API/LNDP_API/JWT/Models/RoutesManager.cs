@@ -23,6 +23,7 @@ public static class RoutesManager
 
     public const string CREATEREGISTER = "create-register";
     public const string KEYS = "keys";
+    public const string FILTER = "filter";
     public const string FESTIVALUSERID = "festival-user-id";
     public const string CONCERTUSERID = "concert-user-id";
 
@@ -54,6 +55,15 @@ public static class RoutesManager
         $"^{BASE}/{SOCIALNETWORK}$",
         $"^{BASE}/{SONG}$",
         $"^{BASE}/{USER}$",
+
+        $"^{BASE}/{ALBUM}/{FILTER}$",
+        $"^{BASE}/{ARTIST}/{FILTER}$",
+        $"^{BASE}/{COMPANY}/{FILTER}$",
+        $"^{BASE}/{CONCERT}/{FILTER}$",
+        $"^{BASE}/{FESTIVAL}/{FILTER}$",
+        $"^{BASE}/{SOCIALNETWORK}/{FILTER}$",
+        $"^{BASE}/{SONG}/{FILTER}$",
+        $"^{BASE}/{USER}/{FILTER}$",
     };
     public static List<string> OnlyAdminPutRoutes = new List<string>()
     {

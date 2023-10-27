@@ -101,11 +101,6 @@ export class ConcertAdminComponent {
         hidden: true,
       },
       {
-        name: '_urlLocation',
-        dataKey: 'urlLocation',
-        hidden: true,
-      },
-      {
         name: '_artistId',
         dataKey: 'artistId',
         hidden: true,
@@ -115,13 +110,17 @@ export class ConcertAdminComponent {
         dataKey: 'artist.name',
         position: 'left',
         isSortable: true,
+        isFilterable: true,
         type: ContentType.plainText,
+        dropdown: this.artists,
+        dropdownKeyToShow: 'name',
       },
       {
         name: 'Nombre',
         dataKey: 'name',
         position: 'left',
         isSortable: true,
+        isFilterable: true,
         type: ContentType.editableTextFields,
       },
       {
@@ -129,6 +128,7 @@ export class ConcertAdminComponent {
         dataKey: 'city',
         position: 'left',
         isSortable: true,
+        isFilterable: true,
         type: ContentType.editableTextFields,
       },
       {
@@ -136,6 +136,7 @@ export class ConcertAdminComponent {
         dataKey: 'location',
         position: 'left',
         isSortable: true,
+        isFilterable: true,
         type: ContentType.editableTextFields,
       },
       {
@@ -150,6 +151,7 @@ export class ConcertAdminComponent {
         dataKey: 'date',
         position: 'left',
         isSortable: true,
+        isFilterable: true,
         width: '200px',
         type: ContentType.datePicker,
       },

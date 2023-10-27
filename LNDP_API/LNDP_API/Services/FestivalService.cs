@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using AutoMapper;
 using LNDP_API.Dtos;
 using LNDP_API.Filters;
@@ -15,9 +16,10 @@ namespace LNDP_API.Services
         {
             _festivalRepository = festivalRepository;
         }
-        public async Task<PagedResponse<List<Festival>>> GetFestivales([FromQuery] PaginationFilter paginationFilter, string route)
+        public async Task<PagedResponse<List<Festival>>> GetFestivales([FromQuery] PaginationFilter paginationFilter, string route, [FromBody] List<Filter> filters)
         {
-            IQueryable<Festival> query = await _festivalRepository.GetFestivalesAsync();
+            Expression<Func<Festival, bool>> predicate = FilterUtils.GetPredicate<Festival>(filters);
+            IQueryable<Festival> query = await _festivalRepository.GetFestivalesAsync(predicate);
             return await this.GetPagination(paginationFilter, query, route);
         }
 

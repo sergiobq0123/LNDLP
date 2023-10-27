@@ -7,7 +7,7 @@ namespace LNDP_API.Services
 {
     public interface IFestivalService : IGenericService<Festival>
     {
-        Task<PagedResponse<List<Festival>>> GetFestivales([FromQuery] PaginationFilter paginationFilter, string route);
+        Task<PagedResponse<List<Festival>>> GetFestivales([FromQuery] PaginationFilter paginationFilter, string route, [FromBody] List<Filter> filters);
         Task<IEnumerable<FestivalWebDto>> GetFutureFestivals();
     }
 }
