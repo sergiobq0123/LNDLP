@@ -12,6 +12,7 @@ import { PageEvent } from '@angular/material/paginator';
 import { AuthService } from 'src/app/services/auth.service';
 import { Filter } from '../general/generic-filter/filter';
 import { Sort } from '@angular/material/sort';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-concert-crew',
@@ -44,29 +45,31 @@ export class ConcertCrewComponent {
     public _dialog: MatDialog
   ) {}
 
-  ngOnInit() {
-    this.getConciertos();
+  async ngOnInit() {
+    this.spinner = true;
+    await this.getConciertos();
+    this.setColumns();
+    this.loaded = true;
+    this.spinner = false;
   }
 
-  getConciertos() {
-    this.spinner = true;
-    this._concertService
-      .getConcertForArtist(
-        this._authService.getUserId(),
-        this.pageNumber,
-        this.pageSize,
-        this.sortBy,
-        this.sortOrder,
-        this.filters
-      )
-      .subscribe(
-        (res) => {
-          this.handleGetResponse(res);
-        },
-        (error) => {
-          this.handleGetErrorResponse();
-        }
+  async getConciertos() {
+    try {
+      this.handleGetResponse(
+        await lastValueFrom(
+          this._concertService.getConcertForArtist(
+            this._authService.getUserId(),
+            this.pageNumber,
+            this.pageSize,
+            this.sortBy,
+            this.sortOrder,
+            this.filters
+          )
+        )
       );
+    } catch (error) {
+      this.handleGetErrorResponse();
+    }
   }
 
   setColumns(): void {
@@ -100,8 +103,8 @@ export class ConcertCrewComponent {
         dataKey: 'date',
         position: 'left',
         isSortable: true,
-        width: '200px',
         isFilterable: true,
+        width: '200px',
         type: ContentType.dateText,
       },
     ];
@@ -110,15 +113,11 @@ export class ConcertCrewComponent {
   private handleGetResponse(res: any) {
     this.entries = res.data;
     this.totalRecords = res.totalEntries;
-    this.setColumns();
-    this.loaded = true;
-    this.spinner = false;
   }
 
   private handleGetErrorResponse() {
     this._notificationService.showErrorMessage(notifications.LOADING_DATA_FAIL);
     this.apiFailing = false;
-    this.spinner = false;
   }
 
   onPaginationChange(PageEvent: PageEvent) {

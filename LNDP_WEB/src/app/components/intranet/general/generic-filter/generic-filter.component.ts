@@ -63,7 +63,9 @@ export class GenericFilterComponent {
   constructor(private notificationService: NotificationService) {}
 
   ngOnInit() {
-    this.selectedFilters = [];
+    if (!this.selectedFilters || this.selectedFilters.length >= 0) {
+      this.selectedFilters = [];
+    }
     this.selectedOption = null;
   }
 
@@ -73,6 +75,8 @@ export class GenericFilterComponent {
       return;
     }
     const filters: Filter[] = this.selectedFilters.filter((f) => f.active);
+    console.log(filters);
+
     this.filtered.emit(filters);
   }
 

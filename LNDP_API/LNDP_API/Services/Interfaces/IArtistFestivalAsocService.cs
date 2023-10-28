@@ -10,6 +10,6 @@ namespace LNDP_API.Services
         Task<ArtistFestivalAsoc> CreateArtistFestivalAsoc(ArtistFestivalAsoc ArtistFestivalAsoc);
         Task DeleteArtistFestivalAsoc(int idArtistFestivalAsoc);
         Task UpdateFestivalWithArtists(FestivalArtistDto festivalArtistDto);
-        Task<PagedResponse<List<ArtistFestivalAsoc>>> GetFestivalForArtist(int id, [FromQuery] PaginationFilter paginationFilter, string route);
+        Task<PagedResponse<List<ArtistFestivalAsoc>>> GetFestivalForArtist(int id, [FromQuery] PaginationFilter paginationFilter, string route, [FromBody] List<Filter> filters);
     }
 }

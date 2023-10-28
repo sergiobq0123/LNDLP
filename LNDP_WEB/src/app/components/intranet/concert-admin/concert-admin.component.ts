@@ -14,6 +14,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { IconButton } from '../general/generic-table/icon-button';
 import { Filter } from '../general/generic-filter/filter';
 import { Sort } from '@angular/material/sort';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-concert-admin',
@@ -22,7 +23,7 @@ import { Sort } from '@angular/material/sort';
 })
 export class ConcertAdminComponent {
   entries: Array<any> = new Array<any>();
-  artists: Array<any> = new Array<any>();
+  artistas: Array<any> = new Array<any>();
   columns: Column[];
   apiFailing: boolean = false;
   loaded: boolean = false;
@@ -49,9 +50,13 @@ export class ConcertAdminComponent {
     public _dialog: MatDialog
   ) {}
 
-  ngOnInit() {
-    this.getConciertos();
-    this.getArtist();
+  async ngOnInit() {
+    this.spinner = true;
+    await this.getConciertos();
+    await this.getArtist();
+    this.setColumns();
+    this.loaded = true;
+    this.spinner = false;
   }
 
   ngAfterViewInit() {
@@ -67,30 +72,28 @@ export class ConcertAdminComponent {
     ];
   }
 
-  getConciertos() {
-    this.spinner = true;
-    this._concertService
-      .get(
-        this.pageNumber,
-        this.pageSize,
-        this.sortBy,
-        this.sortOrder,
-        this.filters
-      )
-      .subscribe(
-        (res) => {
-          this.handleGetResponse(res);
-        },
-        (error) => {
-          this.handleGetErrorResponse();
-        }
+  async getConciertos() {
+    try {
+      this.handleGetResponse(
+        await lastValueFrom(
+          this._concertService.get(
+            this.pageNumber,
+            this.pageSize,
+            this.sortBy,
+            this.sortOrder,
+            this.filters
+          )
+        )
       );
+    } catch (error) {
+      this.handleGetErrorResponse();
+    }
   }
 
-  getArtist() {
-    this._artistService.getKeys().subscribe((res) => {
-      this.artists = res;
-    });
+  async getArtist() {
+    try {
+      this.artistas = await lastValueFrom(this._artistService.getKeys());
+    } catch (error) {}
   }
 
   setColumns(): void {
@@ -112,7 +115,7 @@ export class ConcertAdminComponent {
         isSortable: true,
         isFilterable: true,
         type: ContentType.plainText,
-        dropdown: this.artists,
+        dropdown: this.artistas,
         dropdownKeyToShow: 'name',
       },
       {
@@ -170,7 +173,7 @@ export class ConcertAdminComponent {
         dataKey: 'artistId',
         position: { row: 0, col: 1, rowSpan: 1, colSpan: 1 },
         type: ContentType.dropdownFields,
-        dropdown: this.artists,
+        dropdown: this.artistas,
         dropdownKeyValue: 'id',
         dropdownKeyToShow: 'name',
       },
@@ -267,15 +270,11 @@ export class ConcertAdminComponent {
   private handleGetResponse(res: any) {
     this.entries = res.data;
     this.totalRecords = res.totalEntries;
-    this.setColumns();
-    this.loaded = true;
-    this.spinner = false;
   }
 
   private handleGetErrorResponse() {
     this._notificationService.showErrorMessage(notifications.LOADING_DATA_FAIL);
     this.apiFailing = false;
-    this.spinner = false;
   }
 
   private handleResponse(message: string) {

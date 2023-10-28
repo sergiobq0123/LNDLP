@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using AutoMapper;
 using LNDP_API.Data;
 using LNDP_API.Dtos;
@@ -43,9 +44,10 @@ namespace LNDP_API.Services
             }
         }
 
-        public async Task<PagedResponse<List<ArtistFestivalAsoc>>> GetFestivalForArtist(int id, [FromQuery] PaginationFilter paginationFilter, string route)
+        public async Task<PagedResponse<List<ArtistFestivalAsoc>>> GetFestivalForArtist(int id, [FromQuery] PaginationFilter paginationFilter, string route, [FromBody] List<Filter> filters)
         {
-            IQueryable<ArtistFestivalAsoc> query = await _artistFestivalAsocRepository.GetFestivalsForArtistAsync(id);
+            Expression<Func<ArtistFestivalAsoc, bool>> predicate = FilterUtils.GetPredicate<ArtistFestivalAsoc>(filters);
+            IQueryable<ArtistFestivalAsoc> query = await _artistFestivalAsocRepository.GetFestivalsForArtistAsync(id, predicate);
             return await this.GetPagination(paginationFilter, query, route);
         }
     }

@@ -12,11 +12,11 @@ namespace LNDP_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class YoutubeVideoController : ControllerBase
+    public class YoutubeVideoController : GenericController<YoutubeVideo>
     {
         private readonly IYoutubeVideoService _youtubeVideoService;
 
-        public YoutubeVideoController(IYoutubeVideoService youtubeVideoService)
+        public YoutubeVideoController(IYoutubeVideoService youtubeVideoService) : base(youtubeVideoService)
         {
             _youtubeVideoService = youtubeVideoService;
         }
@@ -43,9 +43,10 @@ namespace LNDP_API.Controllers
                 return BadRequest(new { ex.Message });
             }
         }
-        [Authorize(Roles = "Visual")]
+
+        [Authorize(Roles = "Admin, Visual")]
         [HttpPost("filter")]
-        public async Task<ActionResult<IEnumerable<YoutubeVideo>>> PostFilterYoutubeVideoIntranet([FromQuery] PaginationFilter paginationFilter, [FromBody] List<Filter> filters)
+        public async Task<ActionResult<IEnumerable<YoutubeVideo>>> PostFilter([FromQuery] PaginationFilter paginationFilter, [FromBody] List<Filter> filters)
         {
             try
             {

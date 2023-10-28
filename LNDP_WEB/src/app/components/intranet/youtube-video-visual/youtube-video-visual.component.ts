@@ -16,6 +16,7 @@ import { IconButton } from '../general/generic-table/icon-button';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { Filter } from '../general/generic-filter/filter';
 import { Sort } from '@angular/material/sort';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-youtube-video-visual',
@@ -50,8 +51,12 @@ export class YoutubeVideoVisualComponent {
     public _notificationService: NotificationService
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.spinner = true;
     this.getvideos();
+    this.setColumns();
+    this.loaded = true;
+    this.spinner = false;
   }
 
   ngAfterViewInit() {
@@ -67,24 +72,22 @@ export class YoutubeVideoVisualComponent {
     ];
   }
 
-  getvideos() {
-    this.spinner = true;
-    this._youtubeVideoService
-      .get(
-        this.pageNumber,
-        this.pageSize,
-        this.sortBy,
-        this.sortOrder,
-        this.filters
-      )
-      .subscribe(
-        (res) => {
-          this.handleGetResponse(res);
-        },
-        (error) => {
-          this.handleGetErrorResponse();
-        }
+  async getvideos() {
+    try {
+      this.handleGetResponse(
+        await lastValueFrom(
+          this._youtubeVideoService.get(
+            this.pageNumber,
+            this.pageSize,
+            this.sortBy,
+            this.sortOrder,
+            this.filters
+          )
+        )
       );
+    } catch (error) {
+      this.handleGetErrorResponse();
+    }
   }
 
   setColumns(): void {
@@ -109,7 +112,6 @@ export class YoutubeVideoVisualComponent {
         dataKey: 'url',
         position: 'left',
         isSortable: true,
-        isFilterable: true,
         type: ContentType.editableTextFields,
         validators: [Validators.required],
       },
@@ -195,15 +197,11 @@ export class YoutubeVideoVisualComponent {
   private handleGetResponse(res: any) {
     this.videos = res.data;
     this.totalRecords = res.totalEntries;
-    this.setColumns();
-    this.loaded = true;
-    this.spinner = false;
   }
 
   private handleGetErrorResponse() {
     this._notificationService.showErrorMessage(notifications.LOADING_DATA_FAIL);
     this.apiFailing = false;
-    this.spinner = false;
   }
 
   private handleResponse(message: string) {

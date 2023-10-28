@@ -10,6 +10,7 @@ import { PageEvent } from '@angular/material/paginator';
 import { FestivalArtistAsocService } from 'src/app/services/intranet/festival-artist-asoc.service';
 import { Filter } from '../general/generic-filter/filter';
 import { Sort } from '@angular/material/sort';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-festival-crew',
@@ -42,29 +43,31 @@ export class FestivalCrewComponent {
     public _dialog: MatDialog
   ) {}
 
-  ngOnInit() {
-    this.getfestivales();
+  async ngOnInit() {
+    this.spinner = true;
+    await this.getfestivales();
+    this.setColumns();
+    this.loaded = true;
+    this.spinner = false;
   }
 
-  getfestivales() {
-    this.spinner = true;
-    this._festivalArtistAsocService
-      .getFestivalForArtist(
-        this._authService.getUserId(),
-        this.pageNumber,
-        this.pageSize,
-        this.sortBy,
-        this.sortOrder,
-        this.filters
-      )
-      .subscribe(
-        (res) => {
-          this.handleGetResponse(res);
-        },
-        (error) => {
-          this.handleGetErrorResponse();
-        }
+  async getfestivales() {
+    try {
+      this.handleGetResponse(
+        await lastValueFrom(
+          this._festivalArtistAsocService.getFestivalForArtist(
+            this._authService.getUserId(),
+            this.pageNumber,
+            this.pageSize,
+            this.sortBy,
+            this.sortOrder,
+            this.filters
+          )
+        )
       );
+    } catch (error) {
+      this.handleGetErrorResponse();
+    }
   }
 
   setColumns(): void {
@@ -107,9 +110,6 @@ export class FestivalCrewComponent {
   private handleGetResponse(res: any) {
     this.entries = res.data;
     this.totalRecords = res.totalEntries;
-    this.setColumns();
-    this.loaded = true;
-    this.spinner = false;
   }
 
   private handleGetErrorResponse() {

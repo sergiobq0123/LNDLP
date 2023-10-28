@@ -20,6 +20,7 @@ import { FestivalArtistAsocService } from 'src/app/services/intranet/festival-ar
 import { Artist } from 'src/app/models/artist.model';
 import { ArtistFestivalAsoc } from '../../../models/artistFestivalAsoc.model';
 import { Filter } from '../general/generic-filter/filter';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-festival-admin',
@@ -62,9 +63,13 @@ export class FestivalAdminComponent {
     public _dialog: MatDialog
   ) {}
 
-  ngOnInit() {
-    this.getFestivales();
-    this.getArtist();
+  async ngOnInit() {
+    this.spinner = true;
+    await this.getFestivales();
+    await this.getArtist();
+    this.setColumns();
+    this.spinner = false;
+    this.loaded = true;
   }
 
   ngAfterViewInit() {
@@ -80,30 +85,28 @@ export class FestivalAdminComponent {
     ];
   }
 
-  getArtist() {
-    this._artistService.getKeys().subscribe((res) => {
-      this.artistas = res;
-    });
+  async getFestivales() {
+    try {
+      this.handleGetResponse(
+        await lastValueFrom(
+          this._festivalService.get(
+            this.pageNumber,
+            this.pageSize,
+            this.sortBy,
+            this.sortOrder,
+            this.filters
+          )
+        )
+      );
+    } catch (error) {
+      this.handleGetErrorResponse();
+    }
   }
 
-  getFestivales() {
-    this.spinner = true;
-    this._festivalService
-      .get(
-        this.pageNumber,
-        this.pageSize,
-        this.sortBy,
-        this.sortOrder,
-        this.filters
-      )
-      .subscribe(
-        (res) => {
-          this.handleGetResponse(res);
-        },
-        (error) => {
-          this.handleGetErrorResponse();
-        }
-      );
+  async getArtist() {
+    try {
+      this.artistas = await lastValueFrom(this._artistService.getKeys());
+    } catch (error) {}
   }
 
   setColumns(): void {
@@ -345,15 +348,11 @@ export class FestivalAdminComponent {
   private handleGetResponse(res: any) {
     this.entries = res.data;
     this.totalRecords = res.totalEntries;
-    this.setColumns();
-    this.loaded = true;
-    this.spinner = false;
   }
 
   private handleGetErrorResponse() {
     this._notificationService.showErrorMessage(notifications.LOADING_DATA_FAIL);
     this.apiFailing = false;
-    this.spinner = false;
   }
 
   private handleResponse(message: string) {

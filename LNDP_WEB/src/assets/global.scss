@@ -18,7 +18,6 @@ $extra-color: #ff8407;
 $main-font: "League Spartan", sans-serif;
 $secondary-font: "Montserrat", sans-serif;
 
-
 @mixin custom-iconbutton() {
   display: flex;
   align-items: center;
@@ -44,12 +43,110 @@ $secondary-font: "Montserrat", sans-serif;
   margin-top: 20px;
   letter-spacing: 1px;
   transition: 0.3s;
-  box-shadow:
-    6px 6px 10px -1px rgba(0, 0, 0, 0.15),
+  box-shadow: 6px 6px 10px -1px rgba(0, 0, 0, 0.15),
     -6px -6px 10px -1px rgba(48, 47, 47, 0.7);
   text-transform: uppercase;
   width: 120px;
   align-self: center;
+}
+@mixin custom-slidechekbox() {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  &__text {
+    font-size: 12px;
+    width: 60px;
+  }
+
+  .switch {
+    position: relative;
+    display: flex;
+    width: 48px;
+    height: 20px;
+  }
+
+  .switch input {
+    display: none;
+  }
+
+  .slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+  }
+
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 13px;
+    width: 13px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+  }
+
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+
+  .slider.round {
+    border-radius: 34px;
+  }
+
+  .slider.round:before {
+    border-radius: 50%;
+  }
+
+  .slider-btn {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: $dark-color;
+  }
+  .slider-btn:before {
+    position: absolute;
+    content: "";
+    height: 13px;
+    width: 13px;
+    left: 4px;
+    bottom: 4px;
+    background-color: $power-color;
+  }
+
+  input:checked + .slider-btn {
+    background-color: $light-color;
+  }
+
+  input:focus + .slider-btn {
+    box-shadow: 0 0 1px $light-color;
+  }
+
+  input:checked + .slider-btn:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+
+  /* Rounded sliders */
+  .slider-btn.round {
+    border-radius: 34px;
+  }
+
+  .slider-btn.round:before {
+    border-radius: 50%;
+  }
 }
 
 .table .mat-paginator-range-label {
@@ -105,21 +202,132 @@ $secondary-font: "Montserrat", sans-serif;
   color: $light-color;
 }
 
-.mdc-text-field--no-label:not(.mdc-text-field--textarea) .mat-mdc-form-field-input-control.mdc-text-field__input,
+.mdc-text-field--no-label:not(.mdc-text-field--textarea)
+  .mat-mdc-form-field-input-control.mdc-text-field__input,
 .mat-mdc-text-field-wrapper .mat-mdc-form-field-input-control {
   color: $light-color;
 }
 .mat-mdc-header-cell {
   color: $light-color;
 }
-.leftbuttons {
-  display: flex;
-  gap: 10px;
-  height: 24px;
-}
 .cdk-overlay-dark-backdrop {
   background: rgba(#fff, 0.32);
 }
 .mat-sort-header-arrow {
   color: $light-color;
+}
+:host ::ng-deep.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: $dark-color;
+  color: $light-color;
+}
+
+.mat-mdc-select-panel-above .mdc-menu-surface.mat-mdc-select-panel {
+  background-color: $dark-color;
+}
+.cdk-overlay-pane:not(.mat-mdc-select-panel-above)
+  .mdc-menu-surface.mat-mdc-select-panel {
+  background-color: $dark-color;
+}
+.mat-body p,
+.mat-body-2 p,
+.mat-typography .mat-body p,
+.mat-typography .mat-body-2 p,
+.mat-typography p {
+  color: $light-color;
+}
+
+.mdc-dialog .mdc-dialog__content {
+  padding: 0;
+}
+.mat-primary
+  .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled)
+  .mdc-list-item__primary-text {
+  color: $light-color !important;
+}
+.mat-mdc-option.mdc-list-item {
+  color: $light-color !important;
+}
+.mat-primary .mdc-list-item__primary-text {
+  color: $light-color !important;
+}
+
+.mat-mdc-option:hover:not(.mdc-list-item--disabled),
+.mat-mdc-option:focus:not(.mdc-list-item--disabled),
+.mat-mdc-option.mat-mdc-option-active,
+.mat-mdc-option.mdc-list-item--selected:not(.mat-mdc-option-multiple):not(
+    .mdc-list-item--disabled
+  ) {
+  color: $light-color !important;
+}
+.mat-mdc-option .mat-icon,
+.mat-mdc-option .mat-pseudo-checkbox-full {
+  color: $light-color !important;
+}
+.mat-mdc-select-value .mat-mdc-option .mdc-list-item__primary-text {
+  color: $light-color !important;
+}
+
+.mat-mdc-option:hover:not(.mdc-list-item--disabled),
+.mat-mdc-option:focus:not(.mdc-list-item--disabled) {
+  background-color: $power-color !important;
+  color: $light-color;
+}
+.mat-mdc-option .mat-icon,
+.mat-mdc-option .mat-pseudo-checkbox-full {
+  color: $light-color;
+}
+.mat-pseudo-checkbox
+  .mat-mdc-option-pseudo-checkbox
+  .mat-pseudo-checkbox-full
+  .ng-star-inserted
+  .mat-pseudo-checkbox-checked {
+  background-color: $extra-color;
+  color: $light-color;
+}
+.mat-primary .mat-pseudo-checkbox-checked.mat-pseudo-checkbox-full,
+.mat-primary .mat-pseudo-checkbox-indeterminate.mat-pseudo-checkbox-full {
+  background: $extra-color;
+  background-color: $extra-color;
+}
+.mat-body p,
+.mat-body-2 p,
+.mat-typography .mat-body p,
+.mat-typography .mat-body-2 p,
+.mat-typography p {
+  margin: 0;
+}
+
+.mdc-text-field .mdc-line-ripple {
+  display: none;
+}
+.mat-select-panel .mat-option {
+  color: $light-color !important;
+}
+.mat-primary .mat-pseudo-checkbox-checked.mat-pseudo-checkbox-minimal::after,
+.mat-primary
+  .mat-pseudo-checkbox-indeterminate.mat-pseudo-checkbox-minimal::after {
+  color: $light-color !important;
+}
+.mdc-list-item--selected .mdc-list-item__primary-text,
+.mdc-list-item--activated .mdc-list-item__primary-text {
+  color: $extra-color;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+*::-webkit-scrollbar-track {
+  background: $dark-color;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: $middle-dark-color;
+  border-radius: 10px;
+}
+.mat-grid-tile-content {
+  align-items: start !important;
+}
+.mat-mdc-select-value {
+  color: $light-color !important;
 }

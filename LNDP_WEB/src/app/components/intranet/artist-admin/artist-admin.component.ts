@@ -18,6 +18,7 @@ import { PageEvent } from '@angular/material/paginator';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { IconButton } from '../general/generic-table/icon-button';
 import { Filter } from '../general/generic-filter/filter';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-artist-admin',
@@ -62,8 +63,12 @@ export class ArtistAdminComponent {
     private _socialNetworkService: SocialNetworkService
   ) {}
 
-  ngOnInit() {
-    this.getArtists();
+  async ngOnInit() {
+    this.spinner = true;
+    await this.getArtists();
+    this.setColumns();
+    this.loaded = true;
+    this.spinner = false;
   }
 
   ngAfterViewInit() {
@@ -79,24 +84,22 @@ export class ArtistAdminComponent {
     ];
   }
 
-  getArtists() {
-    this.spinner = true;
-    this._artistService
-      .get(
-        this.pageNumber,
-        this.pageSize,
-        this.sortBy,
-        this.sortOrder,
-        this.filters
-      )
-      .subscribe(
-        (res) => {
-          this.handleGetResponse(res);
-        },
-        (error) => {
-          this.handleGetErrorResponse();
-        }
+  async getArtists() {
+    try {
+      this.handleGetResponse(
+        await lastValueFrom(
+          this._artistService.get(
+            this.pageNumber,
+            this.pageSize,
+            this.sortBy,
+            this.sortOrder,
+            this.filters
+          )
+        )
       );
+    } catch (error) {
+      this.handleGetErrorResponse();
+    }
   }
 
   setColumns(): void {
@@ -458,15 +461,11 @@ export class ArtistAdminComponent {
   private handleGetResponse(res: any) {
     this.entries = res.data;
     this.totalRecords = res.totalEntries;
-    this.setColumns();
-    this.loaded = true;
-    this.spinner = false;
   }
 
   private handleGetErrorResponse() {
     this._notificationService.showErrorMessage(notifications.LOADING_DATA_FAIL);
     this.apiFailing = false;
-    this.spinner = false;
   }
 
   private handleResponse(message: string) {
