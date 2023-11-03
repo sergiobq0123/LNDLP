@@ -11,9 +11,5 @@ namespace LNDP_API.Repositories
         {
             _context = context;
         }
-        public async Task<IEnumerable<CompanyType>> GetAsync()
-        {
-            return await _context.CompanyType.AsNoTracking().ToListAsync();
-        }
     }
 }

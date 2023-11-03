@@ -18,17 +18,6 @@ namespace LNDP_API.Repositories
             return await Task.FromResult(query);
         }
 
-        public async Task<IEnumerable<Festival>> GetFestivalsForArtistAsync(int artistId)
-        {
-            return await _context.Festival
-                .Where(f =>
-                    f.ArtistFestivalAsoc.Any(afa => afa.ArtistId == artistId)
-                )
-                .Include(f => f.ArtistFestivalAsoc)
-                .ThenInclude(afa => afa.Artist)
-                .AsNoTracking()
-                .ToListAsync();
-        }
         public async Task<IEnumerable<Festival>> GetFutureFestivalsAsync()
         {
             return await _context.Festival

@@ -29,7 +29,7 @@ namespace LNDP_API.Mapping
             //* Para los dropdown 
             CreateMap<Artist, KeysIntranetDto>();
             CreateMap<CompanyType, KeysIntranetDto>()
-                .ForMember(u => u.Name, opt => opt.MapFrom(src => src.CompanyTypeName));
+                .ForMember(u => u.Name, opt => opt.MapFrom(src => src.Name));
             CreateMap<UserRole, KeysIntranetDto>()
                 .ForMember(u => u.Name, opt => opt.MapFrom(src => src.Role));
 

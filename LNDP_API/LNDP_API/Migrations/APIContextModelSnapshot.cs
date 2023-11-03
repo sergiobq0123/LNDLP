@@ -50,29 +50,29 @@ namespace LNDP_API.Migrations
                         new
                         {
                             Id = 1,
-                            PasswordHash = "Ck5RjLR+P2rXfqwK83SlYLab9AzZDqqvt+/hdzsbsK4=",
-                            PasswordSalt = "B268lxTyNyI1wMDlX3+7hQ==",
+                            PasswordHash = "VIg3Q+wsVj4Tpv3XXsvbWRHOj44h52F5kMom3mnPSoA=",
+                            PasswordSalt = "niUNm/hPTYZwTG3eYe58RQ==",
                             UserName = "Sanchez"
                         },
                         new
                         {
                             Id = 2,
-                            PasswordHash = "croTc31hhIBdNT4MgGR6djPD6XN83CwtlsvxB0zntoM=",
-                            PasswordSalt = "B268lxTyNyI1wMDlX3+7hQ==",
+                            PasswordHash = "95voz9SjfREkadcjsbPzlpZAe0Yt/OPoTSs57wuqGCY=",
+                            PasswordSalt = "niUNm/hPTYZwTG3eYe58RQ==",
                             UserName = "Torres"
                         },
                         new
                         {
                             Id = 3,
-                            PasswordHash = "+Ds4m9+ot7bxjFqq5lJR3ZsngN2m9NEoGoYa5z/F9TU=",
-                            PasswordSalt = "B268lxTyNyI1wMDlX3+7hQ==",
+                            PasswordHash = "fbNfT+Ne414Pfbm8WepwzYOYW80fZAogOunxUs8vSaE=",
+                            PasswordSalt = "niUNm/hPTYZwTG3eYe58RQ==",
                             UserName = "Tomas"
                         },
                         new
                         {
                             Id = 4,
-                            PasswordHash = "XW3RrwLIuhzXI5n5pvTlyHSRnAwBU8JAIpRlHjdSc54=",
-                            PasswordSalt = "B268lxTyNyI1wMDlX3+7hQ==",
+                            PasswordHash = "sNbbaF6pFRdDpeLl7VIAc1EMpCANV6ZTB0ktSKO3suY=",
+                            PasswordSalt = "niUNm/hPTYZwTG3eYe58RQ==",
                             UserName = "Iglesias"
                         });
                 });
@@ -219,7 +219,7 @@ namespace LNDP_API.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("CompanyTypeName")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -231,22 +231,22 @@ namespace LNDP_API.Migrations
                         new
                         {
                             Id = 1,
-                            CompanyTypeName = "Marca"
+                            Name = "Marca"
                         },
                         new
                         {
                             Id = 2,
-                            CompanyTypeName = "Partner"
+                            Name = "Partner"
                         },
                         new
                         {
                             Id = 3,
-                            CompanyTypeName = "Sello"
+                            Name = "Sello"
                         },
                         new
                         {
                             Id = 4,
-                            CompanyTypeName = "Proyecto"
+                            Name = "Proyecto"
                         });
                 });
 

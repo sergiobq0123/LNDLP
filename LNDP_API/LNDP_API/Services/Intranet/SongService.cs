@@ -18,7 +18,7 @@ namespace LNDP_API.Services
         public async Task<PagedResponse<List<Song>>> GetSongs([FromQuery] PaginationFilter paginationFilter, string route)
         {
             IQueryable<Song> query = await _songRepository.GetSongsAsync();
-            return await this.GetPagination(paginationFilter, query, route);
+            return await GetPagination(paginationFilter, query, route);
         }
     }
 }

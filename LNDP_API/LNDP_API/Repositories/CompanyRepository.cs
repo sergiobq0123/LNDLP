@@ -20,7 +20,7 @@ namespace LNDP_API.Repositories
 
         public async Task<IEnumerable<Company>> GetByTypeAsync(string type)
         {
-            return await _context.Company.Where(c => c.CompanyType.CompanyTypeName == type).AsNoTracking().ToListAsync();
+            return await _context.Company.Where(c => c.CompanyType.Name == type).AsNoTracking().ToListAsync();
         }
     }
 }

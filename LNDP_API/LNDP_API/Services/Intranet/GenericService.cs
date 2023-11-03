@@ -32,13 +32,13 @@ namespace LNDP_API.Services
             IQueryable<TEntity> query = await _repository.GetAsync();
             return await GetPagination(paginationFilter, query, route);
         }
+
         public async Task<PagedResponse<List<TEntity>>> GetPagination([FromQuery] PaginationFilter paginationFilter, IQueryable<TEntity> query, string route)
         {
             return await _paginationUtils.GetPagedDataAsync(query, paginationFilter, route, _mappingFunc);
         }
 
         public async Task<TEntity> Create(TEntity entity)
-
         {
             if (entity is IHasPhotoUrl entityWithPhotoUrl)
             {

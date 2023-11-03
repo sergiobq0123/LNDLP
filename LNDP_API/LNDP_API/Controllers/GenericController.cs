@@ -19,7 +19,7 @@ namespace LNDP_API.Controllers
 
         [Authorize(Roles = "Admin, Visual")]
         [HttpGet("keys")]
-        public async Task<ActionResult<IEnumerable<KeysIntranetDto>>> GetArtistKeys()
+        public async Task<ActionResult<IEnumerable<KeysIntranetDto>>> GetKeys()
         {
             try
             {
