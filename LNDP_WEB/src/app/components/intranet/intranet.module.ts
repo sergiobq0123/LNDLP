@@ -15,9 +15,8 @@ import { HomeAdminComponent } from './home-admin/home-admin.component';
 import { IntranetComponent } from './intranet.component';
 import { SongAdminComponent } from './song-admin/song-admin.component';
 import { UserAdminComponent } from './user-admin/user-admin.component';
-import { YoutubeVideoVisualComponent } from './youtube-video-visual/youtube-video-visual.component';
 import { FestivalCrewComponent } from './festival-crew/festival-crew.component';
-
+import { YoutubeVideoVisualComponent } from './youtube-video-visual/youtube-video-visual.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +32,7 @@ import { FestivalCrewComponent } from './festival-crew/festival-crew.component';
     YoutubeVideoVisualComponent,
     ConcertCrewComponent,
     FestivalArtistDialogComponent,
-    FestivalCrewComponent
+    FestivalCrewComponent,
   ],
   imports: [
     IntranetRoutingModule,
@@ -41,7 +40,7 @@ import { FestivalCrewComponent } from './festival-crew/festival-crew.component';
     FormsModule,
     ReactiveFormsModule,
     GeneralModule,
-    FontAwesomeModule
+    FontAwesomeModule,
   ],
 })
-export class IntranetModule { }
+export class IntranetModule {}

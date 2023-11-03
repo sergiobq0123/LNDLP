@@ -15,9 +15,13 @@ namespace LNDP_API.Repositories
             _context = context;
         }
 
-        public async Task<IQueryable<TEntity>> GetAsync()
+        public async Task<IQueryable<TEntity>> GetAsync(Expression<Func<TEntity, bool>> predicate)
         {
             var query = _context.Set<TEntity>().AsNoTracking();
+            if (predicate != null)
+            {
+                query = query.Where(predicate);
+            }
             return await Task.FromResult(query);
         }
 

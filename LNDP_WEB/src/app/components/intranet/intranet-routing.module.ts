@@ -9,64 +9,65 @@ import { IntranetComponent } from './intranet.component';
 import { CompanyAdminComponent } from './company-admin/company-admin.component';
 import { AlbumAdminComponent } from './album-admin/album-admin.component';
 import { SongAdminComponent } from './song-admin/song-admin.component';
-import { YoutubeVideoVisualComponent } from './youtube-video-visual/youtube-video-visual.component';
 import { ConcertCrewComponent } from './concert-crew/concert-crew.component';
 import { FestivalCrewComponent } from './festival-crew/festival-crew.component';
-
+import { YoutubeVideoVisualComponent } from './youtube-video-visual/youtube-video-visual.component';
 
 const routes: Routes = [
-  {path : '',
-    component : IntranetComponent,
-    children :[
+  {
+    path: '',
+    component: IntranetComponent,
+    children: [
       {
-        path : 'Home',
-        component : HomeAdminComponent,
+        path: 'Home',
+        component: HomeAdminComponent,
       },
       {
-        path : 'Artistas',
-        component : ArtistAdminComponent,
+        path: 'Artistas',
+        component: ArtistAdminComponent,
       },
       {
-        path : 'Festivales',
-        component : FestivalAdminComponent,
+        path: 'Festivales',
+        component: FestivalAdminComponent,
       },
       {
-        path : 'Conciertos',
-        component : ConcertAdminComponent,
+        path: 'Conciertos',
+        component: ConcertAdminComponent,
       },
       {
-        path : 'Usuarios',
-        component : UserAdminComponent,
+        path: 'Usuarios',
+        component: UserAdminComponent,
       },
       {
-        path : 'Song',
-        component : SongAdminComponent,
+        path: 'Song',
+        component: SongAdminComponent,
       },
       {
-        path : 'Albumes',
-        component : AlbumAdminComponent,
+        path: 'Albumes',
+        component: AlbumAdminComponent,
       },
       {
-        path : 'Companies',
-        component : CompanyAdminComponent,
+        path: 'Companies',
+        component: CompanyAdminComponent,
       },
       {
-        path : 'YoutubeVideos',
-        component : YoutubeVideoVisualComponent,
+        path: 'YoutubeVideos',
+        component: YoutubeVideoVisualComponent,
       },
       {
-        path : 'ConcertCrew',
-        component : ConcertCrewComponent,
+        path: 'ConcertCrew',
+        component: ConcertCrewComponent,
       },
       {
-        path : 'FestivalCrew',
-        component : FestivalCrewComponent,
+        path: 'FestivalCrew',
+        component: FestivalCrewComponent,
       },
-    ]}
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class IntranetRoutingModule { }
+export class IntranetRoutingModule {}

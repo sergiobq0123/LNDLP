@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using LNDP_API.Data;
 using LNDP_API.Models;
+using System.Linq.Expressions;
 
 namespace LNDP_API.Repositories
 {
@@ -21,13 +22,18 @@ namespace LNDP_API.Repositories
         {
             return await _context.ArtistFestivalAsoc.AnyAsync(v => v.Id == idArtistFestivalAsoc);
         }
-        public async Task<IQueryable<ArtistFestivalAsoc>> GetFestivalsForArtistAsync(int id)
+        public async Task<IQueryable<ArtistFestivalAsoc>> GetFestivalsForArtistAsync(int id, Expression<Func<ArtistFestivalAsoc, bool>> predicate)
         {
             var query = _context.ArtistFestivalAsoc
                 .Include(a => a.Artist)
                 .Include(a => a.Festival)
                 .Where(a => a.Artist.UserId == id)
                 .AsNoTracking();
+
+            if (predicate != null)
+            {
+                query = query.Where(predicate);
+            }
             return await Task.FromResult(query);
         }
     }

@@ -17,6 +17,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { IconButton } from '../general/generic-table/icon-button';
 import { Filter } from '../general/generic-filter/filter';
 import { Sort } from '@angular/material/sort';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-artist-song',
@@ -25,7 +26,7 @@ import { Sort } from '@angular/material/sort';
 })
 export class SongAdminComponent {
   entries: Array<any> = new Array<any>();
-  artists: Array<any> = new Array<any>();
+  artistas: Array<any> = new Array<any>();
   columns: Column[];
   songForm: GenericForm[];
   apiFailing: boolean = false;
@@ -53,9 +54,13 @@ export class SongAdminComponent {
     public _notificationService: NotificationService
   ) {}
 
-  ngOnInit() {
-    this.getSongs();
-    this.getArtist();
+  async ngOnInit() {
+    this.spinner = true;
+    await this.getSongs();
+    await this.getArtist();
+    this.setColumns();
+    this.loaded = true;
+    this.spinner = false;
   }
 
   ngAfterViewInit() {
@@ -71,30 +76,28 @@ export class SongAdminComponent {
     ];
   }
 
-  getSongs() {
-    this.spinner = true;
-    this._songService
-      .get(
-        this.pageNumber,
-        this.pageSize,
-        this.sortBy,
-        this.sortOrder,
-        this.filters
-      )
-      .subscribe(
-        (res) => {
-          this.handleGetResponse(res);
-        },
-        (error) => {
-          this.handleGetErrorResponse();
-        }
+  async getSongs() {
+    try {
+      this.handleGetResponse(
+        await lastValueFrom(
+          this._songService.get(
+            this.pageNumber,
+            this.pageSize,
+            this.sortBy,
+            this.sortOrder,
+            this.filters
+          )
+        )
       );
+    } catch (error) {
+      this.handleGetErrorResponse();
+    }
   }
 
-  getArtist() {
-    this._artistService.getKeys().subscribe((res) => {
-      this.artists = res;
-    });
+  async getArtist() {
+    try {
+      this.artistas = await lastValueFrom(this._artistService.getKeys());
+    } catch (error) {}
   }
 
   setColumns(): void {
@@ -114,14 +117,18 @@ export class SongAdminComponent {
         dataKey: 'artist.name',
         position: 'left',
         isSortable: true,
+        isFilterable: true,
         hidden: false,
         type: ContentType.plainText,
+        dropdown: this.artistas,
+        dropdownKeyToShow: 'name',
       },
       {
         name: 'Nombre',
         dataKey: 'name',
         position: 'left',
         isSortable: true,
+        isFilterable: true,
         hidden: false,
         type: ContentType.editableTextFields,
         validators: [Validators.required],
@@ -150,7 +157,7 @@ export class SongAdminComponent {
         position: { row: 0, col: 0, rowSpan: 1, colSpan: 1 },
         hidden: false,
         type: ContentType.dropdownFields,
-        dropdown: this.artists,
+        dropdown: this.artistas,
         dropdownKeyToShow: 'name',
         dropdownKeyValue: 'id',
         validators: [Validators.required],
@@ -227,15 +234,11 @@ export class SongAdminComponent {
   private handleGetResponse(res: any) {
     this.entries = res.data;
     this.totalRecords = res.totalEntries;
-    this.setColumns();
-    this.loaded = true;
-    this.spinner = false;
   }
 
   private handleGetErrorResponse() {
     this._notificationService.showErrorMessage(notifications.LOADING_DATA_FAIL);
     this.apiFailing = false;
-    this.spinner = false;
   }
 
   private handleResponse(message: string) {

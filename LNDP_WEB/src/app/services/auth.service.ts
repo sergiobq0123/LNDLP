@@ -8,9 +8,7 @@ import { LocalStorageService } from './local-storage.service';
 export class AuthService {
   loginChangedEvent = new Subject();
 
-  constructor(
-    private _localStorageService: LocalStorageService
-  ) {}
+  constructor(private _localStorageService: LocalStorageService) {}
 
   logout() {
     this._localStorageService.clearStorage();
@@ -19,10 +17,6 @@ export class AuthService {
 
   isLoggedIn() {
     return this.getToken() != null;
-  }
-
-  whoIsLoggedIn() {
-    return JSON.parse(atob(this.getToken().split('.')[1]));
   }
 
   getToken() {

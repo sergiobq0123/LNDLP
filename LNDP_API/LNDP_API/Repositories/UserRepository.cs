@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using LNDP_API.Data;
 using LNDP_API.Models;
+using System.Linq.Expressions;
 
 namespace LNDP_API.Repositories
 {
@@ -20,7 +21,7 @@ namespace LNDP_API.Repositories
         {
             return await _context.User.AnyAsync(v => v.Id == idUser);
         }
-        public async Task<IQueryable<User>> GetUsersAsync()
+        public async Task<IQueryable<User>> GetUsersAsync(Expression<Func<User, bool>> predicate)
         {
             var query = _context.User
                 .Include(u => u.Acces)
@@ -42,6 +43,11 @@ namespace LNDP_API.Repositories
                         Role = u.UserRole.Role
                     }
                 }).AsNoTracking();
+
+            if (predicate != null)
+            {
+                query = query.Where(predicate);
+            }
             return await Task.FromResult(query);
         }
     }

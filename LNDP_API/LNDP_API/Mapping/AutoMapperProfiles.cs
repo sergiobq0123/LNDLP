@@ -16,8 +16,6 @@ namespace LNDP_API.Mapping
             //* Artista
             CreateMap<ArtistCreateDto, SocialNetwork>();
             CreateMap<ArtistCreateDto, Artist>();
-
-            //* POST de Artista
             CreateMap<Artist, ArtistCreateDto>().ReverseMap();
             CreateMap<UserCreateDto, ArtistCreateDto>().ReverseMap();
             CreateMap<SocialNetwork, ArtistCreateDto>().ReverseMap();

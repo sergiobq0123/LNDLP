@@ -7,6 +7,7 @@ export class Filter {
   condition: Filter.Condition;
   filterInput: string[];
   dropdown?: any[];
+  dropdownKeyValue?: string;
   dropdownKeyToShow?: string;
   startDate?: Date;
   endDate?: Date;

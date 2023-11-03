@@ -6,9 +6,22 @@
         >Add filter
         <fa-icon [icon]="faPlus"></fa-icon>
       </mat-label>
-      <mat-select class="filter-option-select" [(ngModel)]="selectedOption" (selectionChange)="addFilter()">
-        <mat-option class="filter-option-options" selected="true" disabled="disabled">Select filter to add</mat-option>
-        <mat-option class="filter-option-options" *ngFor="let item of getUnselectedColumns()" [value]="item">
+      <mat-select
+        class="filter-option-select"
+        [(ngModel)]="selectedOption"
+        (selectionChange)="addFilter()"
+      >
+        <mat-option
+          class="filter-option-options"
+          selected="true"
+          disabled="disabled"
+          >Select filter to add</mat-option
+        >
+        <mat-option
+          class="filter-option-options"
+          *ngFor="let item of getUnselectedColumns()"
+          [value]="item"
+        >
           {{ item.name }}
         </mat-option>
       </mat-select>
@@ -18,32 +31,48 @@
   <!--Array of Filters-->
   <ng-container *ngIf="this.selectedFilters.length > 0">
     <div class="filter-options-row" *ngFor="let filter of selectedFilters">
-      <mat-checkbox class="filter-checkbox" [checked]="filter.active" (change)="onFilterActiveChange(filter.dataKey)">
+      <mat-checkbox
+        class="filter-checkbox"
+        [checked]="filter.active"
+        (change)="onFilterActiveChange(filter.dataKey)"
+      >
         {{ filter.name }}
       </mat-checkbox>
 
       <ng-container *ngIf="filter.active">
         <!-- CONDITION SELECTOR -->
         <mat-form-field class="filters-condition" appearance="fill">
-          <mat-select class="filter-option-select" [(ngModel)]="filter.condition">
+          <mat-select
+            class="filter-option-select"
+            [(ngModel)]="filter.condition"
+          >
             <mat-option
               class="filter-option-options"
               *ngFor="let condition of getFilterConditions(filter)"
               value="{{ condition }}"
-              selected>
+              selected
+            >
               {{ condition }}
             </mat-option>
           </mat-select>
         </mat-form-field>
 
         <ng-container [ngSwitch]="filter.type">
+          <!-- SLIDER -->
+          <ng-container *ngSwitchCase="'slider'"></ng-container>
+
           <!-- DROPDOWN -->
           <ng-container *ngSwitchCase="'dropdownFields'">
             <mat-form-field class="filters-condition" appearance="fill">
-              <mat-select [(ngModel)]="filter.filterInput" matNativeControl>
+              <mat-select
+                [(ngModel)]="filter.filterInput"
+                matNativeControl
+                multiple
+              >
                 <mat-option
                   *ngFor="let dropdownValue of filter.dropdown"
-                  [value]="dropdownValue[filter.dropdownKeyToShow]">
+                  [value]="dropdownValue[filter.dropdownKeyValue]"
+                >
                   {{ dropdownValue[filter.dropdownKeyToShow] }}
                 </mat-option>
               </mat-select>
@@ -51,15 +80,25 @@
           </ng-container>
 
           <!-- DATE PICKER -->
-          <ng-container *ngSwitchCase="filter.type === 'datePicker' || filter.type === 'dateText' ? filter.type : ''">
+          <ng-container
+            *ngSwitchCase="
+              filter.type === 'datePicker' || filter.type === 'dateText'
+                ? filter.type
+                : ''
+            "
+          >
             <mat-form-field class="filters-condition" appearance="fill">
               <input
                 matInput
                 [matDatepicker]="startPicker"
                 [(ngModel)]="filter.startDate"
                 [formControl]="startDate"
-                required />
-              <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+                required
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="startPicker"
+              ></mat-datepicker-toggle>
               <mat-datepicker #startPicker></mat-datepicker>
               <mat-error *ngIf="startDate.invalid">Not a valid date</mat-error>
             </mat-form-field>
@@ -67,18 +106,32 @@
 
           <!-- TEXT INPUT -->
           <ng-container *ngSwitchDefault>
-            <mat-form-field *ngIf="filter.dropdown == null" class="filters-condition" appearance="fill">
+            <mat-form-field
+              *ngIf="filter.dropdown == null"
+              class="filters-condition"
+              appearance="fill"
+            >
               <input
                 class="filterInput"
                 [(ngModel)]="filter.filterInput"
                 matInput
-                placeholder="{{ filter.filterInput }}" />
+                placeholder="{{ filter.filterInput }}"
+              />
             </mat-form-field>
-            <mat-form-field *ngIf="filter.dropdown != null" class="filters-condition" appearance="fill">
-              <mat-select [(ngModel)]="filter.filterInput" matNativeControl multiple>
+            <mat-form-field
+              *ngIf="filter.dropdown != null"
+              class="filters-condition"
+              appearance="fill"
+            >
+              <mat-select
+                [(ngModel)]="filter.filterInput"
+                matNativeControl
+                multiple
+              >
                 <mat-option
                   *ngFor="let dropdownValue of filter.dropdown"
-                  [value]="dropdownValue[filter.dropdownKeyToShow]">
+                  [value]="dropdownValue[filter.dropdownKeyToShow]"
+                >
                   {{ dropdownValue[filter.dropdownKeyToShow] }}
                 </mat-option>
               </mat-select>
@@ -91,10 +144,21 @@
           class="filters-condition"
           appearance="fill"
           *ngIf="
-            (filter.type === 'datePicker' || filter.type === 'dateText') && filter.condition === FilterCondition.BETWEEN
-          ">
-          <input matInput [matDatepicker]="endPicker" [(ngModel)]="filter.endDate" [formControl]="endDate" required />
-          <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+            (filter.type === 'datePicker' || filter.type === 'dateText') &&
+            filter.condition === FilterCondition.BETWEEN
+          "
+        >
+          <input
+            matInput
+            [matDatepicker]="endPicker"
+            [(ngModel)]="filter.endDate"
+            [formControl]="endDate"
+            required
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="endPicker"
+          ></mat-datepicker-toggle>
           <mat-datepicker #endPicker></mat-datepicker>
           <mat-error *ngIf="endDate.invalid">Not a valid date</mat-error>
         </mat-form-field>
@@ -108,7 +172,8 @@
       matTooltip="Apply filter"
       matTooltipPosition="below"
       matTooltipShowDelay="500"
-      (click)="applyFilterOption()">
+      (click)="applyFilterOption()"
+    >
       <fa-icon [icon]="faCheck"></fa-icon>
     </button>
 
@@ -116,11 +181,19 @@
       matTooltip="Reset filter"
       matTooltipPosition="below"
       matTooltipShowDelay="500"
-      (click)="resetFilterOptions()">
-      <fa-icon [icon]="faUndo" [styles]="{ transform: 'rotate(-90deg)' }"></fa-icon>
+      (click)="resetFilterOptions()"
+    >
+      <fa-icon
+        [icon]="faUndo"
+        [styles]="{ transform: 'rotate(-90deg)' }"
+      ></fa-icon>
     </button>
 
-    <button matTooltip="Save filter options" matTooltipPosition="below" matTooltipShowDelay="500">
+    <button
+      matTooltip="Save filter options"
+      matTooltipPosition="below"
+      matTooltipShowDelay="500"
+    >
       <fa-icon [icon]="faSave"></fa-icon>
     </button>
   </div>

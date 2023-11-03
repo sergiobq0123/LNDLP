@@ -31,7 +31,7 @@ namespace LNDP_API.Controllers
                 return BadRequest(new { ex.Message });
             }
         }
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public virtual async Task<ActionResult<string>> ChangePassword(int id, AccesDto accesDto)
         {

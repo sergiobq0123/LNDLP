@@ -1,17 +1,20 @@
 using Microsoft.AspNetCore.WebUtilities;
 
-public class UriService : IUriService
+namespace LNDP_API.Filters
 {
-    private readonly string _baseUri;
-    public UriService(string baseUri)
+    public class UriService : IUriService
     {
-        _baseUri = baseUri;
-    }
-    public Uri GetPageUri(PaginationFilter filter, string route)
-    {
-        var endpointUri = new Uri(string.Concat(_baseUri, route));
-        var modifiedUri = QueryHelpers.AddQueryString(endpointUri.ToString(), "page", filter.Page.ToString());
-        modifiedUri = QueryHelpers.AddQueryString(modifiedUri, "size", filter.Size.ToString());
-        return new Uri(modifiedUri);
+        private readonly string _baseUri;
+        public UriService(string baseUri)
+        {
+            _baseUri = baseUri;
+        }
+        public Uri GetPageUri(PaginationFilter filter, string route)
+        {
+            var endpointUri = new Uri(string.Concat(_baseUri, route));
+            var modifiedUri = QueryHelpers.AddQueryString(endpointUri.ToString(), "page", filter.Page.ToString());
+            modifiedUri = QueryHelpers.AddQueryString(modifiedUri, "size", filter.Size.ToString());
+            return new Uri(modifiedUri);
+        }
     }
 }
