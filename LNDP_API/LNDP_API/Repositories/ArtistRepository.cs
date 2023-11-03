@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using LNDP_API.Data;
 using LNDP_API.Models;
+using System.Linq.Expressions;
 
 namespace LNDP_API.Repositories
 {
@@ -12,9 +13,13 @@ namespace LNDP_API.Repositories
             _context = context;
         }
 
-        public async Task<IQueryable<Artist>> GetArtistasAsync()
+        public async Task<IQueryable<Artist>> GetArtistasAsync(Expression<Func<Artist, bool>> predicate)
         {
             var query = _context.Artist.Include(c => c.SocialNetwork).AsNoTracking();
+            if (predicate != null)
+            {
+                query = query.Where(predicate);
+            }
             return await Task.FromResult(query);
         }
 

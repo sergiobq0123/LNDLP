@@ -24,12 +24,16 @@ import { ServiceBaseService } from './services/service-base.service';
     ReactiveFormsModule,
     IntranetModule,
     WebModule,
-    LoginModule
+    LoginModule,
   ],
   providers: [
     ServiceBaseService,
-    { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true }
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpInterceptorService,
+      multi: true,
+    },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

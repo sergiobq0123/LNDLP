@@ -18,6 +18,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { IconButton } from '../general/generic-table/icon-button';
 import { AccesService } from 'src/app/services/intranet/acces.service';
 import { Filter } from '../general/generic-filter/filter';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-user-admin',
@@ -26,7 +27,6 @@ import { Filter } from '../general/generic-filter/filter';
 })
 export class UserAdminComponent {
   entries: Array<any> = new Array<any>();
-  usersRole: Array<any> = new Array<any>();
   usersKeys: Array<any> = new Array<any>();
   artistWithoutUser: Array<any> = new Array<any>();
   columns: Column[];
@@ -61,9 +61,13 @@ export class UserAdminComponent {
     private _notificationService: NotificationService
   ) {}
 
-  ngOnInit() {
-    this.getUsers();
-    this.getUserKeys();
+  async ngOnInit() {
+    this.spinner = true;
+    await this.getUsers();
+    await this.getUserKeys();
+    this.setColumns();
+    this.loaded = true;
+    this.spinner = false;
   }
 
   ngAfterViewInit() {
@@ -79,30 +83,28 @@ export class UserAdminComponent {
     ];
   }
 
-  getUsers() {
-    this.spinner = true;
-    this._userService
-      .get(
-        this.pageNumber,
-        this.pageSize,
-        this.sortBy,
-        this.sortOrder,
-        this.filters
-      )
-      .subscribe(
-        (res) => {
-          this.handleGetResponse(res);
-        },
-        (error) => {
-          this.handleGetErrorResponse();
-        }
+  async getUsers() {
+    try {
+      this.handleGetResponse(
+        await lastValueFrom(
+          this._userService.get(
+            this.pageNumber,
+            this.pageSize,
+            this.sortBy,
+            this.sortOrder,
+            this.filters
+          )
+        )
       );
+    } catch (error) {
+      this.handleGetErrorResponse();
+    }
   }
 
-  getUserKeys() {
-    this._userRoleService.getKeys().subscribe((res) => {
-      this.usersKeys = res;
-    });
+  async getUserKeys() {
+    try {
+      this.usersKeys = await lastValueFrom(this._userRoleService.getKeys());
+    } catch (error) {}
   }
 
   setColumns(): void {
@@ -134,6 +136,7 @@ export class UserAdminComponent {
         name: 'Nombre',
         dataKey: 'firstName',
         position: 'left',
+        isFilterable: true,
         isSortable: true,
         type: ContentType.editableTextFields,
       },
@@ -142,6 +145,7 @@ export class UserAdminComponent {
         dataKey: 'lastName',
         position: 'left',
         isSortable: true,
+        isFilterable: true,
         type: ContentType.editableTextFields,
       },
       {
@@ -149,6 +153,7 @@ export class UserAdminComponent {
         dataKey: 'email',
         position: 'left',
         isSortable: true,
+        isFilterable: true,
         type: ContentType.editableTextFields,
       },
       {
@@ -156,7 +161,10 @@ export class UserAdminComponent {
         dataKey: 'userRole.role',
         position: 'left',
         isSortable: true,
+        isFilterable: true,
         type: ContentType.plainText,
+        dropdown: this.usersKeys,
+        dropdownKeyToShow: 'name',
       },
       {
         name: 'Password',
@@ -316,15 +324,11 @@ export class UserAdminComponent {
   private handleGetResponse(res: any) {
     this.entries = res.data;
     this.totalRecords = res.totalEntries;
-    this.setColumns();
-    this.loaded = true;
-    this.spinner = false;
   }
 
   private handleGetErrorResponse() {
     this._notificationService.showErrorMessage(notifications.LOADING_DATA_FAIL);
     this.apiFailing = false;
-    this.spinner = false;
   }
 
   private handleResponse(message: string) {

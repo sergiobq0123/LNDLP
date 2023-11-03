@@ -17,6 +17,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { IconButton } from '../general/generic-table/icon-button';
 import { Sort } from '@angular/material/sort';
 import { Filter } from '../general/generic-filter/filter';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-album-admin',
@@ -25,7 +26,7 @@ import { Filter } from '../general/generic-filter/filter';
 })
 export class AlbumAdminComponent {
   entries: Array<any> = new Array<any>();
-  artists: Array<any> = new Array<any>();
+  artistas: Array<any> = new Array<any>();
   columns: Column[];
   albumForm: GenericForm[];
   apiFailing: boolean = false;
@@ -55,9 +56,13 @@ export class AlbumAdminComponent {
     public _notificationService: NotificationService
   ) {}
 
-  ngOnInit() {
-    this.getAlbums();
-    this.getArtist();
+  async ngOnInit() {
+    this.spinner = true;
+    await this.getAlbums();
+    await this.getArtist();
+    this.setColumns();
+    this.loaded = true;
+    this.spinner = false;
   }
 
   ngAfterViewInit() {
@@ -73,30 +78,28 @@ export class AlbumAdminComponent {
     ];
   }
 
-  getAlbums() {
-    this.spinner = true;
-    this._albumService
-      .get(
-        this.pageNumber,
-        this.pageSize,
-        this.sortBy,
-        this.sortOrder,
-        this.filters
-      )
-      .subscribe(
-        (res) => {
-          this.handleGetResponse(res);
-        },
-        (error) => {
-          this.handleGetErrorResponse();
-        }
+  async getAlbums() {
+    try {
+      this.handleGetResponse(
+        await lastValueFrom(
+          this._albumService.get(
+            this.pageNumber,
+            this.pageSize,
+            this.sortBy,
+            this.sortOrder,
+            this.filters
+          )
+        )
       );
+    } catch (error) {
+      this.handleGetErrorResponse();
+    }
   }
 
-  getArtist() {
-    this._artistService.getKeys().subscribe((res) => {
-      this.artists = res;
-    });
+  async getArtist() {
+    try {
+      this.artistas = await lastValueFrom(this._artistService.getKeys());
+    } catch (error) {}
   }
 
   setColumns(): void {
@@ -116,14 +119,18 @@ export class AlbumAdminComponent {
         dataKey: 'artist.name',
         position: 'left',
         isSortable: true,
+        isFilterable: true,
         hidden: false,
         type: ContentType.plainText,
+        dropdown: this.artistas,
+        dropdownKeyToShow: 'name',
       },
       {
         name: 'Nombre',
         dataKey: 'name',
         position: 'left',
         isSortable: true,
+        isFilterable: true,
         type: ContentType.editableTextFields,
         validators: [Validators.required],
       },
@@ -132,6 +139,7 @@ export class AlbumAdminComponent {
         dataKey: 'webUrl',
         position: 'left',
         isSortable: true,
+        isFilterable: false,
         type: ContentType.editableTextFields,
         validators: [Validators.required],
       },
@@ -140,6 +148,7 @@ export class AlbumAdminComponent {
         dataKey: 'date',
         position: 'left',
         isSortable: true,
+        isFilterable: true,
         type: ContentType.datePicker,
         validators: [Validators.required],
       },
@@ -148,6 +157,7 @@ export class AlbumAdminComponent {
         dataKey: 'photoUrl',
         position: 'left',
         isSortable: false,
+        isFilterable: false,
         type: ContentType.specialContent,
         template: this.imageTemplate,
         validators: [Validators.required],
@@ -168,7 +178,7 @@ export class AlbumAdminComponent {
         position: { row: 0, col: 0, rowSpan: 1, colSpan: 1 },
         hidden: false,
         type: ContentType.dropdownFields,
-        dropdown: this.artists,
+        dropdown: this.artistas,
         dropdownKeyToShow: 'name',
         dropdownKeyValue: 'id',
         validators: [Validators.required],
@@ -290,15 +300,11 @@ export class AlbumAdminComponent {
   private handleGetResponse(res: any) {
     this.entries = res.data;
     this.totalRecords = res.totalEntries;
-    this.setColumns();
-    this.loaded = true;
-    this.spinner = false;
   }
 
   private handleGetErrorResponse() {
     this._notificationService.showErrorMessage(notifications.LOADING_DATA_FAIL);
     this.apiFailing = false;
-    this.spinner = false;
   }
 
   private handleResponse(message: string) {

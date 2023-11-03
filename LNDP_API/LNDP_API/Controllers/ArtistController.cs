@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using LNDP_API.Dtos;
 using AutoMapper;
 using LNDP_API.Services;
+using LNDP_API.Filters;
 
 namespace LNDP_API.Controllers
 {
@@ -25,7 +26,21 @@ namespace LNDP_API.Controllers
         {
             try
             {
-                return Ok(await _artistService.GetArtistas(paginationFilter, Request.Path.Value));
+                return Ok(await _artistService.GetArtistas(paginationFilter, Request.Path.Value, null));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { ex.Message });
+            }
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost("filter")]
+        public async Task<ActionResult<IEnumerable<Artist>>> PostFilterArtist([FromQuery] PaginationFilter paginationFilter, [FromBody] List<Filter> filters)
+        {
+            try
+            {
+                return Ok(await _artistService.GetArtistas(paginationFilter, Request.Path.Value, filters));
             }
             catch (Exception ex)
             {

@@ -23,6 +23,7 @@ public static class RoutesManager
 
     public const string CREATEREGISTER = "create-register";
     public const string KEYS = "keys";
+    public const string FILTER = "filter";
     public const string FESTIVALUSERID = "festival-user-id";
     public const string CONCERTUSERID = "concert-user-id";
 
@@ -54,15 +55,25 @@ public static class RoutesManager
         $"^{BASE}/{SOCIALNETWORK}$",
         $"^{BASE}/{SONG}$",
         $"^{BASE}/{USER}$",
+
+        $"^{BASE}/{ALBUM}/{FILTER}$",
+        $"^{BASE}/{ARTIST}/{FILTER}$",
+        $"^{BASE}/{COMPANY}/{FILTER}$",
+        $"^{BASE}/{CONCERT}/{FILTER}$",
+        $"^{BASE}/{FESTIVAL}/{FILTER}$",
+        $"^{BASE}/{SOCIALNETWORK}/{FILTER}$",
+        $"^{BASE}/{SONG}/{FILTER}$",
+        $"^{BASE}/{USER}/{FILTER}$",
     };
     public static List<string> OnlyAdminPutRoutes = new List<string>()
     {
+        $"^{BASE}/{ACCES}/\\d$",
         $"^{BASE}/{ALBUM}/\\d$",
         $"^{BASE}/{ARTIST}/\\d$",
         $"^{BASE}/{COMPANY}/\\d$",
         $"^{BASE}/{CONCERT}/\\d$",
         $"^{BASE}/{FESTIVAL}/\\d$",
-        $"^{BASE}/{FESTIVALARTISTASOC}/\\d$",
+        $"^{BASE}/{FESTIVALARTISTASOC}$",
         $"^{BASE}/{SOCIALNETWORK}/\\d$",
         $"^{BASE}/{SONG}/\\d$",
         $"^{BASE}/{USER}/\\d$",
@@ -104,6 +115,7 @@ public static class RoutesManager
     public static List<string> OnlyVisualPostRoutes = new List<string>()
     {
         $"^{BASE}/{YOUTUBEVIDEO}$",
+        $"^{BASE}/{YOUTUBEVIDEO}/{FILTER}$",
     };
     public static List<string> OnlyVisualPutRoutes = new List<string>()
     {
@@ -138,6 +150,11 @@ public static class RoutesManager
         $"^{BASE}/{CONCERT}/{CONCERTUSERID}/\\d$",
         $"^{BASE}/{FESTIVALARTISTASOC}/{FESTIVALUSERID}/\\d$",
     };
+    public static List<string> OnlyCrewPostRoutes = new List<string>()
+    {
+        $"^{BASE}/{CONCERT}/{CONCERTUSERID}/\\d/{FILTER}$",
+        $"^{BASE}/{FESTIVALARTISTASOC}/{FESTIVALUSERID}/\\d/{FILTER}$",
+    };
 
     public static bool IsCrewRoute(string route, string method)
     {
@@ -145,6 +162,8 @@ public static class RoutesManager
         {
             case "GET":
                 return OnlyCrewGetRoutes.Any(r => Regex.IsMatch(route.ToLower(), r.ToLower()));
+            case "POST":
+                return OnlyCrewPostRoutes.Any(r => Regex.IsMatch(route.ToLower(), r.ToLower()));
             default:
                 return false;
         }

@@ -1,4 +1,4 @@
-@import "global";
+@import "../../intranet.component.scss";
 
 /*Filter column and filter options selector container*/
 .filter-options-selector-container {
@@ -97,7 +97,8 @@
     }
   }
 }
-:host::ng-deep.mat-mdc-form-field-type-mat-select.mat-form-field-appearance-fill .mat-mdc-floating-label {
+:host::ng-deep.mat-mdc-form-field-type-mat-select.mat-form-field-appearance-fill
+  .mat-mdc-floating-label {
   color: $light-color;
 }
 .mat-mdc-option.mdc-list-item--disabled {
@@ -115,7 +116,6 @@
 .mat-mdc-option:hover:not(.mdc-list-item--disabled),
 .mat-mdc-option:focus:not(.mdc-list-item--disabled) {
   background-color: $power-color;
-
   color: $light-color;
 }
 :host::ng-deep.mat-mdc-icon-button svg {

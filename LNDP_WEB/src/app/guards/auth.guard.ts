@@ -11,20 +11,21 @@ import { AuthService } from '../services/auth.service';
   providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
-  constructor(private router: Router, private _authService: AuthService) {}
+  constructor(private _router: Router, private _authService: AuthService) {}
 
   canActivate(
-    _route: ActivatedRouteSnapshot,
+    route: ActivatedRouteSnapshot,
     _state: RouterStateSnapshot
   ): boolean {
+    let url: string = _state.url;
+    return this.checkUserLogin(route, url);
+  }
+
+  checkUserLogin(route: ActivatedRouteSnapshot, url: string) {
     const isLoggedIn = this._authService.isLoggedIn();
-    let pass = false;
     if (isLoggedIn) {
-      pass = true;
-    } else {
-      pass = false;
-      this.router.navigate(['/Login']);
+      return true;
     }
-    return pass;
+    return false;
   }
 }

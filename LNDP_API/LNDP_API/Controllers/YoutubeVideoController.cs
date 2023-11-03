@@ -6,16 +6,17 @@ using LNDP_API.Dtos;
 using AutoMapper;
 using LNDP_API.Services;
 using Microsoft.AspNetCore.Authorization;
+using LNDP_API.Filters;
 
 namespace LNDP_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class YoutubeVideoController : ControllerBase
+    public class YoutubeVideoController : GenericController<YoutubeVideo>
     {
         private readonly IYoutubeVideoService _youtubeVideoService;
 
-        public YoutubeVideoController(IYoutubeVideoService youtubeVideoService)
+        public YoutubeVideoController(IYoutubeVideoService youtubeVideoService) : base(youtubeVideoService)
         {
             _youtubeVideoService = youtubeVideoService;
         }
@@ -34,7 +35,22 @@ namespace LNDP_API.Controllers
         {
             try
             {
-                return Ok(await _youtubeVideoService.Get(paginationFilter, Request.Path.Value));
+                return Ok(await _youtubeVideoService.Get(paginationFilter, Request.Path.Value, null));
+            }
+
+            catch (Exception ex)
+            {
+                return BadRequest(new { ex.Message });
+            }
+        }
+
+        [Authorize(Roles = "Admin, Visual")]
+        [HttpPost("filter")]
+        public async Task<ActionResult<IEnumerable<YoutubeVideo>>> PostFilter([FromQuery] PaginationFilter paginationFilter, [FromBody] List<Filter> filters)
+        {
+            try
+            {
+                return Ok(await _youtubeVideoService.Get(paginationFilter, Request.Path.Value, filters));
             }
 
             catch (Exception ex)

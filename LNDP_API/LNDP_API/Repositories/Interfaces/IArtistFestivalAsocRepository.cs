@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using LNDP_API.Models;
 
 namespace LNDP_API.Repositories
@@ -6,6 +7,6 @@ namespace LNDP_API.Repositories
     {
         Task<bool> ExistArtistFestivalAsocAsync(int idArtistFestivalAsoc);
         Task<int> GetIdByArtistFestival(int idArtista, int idFestival);
-        Task<IQueryable<ArtistFestivalAsoc>> GetFestivalsForArtistAsync(int id);
+        Task<IQueryable<ArtistFestivalAsoc>> GetFestivalsForArtistAsync(int id, Expression<Func<ArtistFestivalAsoc, bool>> predicate);
     }
 }

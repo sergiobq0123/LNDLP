@@ -17,6 +17,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { IconButton } from '../general/generic-table/icon-button';
 import { Filter } from '../general/generic-filter/filter';
 import { Sort } from '@angular/material/sort';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-company-admin',
@@ -56,9 +57,13 @@ export class CompanyAdminComponent {
     public _notificationService: NotificationService
   ) {}
 
-  ngOnInit() {
-    this.getCompaniesType();
-    this.getCompanies();
+  async ngOnInit() {
+    this.spinner = true;
+    await this.getCompanies();
+    await this.getCompaniesType();
+    this.setColumns();
+    this.loaded = true;
+    this.spinner = false;
   }
 
   ngAfterViewInit() {
@@ -74,30 +79,30 @@ export class CompanyAdminComponent {
     ];
   }
 
-  getCompanies() {
-    this.spinner = true;
-    this._companyService
-      .get(
-        this.pageNumber,
-        this.pageSize,
-        this.sortBy,
-        this.sortOrder,
-        this.filters
-      )
-      .subscribe(
-        (res) => {
-          this.handleGetResponse(res);
-        },
-        (error) => {
-          this.handleGetErrorResponse();
-        }
+  async getCompanies() {
+    try {
+      this.handleGetResponse(
+        await lastValueFrom(
+          this._companyService.get(
+            this.pageNumber,
+            this.pageSize,
+            this.sortBy,
+            this.sortOrder,
+            this.filters
+          )
+        )
       );
+    } catch (error) {
+      this.handleGetErrorResponse();
+    }
   }
 
-  getCompaniesType() {
-    this._companyTypeService.getKeys().subscribe((res) => {
-      this.companiesKeys = res;
-    });
+  async getCompaniesType() {
+    try {
+      this.companiesKeys = await lastValueFrom(
+        this._companyTypeService.getKeys()
+      );
+    } catch (error) {}
   }
 
   setColumns(): void {
@@ -108,10 +113,20 @@ export class CompanyAdminComponent {
         hidden: true,
       },
       {
+        name: 'Tipo de empresa',
+        dataKey: 'companyType.Name',
+        hidden: true,
+        isFilterable: true,
+        type: ContentType.plainText,
+        dropdown: this.companiesKeys,
+        dropdownKeyToShow: 'name',
+      },
+      {
         name: 'Nombre',
         dataKey: 'name',
         position: 'left',
         isSortable: true,
+        isFilterable: true,
         type: ContentType.editableTextFields,
         validators: [Validators.required],
       },
@@ -120,6 +135,7 @@ export class CompanyAdminComponent {
         dataKey: 'companyTypeId',
         position: 'left',
         isSortable: true,
+        isFilterable: true,
         type: ContentType.dropdownFields,
         dropdown: this.companiesKeys,
         dropdownKeyToShow: 'name',
@@ -131,6 +147,7 @@ export class CompanyAdminComponent {
         dataKey: 'description',
         position: 'left',
         isSortable: true,
+        isFilterable: true,
         hidden: false,
         type: ContentType.editableTextFields,
       },
@@ -139,6 +156,7 @@ export class CompanyAdminComponent {
         dataKey: 'webUrl',
         position: 'left',
         isSortable: true,
+        isFilterable: true,
         hidden: false,
         type: ContentType.editableTextFields,
       },
@@ -282,15 +300,11 @@ export class CompanyAdminComponent {
   private handleGetResponse(res: any) {
     this.entries = res.data;
     this.totalRecords = res.totalEntries;
-    this.setColumns();
-    this.loaded = true;
-    this.spinner = false;
   }
 
   private handleGetErrorResponse() {
     this._notificationService.showErrorMessage(notifications.LOADING_DATA_FAIL);
     this.apiFailing = false;
-    this.spinner = false;
   }
 
   private handleResponse(message: string) {

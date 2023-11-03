@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { YoutubeVideoVisualComponent } from './youtube-video-visual.component';
+import { YoutubeVideoVisualComponent } from './YoutubeVideoVisualComponent';
 
 describe('YoutubeVideoVisualComponent', () => {
   let component: YoutubeVideoVisualComponent;
@@ -8,7 +8,7 @@ describe('YoutubeVideoVisualComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [YoutubeVideoVisualComponent]
+      declarations: [YoutubeVideoVisualComponent],
     });
     fixture = TestBed.createComponent(YoutubeVideoVisualComponent);
     component = fixture.componentInstance;
