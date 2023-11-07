@@ -87,6 +87,7 @@ builder.Services.AddScoped<IAlbumService, AlbumService>();
 builder.Services.AddScoped<IAccesService, AccesService>();
 builder.Services.AddScoped<ISocialNetworkService, SocialNetworkService>();
 builder.Services.AddScoped<IUserRoleService, UserRoleService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 
 // Filters

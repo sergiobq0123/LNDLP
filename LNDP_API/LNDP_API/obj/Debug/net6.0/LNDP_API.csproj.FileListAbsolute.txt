@@ -385,3 +385,4 @@ C:\Users\ssanc\OneDrive\Escritorio\LNDP\LNDP_API\LNDP_API\bin\Debug\net6.0\Newto
 C:\Users\ssanc\OneDrive\Escritorio\LNDP\LNDP_API\LNDP_API\bin\Debug\net6.0\LNDP_API.staticwebassets.runtime.json
 C:\Users\ssanc\OneDrive\Escritorio\LNDP\LNDP_API\LNDP_API\bin\Debug\net6.0\SendGrid.dll
 C:\Users\ssanc\OneDrive\Escritorio\LNDP\LNDP_API\LNDP_API\bin\Debug\net6.0\StarkbankEcdsa.dll
+C:\Users\ssanc\OneDrive\Escritorio\LNDP\LNDP_API\LNDP_API\bin\Debug\net6.0\emailConfig.json

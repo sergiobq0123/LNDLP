@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace LNDP_API.Migrations
 {
     /// <inheritdoc />
-    public partial class estable_v10 : Migration
+    public partial class StableVersion : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -288,10 +288,10 @@ namespace LNDP_API.Migrations
                 columns: new[] { "Id", "PasswordHash", "PasswordSalt", "UserName" },
                 values: new object[,]
                 {
-                    { 1, "VIg3Q+wsVj4Tpv3XXsvbWRHOj44h52F5kMom3mnPSoA=", "niUNm/hPTYZwTG3eYe58RQ==", "Sanchez" },
-                    { 2, "95voz9SjfREkadcjsbPzlpZAe0Yt/OPoTSs57wuqGCY=", "niUNm/hPTYZwTG3eYe58RQ==", "Torres" },
-                    { 3, "fbNfT+Ne414Pfbm8WepwzYOYW80fZAogOunxUs8vSaE=", "niUNm/hPTYZwTG3eYe58RQ==", "Tomas" },
-                    { 4, "sNbbaF6pFRdDpeLl7VIAc1EMpCANV6ZTB0ktSKO3suY=", "niUNm/hPTYZwTG3eYe58RQ==", "Iglesias" }
+                    { 1, "8RmJ8lOySPQyINkKuKQ+qGdIAVDC6xxbkbEiAdgp/GM=", "Z7G/rM6ng/GWMr5FrCxKEg==", "Sanchez" },
+                    { 2, "qpECtmtWm8LiDj94cOJMNm/wNXdX2fHy38CJN/QyU2A=", "Z7G/rM6ng/GWMr5FrCxKEg==", "Torres" },
+                    { 3, "lj6cegWc1UpTfajvRbEgEFYA2XDU6du3lBsh0OETH44=", "Z7G/rM6ng/GWMr5FrCxKEg==", "Tomas" },
+                    { 4, "vcyUjyMlg2XeifKKr9s2xU3h6iXPOFDOzHUD+sA9HT0=", "Z7G/rM6ng/GWMr5FrCxKEg==", "Iglesias" }
                 });
 
             migrationBuilder.InsertData(

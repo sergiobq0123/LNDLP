@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace LNDP_API.Migrations
 {
     [DbContext(typeof(APIContext))]
-    [Migration("20231102180541_estable_v1.0")]
-    partial class estable_v10
+    [Migration("20231106185928_StableVersion")]
+    partial class StableVersion
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -53,29 +53,29 @@ namespace LNDP_API.Migrations
                         new
                         {
                             Id = 1,
-                            PasswordHash = "VIg3Q+wsVj4Tpv3XXsvbWRHOj44h52F5kMom3mnPSoA=",
-                            PasswordSalt = "niUNm/hPTYZwTG3eYe58RQ==",
+                            PasswordHash = "8RmJ8lOySPQyINkKuKQ+qGdIAVDC6xxbkbEiAdgp/GM=",
+                            PasswordSalt = "Z7G/rM6ng/GWMr5FrCxKEg==",
                             UserName = "Sanchez"
                         },
                         new
                         {
                             Id = 2,
-                            PasswordHash = "95voz9SjfREkadcjsbPzlpZAe0Yt/OPoTSs57wuqGCY=",
-                            PasswordSalt = "niUNm/hPTYZwTG3eYe58RQ==",
+                            PasswordHash = "qpECtmtWm8LiDj94cOJMNm/wNXdX2fHy38CJN/QyU2A=",
+                            PasswordSalt = "Z7G/rM6ng/GWMr5FrCxKEg==",
                             UserName = "Torres"
                         },
                         new
                         {
                             Id = 3,
-                            PasswordHash = "fbNfT+Ne414Pfbm8WepwzYOYW80fZAogOunxUs8vSaE=",
-                            PasswordSalt = "niUNm/hPTYZwTG3eYe58RQ==",
+                            PasswordHash = "lj6cegWc1UpTfajvRbEgEFYA2XDU6du3lBsh0OETH44=",
+                            PasswordSalt = "Z7G/rM6ng/GWMr5FrCxKEg==",
                             UserName = "Tomas"
                         },
                         new
                         {
                             Id = 4,
-                            PasswordHash = "sNbbaF6pFRdDpeLl7VIAc1EMpCANV6ZTB0ktSKO3suY=",
-                            PasswordSalt = "niUNm/hPTYZwTG3eYe58RQ==",
+                            PasswordHash = "vcyUjyMlg2XeifKKr9s2xU3h6iXPOFDOzHUD+sA9HT0=",
+                            PasswordSalt = "Z7G/rM6ng/GWMr5FrCxKEg==",
                             UserName = "Iglesias"
                         });
                 });

@@ -21,7 +21,7 @@ namespace LNDP_API.Services
         {
             Expression<Func<Album, bool>> predicate = FilterUtils.GetPredicate<Album>(filters);
             IQueryable<Album> query = await _albumRepository.GetAlbumsAsync(predicate);
-            return await this.GetPagination(paginationFilter, query, route);
+            return await GetPagination(paginationFilter, query, route);
         }
     }
 }

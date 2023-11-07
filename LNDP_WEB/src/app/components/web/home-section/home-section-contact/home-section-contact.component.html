@@ -1,44 +1,79 @@
 <app-generic-section
-[contentTemplate]="contentTemplate"
-[sectionTitle]="'Formulario'"
+  [contentTemplate]="contentTemplate"
+  [sectionTitle]="'Formulario'"
 ></app-generic-section>
 
 <ng-template #contentTemplate>
-<form [formGroup]="email" (submit)="enviarFormulario()">
-  <div class="formulario-container">
-    <div class="imagen-izquierda">
-      <img src="../../../../assets/PaginaInicio/logo-izq-form.jpg" />
-    </div>
-    <div class="formulario">
-      <div class="formulario-data">
-        <div class="formulario-izquierda">
-          <mat-form-field class="nombre">
-            <mat-label>Nombre</mat-label>
-            <input matInput class="form-control" formControlName="nombre" />
-          </mat-form-field>
-
-          <mat-form-field class="correo">
-            <mat-label>Correo electrónico</mat-label>
-            <input matInput class="form-control" formControlName="email" />
-          </mat-form-field>
-        </div>
-        <div class="formulario-derecha">
-          <mat-form-field class="mensaje">
-            <mat-label>Mensaje</mat-label>
-            <textarea
-              class="text-area"
-              matInput
-              class="form-control"
-              formControlName="mensaje"
-            ></textarea>
-          </mat-form-field>
-        </div>
+  <form [formGroup]="VOForm" (submit)="enviarFormulario()">
+    <div class="formulario-container">
+      <div class="imagen-izquierda">
+        <img src="../../../../assets/PaginaInicio/logo-izq-form.jpg" />
       </div>
-      <button mat-raised-button type="submit">Enviar</button>
+      <div class="formulario">
+        <div class="formulario-data">
+          <div class="formulario-izquierda">
+            <mat-form-field class="nombre">
+              <mat-label>Correo electrónico</mat-label>
+              <input
+                matInput
+                class="form-control"
+                formControlName="copyEmail"
+              />
+              <mat-error
+                *ngIf="
+                  showCopyEmailError &&
+                  VOForm.get('copyEmail').hasError('required')
+                "
+                >El correo es obligatorio
+              </mat-error>
+              <mat-error *ngIf="VOForm.get('copyEmail').hasError('email')">
+                Inserte un correo válido
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="correo">
+              <mat-label>Asunto</mat-label>
+              <input matInput class="form-control" formControlName="subject" />
+              <mat-error
+                *ngIf="
+                  showCopyEmailError &&
+                  VOForm.get('subject').hasError('required')
+                "
+                >El asunto es obligatorio
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="formulario-derecha">
+            <mat-form-field class="mensaje">
+              <mat-label>Mensaje</mat-label>
+              <textarea
+                class="text-area"
+                matInput
+                class="form-control"
+                formControlName="mailMessage"
+              ></textarea>
+              <mat-error
+                *ngIf="
+                  showCopyEmailError &&
+                  VOForm.get('mailMessage').hasError('required')
+                "
+                >El mensaje es obligatorio
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <button
+          mat-raised-button
+          class="formbox__button"
+          type="submit"
+          [disabled]="!this.VOForm.valid"
+          [ngClass]="{ formbox__button__disabledbtn: VOForm.invalid }"
+        >
+          Enviar
+        </button>
+      </div>
+      <div class="imagen-derecha">
+        <img src="../../../../assets/PaginaInicio/logo-der-form.jpg" />
+      </div>
     </div>
-    <div class="imagen-derecha">
-      <img src="../../../../assets/PaginaInicio/logo-der-form.jpg" />
-    </div>
-  </div>
-</form>
+  </form>
 </ng-template>
