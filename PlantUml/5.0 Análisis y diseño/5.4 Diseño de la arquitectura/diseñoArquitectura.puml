@@ -1,0 +1,25 @@
+@startuml diseño
+skinparam linetype polyline
+
+
+
+node Cliente <<CLIENTE>> #e1eced {
+    package CapaPresentación {
+
+}
+    [webBrowser] as "navegador-web" <<Executable>>
+}
+
+
+node Servidor #e1eced{
+    package CapaNegocio {
+    }
+    package CapaDatos {
+    }
+    package CapaServicios {
+    }
+}
+
+[webBrowser] -down- Servidor 
+
+@enduml

@@ -1,0 +1,24 @@
+@startuml DiagramaDePaquetes
+skin rose 
+skinparam {
+    NoteBackgroundColor #whiteSmoke
+    NoteBorderColor #blue
+    linetype polyline
+    PackageFontStyle bold
+}
+
+package Vista
+package Controladores 
+package Servicios 
+package Repositorios 
+package Modelos 
+
+Vista .-> Controladores
+Controladores .-> Modelos
+Servicios .-> Modelos
+Repositorios .-> Modelos
+
+Controladores .-> Servicios
+Servicios .-> Repositorios
+
+@enduml

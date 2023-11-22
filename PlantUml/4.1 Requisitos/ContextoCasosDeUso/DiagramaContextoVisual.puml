@@ -1,0 +1,33 @@
+@startuml DiagramaContextoVisual
+
+skin rose
+left to right direction
+skinparam {
+    NoteBackgroundColor #whiteSmoke
+    ArrowColor #green
+    NoteBorderColor #blue
+    linetype polyline
+}
+hide empty description
+
+[*] -[#green]-> BACKOFFICE_ABIERTO
+
+BACKOFFICE_ABIERTO -[#green]-> VIDEOCLIP_ABIERTO
+note on link 
+  Leer videoclips
+end note
+
+VIDEOCLIP_ABIERTO -[#green]-> VIDEOCLIP_ABIERTO
+note on link 
+  Crear videoclip
+  Editar videoclip
+  Eliminar videoclips
+end note
+
+VIDEOCLIP_ABIERTO -[#green]-> [*]
+note on link 
+  Cerrar sesion
+end note
+
+
+@enduml

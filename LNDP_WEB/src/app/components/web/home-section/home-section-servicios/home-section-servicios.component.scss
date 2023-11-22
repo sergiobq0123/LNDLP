@@ -29,6 +29,7 @@
 }
 
 .tarjeta h5 {
+  @include custom-h5;
 }
 
 .tarjeta p {

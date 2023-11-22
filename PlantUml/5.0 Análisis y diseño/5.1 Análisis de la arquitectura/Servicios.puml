@@ -1,0 +1,85 @@
+@startuml Controlladores
+
+skin rose
+skinparam {
+    ControlBackgroundColor #C6480E
+    ControlBorderColor black
+    ControlFontSize 16
+    ControlSize 10
+    ControlFontStyle bold
+
+    InterfaceBackgroundColor #DDD413
+    InterfaceBorderColor black
+    InterfaceFontSize 16
+    InterfaceSize 10
+    InterfaceFontStyle bold
+}
+
+left to right direction
+
+package Servicios {
+
+    control EmailServicio
+    control AlbumServicio
+    control AccesoServicio
+    control ArtistaServicio
+    control EmpresaServicio
+    control EmpresaTipoServicio
+    control ConciertoServicio
+    control FestivalArtistaAsocServicio
+    control FestivalServicio
+    control RedSocialServicio
+    control CancionServicio
+    control UsuarioServicio
+    control UsuarioTipoServicio
+    control YoutubeVideoServicio
+    control GenericoServicio
+
+    interface IEmailServicio
+    interface IAlbumServicio 
+    interface IAccesoServicio
+    interface IArtistaServicio
+    interface IEmpresaServicio
+    interface IEmpresaTipoServicio
+    interface IConciertoServicio
+    interface IFestivalArtistaAsocServicio
+    interface IFestivalServicio
+    interface IRedSocialServicio
+    interface ICancionServicio
+    interface IUsuarioServicio
+    interface IUsuarioTipoServicio
+    interface IYoutubeVideoServicio
+    interface IGenericoServicio
+
+    EmailServicio ..|> IEmailServicio
+    AlbumServicio ..|> IAlbumServicio
+    AccesoServicio ..|> IAccesoServicio
+    ArtistaServicio ..|> IArtistaServicio
+    EmpresaServicio ..|> IEmpresaServicio
+    EmpresaTipoServicio ..|> IEmpresaTipoServicio
+    ConciertoServicio ..|> IConciertoServicio
+    FestivalArtistaAsocServicio ..|> IFestivalArtistaAsocServicio
+    FestivalServicio .up.|> IFestivalServicio
+    RedSocialServicio .up.|> IRedSocialServicio
+    CancionServicio .up.|> ICancionServicio
+    UsuarioServicio .up.|> IUsuarioServicio
+    UsuarioTipoServicio .up.|> IUsuarioTipoServicio
+    YoutubeVideoServicio .up.|> IYoutubeVideoServicio
+    GenericoServicio .left.|> IGenericoServicio
+
+    IGenericoServicio -up-|> IAlbumServicio
+    IGenericoServicio -up-|> IAccesoServicio
+    IGenericoServicio -up-|> IArtistaServicio
+    IGenericoServicio -up-|> IEmpresaServicio
+    IGenericoServicio -up-|> IEmpresaTipoServicio
+    IGenericoServicio -up-|> IConciertoServicio
+    IGenericoServicio -up-|> IFestivalArtistaAsocServicio
+    IGenericoServicio --|> IFestivalServicio
+    IGenericoServicio --|> IRedSocialServicio
+    IGenericoServicio --|> ICancionServicio
+    IGenericoServicio --|> IUsuarioServicio
+    IGenericoServicio --|> IUsuarioTipoServicio
+    IGenericoServicio --|> IYoutubeVideoServicio
+}
+
+@enduml

@@ -1,0 +1,96 @@
+@startuml DiagramaContextoVisual
+
+left to right direction
+skin rose
+skinparam {
+    NoteBackgroundColor #whiteSmoke
+    ArrowColor #green
+    NoteBorderColor #blue
+    linetype polyline
+}
+hide empty description
+
+state 0 as "LISTA_NAVEGACION" 
+state 1 as "PAGINA_PRINCIPAL" 
+state 2 as "SECCION_PR&MKTNG"
+state 3 as "SECCION_VISUAL"
+state 4 as "SECCION_AGENCY"
+state 5 as "SECCION_TOURMANAGER"
+state 6 as "DETALLES_ARTISTA"
+state 7 as ":cerrarPaginaWeb"
+state 8 as ":abrirPaginaWeb"
+state 9 as ":abrirBackOffice"
+state 10 as "BACKOFFICE_ABIERTO"
+state fork_state <<fork>>
+state join_state <<join>>
+
+[*] --> 8
+8 --> 0
+0 --> fork_state
+0 -left-> 9
+9 -LEFT-> 10
+
+fork_state --> 1
+fork_state --> 2
+fork_state --> 3
+fork_state --> 4
+fork_state --> 5
+
+2 ---> 6
+6 ---> 2
+
+1 --> join_state
+2 --> join_state
+3 --> join_state
+4 --> join_state
+5 --> join_state
+
+join_state --> 0 
+join_state --> 7
+7 --> [*]
+
+
+0 --> 0
+note on link
+    Iniciar sesion
+end note
+
+1 --> 1
+note on link
+    Conactar con LNDLP
+end note
+
+2 --> 2
+note on link 
+  Leer artistas que trabajan con LNDLP
+  Leer empresas (sellos) que trabajan con LNDLP
+end note
+
+3 --> 3
+note on link 
+  Leer vodeoclips de LNDLP
+end note
+
+4 --> 4
+note on link 
+  Leer empresas (marcas) que trabajan con LNDLP
+  Leer empresas (partners) que trabajan con LNDLP
+  Leer empresas (proyectos) que trabajan con LNDLP
+end note
+
+5 --> 5
+note on link 
+  Leer próximos conciertos
+  Leer próximos festivales
+end note
+
+6 --> 6
+note on link 
+  Leer detalles del artista
+  Leer albumes del artista
+  Leer canciones del artista
+  Leer próximos conciertos del artista
+end note
+
+
+@enduml
