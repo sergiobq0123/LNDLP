@@ -53,8 +53,8 @@ export class YoutubeVideoVisualComponent {
 
   async ngOnInit() {
     this.spinner = true;
-    this.getvideos();
-    this.setColumns();
+    await this.getvideos();
+    await this.setColumns();
     this.loaded = true;
     this.spinner = false;
   }

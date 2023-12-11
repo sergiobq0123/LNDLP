@@ -79,7 +79,7 @@ namespace LNDP_API.Controllers
 
         [AllowAnonymous]
         [HttpGet("artist-web-detail/{id}")]
-        public async Task<ActionResult<ArtistWebDetailDto>> GetArtist(int id)
+        public async Task<ActionResult<ArtistWebDetailDto>> GetArtistById(int id)
         {
             try
             {

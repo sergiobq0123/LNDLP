@@ -1,5 +1,0 @@
-@startuml sfs
-
-  (*) --> "<img:https://drive.google.com/file/d/17F5BSWFxtewK3aI6oYyCAYNHNPqACv_j/view?usp=drive_link>" as a #LawnGreen
-
-@enduml

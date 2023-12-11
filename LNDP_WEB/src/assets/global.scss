@@ -331,3 +331,7 @@ $secondary-font: "MyriadproBold'", sans-serif;
 .mat-mdc-select-value {
   color: $light-color !important;
 }
+
+:host ::ng-deep.mdc-text-field--filled.mdc-text-field--disabled {
+  background-color: $power-color;
+}
