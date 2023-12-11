@@ -75,8 +75,6 @@ export class GenericFilterComponent {
       return;
     }
     const filters: Filter[] = this.selectedFilters.filter((f) => f.active);
-    console.log(filters);
-
     this.filtered.emit(filters);
   }
 

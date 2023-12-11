@@ -43,9 +43,7 @@ namespace LNDP_API.Services
 
         public async Task<IEnumerable<ArtistWebGenericDto>> GetArtistsWeb()
         {
-            var artistas = await _artistRepository.GetWithIncludesAsync(
-                includes: a => a.SocialNetwork
-            );
+            var artistas = await _artistRepository.GetArtistWithSocialNetwork();
             return _mapper.Map<IEnumerable<ArtistWebGenericDto>>(artistas);
         }
     }

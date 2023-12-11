@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { LocalStorageService } from './local-storage.service';
+import { UserRole } from '../models/userRole.model';
 
 @Injectable({
   providedIn: 'root',
@@ -36,7 +37,7 @@ export class AuthService {
     return JSON.parse(atob(this.getToken().split('.')[1])).userId;
   }
 
-  getRole(): string {
-    return JSON.parse(atob(this.getToken().split('.')[1])).role;
+  getRole(): UserRole {
+    return JSON.parse(atob(this.getToken().split('.')[1])).role as UserRole;
   }
 }

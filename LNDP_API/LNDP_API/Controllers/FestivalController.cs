@@ -47,7 +47,7 @@ namespace LNDP_API.Controllers
 
         [AllowAnonymous]
         [HttpGet("proximos-festivales")]
-        public async Task<ActionResult<IEnumerable<Concert>>> GetConcertProximosFestivales()
+        public async Task<ActionResult<IEnumerable<Concert>>> GetFutureFestivales()
         {
             try
             {

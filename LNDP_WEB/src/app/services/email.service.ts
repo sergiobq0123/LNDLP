@@ -5,11 +5,19 @@ import { Urls } from '../common/urls';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class EmailService extends ServiceBaseService{
-
+export class EmailService extends ServiceBaseService {
   constructor(http: HttpClient) {
     super(http, Urls.EMAIL);
-   }
+  }
+
+  createPromo(copyEmail: string, subject: string, mailMessage: string) {
+    let body = {
+      copyEmail: copyEmail,
+      subject: subject,
+      mailMessage: mailMessage,
+    };
+    return this.create(body);
+  }
 }

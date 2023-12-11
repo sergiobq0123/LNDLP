@@ -1,7 +1,6 @@
-$grey1 : #777777;
+$grey1: #777777;
 $grey2: #5c5b5b;
-$yellow : #FFF7C4;
-
+$yellow: #fff7c4;
 
 * {
   background-color: black;
@@ -52,6 +51,15 @@ p {
   }
 }
 
+@mixin custom-h5() {
+  font-size: 20px;
+  font-family: "Akira";
+  color: white;
+  text-align: center;
+  padding: 1%;
+  margin: 0px;
+}
+
 // h1{
 //   font-size: 60px;
 //   font-family: "Akira";
@@ -96,5 +104,3 @@ p {
 //     line-height: 1;
 //   }
 // }
-
-

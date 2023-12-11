@@ -20,7 +20,7 @@ namespace LNDP_API.Controllers
 
         [AllowAnonymous]
         [HttpGet("type/{type}")]
-        public async Task<ActionResult<IEnumerable<CompanyWebDto>>> GetCompany(string type)
+        public async Task<ActionResult<IEnumerable<CompanyWebDto>>> GetCompanyByType(string type)
         {
             var CompanyDtos = await _companyService.GetCompaniesByType(type);
             return Ok(CompanyDtos);

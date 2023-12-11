@@ -13,7 +13,7 @@ import {
   faPodcast,
   faMicrophoneLines,
   faHouse,
-  faGlobe
+  faGlobe,
 } from '@fortawesome/free-solid-svg-icons';
 import { faYoutube } from '@fortawesome/free-brands-svg-icons';
 
@@ -31,7 +31,7 @@ export class IntranetComponent {
   opened: boolean = false;
   visible: boolean = true;
   isAdmin: boolean = false;
-  role : string;
+  role: string;
 
   loginSubscription: Subscription;
 
@@ -44,29 +44,13 @@ export class IntranetComponent {
   faPlay = faPlay;
   faPodcast = faPodcast;
   faMicrophoneLines = faMicrophoneLines;
-  faHouse = faHouse
-  faGlobe = faGlobe
+  faHouse = faHouse;
+  faGlobe = faGlobe;
 
-  constructor(private router: Router, private _authService: AuthService) {}
+  constructor(private _authService: AuthService) {}
 
-  ngAfterViewInit() {
-    this.loginSubscription = this._authService
-      .getLoginEvent()
-      .subscribe((loggedIn) => {
-        if (!loggedIn) {
-          this.opened = false;
-        }
-        this.visible = !!loggedIn || this.opened;
-        this.toolbar_button.nativeElement.style.display = !!loggedIn
-          ? ''
-          : 'none';
-      });
-    this._authService.loginChangedEvent.next(this._authService.isLoggedIn());
-    this.role = this._authService.getRole();
-  }
-
-  ngOnDestroy() {
-    this.loginSubscription.unsubscribe();
+  ngOnInit() {
+    this.role = this._authService.getRole().toString();
   }
 
   logout() {

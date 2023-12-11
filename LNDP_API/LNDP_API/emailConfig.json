@@ -1,0 +1,8 @@
+{
+  "enabled": true,
+  "server": "smtp.gmail.com",
+  "port": 587,
+  "networkMail": "lndlppaginaweb@gmail.com",
+  "networkPassword": "swur bwod bdnv dzpy",
+  "enableSSL": true
+}

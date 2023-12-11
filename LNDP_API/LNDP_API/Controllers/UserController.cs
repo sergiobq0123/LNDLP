@@ -24,7 +24,7 @@ namespace LNDP_API.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers([FromQuery] PaginationFilter paginationFilter)
+        public async Task<ActionResult<IEnumerable<User>>> GetUsersIntranet([FromQuery] PaginationFilter paginationFilter)
         {
             try
             {
@@ -37,7 +37,7 @@ namespace LNDP_API.Controllers
         }
         [Authorize(Roles = "Admin")]
         [HttpPost("filter")]
-        public async Task<ActionResult<IEnumerable<User>>> PostFilterUsers([FromQuery] PaginationFilter paginationFilter, [FromBody] List<Filter> filters)
+        public async Task<ActionResult<IEnumerable<User>>> PostFilterUsersIntranet([FromQuery] PaginationFilter paginationFilter, [FromBody] List<Filter> filters)
         {
             try
             {

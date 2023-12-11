@@ -1,4 +1,4 @@
-@import '../../intranet.component.scss';
+@import "../../intranet.component.scss";
 
 .popupbox {
   background-color: $dark-color;
@@ -10,10 +10,16 @@
 .icon {
   color: $light-color;
 }
-:host ::ng-deep .mdc-text-field:not(.mdc-text-field--disabled) .mdc-floating-label {
+:host
+  ::ng-deep
+  .mdc-text-field:not(.mdc-text-field--disabled)
+  .mdc-floating-label {
   color: $light-color;
 }
-:host ::ng-deep .mdc-text-field--invalid:not(.mdc-text-field--disabled) .mdc-floating-label {
+:host
+  ::ng-deep
+  .mdc-text-field--invalid:not(.mdc-text-field--disabled)
+  .mdc-floating-label {
   color: var(--mdc-theme-error, #f44336);
 }
 .title {
@@ -67,7 +73,10 @@
 :host ::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
   background-color: $power-color;
 }
-:host ::ng-deep .mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__input {
+:host
+  ::ng-deep
+  .mdc-text-field:not(.mdc-text-field--disabled)
+  .mdc-text-field__input {
   color: $light-color;
   caret-color: $light-color;
 }
@@ -76,8 +85,6 @@
   color: $light-color;
 }
 
-
-//Sergio
 .custom-file-upload {
   background-color: $power-color;
   color: #fff;

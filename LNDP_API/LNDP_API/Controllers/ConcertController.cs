@@ -25,7 +25,7 @@ namespace LNDP_API.Controllers
         //! Para la vista de admin
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Concert>>> GetConcert([FromQuery] PaginationFilter paginationFilter)
+        public async Task<ActionResult<IEnumerable<Concert>>> GetConcertIntranet([FromQuery] PaginationFilter paginationFilter)
         {
             try
             {
@@ -38,7 +38,7 @@ namespace LNDP_API.Controllers
         }
         [Authorize(Roles = "Admin")]
         [HttpPost("filter")]
-        public async Task<ActionResult<IEnumerable<Concert>>> PostFilterConcert([FromQuery] PaginationFilter paginationFilter, [FromBody] List<Filter> filters)
+        public async Task<ActionResult<IEnumerable<Concert>>> PostFilterConcertIntranet([FromQuery] PaginationFilter paginationFilter, [FromBody] List<Filter> filters)
         {
             try
             {
@@ -52,7 +52,7 @@ namespace LNDP_API.Controllers
 
         [AllowAnonymous]
         [HttpGet("proximos-conciertos")]
-        public async Task<ActionResult<IEnumerable<Concert>>> GetConcertProximosConciertos()
+        public async Task<ActionResult<IEnumerable<Concert>>> GetFutureConcerts()
         {
             try
             {

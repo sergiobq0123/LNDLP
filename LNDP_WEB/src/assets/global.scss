@@ -15,8 +15,8 @@ $light-color: #efefee;
 $power-color: #185fa7;
 $extra-color: #ff8407;
 
-$main-font: "League Spartan", sans-serif;
-$secondary-font: "Montserrat", sans-serif;
+$main-font: "Akira", sans-serif;
+$secondary-font: "MyriadproBold'", sans-serif;
 
 @mixin custom-iconbutton() {
   display: flex;
@@ -330,4 +330,8 @@ $secondary-font: "Montserrat", sans-serif;
 }
 .mat-mdc-select-value {
   color: $light-color !important;
+}
+
+:host ::ng-deep.mdc-text-field--filled.mdc-text-field--disabled {
+  background-color: $power-color;
 }

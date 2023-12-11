@@ -7,5 +7,6 @@ namespace LNDP_API.Repositories
     {
         Task<IQueryable<Artist>> GetArtistasAsync(Expression<Func<Artist, bool>> predicate);
         Task<Artist> GetArtistByIdAsync(int id);
+        Task<IEnumerable<Artist>> GetArtistWithSocialNetwork();
     }
 }

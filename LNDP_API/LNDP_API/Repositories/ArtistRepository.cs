@@ -35,5 +35,12 @@ namespace LNDP_API.Repositories
             artist.Concerts = artist.Concerts.Where(c => c.Date >= DateTime.UtcNow).OrderBy(c => c.Date).ToList();
             return artist;
         }
+        public async Task<IEnumerable<Artist>> GetArtistWithSocialNetwork()
+        {
+            return await _context.Artist
+                .Include(a => a.SocialNetwork)
+                .AsNoTracking()
+                .ToListAsync();
+        }
     }
 }

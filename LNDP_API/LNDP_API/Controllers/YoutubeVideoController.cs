@@ -23,7 +23,7 @@ namespace LNDP_API.Controllers
 
         [AllowAnonymous]
         [HttpGet("youtube-videos-web")]
-        public async Task<ActionResult<IEnumerable<YoutubeVideoWebDto>>> GetYoutubeVideo()
+        public async Task<ActionResult<IEnumerable<YoutubeVideoWebDto>>> GetYoutubeVideoWeb()
         {
             var youtubeVideoDtos = await _youtubeVideoService.GetYoutubeVideoDto();
             return Ok(youtubeVideoDtos);
@@ -46,7 +46,7 @@ namespace LNDP_API.Controllers
 
         [Authorize(Roles = "Admin, Visual")]
         [HttpPost("filter")]
-        public async Task<ActionResult<IEnumerable<YoutubeVideo>>> PostFilter([FromQuery] PaginationFilter paginationFilter, [FromBody] List<Filter> filters)
+        public async Task<ActionResult<IEnumerable<YoutubeVideo>>> PostFilterYoutubeVideoIntranet([FromQuery] PaginationFilter paginationFilter, [FromBody] List<Filter> filters)
         {
             try
             {

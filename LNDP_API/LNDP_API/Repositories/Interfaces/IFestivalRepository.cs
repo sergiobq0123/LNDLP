@@ -7,6 +7,5 @@ namespace LNDP_API.Repositories
     {
         Task<IQueryable<Festival>> GetFestivalesAsync(Expression<Func<Festival, bool>> predicate);
         Task<IEnumerable<Festival>> GetFutureFestivalsAsync();
-        Task<IEnumerable<Festival>> GetFestivalsForArtistAsync(int artistId);
     }
 }

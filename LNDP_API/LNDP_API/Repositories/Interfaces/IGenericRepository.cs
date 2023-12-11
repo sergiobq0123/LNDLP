@@ -9,8 +9,6 @@ namespace LNDP_API.Repositories
         Task<TEntity> CreateAsync(TEntity entity);
         Task<TEntity> UpdateAsync(TEntity entity);
         Task DeleteAsync(int id);
-        Task<IEnumerable<TEntity>> GetWithIncludesAsync(Expression<Func<TEntity, bool>> filter = null, Expression<Func<TEntity, object>> includes = null);
-
         Task SaveChangesAsync();
     }
 }
