@@ -1,0 +1,157 @@
+@startuml tryhtr
+skin rose 
+
+skinparam {
+    NoteBackgroundColor #whiteSmoke
+    ArrowColor #green
+    NoteBorderColor #blue
+    linetype polyline
+}
+
+hide empty description
+
+state backoffice_abierto as "BACKOFFICE_ABIERTO"
+state backoffice_abierto_final as "BACKOFFICE_ABIERTO"
+
+
+backoffice_abierto --> ENTIDAD_ABIERTO
+note on link 
+    <b>El usuario solicita</b>
+    * leerEntidad
+end note
+
+ENTIDAD_ABIERTO -[#red]-> backoffice_abierto_final
+note on link 
+    <b>El usuario solicita</b>
+    * salir
+end note
+
+state ENTIDAD_ABIERTO {
+    state choiceInicio <<choice>>
+    state choiceFinal <<choice>>
+
+    [*] --> choiceInicio
+    note on link
+        <b>El sistema permite</b>
+        * Crear Entidad
+        * Editar Entidad
+        * Eliminar Entidad
+        * Salir
+    end note
+    choiceInicio --> crearEntidad
+    choiceInicio --> editarEntidad
+    choiceInicio --> eliminarEntidad
+    choiceInicio -[#red]-> choiceFinal
+    note on link
+        <b>El usuario solicita</b>
+        * Salir
+    end note
+
+    state crearEntidad{
+        state 1 as " "
+        state 2 as " "
+        state 3 as " "
+        state c1 <<choice>>
+        
+        [*] --> 1
+        note on link
+            <b>El sistema requiere</b>
+            * Entidad  
+            <b>El sistema permite</b>
+            * Cancelar
+        end note
+
+        1 --> 2
+        note on link
+            <b>El usuario solicta</b>
+            * Guardar
+        end note
+        1 -[#red]-> 3
+        note on link
+            <b>El usuario solicta</b>
+            * Cancelar
+        end note
+
+        2 --> c1
+        3 -[#red]-> c1
+
+        c1 --> [*]
+    }
+    state editarEntidad{
+        state e1 as " "
+        state e2 as " "
+        state e3 as " "
+        state c2 <<choice>>
+        
+        [*] --> e1
+        note on link
+            <b>El sistema requiere</b>
+            * Id
+            * Entidad  
+            <b>El sistema permite</b>
+            * Cancelar
+        end note
+
+        e1 --> e2
+        note on link
+            <b>El usuario solicta</b>
+            * Guardar
+        end note
+        e1 -[#red]-> e3
+        note on link
+            <b>El usuario solicta</b>
+            * Cancelar
+        end note
+
+        e2 --> c2
+        e3 -[#red]-> c2
+
+        c2 --> [*]
+    }
+    state eliminarEntidad{
+        state b1 as " "
+        state b2 as " "
+        state b3 as " "
+        state c3 <<choice>>
+        
+        [*] --> b1
+        note on link
+            <b>El sistema requiere</b>
+            * Id
+            <b>El sistema permite</b>
+            * Cancelar
+        end note
+
+        b1 --> b2
+        note on link
+            <b>El usuario solicta</b>
+            * Guardar
+        end note
+        b1 -[#red]-> b3
+        note on link
+            <b>El usuario solicta</b>
+            * Cancelar
+        end note
+
+        b2 --> c3
+        b3 -[#red]-> c3
+
+        c3 --> [*]
+    }
+
+    crearEntidad --> choiceFinal
+    editarEntidad --> choiceFinal
+    eliminarEntidad --> choiceFinal
+
+    choiceFinal -[#red]-> choiceInicio
+    note on link
+        <b>El usuario solicta</b>
+        * Cancelar
+    end note
+        
+    choiceFinal --> [*]
+
+}
+
+
+@enduml

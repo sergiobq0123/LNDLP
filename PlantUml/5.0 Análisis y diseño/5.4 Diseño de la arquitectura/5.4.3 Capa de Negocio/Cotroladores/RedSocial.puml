@@ -1,0 +1,11 @@
+@startuml presentacion
+skin rose
+skinparam linetype polyline
+
+title Controladores - RedSocial
+
+class RedSocialControlador {
+    private ISocialNetworkService _socialNetworkService;
+    PutSocialNetwork(int id, SocialNetwork socialNetwork)
+}
+@enduml

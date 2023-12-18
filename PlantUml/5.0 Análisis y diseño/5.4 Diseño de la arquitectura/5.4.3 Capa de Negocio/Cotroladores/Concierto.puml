@@ -1,0 +1,15 @@
+@startuml presentacion
+skin rose
+skinparam linetype polyline
+
+title Controladores - Concierto
+
+class ConciertoControlador {
+    private IConcertService _concertService;
+    GetConcertIntranet([FromQuery] PaginationFilter paginationFilter)
+    PostFilterConcertIntranet([FromQuery] PaginationFilter paginationFilter, [FromBody] List<Filter> filters)
+    GetFutureConcerts()
+    GetConcertforArtist(int id, [FromQuery] PaginationFilter paginationFilter)
+    GetConcertforArtist(int id, [FromQuery] PaginationFilter paginationFilter, [FromBody] List<Filter> filters)
+}
+@enduml

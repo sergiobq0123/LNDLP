@@ -1,0 +1,11 @@
+@startuml presentacion
+skin rose
+skinparam linetype polyline
+
+title Controladores - Email
+
+class EmailControlador {
+    private IEmailService _emailService;
+    PostEmail(EmailDto emailDto)
+}
+@enduml

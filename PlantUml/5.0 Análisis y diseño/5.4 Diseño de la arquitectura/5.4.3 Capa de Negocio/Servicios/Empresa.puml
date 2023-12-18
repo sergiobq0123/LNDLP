@@ -1,0 +1,19 @@
+@startuml presentacion
+skin rose
+skinparam linetype polyline
+
+title Servicios - Empresa
+
+interface i as "IEmpresaServicio"{
+    GetCompanies([FromQuery] PaginationFilter paginationFilter, string route, [FromBody] List<Filter> filters)
+    GetCompaniesByType(string type)
+}
+
+class c as "EmpresaServicio"{
+    ICompanyRepository _companyRepository;
+    GetCompanies([FromQuery] PaginationFilter paginationFilter, string route, [FromBody] List<Filter> filters)
+    GetCompaniesByType(string type)
+}
+
+i <|-- c
+@enduml

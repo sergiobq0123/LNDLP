@@ -1,0 +1,20 @@
+@startuml presentacion
+skin rose
+skinparam linetype polyline
+
+title Servicios - Festival
+
+interface i as "IFestivalServicio"{
+    GetFestivales([FromQuery] PaginationFilter paginationFilter, string route, [FromBody] List<Filter> filters)
+    GetFutureFestivals()
+
+}
+
+class c as "FestivalServicio"{
+    private readonly IFestivalRepository _festivalRepository;
+    GetFestivales([FromQuery] PaginationFilter paginationFilter, string route, [FromBody] List<Filter> filters)
+    GetFutureFestivals()
+}
+
+i <|-- c
+@enduml

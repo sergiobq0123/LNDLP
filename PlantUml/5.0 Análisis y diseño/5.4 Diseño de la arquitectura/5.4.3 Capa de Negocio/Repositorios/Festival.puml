@@ -1,0 +1,20 @@
+@startuml presentacion
+skin rose
+skinparam linetype polyline
+
+title Repositorios - Festival
+
+interface i as "IFestivalRepositorio"{
+    GetFestivalesAsync(Expression<Func<Festival, bool>> predicate)
+    GetFutureFestivalsAsync()
+}
+
+class c as "FestivalRepositorio"{
+    private readonly APIContext _context;
+    GetFestivalesAsync(Expression<Func<Festival, bool>> predicate)
+    GetFutureFestivalsAsync()
+}
+
+
+i <|-- c
+@enduml

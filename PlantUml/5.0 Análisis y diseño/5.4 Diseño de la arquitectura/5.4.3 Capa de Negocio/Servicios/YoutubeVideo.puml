@@ -1,0 +1,17 @@
+@startuml presentacion
+skin rose
+skinparam linetype polyline
+
+title Servicios - YoutubeVideo
+
+interface i as "IYoutubeVideoServicio"{
+    Task<IEnumerable<YoutubeVideoWebDto>> GetYoutubeVideoDto()
+}
+
+class c as "YoutubeVideoServicio"{
+    private readonly IYoutubeVideoRepository _youtubeVideoRepository;
+    Task<IEnumerable<YoutubeVideoWebDto>> GetYoutubeVideoDto()
+}
+
+i <|-- c
+@enduml

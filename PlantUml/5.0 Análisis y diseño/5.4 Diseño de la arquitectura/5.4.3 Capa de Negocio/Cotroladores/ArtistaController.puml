@@ -1,0 +1,15 @@
+@startuml presentacion
+skin rose
+skinparam linetype polyline
+
+title Controladores - Artista
+
+class ArtistaControlador {
+    private IArtistService _artistService;
+    Get([FromQuery] PaginationFilter paginationFilter)
+    GetArtistWeb()
+    GetArtistById(int id)
+    PostFilterArtist([FromQuery] PaginationFilter paginationFilter, [FromBody] List<Filter> filters)
+    PostArtist(ArtistCreateDto artistCreateDto)
+}
+@enduml

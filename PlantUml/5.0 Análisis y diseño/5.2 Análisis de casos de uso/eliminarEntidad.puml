@@ -1,0 +1,73 @@
+@startuml eliminar_Entidad
+
+skin rose
+skinparam {
+    NoteBorderThickness 0
+    NoteBackgroundColor #whiteSmoke
+    RectangleBackgroundColor #whiteSmoke
+    ArchimateBackgroundColor #whiteSmoke
+}
+
+
+actor User
+rectangle #3CBE2D EntidadVista
+rectangle #629EF9 EntidadControlador
+rectangle #C6480E EntidadServicio
+rectangle #D269D2 EntidadRepositorio
+rectangle #08EFF3 Entidad
+rectangle #CDEBA5 "BACKOFFICE ABIERTO" as OpenDashboard
+
+EntidadVista -left-> OpenDashboard
+note on link
+    entidad eliminada
+end note
+
+User --> EntidadVista
+note on link
+    eliminar entidad (id)
+end note
+
+EntidadVista --> EntidadControlador
+note on link
+    eliminar entidad (id)
+end note
+
+EntidadControlador --> EntidadServicio
+note on link
+    eliminar entidad (id)
+end note
+
+EntidadServicio --> EntidadRepositorio
+note on link
+    eliminar entidad (id)
+end note
+
+EntidadRepositorio --> Entidad
+note on link
+    eliminar entidad (id)
+end note
+
+Entidad --> EntidadRepositorio
+note on link
+    entidad eliminada
+end note
+
+EntidadRepositorio --> EntidadServicio
+note on link
+    entidad eliminada
+end note
+
+
+EntidadServicio --> EntidadControlador
+note on link
+    entidad eliminada
+end note
+
+EntidadControlador --> EntidadVista
+note on link
+    entidad eliminada
+end note
+
+
+
+@enduml

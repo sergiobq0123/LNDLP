@@ -1,0 +1,22 @@
+@startuml presentacion
+skin rose
+skinparam linetype polyline
+
+title Repositorios - ArtistaFestivalAsoc
+
+interface i as "IArtistaFestivalAsocRepositorio"{
+    GetIdByArtistFestival(int idArtista, int idfestival)
+    ExistArtistFestivalAsocAsync(int idArtistFestivalAsoc)
+    GetFestivalsForArtistAsync(int id, Expression<Func<ArtistFestivalAsoc, bool>> predicate)
+}
+
+class c as "ArtistaFestivalAsocRepositorio"{
+    private readonly APIContext _context;
+    GetIdByArtistFestival(int idArtista, int idfestival)
+    ExistArtistFestivalAsocAsync(int idArtistFestivalAsoc)
+    GetFestivalsForArtistAsync(int id, Expression<Func<ArtistFestivalAsoc, bool>> predicate)
+}
+
+
+i <|-- c
+@enduml

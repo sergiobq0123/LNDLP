@@ -1,0 +1,15 @@
+@startuml presentacion
+skin rose
+skinparam linetype polyline
+
+title Controladores - Generico
+
+class GenericoControlador {
+    private IGenericService<TEntity> _service;
+    getKeys()
+    postEntity(TEntity entity)
+    PutEntity(int id, TEntity entity)
+    DeleteEntity(int id)
+}
+
+@enduml

@@ -1,0 +1,17 @@
+@startuml presentacion
+skin rose
+skinparam linetype polyline
+
+title Repositorios - RedSocial
+
+interface i as "IRedSocialRepositorio"{
+
+}
+
+class c as "RedSocialRepositorio"{
+    private readonly APIContext _context;
+}
+
+
+i <|-- c
+@enduml

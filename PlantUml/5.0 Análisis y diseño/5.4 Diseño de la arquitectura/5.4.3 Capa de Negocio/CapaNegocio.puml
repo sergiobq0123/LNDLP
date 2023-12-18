@@ -1,0 +1,50 @@
+@startuml presentacion
+skin rose
+skinparam linetype polyline
+
+package APIREST #e1eced {
+    package CapaNegocio {
+        package Controladores 
+        package Servicios 
+        package Repositorio 
+    }
+    package CapaTransferenciaDatos{
+        package DTO
+    }
+
+    package CapaDatos {
+        package Entidades
+        package InterfacesEntidades
+        package Migraciones
+    }
+
+    package CapaServicios{
+        package Paginacion
+        package Filtros
+        package wwwroot
+        package Mapeadores
+    }
+
+}
+
+package CapaBaseDeDatos #e1eced {
+    database BaseDatos
+}
+
+Controladores ..> Servicios
+Controladores ..> DTO
+Servicios ..> CapaServicios
+Servicios ..> Repositorio
+Servicios ..> DTO
+Repositorio ..> Entidades
+Repositorio .down.> BaseDatos
+
+Entidades .left.> InterfacesEntidades
+
+Mapeadores .up.> DTO 
+Mapeadores .down.> Entidades
+
+Migraciones .down.> BaseDatos
+
+
+@enduml

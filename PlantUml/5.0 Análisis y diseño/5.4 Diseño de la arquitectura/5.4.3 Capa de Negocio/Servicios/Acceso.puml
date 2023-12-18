@@ -1,0 +1,24 @@
+@startuml presentacion
+skin rose
+skinparam linetype polyline
+
+title Servicios - Acceso
+
+interface i as "IAccesoServicio"{
+    Register(AccesDto accesDto)
+    Login(AccesDto accesDto)
+    UsernameExist(string username)
+    ChangePassword(int id, string password)
+}
+
+class c as "AccesoServicio"{
+    private readonly IAccesRepository _accesRepository;
+    Register(AccesDto accesDto)
+    Login(AccesDto accesDto)
+    UsernameExist(string username)
+    ChangePassword(int id, string password)
+}
+
+
+i <|-- c
+@enduml

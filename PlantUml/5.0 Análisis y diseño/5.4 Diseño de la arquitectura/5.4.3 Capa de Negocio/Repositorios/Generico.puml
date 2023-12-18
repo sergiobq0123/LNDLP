@@ -1,0 +1,28 @@
+@startuml presentacion
+skin rose
+skinparam linetype polyline
+
+title Repositorios - Generico
+
+interface i as "IGenericoRepositorio"{
+    GetAsync(Expression<Func<TEntity, bool>> predicate)
+    GetByIdAsync(int id)
+    CreateAsync(TEntity entity)
+    UpdateAsync(TEntity entity)
+    DeleteAsync(int id)
+    SaveChangesAsync()
+}
+
+class c as "GenericoRepositorio"{
+    private readonly APIContext _context;
+    GetAsync(Expression<Func<TEntity, bool>> predicate)
+    GetByIdAsync(int id)
+    CreateAsync(TEntity entity)
+    UpdateAsync(TEntity entity)
+    DeleteAsync(int id)
+    SaveChangesAsync()
+}
+
+
+i <|-- c
+@enduml

@@ -1,0 +1,22 @@
+@startuml presentacion
+skin rose
+skinparam linetype polyline
+
+title Servicios - Email
+
+interface i as "IEmailServicio"{
+    SendEmail(EmailDto emailDto)
+    void SendEmailPromo(string fromEmail, string destEmail, string copyEmail, string subject, string body)
+    void Smtp_SendCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
+
+}
+
+class c as "EmailServicio"{
+    private readonly SmtpClient _smtpClient;
+    SendEmail(EmailDto emailDto)
+    void SendEmailPromo(string fromEmail, string destEmail, string copyEmail, string subject, string body)
+    void Smtp_SendCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
+}
+
+i <|-- c
+@enduml

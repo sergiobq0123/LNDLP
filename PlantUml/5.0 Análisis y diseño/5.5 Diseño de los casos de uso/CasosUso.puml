@@ -1,0 +1,97 @@
+@startuml useCases
+skinparam {
+    BoundaryBackgroundColor #629EF9
+    BoundaryBorderColor black
+    BoundaryFontSize 16
+    BoundarySize 10
+    BoundaryFontStyle bold
+
+    DatabaseBackgroundColor #D269D2 
+    DatabaseBorderColor black
+    DatabaseFontSize 16
+    DatabaseSize 10
+    DatabaseFontStyle bold
+
+    InterfaceBackgroundColor #DDD413
+    InterfaceBorderColor black
+    InterfaceFontSize 16
+    InterfaceSize 10
+    InterfaceFontStyle bold
+
+    EntityBackgroundColor #08EFF3 
+    EntityBorderColor black
+    EntityFontSize 16
+    EntitySize 10
+    EntityFontStyle bold
+
+    cloudBackgroundColor #3CBE2D
+    cloudBorderColor black
+    cloudFontSize 16
+    cloudSize 10
+    CloudFontStyle bold
+
+    ControlBackgroundColor #C6480E
+    ControlBorderColor black
+    ControlFontSize 16
+    ControlSize 10
+    ControlFontStyle bold
+
+    DatabaseBackgroundColor #D269D2 
+    DatabaseBorderColor black
+    DatabaseFontSize 16
+    DatabaseSize 10
+    DatabaseFontStyle bold
+}
+
+
+skinparam linetype polyline
+
+cloud XVista 
+boundary XControlador
+control XServicio
+database XRepositorio
+entity XModelo
+
+rectangle CapaPresentacion {
+    cloud XCSS as "XEstilo <<CSS>>"
+    cloud XHTML as "XPresentacion <<HTML>>"
+    cloud XTS as "XLogica <<TypeScript>>"
+}
+
+control XGuardias
+control XMiddleware
+
+boundary XAPIControlador
+control XAPIServicio
+database XAPIRepositorio
+
+entity XDto
+
+XVista -right-> XControlador
+XControlador -right-> XServicio
+XServicio -right-> XRepositorio
+
+
+XTS ...[#Gray]up.> XVista : <<trace>>
+XCSS ...[#Gray]up.> XVista : <<trace>>
+XHTML ...[#Gray]up.> XVista : <<trace>>
+
+CapaPresentacion -right-> XGuardias
+XGuardias -right-> XMiddleware
+XMiddleware -..[#Gray]right.> XAPIControlador : <<trace>>
+XAPIControlador -right-> XAPIServicio
+XAPIServicio -right-> XAPIRepositorio
+
+XAPIControlador ...[#Gray]up.> XControlador : <<trace>>
+XAPIServicio ...[#Gray]up.> XServicio : <<trace>>
+XAPIRepositorio ...[#Gray]up.> XRepositorio : <<trace>>
+
+XDto ...[#Gray]right.> XModelo : <<trace>>
+
+XAPIControlador -down-> XDto
+XAPIServicio -down-> XDto
+XAPIServicio -down-> XModelo
+XAPIRepositorio -down-> XModelo
+
+
+@enduml

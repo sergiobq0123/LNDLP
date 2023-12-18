@@ -1,0 +1,18 @@
+@startuml presentacion
+skin rose
+skinparam linetype polyline
+
+title Servicios - Cancion
+
+interface i as "ICancionServicio"{
+    GetSongs([FromQuery] PaginationFilter paginationFilter, string route, [FromBody] List<Filter> filters)
+
+}
+
+class c as "CancionServicio"{
+    private readonly ISongRepository _songRepository;
+    GetSongs([FromQuery] PaginationFilter paginationFilter, string route, [FromBody] List<Filter> filters)
+}
+
+i <|-- c
+@enduml

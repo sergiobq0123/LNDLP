@@ -67,26 +67,26 @@ public static class RoutesManager
     };
     public static List<string> OnlyAdminPutRoutes = new List<string>()
     {
-        $"^{BASE}/{ACCES}/\\d$",
-        $"^{BASE}/{ALBUM}/\\d$",
-        $"^{BASE}/{ARTIST}/\\d$",
-        $"^{BASE}/{COMPANY}/\\d$",
-        $"^{BASE}/{CONCERT}/\\d$",
-        $"^{BASE}/{FESTIVAL}/\\d$",
+        $"^{BASE}/{ACCES}/\\d+$",
+        $"^{BASE}/{ALBUM}/\\d+$",
+        $"^{BASE}/{ARTIST}/\\d+$",
+        $"^{BASE}/{COMPANY}/\\d+$",
+        $"^{BASE}/{CONCERT}/\\d+$",
+        $"^{BASE}/{FESTIVAL}/\\d+$",
         $"^{BASE}/{FESTIVALARTISTASOC}$",
-        $"^{BASE}/{SOCIALNETWORK}/\\d$",
-        $"^{BASE}/{SONG}/\\d$",
-        $"^{BASE}/{USER}/\\d$",
+        $"^{BASE}/{SOCIALNETWORK}/\\d+$",
+        $"^{BASE}/{SONG}/\\d+$",
+        $"^{BASE}/{USER}/\\d+$",
     };
     public static List<string> OnlyAdminDeleteRoutes = new List<string>()
     {
-        $"^{BASE}/{ALBUM}/\\d$",
-        $"^{BASE}/{ARTIST}/\\d$",
-        $"^{BASE}/{COMPANY}/\\d$",
-        $"^{BASE}/{CONCERT}/\\d$",
-        $"^{BASE}/{FESTIVAL}/\\d$",
-        $"^{BASE}/{SONG}/\\d$",
-        $"^{BASE}/{USER}/\\d$",
+        $"^{BASE}/{ALBUM}/\\d+$",
+        $"^{BASE}/{ARTIST}/\\d+$",
+        $"^{BASE}/{COMPANY}/\\d+$",
+        $"^{BASE}/{CONCERT}/\\d+$",
+        $"^{BASE}/{FESTIVAL}/\\d+$",
+        $"^{BASE}/{SONG}/\\d+$",
+        $"^{BASE}/{USER}/\\d+$",
     };
 
     public static bool IsAdminRoute(string route, string method)
@@ -119,11 +119,11 @@ public static class RoutesManager
     };
     public static List<string> OnlyVisualPutRoutes = new List<string>()
     {
-        $"^{BASE}/{YOUTUBEVIDEO}/\\d$",
+        $"^{BASE}/{YOUTUBEVIDEO}/\\d+$",
     };
     public static List<string> OnlyVisualDeleteRoutes = new List<string>()
     {
-        $"^{BASE}/{YOUTUBEVIDEO}/\\d$",
+        $"^{BASE}/{YOUTUBEVIDEO}/\\d+$",
     };
 
     public static bool IsVisualRoute(string route, string method)
@@ -147,13 +147,13 @@ public static class RoutesManager
     //! CREW
     public static List<string> OnlyCrewGetRoutes = new List<string>()
     {
-        $"^{BASE}/{CONCERT}/{CONCERTUSERID}/\\d$",
-        $"^{BASE}/{FESTIVALARTISTASOC}/{FESTIVALUSERID}/\\d$",
+        $"^{BASE}/{CONCERT}/{CONCERTUSERID}/\\d+$",
+        $"^{BASE}/{FESTIVALARTISTASOC}/{FESTIVALUSERID}/\\d+$",
     };
     public static List<string> OnlyCrewPostRoutes = new List<string>()
     {
-        $"^{BASE}/{CONCERT}/{CONCERTUSERID}/\\d/{FILTER}$",
-        $"^{BASE}/{FESTIVALARTISTASOC}/{FESTIVALUSERID}/\\d/{FILTER}$",
+        $"^{BASE}/{CONCERT}/{CONCERTUSERID}/\\d+/{FILTER}$",
+        $"^{BASE}/{FESTIVALARTISTASOC}/{FESTIVALUSERID}/\\d+/{FILTER}$",
     };
 
     public static bool IsCrewRoute(string route, string method)

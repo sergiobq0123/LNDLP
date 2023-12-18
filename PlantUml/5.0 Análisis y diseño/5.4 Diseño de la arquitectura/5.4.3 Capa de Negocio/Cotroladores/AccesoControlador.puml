@@ -1,0 +1,13 @@
+@startuml presentacion
+skin rose
+skinparam linetype polyline
+
+title Controladores - Acceso
+
+class AccesoControlador{
+    private readonly IAccesService _accesService
+    Login(AccesDto accesDto)
+    ChangePassword(int id, AccesDto accesDto)
+}
+
+@enduml

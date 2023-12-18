@@ -1,12 +1,68 @@
 {
   "Files": [
     {
-      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\a.jpg",
-      "PackagePath": "staticwebassets\\assets\\a.jpg"
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Brote.jpg",
+      "PackagePath": "staticwebassets\\assets\\Brote.jpg"
     },
     {
-      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\sdsa.jpg",
-      "PackagePath": "staticwebassets\\assets\\sdsa.jpg"
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Desperados.jpg",
+      "PackagePath": "staticwebassets\\assets\\Desperados.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Dudi.jpg",
+      "PackagePath": "staticwebassets\\assets\\Dudi.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Elizalde.jpg",
+      "PackagePath": "staticwebassets\\assets\\Elizalde.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Goiko.jpg",
+      "PackagePath": "staticwebassets\\assets\\Goiko.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Grimey.jpg",
+      "PackagePath": "staticwebassets\\assets\\Grimey.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Hook Urban.jpg",
+      "PackagePath": "staticwebassets\\assets\\Hook Urban.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\La Santa.jpg",
+      "PackagePath": "staticwebassets\\assets\\La Santa.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\La Vibra.jpg",
+      "PackagePath": "staticwebassets\\assets\\La Vibra.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Levis.jpg",
+      "PackagePath": "staticwebassets\\assets\\Levis.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Liam.jpg",
+      "PackagePath": "staticwebassets\\assets\\Liam.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Mahou.jpg",
+      "PackagePath": "staticwebassets\\assets\\Mahou.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Robledo.jpg",
+      "PackagePath": "staticwebassets\\assets\\Robledo.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Stelars.jpg",
+      "PackagePath": "staticwebassets\\assets\\Stelars.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Turia.jpg",
+      "PackagePath": "staticwebassets\\assets\\Turia.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Wegow.jpg",
+      "PackagePath": "staticwebassets\\assets\\Wegow.jpg"
     },
     {
       "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.LNDP_API.Microsoft.AspNetCore.StaticWebAssets.props",

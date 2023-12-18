@@ -1,0 +1,114 @@
+@startuml tryhtr
+skin rose 
+
+skinparam {
+    NoteBackgroundColor #whiteSmoke
+    ArrowColor #green
+    NoteBorderColor #blue
+    linetype polyline
+}
+
+hide empty description
+
+state initstate as "BACKOFFICE_ABIERTO"
+
+initstate --> ARTISTAS_ABIERTOS
+note on link
+<b>El usuario solicita</b>
+* leerArtista
+end note
+
+state ARTISTAS_ABIERTOS{
+    state cond <<choice>>
+    state condFinal <<choice>>
+    [*] --> cond
+    note on link
+        <b>El sistema permite</b>
+        * Crear Artista
+        * Editar Artista
+        * Eliminar Artista
+        * Salir
+    end note
+    cond --> crearArtista
+    state crearArtista {
+
+        state 1 as " "
+        state 2 as " "
+        state 3 as " "
+        state 4 as " "
+        state condicional <<choice>>
+
+        [*] --> 1
+
+        1 --> 2
+        note on link
+        <b>El sistema requiere</b>
+        * artista
+        <b>El sistema permite</b>
+        * cancelar
+        end note
+
+        2 --> 3
+        note on link
+        <b>El sistema requiere</b>
+        * red social
+        <b>El sistema permite</b>
+        * cancelar
+        end note
+
+        3 --> 4
+        note on link
+        <b>El sistema requiere</b>
+        * usuario
+        * contraseña
+        <b>El sistema permite</b>
+        * cancelar
+        * guardar
+        end note
+
+        4 --> condicional
+        note on link
+        <b>El usuario solicta</b>
+        * guardar
+        end note
+
+        2 -[#red]-> condicional
+        note on link
+        <b>El usuario solicita</b>
+        * cancelar
+        end note
+
+        3 -[#red]-> condicional
+        note on link
+        <b>El usuario solicita</b>
+        * cancelar
+        end note
+
+        4 -[#red]-> condicional
+        note on link
+        <b>El usuario solicita</b>
+        * cancelar
+        end note
+
+        condicional --> [*]
+    }
+
+    crearArtista --> condFinal
+
+    condFinal -[#red]-> cond
+    note on link 
+        <b>El usuario solicita </b>
+        * Cancelar
+    end note
+
+    condFinal --> [*]
+}
+
+state endstate as "BACKOFFICE_ABIERTO"
+ARTISTAS_ABIERTOS -[#red]-> endstate
+note on link 
+    <b>El usuario solicita </b>
+    * Salir
+end note
+
+@enduml

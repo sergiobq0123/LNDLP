@@ -1,0 +1,31 @@
+@startuml presentacion
+skin rose
+skinparam linetype polyline
+
+
+
+
+package CapaPresentación #e1eced  {
+    package Modulos {
+        package Componentes {
+            package HTML
+            package CSS 
+            package TS
+        }
+        package Rutas 
+    }
+    package Modelos 
+    package Utilidades
+    package Servicios
+    package Guardias
+    package Assets
+}
+
+Guardias <.. Rutas
+
+Componentes ..> Modelos
+Componentes ...> Utilidades
+Componentes .> Servicios
+Componentes ..> Assets
+
+@enduml

@@ -1,0 +1,12 @@
+@startuml presentacion
+skin rose
+skinparam linetype polyline
+
+title Controladores - Cancion
+
+class CancionControlador {
+    private ISongService _songService;
+    GetSongIntranet([FromQuery] PaginationFilter paginationFilter)
+    PostFilterIntranet([FromQuery] PaginationFilter paginationFilter, [FromBody] List<Filter> filters)
+}
+@enduml

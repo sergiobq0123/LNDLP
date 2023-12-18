@@ -1,0 +1,13 @@
+@startuml presentacion
+skin rose
+skinparam linetype polyline
+
+title Controladores - Album
+
+class AlbumControlador {
+    private IAlbumService _albumService;
+    GetAlbumsIntranet([FromQuery] PaginationFilter paginationFilter)
+    PostAlbumsIntranet([FromQuery] PaginationFilter paginationFilter, [FromBody] List<Filter> filters)
+}
+
+@enduml

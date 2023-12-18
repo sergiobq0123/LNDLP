@@ -1,0 +1,13 @@
+@startuml presentacion
+skin rose
+skinparam linetype polyline
+
+title Controladores - YoutubeVideo
+
+class YoutubeVideoControlador {
+    private readonly IYoutubeVideoService _youtubeVideoService;
+    GetYoutubeVideoWeb()
+    GetYoutubeVideoIntranet([FromQuery] PaginationFilter paginationFilter)
+    PostFilterYoutubeVideoIntranet([FromQuery] PaginationFilter paginationFilter, [FromBody] List<Filter> filters)
+}
+@enduml

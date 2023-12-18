@@ -1,0 +1,26 @@
+@startuml presentacion
+skin rose
+skinparam linetype polyline
+
+title Servicios - Generico
+
+interface i as "IGenericoServicio"{
+    Get([FromQuery] PaginationFilter paginationFilter, string route, [FromBody] List<Filter> filters)
+    Create(TEntity entity)
+    Update(TEntity entity)
+    Delete(int id)
+    GetKeys()
+
+}
+
+class c as "GenericoServicio"{
+    private readonly IGenericRepository<TEntity> _repository;
+    Get([FromQuery] PaginationFilter paginationFilter, string route, [FromBody] List<Filter> filters)
+    Create(TEntity entity)
+    Update(TEntity entity)
+    Delete(int id)
+    GetKeys()
+}
+
+i <|-- c
+@enduml

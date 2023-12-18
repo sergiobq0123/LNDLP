@@ -1,0 +1,42 @@
+@startuml CasosDeUsoAdmin
+
+skin rose
+left to right direction
+:Admin: as A
+
+package BackOfficeAdminArtistaRelaciones {
+
+    (Leer canciones) .-> (Editar cancion): <<extends>>
+    (Leer canciones) .-> (Crear cancion): <<extends>>
+    (Leer canciones) .-> (Eliminar cancion): <<extends>>
+
+    (Crear cancion) .-> (Leer artistas): <<include>>
+
+    (Leer albumes) .-> (Editar album): <<extends>>
+    (Leer albumes) .-> (Crear album): <<extends>>
+    (Leer albumes) .-> (Eliminar album): <<extends>>
+
+    (Crear album) .-> (Leer artistas): <<include>>
+
+    (Leer festivales) .-> (Editar festival): <<extends>>
+    (Leer festivales) .-> (Crear festival): <<extends>>
+    (Leer festivales) .-> (Eliminar festival): <<extends>>
+
+    (Leer festivales) .-> (Asociar artistas): <<extends>>
+    (Asociar artistas) .-> (Leer artistas): <<extends>>
+
+    (Leer conciertos) .-> (Editar concierto): <<extends>>
+    (Leer conciertos) .-> (Crear concierto): <<extends>>
+    (Leer conciertos) .-> (Eliminar concierto): <<extends>>
+
+    (Crear concierto) .-> (Leer artistas): <<include>>
+}
+
+
+A --> (Leer canciones)
+A --> (Leer albumes)
+A --> (Leer festivales)
+A --> (Leer conciertos)
+
+
+@enduml

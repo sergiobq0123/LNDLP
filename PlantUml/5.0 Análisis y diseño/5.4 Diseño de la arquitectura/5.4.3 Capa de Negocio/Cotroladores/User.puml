@@ -1,0 +1,13 @@
+@startuml presentacion
+skin rose
+skinparam linetype polyline
+
+title Controladores - Usuario
+
+class UsuarioControlador {
+    private IUserService _userService;
+    GetUsersIntranet([FromQuery] PaginationFilter paginationFilter)
+    PostFilterUsersIntranet([FromQuery] PaginationFilter paginationFilter, [FromBody] List<Filter> filters)
+    PostUser(UserCreateDto userCreateDto)
+}
+@enduml

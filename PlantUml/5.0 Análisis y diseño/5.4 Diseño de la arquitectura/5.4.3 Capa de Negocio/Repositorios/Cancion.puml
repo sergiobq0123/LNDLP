@@ -1,0 +1,18 @@
+@startuml presentacion
+skin rose
+skinparam linetype polyline
+
+title Repositorios - Cancion
+
+interface i as "ICancionRepositorio"{
+    GetSongsAsync(Expression<Func<Song, bool>> predicate)
+}
+
+class c as "CancionRepositorio"{
+    private readonly APIContext _context;
+    GetSongsAsync(Expression<Func<Song, bool>> predicate)
+}
+
+
+i <|-- c
+@enduml

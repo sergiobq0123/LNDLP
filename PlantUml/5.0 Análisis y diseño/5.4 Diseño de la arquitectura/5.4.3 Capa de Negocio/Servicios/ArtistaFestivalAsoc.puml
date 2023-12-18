@@ -1,0 +1,24 @@
+@startuml presentacion
+skin rose
+skinparam linetype polyline
+
+title Servicios - ArtistaFestivalAsoc
+
+interface i as "IArtistaFestivalServicio"{
+    CreateArtistFestivalAsoc(ArtistFestivalAsoc artistFestivalAsoc)
+    DeleteArtistFestivalAsoc(int idArtistFestivalAsoc)
+    UpdateFestivalWithArtists(FestivalArtistDto festivalArtistDto)
+    GetFestivalForArtist(int id, [FromQuery] PaginationFilter paginationFilter, string route, [FromBody] List<Filter> filters)
+
+}
+
+class c as "ArtistaFestivalServicio"{
+    private readonly IArtistFestivalAsocRepository _artistFestivalAsocRepository;
+    CreateArtistFestivalAsoc(ArtistFestivalAsoc artistFestivalAsoc)
+    DeleteArtistFestivalAsoc(int idArtistFestivalAsoc)
+    UpdateFestivalWithArtists(FestivalArtistDto festivalArtistDto)
+    GetFestivalForArtist(int id, [FromQuery] PaginationFilter paginationFilter, string route, [FromBody] List<Filter> filters)
+}
+
+i <|-- c
+@enduml

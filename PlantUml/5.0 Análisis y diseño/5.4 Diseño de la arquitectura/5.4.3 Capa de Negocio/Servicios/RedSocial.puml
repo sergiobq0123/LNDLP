@@ -1,0 +1,17 @@
+@startuml presentacion
+skin rose
+skinparam linetype polyline
+
+title Servicios - RedSocial
+
+interface i as "IRedSocialServicio"{
+    
+
+}
+
+class c as "RedSocialServicio"{
+    private readonly ISocialNetworkRepository _socialNetworkRepository;
+}
+
+i <|-- c
+@enduml

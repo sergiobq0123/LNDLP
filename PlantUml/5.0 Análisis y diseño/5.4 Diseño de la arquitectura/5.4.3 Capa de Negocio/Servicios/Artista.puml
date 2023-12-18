@@ -1,0 +1,24 @@
+@startuml presentacion
+skin rose
+skinparam linetype polyline
+
+title Servicios - Artista
+
+interface i as "IArtistaServicio"{
+    GetArtistas([FromQuery] PaginationFilter paginationFilter, string route, [FromBody] List<Filter> filters)
+    GetArtistById(int id)
+    PostArtist(ArtistCreateDto artistCreateDto)
+    GetArtistsWeb()
+}
+
+class c as "ArtistaServicio"{
+    private readonly IArtistRepository _artistRepository;
+    private readonly IUserService _userService;
+    GetArtistas([FromQuery] PaginationFilter paginationFilter, string route, [FromBody] List<Filter> filters)
+    GetArtistById(int id)
+    PostArtist(ArtistCreateDto artistCreateDto)
+    GetArtistsWeb()
+}
+
+i <|-- c
+@enduml

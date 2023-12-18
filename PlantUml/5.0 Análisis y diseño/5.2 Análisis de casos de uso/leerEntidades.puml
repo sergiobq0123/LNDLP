@@ -1,0 +1,73 @@
+@startuml leer_Entidad
+
+skin rose
+skinparam {
+    NoteBorderThickness 0
+    NoteBackgroundColor #whiteSmoke
+    RectangleBackgroundColor #whiteSmoke
+    ArchimateBackgroundColor #whiteSmoke
+}
+
+
+actor User
+rectangle #3CBE2D EntidadVista
+rectangle #629EF9 EntidadControlador
+rectangle #C6480E EntidadServicio
+rectangle #D269D2 EntidadRepositorio
+rectangle #08EFF3 Entidad
+rectangle #CDEBA5 "BACKOFFICE ABIERTO" as OpenDashboard
+
+EntidadVista -left-> OpenDashboard
+note on link
+    lista entidades
+end note
+
+User --> EntidadVista
+note on link
+    leer entidades ()
+end note
+
+EntidadVista --> EntidadControlador
+note on link
+    leer entidades ()
+end note
+
+EntidadControlador --> EntidadServicio
+note on link
+    leer entidades ()
+end note
+
+EntidadServicio --> EntidadRepositorio
+note on link
+    leer entidades ()
+end note
+
+EntidadRepositorio --> Entidad
+note on link
+    leer entidad ()
+end note
+
+Entidad --> EntidadRepositorio
+note on link
+    lista entidades
+end note
+
+EntidadRepositorio --> EntidadServicio
+note on link
+    lista entidades
+end note
+
+
+EntidadServicio --> EntidadControlador
+note on link
+    lista entidades
+end note
+
+EntidadControlador --> EntidadVista
+note on link
+    lista entidades
+end note
+
+
+
+@enduml

@@ -1,0 +1,14 @@
+@startuml CicloDeVidaTourManager
+
+skin rose
+start
+    :Contratación del Servicio;
+    while(Servicio Activo)
+        if (AñadirConcierto) then
+        else
+            :AñadirFestival;
+        endif
+    endwhile
+    :Finalización del Servicio;
+stop
+@enduml

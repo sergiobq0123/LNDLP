@@ -1,0 +1,21 @@
+@startuml presentacion
+skin rose
+skinparam linetype polyline
+
+title Servicios - Concierto
+
+interface i as "IConciertoServicio"{
+    GetConcerts([FromQuery] PaginationFilter paginationFilter, string route, [FromBody] List<Filter> filters)
+    GetConcertsForArtist(int id, [FromQuery] PaginationFilter paginationFilter, string route, [FromBody] List<Filter> filters)
+    GetFutureConcerts()
+}
+
+class c as "ConciertoServicio"{
+    private readonly IConcertRepository _concertRepository;
+    GetConcerts([FromQuery] PaginationFilter paginationFilter, string route, [FromBody] List<Filter> filters)
+    GetConcertsForArtist(int id, [FromQuery] PaginationFilter paginationFilter, string route, [FromBody] List<Filter> filters)
+    GetFutureConcerts()
+}
+
+i <|-- c
+@enduml

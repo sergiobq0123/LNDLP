@@ -1,0 +1,22 @@
+@startuml presentacion
+skin rose
+skinparam linetype polyline
+
+title Repositorios - Artista
+
+interface i as "IArtistaRepositorio"{
+    GetArtistasAsync(Expression<Func<Artist, bool>> predicate)
+    GetArtistByIdAsync(int id)
+    GetArtistWithSocialNetwork()
+}
+
+class c as "ArtistaRepositorio"{
+    private readonly APIContext _context;
+    GetArtistasAsync(Expression<Func<Artist, bool>> predicate)
+    GetArtistByIdAsync(int id)
+    GetArtistWithSocialNetwork()
+}
+
+
+i <|-- c
+@enduml

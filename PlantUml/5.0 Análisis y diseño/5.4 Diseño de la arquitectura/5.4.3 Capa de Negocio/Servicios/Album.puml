@@ -1,0 +1,17 @@
+@startuml presentacion
+skin rose
+skinparam linetype polyline
+
+title Servicios - Album
+
+interface i as "IAlbumServicio"{
+    GetAlbums([FromQuery] PaginationFilter paginationFilter, string route, [FromBody] List<Filter> filters)
+}
+
+class c as "AlbumServicio"{
+    private readonly IAlbumRepository _albumRepository;
+    GetAlbums([FromQuery] PaginationFilter paginationFilter, string route, [FromBody] List<Filter> filters)
+}
+
+i <|-- c
+@enduml

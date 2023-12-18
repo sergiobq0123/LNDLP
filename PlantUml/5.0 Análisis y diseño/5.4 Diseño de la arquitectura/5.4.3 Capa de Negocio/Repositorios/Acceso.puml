@@ -1,0 +1,20 @@
+@startuml presentacion
+skin rose
+skinparam linetype polyline
+
+title Repositorios - Acceso
+
+interface i as "IAccesoRepositorio"{
+    UsernameExistAsync(string username)
+    LoginAsync(string username)
+}
+
+class c as "AccesoRepositorio"{
+    private readonly APIContext _context;
+    UsernameExistAsync(string username)
+    LoginAsync(string username)
+}
+
+
+i <|-- c
+@enduml

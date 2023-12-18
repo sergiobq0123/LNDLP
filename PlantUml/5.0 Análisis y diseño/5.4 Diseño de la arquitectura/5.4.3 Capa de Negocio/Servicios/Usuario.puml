@@ -1,0 +1,21 @@
+@startuml presentacion
+skin rose
+skinparam linetype polyline
+
+title Servicios - Usuario
+
+interface i as "IUsuarioServicio"{
+    GetUsers([FromQuery] PaginationFilter paginationFilter, string route, [FromBody] List<Filter> filters)
+    PostUser(UserCreateDto userCreateDto)
+
+}
+
+class c as "UsuarioServicio"{
+    private readonly IUserRepository _userRepository;
+    private readonly IAccesService _accesService;
+    GetUsers([FromQuery] PaginationFilter paginationFilter, string route, [FromBody] List<Filter> filters)
+    PostUser(UserCreateDto userCreateDto)
+}
+
+i <|-- c
+@enduml
