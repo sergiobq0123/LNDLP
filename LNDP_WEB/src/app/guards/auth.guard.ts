@@ -4,12 +4,12 @@ import {
   CanActivate,
   Router,
   RouterStateSnapshot,
+  NavigationError, // Agrega esta importación
 } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { NotificationService } from '../services/notification.service';
 import { notifications } from '../common/notifications';
 import { UserRole } from '../models/userRole.model';
-import { RouterLink } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -23,13 +23,17 @@ export class AuthGuard implements CanActivate {
 
   canActivate(
     route: ActivatedRouteSnapshot,
-    _state: RouterStateSnapshot
+    state: RouterStateSnapshot
   ): boolean {
-    let url: string = _state.url;
-    return this.checkUserLogin(route, url);
+    let url: string = state.url;
+    return this.checkUserLogin(route, url, state);
   }
 
-  checkUserLogin(route: ActivatedRouteSnapshot, url: string) {
+  checkUserLogin(
+    route: ActivatedRouteSnapshot,
+    url: string,
+    state: RouterStateSnapshot // Agrega este parámetro
+  ) {
     const isLoggedIn = this._authService.isLoggedIn();
 
     if (!isLoggedIn) {

@@ -55,7 +55,7 @@
     aria-label="Ver las redes"
     (click)="showFormDialogSocialNetwork(rowData.socialNetwork)"
   >
-    <mat-icon>supervisor_account</mat-icon>
+    <fa-icon [icon]="faHashtag"></fa-icon>
   </button>
 </ng-template>
 
@@ -67,6 +67,6 @@
     aria-label="Ver la imagen"
     (click)="showFormDialogImage(rowData)"
   >
-    <mat-icon>image</mat-icon>
+    <fa-icon [icon]="faImage"></fa-icon>
   </button>
 </ng-template>

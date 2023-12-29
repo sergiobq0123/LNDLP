@@ -13,7 +13,7 @@ import { PageEvent } from '@angular/material/paginator';
 import { CompanyService } from 'src/app/services/intranet/company.service';
 import { CompanyTypeService } from 'src/app/services/intranet/company-type.service';
 import { Validators } from '@angular/forms';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faImage } from '@fortawesome/free-solid-svg-icons';
 import { IconButton } from '../general/generic-table/icon-button';
 import { Filter } from '../general/generic-filter/filter';
 import { Sort } from '@angular/material/sort';
@@ -49,6 +49,7 @@ export class CompanyAdminComponent {
   @ViewChild('addTemplate') addTemplate: TemplateRef<any>;
 
   faPlus = faPlus;
+  faImage = faImage;
 
   constructor(
     public _companyService: CompanyService,

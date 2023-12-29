@@ -2,15 +2,13 @@
 
 skin rose
 
-:User: as U
 :Visual: as V
 :Admin: as A
 :Crew: as C
 :Visitor: as Vi
 
-U <|-- V
-U <|-- C
-U <|-- A
-U <|-- Vi
+Vi <|-- C
+Vi <|-- A
+Vi <|-- V
 
 @enduml

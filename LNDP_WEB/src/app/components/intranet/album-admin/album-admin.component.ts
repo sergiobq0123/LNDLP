@@ -13,7 +13,7 @@ import { GenericFormDialogComponent } from '../general/generic-form-dialog/gener
 import { Column } from '../general/generic-table/column';
 import { GenericTableComponent } from '../general/generic-table/generic-table.component';
 import { PageEvent } from '@angular/material/paginator';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faImage } from '@fortawesome/free-solid-svg-icons';
 import { IconButton } from '../general/generic-table/icon-button';
 import { Sort } from '@angular/material/sort';
 import { Filter } from '../general/generic-filter/filter';
@@ -48,6 +48,7 @@ export class AlbumAdminComponent {
   @ViewChild('addTemplate') addTemplate: TemplateRef<any>;
 
   faPlus = faPlus;
+  faImage = faImage;
 
   constructor(
     public _albumService: AlbumService,

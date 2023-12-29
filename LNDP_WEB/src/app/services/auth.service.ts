@@ -17,7 +17,13 @@ export class AuthService {
   }
 
   isLoggedIn() {
-    return this.getToken() != null;
+    const token = this.getToken();
+    if (token != null) {
+      const payload = atob(token.split('.')[1]);
+      const parsedPayload = JSON.parse(payload);
+      return parsedPayload.exp > Date.now() / 1000;
+    }
+    return false;
   }
 
   getToken() {

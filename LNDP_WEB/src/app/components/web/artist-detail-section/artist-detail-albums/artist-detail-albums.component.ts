@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { DateFormat } from '../../../../Utils/DateFormat';
 
 @Component({
   selector: 'app-artist-detail-albums',
@@ -18,7 +19,7 @@ export class ArtistDetailAlbumsComponent {
     this.genericCard = this.albums.map((concert) => ({
       imagen: concert.photoUrl,
       titulo: concert.name,
-      descripcion: concert.date,
+      descripcion: DateFormat.format(concert.date),
       url: concert.webUrl,
     }));
   }

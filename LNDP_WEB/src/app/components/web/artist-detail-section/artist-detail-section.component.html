@@ -6,11 +6,17 @@
 ></app-artist-detail-intro>
 
 <app-artist-detail-albums
+  *ngIf="this.artist.albums.length"
   [albums]="this.artist.albums"
 ></app-artist-detail-albums>
 
-<app-artist-detail-songs [songs]="this.artist.songs"> </app-artist-detail-songs>
+<app-artist-detail-songs
+  *ngIf="this.artist.songs.length"
+  [songs]="this.artist.songs"
+>
+</app-artist-detail-songs>
 
 <app-artist-detail-conciertos
+  *ngIf="this.artist.concerts.length"
   [conciertos]="this.artist.concerts"
 ></app-artist-detail-conciertos>

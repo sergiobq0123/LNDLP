@@ -14,7 +14,7 @@ import { GenericFormDialogComponent } from '../general/generic-form-dialog/gener
 import { PageEvent } from '@angular/material/paginator';
 import { UserRoleService } from 'src/app/services/intranet/user-role.service';
 import { notifications } from 'src/app/common/notifications';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faKey } from '@fortawesome/free-solid-svg-icons';
 import { IconButton } from '../general/generic-table/icon-button';
 import { AccesService } from 'src/app/services/intranet/acces.service';
 import { Filter } from '../general/generic-filter/filter';
@@ -48,6 +48,7 @@ export class UserAdminComponent {
   sortBy: string;
   sortOrder: string;
   faPlus = faPlus;
+  faKey = faKey;
 
   @ViewChild(GenericTableComponent) table: GenericTableComponent;
   @ViewChild('passwordTemplate') passwordTemplate: TemplateRef<any>;

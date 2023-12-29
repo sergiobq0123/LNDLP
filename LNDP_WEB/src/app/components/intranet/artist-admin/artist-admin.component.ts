@@ -15,7 +15,7 @@ import { GenericTableComponent } from '../general/generic-table/generic-table.co
 import { SocialNetworkService } from 'src/app/services/intranet/social-network.service';
 import { notifications } from 'src/app/common/notifications';
 import { PageEvent } from '@angular/material/paginator';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faHashtag, faImage } from '@fortawesome/free-solid-svg-icons';
 import { IconButton } from '../general/generic-table/icon-button';
 import { Filter } from '../general/generic-filter/filter';
 import { lastValueFrom } from 'rxjs';
@@ -48,6 +48,8 @@ export class ArtistAdminComponent {
   filters: Filter[];
   sortBy: string;
   sortOrder: string;
+  faHashtag = faHashtag;
+  faImage = faImage;
 
   @ViewChild(GenericTableComponent) table: GenericTableComponent;
   @ViewChild('socialNetworkTemplate') socialNetworkTemplate: TemplateRef<any>;

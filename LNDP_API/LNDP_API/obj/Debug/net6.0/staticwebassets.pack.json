@@ -1,6 +1,10 @@
 {
   "Files": [
     {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Boombastic.jpg",
+      "PackagePath": "staticwebassets\\assets\\Boombastic.jpg"
+    },
+    {
       "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Brote.jpg",
       "PackagePath": "staticwebassets\\assets\\Brote.jpg"
     },
@@ -43,6 +47,14 @@
     {
       "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Liam.jpg",
       "PackagePath": "staticwebassets\\assets\\Liam.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Lo que no te dije.jpg",
+      "PackagePath": "staticwebassets\\assets\\Lo que no te dije.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Madrid Salvaje.jpg",
+      "PackagePath": "staticwebassets\\assets\\Madrid Salvaje.jpg"
     },
     {
       "Id": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Mahou.jpg",

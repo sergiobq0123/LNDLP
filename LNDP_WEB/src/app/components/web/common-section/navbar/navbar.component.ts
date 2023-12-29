@@ -3,11 +3,29 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { User } from 'src/app/models/user.model';
 import { UsersService } from 'src/app/services/intranet/users.service';
 import { AuthService } from 'src/app/services/auth.service';
+import {
+  faAngleDown,
+  faAngleUp,
+  faBars,
+  faCheck,
+  faColumns,
+  faCopy,
+  faEye,
+  faEyeSlash,
+  faFilter,
+  faInfo,
+  faPen,
+  faPlus,
+  faSyncAlt,
+  faTimes,
+  faTrash,
+  faUser,
+} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss']
+  styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent {
   isMobile: boolean = false;
@@ -15,8 +33,12 @@ export class NavbarComponent {
   isLogin: boolean;
   nameLogin: string;
   user: User;
+  faUser = faUser;
 
-  constructor(private _breakpointObserver: BreakpointObserver, private _authService : AuthService) {}
+  constructor(
+    private _breakpointObserver: BreakpointObserver,
+    private _authService: AuthService
+  ) {}
 
   ngOnInit() {
     this._breakpointObserver
@@ -25,7 +47,7 @@ export class NavbarComponent {
         this.isMobile = result.matches;
         this.showMenu = false;
       });
-      this.isLogin = this._authService.isLoggedIn();
+    this.isLogin = this._authService.isLoggedIn();
   }
 
   toggleMenu() {
@@ -36,8 +58,7 @@ export class NavbarComponent {
   }
 
   logout() {
-    this._authService.logout()
+    this._authService.logout();
     this.isLogin = false;
   }
-
 }

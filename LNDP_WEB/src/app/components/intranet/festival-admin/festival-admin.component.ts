@@ -6,7 +6,7 @@ import { FestivalService } from 'src/app/services/intranet/festival.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { notifications } from 'src/app/common/notifications';
 import { PageEvent } from '@angular/material/paginator';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faImage } from '@fortawesome/free-solid-svg-icons';
 import { IconButton } from '../general/generic-table/icon-button';
 import { Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -54,6 +54,7 @@ export class FestivalAdminComponent {
   @ViewChild('artistTemplate') artistTemplate: TemplateRef<any>;
 
   faPlus = faPlus;
+  faImage = faImage;
 
   constructor(
     private _festivalService: FestivalService,
