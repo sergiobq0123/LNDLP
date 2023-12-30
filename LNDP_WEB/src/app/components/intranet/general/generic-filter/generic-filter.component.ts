@@ -19,25 +19,8 @@ import { Filter } from './filter';
 export class GenericFilterComponent {
   selectedFilters: Filter[]; // Selected Filters Array
   selectedOption: Column; // Column selected to add in array filter
-  filterTypeInputConditions: Filter.Condition[] = [
-    Filter.Condition.IS,
-    Filter.Condition.IS_NOT,
-    Filter.Condition.CONTAINS,
-  ];
-  filterTypeDateConditions: Filter.Condition[] = [
-    Filter.Condition.IS,
-    Filter.Condition.MORE_OR_EQUALS,
-    Filter.Condition.LESS_OR_EQUALS,
-    Filter.Condition.BETWEEN,
-    Filter.Condition.TODAY,
-    Filter.Condition.YESTERDAY,
-    Filter.Condition.THIS_WEEK,
-    Filter.Condition.LAST_WEEK,
-    Filter.Condition.THIS_MONTH,
-    Filter.Condition.LAST_MONTH,
-    Filter.Condition.THIS_YEAR,
-    Filter.Condition.LAST_YEAR,
-  ];
+  filterTypeInputConditions: Filter.Condition[] = [Filter.Condition.IS];
+  filterTypeDateConditions: Filter.Condition[] = [Filter.Condition.IS];
   filterTypeDropdownConditions: Filter.Condition[] = [
     Filter.Condition.IS,
     Filter.Condition.IS_NOT,

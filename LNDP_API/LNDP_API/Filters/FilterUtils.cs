@@ -120,8 +120,14 @@ namespace LNDP_API.Filters
 
             if (filter.Type == Filter.ContentType.DatePicker || filter.Type == Filter.ContentType.DateText)
             {
-                return Expression.And(Expression.GreaterThanOrEqual(prop, Expression.Constant(filter.StartDate)),
-            Expression.LessThan(prop, Expression.Constant(filter.StartDate.Value.AddDays(1))));
+                var startDateExpression = Expression.Constant(filter.StartDate.Value);
+                var nullableStartDateExpression = Expression.Convert(startDateExpression, prop.Type);
+                var nullableLessDateExpression = Expression.Convert(Expression.Constant(filter.StartDate.Value.AddDays(1)), prop.Type);
+
+                return Expression.And(
+                    Expression.GreaterThanOrEqual(prop, nullableStartDateExpression),
+                    Expression.LessThan(prop, nullableLessDateExpression)
+                );
             }
 
             if (isValueNumber)

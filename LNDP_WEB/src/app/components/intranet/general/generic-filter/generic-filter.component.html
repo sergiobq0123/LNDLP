@@ -138,30 +138,6 @@
             </mat-form-field>
           </ng-container>
         </ng-container>
-
-        <!-- ONLY FOR DATEPICKER -->
-        <mat-form-field
-          class="filters-condition"
-          appearance="fill"
-          *ngIf="
-            (filter.type === 'datePicker' || filter.type === 'dateText') &&
-            filter.condition === FilterCondition.BETWEEN
-          "
-        >
-          <input
-            matInput
-            [matDatepicker]="endPicker"
-            [(ngModel)]="filter.endDate"
-            [formControl]="endDate"
-            required
-          />
-          <mat-datepicker-toggle
-            matSuffix
-            [for]="endPicker"
-          ></mat-datepicker-toggle>
-          <mat-datepicker #endPicker></mat-datepicker>
-          <mat-error *ngIf="endDate.invalid">Not a valid date</mat-error>
-        </mat-form-field>
       </ng-container>
     </div>
   </ng-container>
