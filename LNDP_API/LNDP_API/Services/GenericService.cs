@@ -62,7 +62,7 @@ namespace LNDP_API.Services
                     entityWithPhotoUrl.PhotoUrl = await _imageUtils.ConvertBase64ToUrl(entityWithPhotoUrl.PhotoUrl, entityWithPhotoUrl.Name);
                 }
             }
-            if (entity is IHasUrl entityWithUrl)
+            if (entity is IHasUrl entityWithUrl && !_urlEmbedUtils.IsEmbedvideo(entityWithUrl.Url))
             {
                 entityWithUrl.Url = _urlEmbedUtils.GetEmbedUrlYoutube(entityWithUrl.Url);
             }

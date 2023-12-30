@@ -1,8 +1,10 @@
 using System.Text.RegularExpressions;
 
-namespace LNDP_API.Utils{
-    public class UrlEmbedUtils : IUrlEmbedUtils {
-        
+namespace LNDP_API.Utils
+{
+    public class UrlEmbedUtils : IUrlEmbedUtils
+    {
+
         public string GetEmbedUrlYoutube(string url)
         {
             string pattern = @"[?&]v=([^&]+)";
@@ -11,6 +13,10 @@ namespace LNDP_API.Utils{
             string videoCode = match.Groups[1].Value;
             string embedUrl = "https://www.youtube.com/embed/" + videoCode;
             return embedUrl;
+        }
+        public bool IsEmbedvideo(string url)
+        {
+            return url.StartsWith("https://www.youtube.com/embed/");
         }
     }
 }

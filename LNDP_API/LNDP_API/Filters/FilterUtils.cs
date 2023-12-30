@@ -121,7 +121,7 @@ namespace LNDP_API.Filters
             if (filter.Type == Filter.ContentType.DatePicker || filter.Type == Filter.ContentType.DateText)
             {
                 return Expression.And(Expression.GreaterThanOrEqual(prop, Expression.Constant(filter.StartDate)),
-                    Expression.LessThan(prop, Expression.Constant(filter.StartDate.Value.AddDays(1))));
+            Expression.LessThan(prop, Expression.Constant(filter.StartDate.Value.AddDays(1))));
             }
 
             if (isValueNumber)
