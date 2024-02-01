@@ -13,16 +13,13 @@ using LNDP_API.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<APIContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("APIContext") ?? throw new InvalidOperationException("Connect string 'APIContext' not found.")));
 
-//Add auth
 var configuration = builder.Configuration;
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -42,7 +39,6 @@ builder.Services.AddCors(options =>
         policy.WithOrigins("*").WithMethods("POST", "PUT", "DELETE").WithHeaders("content-type", "Authorization");
     });
 });
-//Add token service
 builder.Services.AddTransient<IJwtService, JwtService>();
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
@@ -104,7 +100,6 @@ builder.Services.AddSingleton<IUriService>(o =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "1VG/qVuHY396HupkUXGYCs0Avrl2mixxpeAtSw9B0RA=",
+  "Hash": "CupNGvz/tYoaEnYuS3cehyy18n+gd6tncO6/48+wBzg=",
   "Source": "LNDP_API",
   "BasePath": "_content/LNDP_API",
   "Mode": "Default",
@@ -10,17 +10,17 @@
     {
       "Name": "LNDP_API\\wwwroot",
       "Source": "LNDP_API",
-      "ContentRoot": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDLP\\LNDP_API\\LNDP_API\\wwwroot\\",
       "BasePath": "_content/LNDP_API",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Boombastic.jpg",
+      "Identity": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDLP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Boombastic.jpg",
       "SourceId": "LNDP_API",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDLP\\LNDP_API\\LNDP_API\\wwwroot\\",
       "BasePath": "_content/LNDP_API",
       "RelativePath": "assets/Boombastic.jpg",
       "AssetKind": "All",
@@ -34,10 +34,10 @@
       "OriginalItemSpec": "wwwroot\\assets\\Boombastic.jpg"
     },
     {
-      "Identity": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Brote.jpg",
+      "Identity": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDLP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Brote.jpg",
       "SourceId": "LNDP_API",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDLP\\LNDP_API\\LNDP_API\\wwwroot\\",
       "BasePath": "_content/LNDP_API",
       "RelativePath": "assets/Brote.jpg",
       "AssetKind": "All",
@@ -51,10 +51,10 @@
       "OriginalItemSpec": "wwwroot\\assets\\Brote.jpg"
     },
     {
-      "Identity": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Desperados.jpg",
+      "Identity": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDLP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Desperados.jpg",
       "SourceId": "LNDP_API",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDLP\\LNDP_API\\LNDP_API\\wwwroot\\",
       "BasePath": "_content/LNDP_API",
       "RelativePath": "assets/Desperados.jpg",
       "AssetKind": "All",
@@ -68,10 +68,10 @@
       "OriginalItemSpec": "wwwroot\\assets\\Desperados.jpg"
     },
     {
-      "Identity": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Dudi.jpg",
+      "Identity": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDLP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Dudi.jpg",
       "SourceId": "LNDP_API",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDLP\\LNDP_API\\LNDP_API\\wwwroot\\",
       "BasePath": "_content/LNDP_API",
       "RelativePath": "assets/Dudi.jpg",
       "AssetKind": "All",
@@ -85,10 +85,10 @@
       "OriginalItemSpec": "wwwroot\\assets\\Dudi.jpg"
     },
     {
-      "Identity": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Elizalde.jpg",
+      "Identity": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDLP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Elizalde.jpg",
       "SourceId": "LNDP_API",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDLP\\LNDP_API\\LNDP_API\\wwwroot\\",
       "BasePath": "_content/LNDP_API",
       "RelativePath": "assets/Elizalde.jpg",
       "AssetKind": "All",
@@ -102,10 +102,27 @@
       "OriginalItemSpec": "wwwroot\\assets\\Elizalde.jpg"
     },
     {
-      "Identity": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Goiko.jpg",
+      "Identity": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDLP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\fgnbgn.jpg",
       "SourceId": "LNDP_API",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDLP\\LNDP_API\\LNDP_API\\wwwroot\\",
+      "BasePath": "_content/LNDP_API",
+      "RelativePath": "assets/fgnbgn.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\assets\\fgnbgn.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDLP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Goiko.jpg",
+      "SourceId": "LNDP_API",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDLP\\LNDP_API\\LNDP_API\\wwwroot\\",
       "BasePath": "_content/LNDP_API",
       "RelativePath": "assets/Goiko.jpg",
       "AssetKind": "All",
@@ -119,10 +136,10 @@
       "OriginalItemSpec": "wwwroot\\assets\\Goiko.jpg"
     },
     {
-      "Identity": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Grimey.jpg",
+      "Identity": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDLP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Grimey.jpg",
       "SourceId": "LNDP_API",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDLP\\LNDP_API\\LNDP_API\\wwwroot\\",
       "BasePath": "_content/LNDP_API",
       "RelativePath": "assets/Grimey.jpg",
       "AssetKind": "All",
@@ -136,10 +153,10 @@
       "OriginalItemSpec": "wwwroot\\assets\\Grimey.jpg"
     },
     {
-      "Identity": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Hook Urban.jpg",
+      "Identity": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDLP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Hook Urban.jpg",
       "SourceId": "LNDP_API",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDLP\\LNDP_API\\LNDP_API\\wwwroot\\",
       "BasePath": "_content/LNDP_API",
       "RelativePath": "assets/Hook Urban.jpg",
       "AssetKind": "All",
@@ -153,10 +170,10 @@
       "OriginalItemSpec": "wwwroot\\assets\\Hook Urban.jpg"
     },
     {
-      "Identity": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\La Santa.jpg",
+      "Identity": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDLP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\La Santa.jpg",
       "SourceId": "LNDP_API",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDLP\\LNDP_API\\LNDP_API\\wwwroot\\",
       "BasePath": "_content/LNDP_API",
       "RelativePath": "assets/La Santa.jpg",
       "AssetKind": "All",
@@ -170,10 +187,10 @@
       "OriginalItemSpec": "wwwroot\\assets\\La Santa.jpg"
     },
     {
-      "Identity": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\La Vibra.jpg",
+      "Identity": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDLP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\La Vibra.jpg",
       "SourceId": "LNDP_API",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDLP\\LNDP_API\\LNDP_API\\wwwroot\\",
       "BasePath": "_content/LNDP_API",
       "RelativePath": "assets/La Vibra.jpg",
       "AssetKind": "All",
@@ -187,10 +204,10 @@
       "OriginalItemSpec": "wwwroot\\assets\\La Vibra.jpg"
     },
     {
-      "Identity": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Levis.jpg",
+      "Identity": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDLP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Levis.jpg",
       "SourceId": "LNDP_API",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDLP\\LNDP_API\\LNDP_API\\wwwroot\\",
       "BasePath": "_content/LNDP_API",
       "RelativePath": "assets/Levis.jpg",
       "AssetKind": "All",
@@ -204,10 +221,10 @@
       "OriginalItemSpec": "wwwroot\\assets\\Levis.jpg"
     },
     {
-      "Identity": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Liam.jpg",
+      "Identity": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDLP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Liam.jpg",
       "SourceId": "LNDP_API",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDLP\\LNDP_API\\LNDP_API\\wwwroot\\",
       "BasePath": "_content/LNDP_API",
       "RelativePath": "assets/Liam.jpg",
       "AssetKind": "All",
@@ -221,10 +238,10 @@
       "OriginalItemSpec": "wwwroot\\assets\\Liam.jpg"
     },
     {
-      "Identity": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Lo que no te dije.jpg",
+      "Identity": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDLP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Lo que no te dije.jpg",
       "SourceId": "LNDP_API",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDLP\\LNDP_API\\LNDP_API\\wwwroot\\",
       "BasePath": "_content/LNDP_API",
       "RelativePath": "assets/Lo que no te dije.jpg",
       "AssetKind": "All",
@@ -238,10 +255,10 @@
       "OriginalItemSpec": "wwwroot\\assets\\Lo que no te dije.jpg"
     },
     {
-      "Identity": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Madrid Salvaje.jpg",
+      "Identity": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDLP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Madrid Salvaje.jpg",
       "SourceId": "LNDP_API",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDLP\\LNDP_API\\LNDP_API\\wwwroot\\",
       "BasePath": "_content/LNDP_API",
       "RelativePath": "assets/Madrid Salvaje.jpg",
       "AssetKind": "All",
@@ -255,10 +272,10 @@
       "OriginalItemSpec": "wwwroot\\assets\\Madrid Salvaje.jpg"
     },
     {
-      "Identity": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Mahou.jpg",
+      "Identity": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDLP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Mahou.jpg",
       "SourceId": "LNDP_API",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDLP\\LNDP_API\\LNDP_API\\wwwroot\\",
       "BasePath": "_content/LNDP_API",
       "RelativePath": "assets/Mahou.jpg",
       "AssetKind": "All",
@@ -272,10 +289,10 @@
       "OriginalItemSpec": "wwwroot\\assets\\Mahou.jpg"
     },
     {
-      "Identity": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Robledo.jpg",
+      "Identity": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDLP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Robledo.jpg",
       "SourceId": "LNDP_API",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDLP\\LNDP_API\\LNDP_API\\wwwroot\\",
       "BasePath": "_content/LNDP_API",
       "RelativePath": "assets/Robledo.jpg",
       "AssetKind": "All",
@@ -289,10 +306,10 @@
       "OriginalItemSpec": "wwwroot\\assets\\Robledo.jpg"
     },
     {
-      "Identity": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Stelars.jpg",
+      "Identity": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDLP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Stelars.jpg",
       "SourceId": "LNDP_API",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDLP\\LNDP_API\\LNDP_API\\wwwroot\\",
       "BasePath": "_content/LNDP_API",
       "RelativePath": "assets/Stelars.jpg",
       "AssetKind": "All",
@@ -306,10 +323,10 @@
       "OriginalItemSpec": "wwwroot\\assets\\Stelars.jpg"
     },
     {
-      "Identity": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Turia.jpg",
+      "Identity": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDLP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Turia.jpg",
       "SourceId": "LNDP_API",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDLP\\LNDP_API\\LNDP_API\\wwwroot\\",
       "BasePath": "_content/LNDP_API",
       "RelativePath": "assets/Turia.jpg",
       "AssetKind": "All",
@@ -323,10 +340,10 @@
       "OriginalItemSpec": "wwwroot\\assets\\Turia.jpg"
     },
     {
-      "Identity": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Wegow.jpg",
+      "Identity": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDLP\\LNDP_API\\LNDP_API\\wwwroot\\assets\\Wegow.jpg",
       "SourceId": "LNDP_API",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDP\\LNDP_API\\LNDP_API\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\ssanc\\OneDrive\\Escritorio\\LNDLP\\LNDP_API\\LNDP_API\\wwwroot\\",
       "BasePath": "_content/LNDP_API",
       "RelativePath": "assets/Wegow.jpg",
       "AssetKind": "All",
