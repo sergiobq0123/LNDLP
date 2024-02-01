@@ -32,7 +32,6 @@ export class HomeSectionContactComponent {
     let subject = this.VOForm.get('subject').value;
     let mailMessage = this.VOForm.get('mailMessage').value;
 
-    // Verifica si el formulario es válido antes de enviar
     if (this.VOForm.valid) {
       this.emailService
         .createPromo(copyEmail, subject, mailMessage)
@@ -40,15 +39,11 @@ export class HomeSectionContactComponent {
           this._notificationService.showOkMessage(
             'Correo enviado correctamente'
           );
-
-          // Reinicia la visibilidad de los errores
           this.showCopyEmailError = false;
 
-          // Restablece el formulario
           this.VOForm.reset();
         });
     } else {
-      // Establece la visibilidad de los errores en true para mostrar los mensajes de error
       this.showCopyEmailError = true;
     }
   }

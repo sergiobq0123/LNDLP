@@ -4,7 +4,7 @@ import {
   CanActivate,
   Router,
   RouterStateSnapshot,
-  NavigationError, // Agrega esta importación
+  NavigationError,
 } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { NotificationService } from '../services/notification.service';
@@ -32,7 +32,7 @@ export class AuthGuard implements CanActivate {
   checkUserLogin(
     route: ActivatedRouteSnapshot,
     url: string,
-    state: RouterStateSnapshot // Agrega este parámetro
+    state: RouterStateSnapshot
   ) {
     const isLoggedIn = this._authService.isLoggedIn();
 

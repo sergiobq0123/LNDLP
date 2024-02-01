@@ -136,7 +136,7 @@ export class CompanyAdminComponent {
         dataKey: 'companyTypeId',
         position: 'left',
         isSortable: true,
-        isFilterable: true,
+        isFilterable: false,
         type: ContentType.dropdownFields,
         dropdown: this.companiesKeys,
         dropdownKeyToShow: 'name',
